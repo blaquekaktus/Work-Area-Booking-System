@@ -44,4 +44,10 @@ public class DBAccessRessourceFirebaseImpl implements  DBAccessRessource{
 
     }
 
+    @Override
+    public Ressource getRessourceBySerialnumber(String serialnumber) throws RessourceNotFoundException {
+        return null;
+    }
+
+
 }

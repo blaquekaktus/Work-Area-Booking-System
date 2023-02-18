@@ -5,7 +5,9 @@ import jakarta.persistence.*;
 import lombok.*;
 
 
-
+/**
+ * This Class Represents the Domain Class for Ressources and helds all important Datafields and a Constructor
+ */
 @Entity
 @NoArgsConstructor
 @Getter
@@ -19,14 +21,19 @@ public class Ressource {
     private Ressourcetype ressourcetype;
 
     private String name;
-
+    private String description;
     private String info;
+    private String serialnumber;
+    private int amount;
 
-    public Ressource(Long id, Ressourcetype ressourcetype,String name, String info) {
+    public Ressource(Long id, Ressourcetype ressourcetype,String name, String description, String info, String serialnumber, int amount) {
         this.id = id;
         this.ressourcetype = ressourcetype;
+        this.description = description;
         this.info = info;
         this.name= name;
+        this.serialnumber = serialnumber;
+        this.amount = amount;
     }
 
 

@@ -12,9 +12,11 @@ public interface RessourceService {
     public Ressource addRessource(Ressource ressource);
     public List<Ressource> getAllRessource();
     public Ressource getRessourceById(Long id) throws RessourceNotFoundException;
-    public Ressource getRessourceByRessourceType(Ressourcetype ressourcetype) throws RessourceNotFoundException;
     public Ressource updateRessourceById(Long id) throws RessourceNotFoundException;
-    public Ressource updateRessourceByRessourceType(Ressourcetype ressourcetype) throws RessourceNotFoundException;
     public void deleteRessourceById(Long id) throws RessourceDeletionNotPossibleException;
-    public void deleteRessourceByRessourceType(Ressourcetype ressourcetype) throws RessourceDeletionNotPossibleException;
+    public Ressource findRessourceBySerialnumber (String Serialnumber) throws RessourceNotFoundException; //Must Equal
+
+
+    //public void deleteRessourceByRessourceType(Ressourcetype ressourcetype) throws RessourceDeletionNotPossibleException;
+    //public Ressource updateRessourceByRessourceType(Ressourcetype ressourcetype) throws RessourceNotFoundException;
 }

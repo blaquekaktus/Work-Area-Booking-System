@@ -13,4 +13,5 @@ public interface DBAccessRessource {
     public Ressource getRessourceById(Long id) throws RessourceNotFoundException;
     public Ressource updateRessourceById(Long id) throws RessourceNotFoundException;
     public void deleteRessourceById(Long id) throws RessourceDeletionNotPossibleException;
+    public Ressource getRessourceBySerialnumber (String serialnumber) throws RessourceNotFoundException;
 }
