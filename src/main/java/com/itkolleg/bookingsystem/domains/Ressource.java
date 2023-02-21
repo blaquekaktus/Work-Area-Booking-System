@@ -13,7 +13,7 @@ import lombok.*;
 @Getter
 @Setter
 @ToString
-public class Ressource {
+public class Ressource extends Bookable{
     @Id
     @GeneratedValue(strategy= GenerationType.SEQUENCE)
     private Long id;
