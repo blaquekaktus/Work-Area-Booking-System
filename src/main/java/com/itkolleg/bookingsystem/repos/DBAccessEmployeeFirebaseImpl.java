@@ -1,11 +1,10 @@
 package com.itkolleg.bookingsystem.repos;
-
+import com.itkolleg.bookingsystem.exceptions.EmployeeExceptions.EmployeeAlreadyExistsException;
+import com.itkolleg.bookingsystem.exceptions.EmployeeExceptions.EmployeeNotFoundException;
 import com.google.api.core.ApiFuture;
 import com.google.cloud.firestore.*;
 import com.google.firebase.cloud.FirestoreClient;
 import com.itkolleg.bookingsystem.domains.Employee;
-import com.itkolleg.bookingsystem.exceptions.EmployeeAlreadyExistsException;
-import com.itkolleg.bookingsystem.exceptions.EmployeeNotFoundException;
 import org.springframework.stereotype.Component;
 
 import java.util.ArrayList;

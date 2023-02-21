@@ -11,7 +11,7 @@ import java.util.List;
 @Getter
 @Setter
 @ToString
-public class Desk extends Bookable {
+public class Desk {
     @Id
     @GeneratedValue(strategy= GenerationType.SEQUENCE)
     private Long id;

@@ -3,8 +3,8 @@ package com.itkolleg.bookingsystem.repos;
 import com.google.cloud.firestore.Firestore;
 import com.google.firebase.cloud.FirestoreClient;
 import com.itkolleg.bookingsystem.domains.Desk;
-import com.itkolleg.bookingsystem.exceptions.DeskDeletionNotPossibleException;
-import com.itkolleg.bookingsystem.exceptions.DeskNotFoundException;
+import com.itkolleg.bookingsystem.exceptions.DeskExeceptions.DeskDeletionNotPossibleException;
+import com.itkolleg.bookingsystem.exceptions.DeskExeceptions.DeskNotFoundException;
 import org.springframework.stereotype.Component;
 
 import java.util.List;

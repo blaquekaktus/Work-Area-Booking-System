@@ -1,8 +1,8 @@
 package com.itkolleg.bookingsystem.Service;
 
 import com.itkolleg.bookingsystem.domains.Desk;
-import com.itkolleg.bookingsystem.exceptions.DeskDeletionNotPossibleException;
-import com.itkolleg.bookingsystem.exceptions.DeskNotFoundException;
+import com.itkolleg.bookingsystem.exceptions.DeskExeceptions.DeskDeletionNotPossibleException;
+import com.itkolleg.bookingsystem.exceptions.DeskExeceptions.DeskNotFoundException;
 import com.itkolleg.bookingsystem.repos.DBAccessDesks;
 
 import java.util.List;

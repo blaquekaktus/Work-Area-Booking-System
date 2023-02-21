@@ -3,6 +3,10 @@ package com.itkolleg.bookingsystem.controller;
 import com.itkolleg.bookingsystem.Service.EmployeeService;
 import com.itkolleg.bookingsystem.domains.Employee;
 import com.itkolleg.bookingsystem.exceptions.*;
+import com.itkolleg.bookingsystem.exceptions.EmployeeExceptions.EmployeeAlreadyExistsException;
+import com.itkolleg.bookingsystem.exceptions.EmployeeExceptions.EmployeeDeletionNotPossibleException;
+import com.itkolleg.bookingsystem.exceptions.EmployeeExceptions.EmployeeNotFoundException;
+import com.itkolleg.bookingsystem.exceptions.EmployeeExceptions.EmployeeValidationException;
 import jakarta.validation.Valid;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.BindingResult;
@@ -23,7 +27,7 @@ public class EmployeeRestController {
     }
 
     @PostMapping("/create")
-    public Employee addEmployee(@Valid @RequestBody Employee employee, BindingResult bindingResult) throws EmployeeValidationException, ExecutionException, InterruptedException, EmployeeAlreadyExistsException {
+    public Employee addEmployee(@Valid @RequestBody Employee employee, BindingResult bindingResult) throws EmployeeValidationException, ExecutionException, InterruptedException, EmployeeAlreadyExistsException, EmployeeAlreadyExistsException {
         // Erstelle ein neues Objekt der Klasse FormValidationExceptionDTO, das später dazu verwendet wird,
         // etwaige Validierungsfehler der übergebenen Employee-Daten zu speichern.
         FormValidationExceptionDTO formValidationErrors = new FormValidationExceptionDTO("9000");
@@ -45,7 +49,7 @@ public class EmployeeRestController {
 
     // Definiert den GET-Endpunkt für die Employee-Ressource, der auf eine spezifische ID zugreift
     @GetMapping("/{id}")
-    public Employee getEmployeeById(@PathVariable Long id) throws InterruptedException, ExecutionException, EmployeeNotFoundException {
+    public Employee getEmployeeById(@PathVariable Long id) throws InterruptedException, ExecutionException, EmployeeNotFoundException, EmployeeNotFoundException {
         // Aufruf des entsprechenden EmployeeService-Method, um den Employee mit der angegebenen ID zu finden
         return employeeService.getEmployeeById(id);
     }

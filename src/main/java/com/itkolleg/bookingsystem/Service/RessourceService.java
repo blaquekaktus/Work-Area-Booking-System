@@ -2,9 +2,8 @@ package com.itkolleg.bookingsystem.Service;
 
 import com.itkolleg.bookingsystem.domains.Ressource;
 
-import com.itkolleg.bookingsystem.domains.Ressourcetype;
-import com.itkolleg.bookingsystem.exceptions.RessourceDeletionNotPossibleException;
-import com.itkolleg.bookingsystem.exceptions.RessourceNotFoundException;
+import com.itkolleg.bookingsystem.exceptions.RessourceExceptions.RessourceDeletionNotPossibleException;
+import com.itkolleg.bookingsystem.exceptions.RessourceExceptions.RessourceNotFoundException;
 
 import java.util.List;
 
