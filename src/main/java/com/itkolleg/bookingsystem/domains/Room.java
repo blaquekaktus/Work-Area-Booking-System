@@ -5,6 +5,7 @@ import lombok.*;
 
 import java.awt.*;
 import java.util.ArrayList;
+import java.util.List;
 
 @Entity
 @AllArgsConstructor
@@ -29,4 +30,5 @@ public class Room {
         this.floor=floor;
         this.info=info;
     }
+
 }

@@ -7,7 +7,7 @@ public class EmployeeValidationException extends Exception{
     private FormValidationExceptionDTO errors;
 
     public EmployeeValidationException(String message){
-        super("Invalid Employee data entered: " + message);
+        super("Eingegebene Mitarbeiterdaten sind inkorrekt: " + message);
     }
 
     public EmployeeValidationException(FormValidationExceptionDTO errors){

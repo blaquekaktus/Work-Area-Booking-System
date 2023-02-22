@@ -6,14 +6,15 @@ import com.google.cloud.firestore.*;
 import com.google.firebase.cloud.FirestoreClient;
 import com.itkolleg.bookingsystem.domains.Employee;
 import org.springframework.stereotype.Component;
+import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.ExecutionException;
 
+
 @Component
 public class DBAccessEmployeeFirebaseImpl implements DBAccessEmployees{
-
 
     private Firestore dbFirestore;
 
@@ -61,7 +62,6 @@ public class DBAccessEmployeeFirebaseImpl implements DBAccessEmployees{
             employees.add(employee);
         }
         return employees;
-
     }
 
     @Override
@@ -114,7 +114,7 @@ public class DBAccessEmployeeFirebaseImpl implements DBAccessEmployees{
             }
         } catch (InterruptedException | ExecutionException e) {
             // Rethrow any exceptions that occur while attempting to delete the document
-            throw new RuntimeException("Error deleting employee with ID " + id, e);
+            throw new RuntimeException("Fehler beim Löschen des Mitarbeiters mit der ID " + id, e);
         }
     }
 
