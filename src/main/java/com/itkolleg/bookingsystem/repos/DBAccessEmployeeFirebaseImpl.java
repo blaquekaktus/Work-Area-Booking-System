@@ -24,22 +24,28 @@ public class DBAccessEmployeeFirebaseImpl implements DBAccessEmployees{
 
     @Override
     public Employee addEmployee(Employee employee) throws ExecutionException, InterruptedException, EmployeeAlreadyExistsException {
-        // Hole eine Referenz auf das Dokument mit der angegebenen ID
-        DocumentReference documentReference = dbFirestore.collection("employees").document(String.valueOf(employee.getId()));
-        // Hole das Dokument als DocumentSnapshot-Objekt
-        ApiFuture<DocumentSnapshot> future = documentReference.get();
-        DocumentSnapshot document = future.get();
+        // Hole eine Referenz auf die "employees"-Sammlung
+        CollectionReference collectionReference = dbFirestore.collection("employees");
 
-        // Überprüfe, ob das Dokument bereits existiert
-        if (document.exists()) {
-            // Wenn das Dokument bereits vorhanden ist, werfe eine Exception oder handle den Fall entsprechend
-            throw new EmployeeAlreadyExistsException("Das Dokument mit der angegebenen ID existiert bereits!");
-        } else {
-            // Füge das Employee-Objekt als neues Dokument in die "employees"-Sammlung ein
-            ApiFuture<WriteResult> collectionsApiFuture = documentReference.set(employee);
-            return employee;
+        // Hole das Dokument mit der höchsten ID in der "employees"-Sammlung
+        ApiFuture<QuerySnapshot> future = collectionReference.orderBy("id", Query.Direction.DESCENDING).limit(1).get();
+        List<QueryDocumentSnapshot> documents = future.get().getDocuments();
+
+        Long nextId = 1L; // Standard-ID für den Fall, dass die Sammlung leer ist
+
+        // Wenn es bereits Dokumente in der Sammlung gibt, generiere die nächste ID basierend auf der höchsten vorhandenen ID
+        if (!documents.isEmpty()) {
+            nextId = documents.get(0).toObject(Employee.class).getId() + 1L;
         }
+
+        employee.setId(nextId); // Setze die generierte ID für das neue Employee-Objekt
+
+        // Füge das Employee-Objekt als neues Dokument in die "employees"-Sammlung ein
+        ApiFuture<WriteResult> collectionsApiFuture = collectionReference.document(String.valueOf(employee.getId())).set(employee);
+
+        return employee;
     }
+
 
 
     @Override
