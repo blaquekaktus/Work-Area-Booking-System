@@ -28,7 +28,7 @@ public class RessourceRestController {
         }
 
         @PostMapping("/create")
-        public Ressource addEmployee(@Valid @RequestBody Ressource ressource, BindingResult bindingResult) throws RessourceNotFoundException, ExecutionException, InterruptedException, RessourceValidationException, RessourceAlreadyExistsException {
+        public Ressource addRessource(@Valid @RequestBody Ressource ressource, BindingResult bindingResult) throws RessourceNotFoundException, ExecutionException, InterruptedException, RessourceValidationException, RessourceAlreadyExistsException {
             // Erstelle ein neues Objekt der Klasse FormValidationExceptionDTO, das später dazu verwendet wird,
             // etwaige Validierungsfehler der übergebenen Employee-Daten zu speichern.
             FormValidationExceptionDTO formValidationErrors = new FormValidationExceptionDTO("9000");
