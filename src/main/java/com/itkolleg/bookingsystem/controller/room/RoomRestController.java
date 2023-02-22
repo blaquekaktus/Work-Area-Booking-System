@@ -1,12 +1,16 @@
-package com.itkolleg.bookingsystem.controller.employee;
+package com.itkolleg.bookingsystem.controller.room;
 
-import com.itkolleg.bookingsystem.Service.EmployeeService;
+import com.itkolleg.bookingsystem.Service.RoomService;
 import com.itkolleg.bookingsystem.domains.Employee;
-import com.itkolleg.bookingsystem.exceptions.*;
+import com.itkolleg.bookingsystem.domains.Ressource;
+import com.itkolleg.bookingsystem.domains.Room;
 import com.itkolleg.bookingsystem.exceptions.EmployeeExceptions.EmployeeAlreadyExistsException;
 import com.itkolleg.bookingsystem.exceptions.EmployeeExceptions.EmployeeDeletionNotPossibleException;
 import com.itkolleg.bookingsystem.exceptions.EmployeeExceptions.EmployeeNotFoundException;
 import com.itkolleg.bookingsystem.exceptions.EmployeeExceptions.EmployeeValidationException;
+import com.itkolleg.bookingsystem.exceptions.FormValidationExceptionDTO;
+import com.itkolleg.bookingsystem.exceptions.RoomExceptions.RoomDeletionNotPossibleException;
+import com.itkolleg.bookingsystem.exceptions.RoomExceptions.RoomNotFoundException;
 import com.itkolleg.bookingsystem.exceptions.RoomExceptions.RoomValidationException;
 import jakarta.validation.Valid;
 import org.springframework.http.ResponseEntity;
@@ -19,16 +23,16 @@ import java.util.List;
 import java.util.concurrent.ExecutionException;
 
 @RestController
-@RequestMapping("/employees")
-public class EmployeeRestController {
-    private EmployeeService employeeService;
+@RequestMapping("/rooms")
+public class RoomRestController {
+    private RoomService roomService;
 
-    public EmployeeRestController(EmployeeService employeeService) {
-        this.employeeService = employeeService;
+    public RoomRestController(RoomService roomService){
+        this.roomService = roomService;
     }
 
     @PostMapping("/create")
-    public Employee addEmployee(@Valid @RequestBody Employee employee, BindingResult bindingResult) throws EmployeeValidationException, EmployeeAlreadyExistsException, ExecutionException, InterruptedException {
+    public Room addRoom(@Valid @RequestBody Room room, BindingResult bindingResult) throws RoomValidationException, ExecutionException, InterruptedException {
         // Erstelle ein neues Objekt der Klasse FormValidationExceptionDTO, das später dazu verwendet wird,
         // etwaige Validierungsfehler der übergebenen Employee-Daten zu speichern.
         FormValidationExceptionDTO formValidationErrors = new FormValidationExceptionDTO("9000");
@@ -40,42 +44,41 @@ public class EmployeeRestController {
                 formValidationErrors.addFormValidationError(((FieldError) error).getField(), error.getDefaultMessage());
             }
             // Wirf eine Exception, die die Validierungsfehler als DTO-Objekt enthält
-            throw new EmployeeValidationException(formValidationErrors);
+            throw new RoomValidationException(formValidationErrors);
         }
 
         // Füge den übergebenen Employee der Datenbank hinzu und gib das neu erstellte Employee-Objekt zurück.
-        return employeeService.addEmployee(employee);
+        return roomService.addRoom(room);
     }
-
 
     // Definiert den GET-Endpunkt für die Employee-Ressource, der auf eine spezifische ID zugreift
     @GetMapping("/{id}")
-    public Employee getEmployeeById(@PathVariable Long id) throws InterruptedException, ExecutionException, EmployeeNotFoundException, EmployeeNotFoundException {
+    public Room getRoomById(@PathVariable Long id) throws InterruptedException, ExecutionException, EmployeeNotFoundException, EmployeeNotFoundException, RoomNotFoundException {
         // Aufruf des entsprechenden EmployeeService-Method, um den Employee mit der angegebenen ID zu finden
-        return employeeService.getEmployeeById(id);
+        return roomService.getRoomById(id);
     }
-
 
 
     @GetMapping
-    public List<Employee> getAllEmployees() throws ExecutionException, InterruptedException {
-        return employeeService.getAllEmployees();
+    public List<Room> getAllRooms() throws ExecutionException, InterruptedException {
+        return roomService.getAllRooms();
     }
+
 
     @PutMapping("/update")
-    public Employee updateEmployeeById(@Valid @RequestBody Employee employee) throws ExecutionException, InterruptedException, EmployeeNotFoundException {
-        return employeeService.updateEmployeeById(employee);
+    public Room updateRoomById(@Valid @RequestBody Room room) throws RoomNotFoundException, ExecutionException, InterruptedException {
+        return roomService.updateRoomById(room);
     }
 
+
     @DeleteMapping("/{id}")
-    public void deleteEmployeeById(@Valid @PathVariable Long id) throws EmployeeDeletionNotPossibleException {
-        employeeService.deleteEmployeeById(id);
+    public void deleteRoomById(@Valid @PathVariable Long id) throws RoomDeletionNotPossibleException {
+        roomService.deleteRoomById(id);
     }
 
     @GetMapping("/test")
     public ResponseEntity<String> testGetEndpoint(){
         return ResponseEntity.ok("Test Get Endpoint is Working!");
     }
-
 
 }
