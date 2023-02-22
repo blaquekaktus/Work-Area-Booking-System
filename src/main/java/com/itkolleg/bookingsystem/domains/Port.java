@@ -15,10 +15,13 @@ public class Port {
     //@GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
 
+    private Porttype porttype;
+
     @Size(min = 2)
     private String name;
 
     public Port(String name){
         this.name=name;
+        this.porttype = porttype;
     }
 }
