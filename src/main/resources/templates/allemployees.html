@@ -7,17 +7,19 @@
 <body>
 <h1>Mitarbeiterliste</h1>
 <table>
-    <th:block th:each="employee : ${em}">
+    <th:block th:each="employee : ${employees}">
         <tr>
-            <td th:text="${student.id}">...</td>
-            <td th:text="${student.name}">...</td>
-            <td th:text="${student.plz}">...</td>
-            <td><a th:href="@{/web/deletestudent/{id}(id=${student.id})}">loeschen</a></td>
+            <td th:text="${employee.id}">...</td>
+            <td th:text="${employee.fname}">...</td>
+            <td th:text="${employee.lname}">...</td>
+            <td th:text="${employee.nick}">...</td>
+            <td th:text="${employee.role}">...</td>
+            <td><a th:href="@{/web/deleteemployee/{id}(id=${employee.id})}">loeschen</a></td>
         </tr>
     </th:block>
 </table>
 
-<a th:href="@{/web/insertstudentform}">Student hinzufügen</a>
+<a th:href="@{/web/insertemployeeform}">Mitarbeiter hinzufügen</a>
 
 </body>
 </html>
