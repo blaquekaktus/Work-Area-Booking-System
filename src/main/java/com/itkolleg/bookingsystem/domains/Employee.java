@@ -14,7 +14,7 @@ import lombok.*;
 public class Employee {
 
     @Id
-    //@Column(name = "ID")
+    //@Column(name = "id")
     @GeneratedValue(strategy = GenerationType.SEQUENCE)
     private Long id;
 
