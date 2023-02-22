@@ -1,4 +1,4 @@
-package com.itkolleg.bookingsystem.controller;
+package com.itkolleg.bookingsystem.controller.employee;
 
 import com.itkolleg.bookingsystem.Service.EmployeeService;
 import com.itkolleg.bookingsystem.domains.Employee;
@@ -29,19 +29,19 @@ public class EmployeeWebController {
     @GetMapping("/web/allemployees")
     public ModelAndView allemployees() throws ExecutionException, InterruptedException {
         List<Employee> allEmployees = employeeService.getAllEmployees();
-        return new ModelAndView("allemployees", "employees", allEmployees);
+        return new ModelAndView("employee/allemployees", "employees", allEmployees);
     }
 
     @GetMapping("/web/insertemployeeform")
-    public ModelAndView insertstudentform() {
-        return new ModelAndView("insertemployeeform", "myemployee", new Employee());
+    public ModelAndView insertemployeeform() {
+        return new ModelAndView("employee/insertemployeeform", "myemployee", new Employee());
     }
 
     @GetMapping("/web/deleteemployee/{id}")
     public String deleteStudentWithId(@PathVariable Long id, Model model) {
         try {
             this.employeeService.deleteEmployeeById(id);
-            return "redirect:/web/allstudents";
+            return "redirect:/web/allemployees";
         } catch (EmployeeDeletionNotPossibleException e)
         {
             model.addAttribute("errortitle", "Mitarbeiter-Löschen schlägt fehl!");
@@ -53,7 +53,7 @@ public class EmployeeWebController {
     @PostMapping("/web/insertemployee")
     public String insertEmployee(@Valid @ModelAttribute("myemployee") Employee employee, BindingResult bindingResult) throws EmployeeAlreadyExistsException, ExecutionException, InterruptedException {
         if (bindingResult.hasErrors()) {
-            return "/insertemployeeform";
+            return "employee/insertemployeeform";
         } else {
 
             this.employeeService.addEmployee(employee);

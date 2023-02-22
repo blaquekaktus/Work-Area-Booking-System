@@ -7,25 +7,40 @@
 <body>
 <h1>Mitarbeiter eintragen</h1>
 
-<!--<form th:action="@{/web/insertemployee}" method="post" th:object="${myemployee}">
+<form th:action="@{/web/insertemployee}" method="post" th:object="${myemployee}">
+
     <div class="form-group">
         <label for="fname">Vorname</label>
         <input type="text" id="fname" th:field="*{fname}"/>
         <p th:if="${#fields.hasErrors('fname')}" th:errorclass="error" th:errors="*{fname}"/>
-
     </div>
-
     <div class="form-group">
-        <label for="lname">Vorname</label>
+        <label for="lname">Nachname</label>
         <input type="text" id="lname" th:field="*{lname}"/>
+        <p th:if="${#fields.hasErrors('lname')}" th:errorclass="error" th:errors="*{lname}"/>
     </div>
-
     <div class="form-group">
-        <label for="nick">PLZ</label>
+        <label for="nick">Nick</label>
         <input type="text" id="nick" th:field="*{nick}"/>
+        <p th:if="${#fields.hasErrors('nick')}" th:errorclass="error" th:errors="*{nick}"/>
+    </div>
+    <div class="form-group">
+        <label for="email">email</label>
+        <input type="text" id="email" th:field="*{email}"/>
+        <p th:if="${#fields.hasErrors('email')}" th:errorclass="error" th:errors="*{email}"/>
+    </div>
+    <div class="form-group">
+        <label for="password">Passwort</label>
+        <input type="text" id="password" th:field="*{password}"/>
+        <p th:if="${#fields.hasErrors('email')}" th:errorclass="error" th:errors="*{password}"/>
+    </div>
+    <div class="form-group">
+        <label for="role">Rolle</label>
+        <input type="text" id="role" th:field="*{role}"/>
+        <p th:if="${#fields.hasErrors('role')}" th:errorclass="error" th:errors="*{role}"/>
     </div>
     <button type="submit" name="action" value="save">speichern</button>
-</form> -->
+</form>
 
 </body>
 </html>
