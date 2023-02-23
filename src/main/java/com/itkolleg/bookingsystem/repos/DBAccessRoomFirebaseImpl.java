@@ -8,7 +8,7 @@ import java.util.List;
 
 public class DBAccessRoomFirebaseImpl implements DBAccessRoom {
     @Override
-    public Room addRessource(Room room) {
+    public Room addRoom(Room room) {
         return null;
     }
 
