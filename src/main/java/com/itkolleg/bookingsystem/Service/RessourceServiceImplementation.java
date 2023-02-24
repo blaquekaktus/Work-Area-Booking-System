@@ -1,16 +1,13 @@
 package com.itkolleg.bookingsystem.Service;
 
 import com.itkolleg.bookingsystem.domains.Ressource;
-import com.itkolleg.bookingsystem.exceptions.RessourceExceptions.RessourceAlreadyExistsException;
 import com.itkolleg.bookingsystem.exceptions.RessourceExceptions.RessourceDeletionNotPossibleException;
 import com.itkolleg.bookingsystem.exceptions.RessourceExceptions.RessourceNotFoundException;
 import com.itkolleg.bookingsystem.repos.DBAccessRessource;
-import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.concurrent.ExecutionException;
 
-@Service
 public class RessourceServiceImplementation implements RessourceService{
 
     private DBAccessRessource dbAccessRessource;
@@ -29,7 +26,7 @@ public class RessourceServiceImplementation implements RessourceService{
      * @return ressource
      */
     @Override
-    public Ressource addRessource(Ressource ressource) throws RessourceAlreadyExistsException, ExecutionException, InterruptedException {
+    public Ressource addRessource(Ressource ressource) throws ExecutionException, InterruptedException {
         return this.dbAccessRessource.addRessource(ressource);
     }
 
@@ -38,7 +35,7 @@ public class RessourceServiceImplementation implements RessourceService{
      * @return list of ressources
      */
     @Override
-    public List<Ressource> getAllRessource() {
+    public List<Ressource> getAllRessource() throws ExecutionException, InterruptedException {
         return this.dbAccessRessource.getAllRessource();
     }
 
@@ -49,19 +46,18 @@ public class RessourceServiceImplementation implements RessourceService{
      * @throws RessourceNotFoundException
      */
     @Override
-    public Ressource getRessourceById(Long id) throws RessourceNotFoundException {
+    public Ressource getRessourceById(Long id) throws RessourceNotFoundException, ExecutionException, InterruptedException {
         return this.dbAccessRessource.getRessourceById(id);
     }
 
     /**
      * Method, that updates a specific ressource found by its ID
-     * @param id Long
      * @return updated ressource by ID
      * @throws RessourceNotFoundException
      */
     @Override
-    public Ressource updateRessourceById(Long id) throws RessourceNotFoundException {
-        return this.dbAccessRessource.updateRessourceById(id);
+    public Ressource updateRessourceById(Ressource ressource) throws RessourceNotFoundException, ExecutionException, InterruptedException {
+        return this.dbAccessRessource.updateRessourceById(ressource);
     }
 
     /**

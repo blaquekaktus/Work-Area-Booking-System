@@ -1,73 +1,116 @@
 package com.itkolleg.bookingsystem.repos;
 
 import com.google.api.core.ApiFuture;
-import com.google.cloud.firestore.DocumentReference;
-import com.google.cloud.firestore.DocumentSnapshot;
-import com.google.cloud.firestore.Firestore;
-import com.google.cloud.firestore.WriteResult;
+import com.google.cloud.firestore.*;
 import com.google.firebase.cloud.FirestoreClient;
+import com.google.protobuf.StringValue;
 import com.itkolleg.bookingsystem.domains.Ressource;
-import com.itkolleg.bookingsystem.exceptions.RessourceExceptions.RessourceAlreadyExistsException;
 import com.itkolleg.bookingsystem.exceptions.RessourceExceptions.RessourceDeletionNotPossibleException;
 import com.itkolleg.bookingsystem.exceptions.RessourceExceptions.RessourceNotFoundException;
 import org.springframework.stereotype.Component;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.ExecutionException;
-
 @Component
-public class DBAccessRessourceFirebaseImpl implements  DBAccessRessource{
+public class DBAccessRessourceFirebaseImpl implements  DBAccessRessource {
 
 
     private Firestore dbFirestore;
 
 
     //Erstelle eine Firestore-Instanz
-    public DBAccessRessourceFirebaseImpl(){
+    public DBAccessRessourceFirebaseImpl() {
         this.dbFirestore = FirestoreClient.getFirestore();
     }
 
     @Override
-    public Ressource addRessource(Ressource ressource) throws ExecutionException, InterruptedException, RessourceAlreadyExistsException {
-        // Hole eine Referenz auf das Dokument mit der angegebenen ID
-        DocumentReference documentReference = dbFirestore.collection("ressources").document(String.valueOf(ressource.getId()));
-        // Hole das Dokument als DocumentSnapshot-Objekt
+    public Ressource addRessource(Ressource ressource) throws ExecutionException, InterruptedException {
+        CollectionReference collectionReference = dbFirestore.collection("collections");
+        ApiFuture<QuerySnapshot> future = collectionReference.orderBy("id", Query.Direction.DESCENDING).limit(1).get();
+        List<QueryDocumentSnapshot> documents = future.get().getDocuments();
+
+        Long nextId = 1L;
+
+
+        if (!documents.isEmpty()) {
+            nextId = documents.get(0).toObject(Ressource.class).getId() + 1L;
+        }
+
+        ressource.setId(nextId);
+
+        ApiFuture<WriteResult> collectionsApiFuture = collectionReference.document(String.valueOf(ressource.getId())).set(ressource);
+        return ressource;
+    }
+
+    @Override
+    public List<Ressource> getAllRessource() throws ExecutionException, InterruptedException {
+
+        ApiFuture<QuerySnapshot> future = dbFirestore.collection("ressources").get();
+        List<QueryDocumentSnapshot> documents = future.get().getDocuments();
+
+        List<Ressource> ressources = new ArrayList<>();
+        for (QueryDocumentSnapshot document : documents) {
+            Ressource ressource = document.toObject(Ressource.class);
+            ressources.add(ressource);
+        }
+        return ressources;
+
+    }
+
+    @Override
+    public Ressource getRessourceById(Long id) throws RessourceNotFoundException, ExecutionException, InterruptedException {
+        DocumentReference documentReference = dbFirestore.collection("ressources").document(String.valueOf(id));
         ApiFuture<DocumentSnapshot> future = documentReference.get();
         DocumentSnapshot document = future.get();
 
-        // Überprüfe, ob das Dokument bereits existiert
+        Ressource ressource;
         if (document.exists()) {
-            // Wenn das Dokument bereits vorhanden ist, werfe eine Exception oder handle den Fall entsprechend
-            throw new RessourceAlreadyExistsException("Das Dokument mit der angegebenen ID existiert bereits!");
-        } else {
-            // Füge das Employee-Objekt als neues Dokument in die "employees"-Sammlung ein
-            ApiFuture<WriteResult> collectionsApiFuture = documentReference.set(ressource);
+            ressource = document.toObject(Ressource.class);
             return ressource;
         }
-    }
-
-    @Override
-    public List<Ressource> getAllRessource() {
         return null;
     }
 
-    @Override
-    public Ressource getRessourceById(Long id) throws RessourceNotFoundException {
-        return null;
-    }
 
     @Override
-    public Ressource updateRessourceById(Long id) throws RessourceNotFoundException {
-        return null;
+    public Ressource updateRessourceById(Ressource updatedRessource) throws RessourceNotFoundException, ExecutionException, InterruptedException {
+        DocumentReference documentReference = dbFirestore.collection("ressources").document(String.valueOf(updatedRessource.getId()));
+        ApiFuture<WriteResult> updateResult = documentReference.set(updatedRessource);
+        updateResult.get();
+
+        return getRessourceById(updatedRessource.getId());
     }
 
     @Override
     public void deleteRessourceById(Long id) throws RessourceDeletionNotPossibleException {
+        DocumentReference documentReference = dbFirestore.collection("ressources").document(String.valueOf(id));
+        ApiFuture<DocumentSnapshot> future = documentReference.get();
+
+        try {
+            DocumentSnapshot document = future.get();
+            if (document.exists()) {
+                documentReference.delete();
+            }
+
+
+        } catch (InterruptedException | ExecutionException e) {
+            throw new RuntimeException("Fehler beim Löschen der Ressource mit der ID " + id, e);
+        }
 
     }
 
     @Override
-    public Ressource getRessourceBySerialnumber(String serialnumber) throws RessourceNotFoundException {
+    public Ressource getRessourceBySerialnumber(String serialnumber) throws RessourceNotFoundException, ExecutionException, InterruptedException {
+        DocumentReference documentReference = dbFirestore.collection("ressources").document(serialnumber);
+        ApiFuture<DocumentSnapshot> future = documentReference.get();
+        DocumentSnapshot document = future.get();
+
+        Ressource ressource;
+        if (document.exists()) {
+            ressource = document.toObject(Ressource.class);
+            return ressource;
+        }
         return null;
     }
 
