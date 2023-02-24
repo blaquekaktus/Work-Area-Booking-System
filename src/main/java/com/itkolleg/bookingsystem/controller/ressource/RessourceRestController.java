@@ -1,4 +1,4 @@
-package com.itkolleg.bookingsystem.controller;
+package com.itkolleg.bookingsystem.controller.ressource;
 
 import com.itkolleg.bookingsystem.Service.RessourceService;
 import com.itkolleg.bookingsystem.domains.Ressource;
@@ -64,7 +64,7 @@ public class RessourceRestController {
 
         @PutMapping("/update")
         public Ressource updateRessourceById(@Valid @RequestBody Ressource ressource) throws ExecutionException, InterruptedException, RessourceNotFoundException {
-            return ressourceService.updateRessourceById(ressource.getId());
+            return ressourceService.updateRessourceById(ressource);
         }
 
         @DeleteMapping("/{id}")
