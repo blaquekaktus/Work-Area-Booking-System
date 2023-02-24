@@ -30,10 +30,10 @@ public class RessourceRestController {
         @PostMapping("/create")
         public Ressource addRessource(@Valid @RequestBody Ressource ressource, BindingResult bindingResult) throws RessourceNotFoundException, ExecutionException, InterruptedException, RessourceValidationException, RessourceAlreadyExistsException {
             // Erstelle ein neues Objekt der Klasse FormValidationExceptionDTO, das später dazu verwendet wird,
-            // etwaige Validierungsfehler der übergebenen Employee-Daten zu speichern.
+            // etwaige Validierungsfehler der übergebenen Ressource-Daten zu speichern.
             FormValidationExceptionDTO formValidationErrors = new FormValidationExceptionDTO("9000");
 
-            // Prüfe, ob es Validierungsfehler in den übergebenen Employee-Daten gibt. Falls ja, iteriere durch alle
+            // Prüfe, ob es Validierungsfehler in den übergebenen Ressource-Daten gibt. Falls ja, iteriere durch alle
             // Fehler und füge sie dem formValidationErrors-Objekt hinzu.
             if(bindingResult.hasErrors()){
                 for(ObjectError error : bindingResult.getAllErrors()){
@@ -43,12 +43,12 @@ public class RessourceRestController {
                 throw new RessourceValidationException(formValidationErrors);
             }
 
-            // Füge den übergebenen Employee der Datenbank hinzu und gib das neu erstellte Employee-Objekt zurück.
+            // Füge den übergebenen Room der Datenbank hinzu und gib das neu erstellte Employee-Objekt zurück.
             return ressourceService.addRessource(ressource);
         }
 
 
-        // Definiert den GET-Endpunkt für die Employee-Ressource, der auf eine spezifische ID zugreift
+        // Definiert den GET-Endpunkt für die Room-Ressource, der auf eine spezifische ID zugreift
         @GetMapping("/{id}")
         public Ressource getRessourceById(@PathVariable Long id) throws InterruptedException, ExecutionException, RessourceNotFoundException {
             // Aufruf des entsprechenden EmployeeService-Method, um den Employee mit der angegebenen ID zu finden
