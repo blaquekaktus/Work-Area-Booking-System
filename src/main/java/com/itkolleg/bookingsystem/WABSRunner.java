@@ -14,6 +14,7 @@ import java.util.Objects;
 
 @SpringBootApplication
 public class WABSRunner {
+    //
     public static void main(String[] args) throws IOException {
         // Erstelle einen ClassLoader für die WABSRunner-Klasse
         ClassLoader classLoader = WABSRunner.class.getClassLoader();
