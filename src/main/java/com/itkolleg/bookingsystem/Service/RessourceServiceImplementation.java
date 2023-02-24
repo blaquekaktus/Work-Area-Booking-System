@@ -4,10 +4,12 @@ import com.itkolleg.bookingsystem.domains.Ressource;
 import com.itkolleg.bookingsystem.exceptions.RessourceExceptions.RessourceDeletionNotPossibleException;
 import com.itkolleg.bookingsystem.exceptions.RessourceExceptions.RessourceNotFoundException;
 import com.itkolleg.bookingsystem.repos.DBAccessRessource;
+import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.concurrent.ExecutionException;
 
+@Service
 public class RessourceServiceImplementation implements RessourceService{
 
     private DBAccessRessource dbAccessRessource;
@@ -77,7 +79,7 @@ public class RessourceServiceImplementation implements RessourceService{
      * @throws RessourceNotFoundException
      */
     @Override
-    public Ressource findRessourceBySerialnumber(String Serialnumber) throws RessourceNotFoundException {
+    public Ressource findRessourceBySerialnumber(String Serialnumber) throws RessourceNotFoundException, ExecutionException, InterruptedException {
         return this.dbAccessRessource.getRessourceBySerialnumber(Serialnumber);
     }
 
