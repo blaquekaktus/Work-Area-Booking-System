@@ -9,6 +9,7 @@ import com.itkolleg.bookingsystem.exceptions.EmployeeExceptions.EmployeeNotFound
 import com.itkolleg.bookingsystem.exceptions.EmployeeExceptions.EmployeeValidationException;
 import com.itkolleg.bookingsystem.exceptions.RoomExceptions.RoomValidationException;
 import jakarta.validation.Valid;
+import org.apache.coyote.Response;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.FieldError;
@@ -19,7 +20,7 @@ import java.util.List;
 import java.util.concurrent.ExecutionException;
 
 @RestController
-@RequestMapping("/employees")
+@RequestMapping("/api/v1/employees")
 public class EmployeeRestController {
     private EmployeeService employeeService;
 
@@ -27,8 +28,9 @@ public class EmployeeRestController {
         this.employeeService = employeeService;
     }
 
-    @PostMapping("/create")
-    public Employee addEmployee(@Valid @RequestBody Employee employee, BindingResult bindingResult) throws EmployeeValidationException, EmployeeAlreadyExistsException, ExecutionException, InterruptedException {
+    //TODO: Response Entity zurückgeben
+    @PostMapping
+    public ResponseEntity<Employee> addEmployee(@Valid @RequestBody Employee employee, BindingResult bindingResult) throws EmployeeValidationException, EmployeeAlreadyExistsException, ExecutionException, InterruptedException {
         // Erstelle ein neues Objekt der Klasse FormValidationExceptionDTO, das später dazu verwendet wird,
         // etwaige Validierungsfehler der übergebenen Employee-Daten zu speichern.
         FormValidationExceptionDTO formValidationErrors = new FormValidationExceptionDTO("9000");
@@ -41,35 +43,42 @@ public class EmployeeRestController {
             }
             // Wirf eine Exception, die die Validierungsfehler als DTO-Objekt enthält
             throw new EmployeeValidationException(formValidationErrors);
+        }else{
+            // Füge den übergebenen Employee der Datenbank hinzu und gib das neu erstellte Employee-Objekt zurück.
+            Employee eingefuegt = this.employeeService.addEmployee(employee);
+            return ResponseEntity.ok(eingefuegt);
+            //return employeeService.addEmployee(employee);
         }
-
-        // Füge den übergebenen Employee der Datenbank hinzu und gib das neu erstellte Employee-Objekt zurück.
-        return employeeService.addEmployee(employee);
     }
 
 
     // Definiert den GET-Endpunkt für die Employee-Ressource, der auf eine spezifische ID zugreift
     @GetMapping("/{id}")
-    public Employee getEmployeeById(@PathVariable Long id) throws InterruptedException, ExecutionException, EmployeeNotFoundException, EmployeeNotFoundException {
+    public ResponseEntity<Employee> getEmployeeById(@PathVariable Long id) throws InterruptedException, ExecutionException, EmployeeNotFoundException, EmployeeNotFoundException {
         // Aufruf des entsprechenden EmployeeService-Method, um den Employee mit der angegebenen ID zu finden
-        return employeeService.getEmployeeById(id);
+        return ResponseEntity.ok(this.employeeService.getEmployeeById(id));
+        //return employeeService.getEmployeeById(id);
     }
 
 
 
     @GetMapping
-    public List<Employee> getAllEmployees() throws ExecutionException, InterruptedException {
-        return employeeService.getAllEmployees();
+    public ResponseEntity<List<Employee>> getAllEmployees() throws ExecutionException, InterruptedException {
+        return ResponseEntity.ok(this.employeeService.getAllEmployees());
+        //return employeeService.getAllEmployees();
     }
 
     @PutMapping("/update")
-    public Employee updateEmployeeById(@Valid @RequestBody Employee employee) throws ExecutionException, InterruptedException, EmployeeNotFoundException {
-        return employeeService.updateEmployeeById(employee);
+    public ResponseEntity<Employee> updateEmployeeById(@Valid @RequestBody Employee employee) throws ExecutionException, InterruptedException, EmployeeNotFoundException {
+        Employee updated = this.employeeService.updateEmployeeById(employee);
+        return ResponseEntity.ok(updated);
+        //return employeeService.updateEmployeeById(employee);
     }
 
     @DeleteMapping("/{id}")
     public void deleteEmployeeById(@Valid @PathVariable Long id) throws EmployeeDeletionNotPossibleException {
-        employeeService.deleteEmployeeById(id);
+        this.employeeService.deleteEmployeeById(id);
+        //employeeService.deleteEmployeeById(id);
     }
 
     @GetMapping("/test")
