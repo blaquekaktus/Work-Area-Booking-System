@@ -24,7 +24,7 @@ public class Ressource {
     private String description;
     private String info;
     private String serialnumber;
-    private int amount;
+
 
     public Ressource(Long id, Ressourcetype ressourcetype,String name, String description, String info, String serialnumber, int amount) {
         this.id = id;
@@ -33,7 +33,6 @@ public class Ressource {
         this.info = info;
         this.name= name;
         this.serialnumber = serialnumber;
-        this.amount = amount;
     }
 
 

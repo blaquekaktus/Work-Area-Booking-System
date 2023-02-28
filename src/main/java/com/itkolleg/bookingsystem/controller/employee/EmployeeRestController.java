@@ -44,9 +44,9 @@ public class EmployeeRestController {
             // Wirf eine Exception, die die Validierungsfehler als DTO-Objekt enthält
             throw new EmployeeValidationException(formValidationErrors);
         }else{
-            // Füge den übergebenen Employee der Datenbank hinzu und gib das neu erstellte Employee-Objekt zurück.
             Employee eingefuegt = this.employeeService.addEmployee(employee);
             return ResponseEntity.ok(eingefuegt);
+            // Füge den übergebenen Employee der Datenbank hinzu und gib das neu erstellte Employee-Objekt zurück.
             //return employeeService.addEmployee(employee);
         }
     }
@@ -55,8 +55,8 @@ public class EmployeeRestController {
     // Definiert den GET-Endpunkt für die Employee-Ressource, der auf eine spezifische ID zugreift
     @GetMapping("/{id}")
     public ResponseEntity<Employee> getEmployeeById(@PathVariable Long id) throws InterruptedException, ExecutionException, EmployeeNotFoundException, EmployeeNotFoundException {
-        // Aufruf des entsprechenden EmployeeService-Method, um den Employee mit der angegebenen ID zu finden
         return ResponseEntity.ok(this.employeeService.getEmployeeById(id));
+        // Aufruf des entsprechenden EmployeeService-Method, um den Employee mit der angegebenen ID zu finden
         //return employeeService.getEmployeeById(id);
     }
 
@@ -78,7 +78,6 @@ public class EmployeeRestController {
     @DeleteMapping("/{id}")
     public void deleteEmployeeById(@Valid @PathVariable Long id) throws EmployeeDeletionNotPossibleException {
         this.employeeService.deleteEmployeeById(id);
-        //employeeService.deleteEmployeeById(id);
     }
 
     @GetMapping("/test")
