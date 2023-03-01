@@ -40,9 +40,9 @@ public class DBAccessRoomFirebaseImpl implements DBAccessRoom {
             nextId = documents.get(0).toObject(Room.class).getId() + 1L;
         }
 
-        room.setId(nextId); // Setze die generierte ID für das neue Employee-Objekt
+        room.setId(nextId); // Setze die generierte ID für das neue Room-Objekt
 
-        // Füge das Employee-Objekt als neues Dokument in die "employees"-Sammlung ein
+        // Füge das Room-Objekt als neues Dokument in die "room"-Sammlung ein
         ApiFuture<WriteResult> collectionsApiFuture = collectionReference.document(String.valueOf(room.getId())).set(room);
 
         return room;
@@ -112,7 +112,7 @@ public class DBAccessRoomFirebaseImpl implements DBAccessRoom {
                 documentReference.delete();
             }
         } catch (InterruptedException | ExecutionException e) {
-            // Rethrow any exceptions that occur while attempting to delete the document
+            // Wirft eine mögliche exception, die beim Versuch zum Löschen des Dokuments auftreten
             throw new RuntimeException("Fehler beim Löschen des Raums mit der ID " + id, e);
         }
     }

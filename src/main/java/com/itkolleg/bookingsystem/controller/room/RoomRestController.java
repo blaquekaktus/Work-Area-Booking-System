@@ -34,10 +34,10 @@ public class RoomRestController {
     @PostMapping("/create")
     public Room addRoom(@Valid @RequestBody Room room, BindingResult bindingResult) throws RoomValidationException, ExecutionException, InterruptedException {
         // Erstelle ein neues Objekt der Klasse FormValidationExceptionDTO, das später dazu verwendet wird,
-        // etwaige Validierungsfehler der übergebenen Employee-Daten zu speichern.
+        // etwaige Validierungsfehler der übergebenen Room-Daten zu speichern.
         FormValidationExceptionDTO formValidationErrors = new FormValidationExceptionDTO("9000");
 
-        // Prüfe, ob es Validierungsfehler in den übergebenen Employee-Daten gibt. Falls ja, iteriere durch alle
+        // Prüfe, ob es Validierungsfehler in den übergebenen Room-Daten gibt. Falls ja, iteriere durch alle
         // Fehler und füge sie dem formValidationErrors-Objekt hinzu.
         if(bindingResult.hasErrors()){
             for(ObjectError error : bindingResult.getAllErrors()){
@@ -47,14 +47,14 @@ public class RoomRestController {
             throw new RoomValidationException(formValidationErrors);
         }
 
-        // Füge den übergebenen Employee der Datenbank hinzu und gib das neu erstellte Employee-Objekt zurück.
+        // Füge den übergebenen Employee der Datenbank hinzu und gib das neu erstellte Room-Objekt zurück.
         return roomService.addRoom(room);
     }
 
-    // Definiert den GET-Endpunkt für die Employee-Ressource, der auf eine spezifische ID zugreift
+    // Definiert den GET-Endpunkt für die Romm-Ressource, der auf eine spezifische ID zugreift
     @GetMapping("/{id}")
-    public Room getRoomById(@PathVariable Long id) throws InterruptedException, ExecutionException, EmployeeNotFoundException, EmployeeNotFoundException, RoomNotFoundException {
-        // Aufruf des entsprechenden EmployeeService-Method, um den Employee mit der angegebenen ID zu finden
+    public Room getRoomById(@PathVariable Long id) throws InterruptedException, ExecutionException, RoomNotFoundException {
+        // Aufruf des entsprechenden EmployeeService-Method, um den Raum mit der angegebenen ID zu finden
         return roomService.getRoomById(id);
     }
 
