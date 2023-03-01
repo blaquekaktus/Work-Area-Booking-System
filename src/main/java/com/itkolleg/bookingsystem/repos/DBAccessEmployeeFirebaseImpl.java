@@ -51,7 +51,7 @@ public class DBAccessEmployeeFirebaseImpl implements DBAccessEmployees{
 
     @Override
     public List<Employee> getAllEmployees() throws ExecutionException, InterruptedException {
-        // Hole alle Dokumente aus der "crud_user"-Sammlung
+        // Hole alle Dokumente aus der "employees"-Sammlung
         ApiFuture<QuerySnapshot> future = dbFirestore.collection("employees").get();
         List<QueryDocumentSnapshot> documents = future.get().getDocuments();
 

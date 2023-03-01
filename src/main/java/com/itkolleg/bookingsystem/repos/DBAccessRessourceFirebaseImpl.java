@@ -2,6 +2,7 @@ package com.itkolleg.bookingsystem.repos;
 
 import com.google.api.core.ApiFuture;
 import com.google.cloud.firestore.*;
+import com.google.cloud.firestore.annotation.Exclude;
 import com.google.firebase.cloud.FirestoreClient;
 import com.google.protobuf.StringValue;
 import com.itkolleg.bookingsystem.domains.Ressource;
@@ -44,6 +45,7 @@ public class DBAccessRessourceFirebaseImpl implements  DBAccessRessource {
     }
 
     @Override
+    @Exclude
     public List<Ressource> getAllRessource() throws ExecutionException, InterruptedException {
 
         ApiFuture<QuerySnapshot> future = dbFirestore.collection("ressources").get();

@@ -4,9 +4,12 @@ import com.itkolleg.bookingsystem.domains.Desk;
 import com.itkolleg.bookingsystem.exceptions.DeskExeceptions.DeskDeletionNotPossibleException;
 import com.itkolleg.bookingsystem.exceptions.DeskExeceptions.DeskNotFoundException;
 import com.itkolleg.bookingsystem.repos.DBAccessDesks;
+import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.concurrent.ExecutionException;
 
+@Service
 public class DeskServiceImplementation implements DeskService{
 
     private DBAccessDesks dbAccessDesks;
@@ -30,7 +33,7 @@ public class DeskServiceImplementation implements DeskService{
      * @return
      */
     @Override
-    public List<Desk> getAllDesk() {
+    public List<Desk> getAllDesk() throws ExecutionException, InterruptedException {
         return this.dbAccessDesks.getAllDesk();
     }
 
@@ -45,13 +48,13 @@ public class DeskServiceImplementation implements DeskService{
     }
 
     /**
-     * @param id
+     * @param
      * @return
      * @throws DeskNotFoundException
      */
     @Override
-    public Desk updateDeskById(Long id) throws DeskNotFoundException {
-        return this.dbAccessDesks.updateDeskById(id);
+    public Desk updateDeskById(Desk desk) throws DeskNotFoundException {
+        return this.dbAccessDesks.updateDeskById(desk);
     }
 
     /**

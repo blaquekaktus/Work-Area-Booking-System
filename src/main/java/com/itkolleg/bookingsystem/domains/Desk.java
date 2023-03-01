@@ -23,7 +23,7 @@ public class Desk {
     @ElementCollection
     private List<Port> port;
 
-    public Desk(String deskNr, int nrOfMonitors, List<Port>port){
+    public Desk(String deskNr, int nrOfMonitors, List<Port> port){
         this.deskNr=deskNr;
         this.nrOfMonitors=nrOfMonitors;
         this.port=port;

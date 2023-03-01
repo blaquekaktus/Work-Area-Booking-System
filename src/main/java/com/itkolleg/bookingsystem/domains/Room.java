@@ -2,10 +2,11 @@ package com.itkolleg.bookingsystem.domains;
 
 import jakarta.persistence.*;
 import lombok.*;
-
-import java.awt.*;
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
+
 
 @Entity
 @AllArgsConstructor
@@ -19,16 +20,29 @@ public class Room {
     private Long id;
 
     @ElementCollection
-    private ArrayList <Point> vertices;
+    private List<String> vertices = new ArrayList<>();
 
     private String floor;
 
     private String info;
 
-    public Room(ArrayList <Point> vertices, String floor, String info){
+    public Room(List<String> vertices, String floor, String info){
         this.vertices=vertices;
         this.floor=floor;
         this.info=info;
     }
+
+    /*
+        public void deserialize(Map<String, Object> data) {
+            floor = (String) data.get("floor");
+            info = (String) data.get("info");
+            ArrayList<Map<String, Long>> locations = (ArrayList<Map<String, Long>>) data.get("vertices");
+            vertices = new ArrayList<>();
+            for (Map<String, Long> location : locations) {
+                long x = location.get("x");
+                long y = location.get("y");
+                vertices.add(new Point((int) x, (int) y));
+            }
+        } */
 
 }
