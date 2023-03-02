@@ -25,7 +25,7 @@ public class DeskServiceImplementation implements DeskService{
      * @return desk
      */
     @Override
-    public Desk addDesk(Desk desk) {
+    public Desk addDesk(Desk desk) throws ExecutionException, InterruptedException {
         return this.dbAccessDesks.addDesk(desk);
     }
 
@@ -43,7 +43,7 @@ public class DeskServiceImplementation implements DeskService{
      * @throws DeskNotFoundException
      */
     @Override
-    public Desk getDeskById(Long id) throws DeskNotFoundException {
+    public Desk getDeskById(Long id) throws DeskNotFoundException, ExecutionException, InterruptedException {
         return this.dbAccessDesks.getDeskById(id);
     }
 
@@ -53,7 +53,7 @@ public class DeskServiceImplementation implements DeskService{
      * @throws DeskNotFoundException
      */
     @Override
-    public Desk updateDeskById(Desk desk) throws DeskNotFoundException {
+    public Desk updateDeskById(Desk desk) throws DeskNotFoundException, ExecutionException, InterruptedException {
         return this.dbAccessDesks.updateDeskById(desk);
     }
 
