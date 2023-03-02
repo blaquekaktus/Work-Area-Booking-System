@@ -27,7 +27,7 @@ public class DBAccessRessourceFirebaseImpl implements  DBAccessRessource {
 
     @Override
     public Ressource addRessource(Ressource ressource) throws ExecutionException, InterruptedException {
-        CollectionReference collectionReference = dbFirestore.collection("collections");
+        CollectionReference collectionReference = dbFirestore.collection("ressources");
         ApiFuture<QuerySnapshot> future = collectionReference.orderBy("id", Query.Direction.DESCENDING).limit(1).get();
         List<QueryDocumentSnapshot> documents = future.get().getDocuments();
 

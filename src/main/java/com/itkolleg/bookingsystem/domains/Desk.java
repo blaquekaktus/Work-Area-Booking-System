@@ -21,11 +21,11 @@ public class Desk {
     private int nrOfMonitors;
 
     @ElementCollection
-    private List<Port> port;
+    private List<String> ports;
 
-    public Desk(String deskNr, int nrOfMonitors, List<Port> port){
+    public Desk(String deskNr, int nrOfMonitors, List<String> ports){
         this.deskNr=deskNr;
         this.nrOfMonitors=nrOfMonitors;
-        this.port=port;
+        this.ports=ports;
     }
 }

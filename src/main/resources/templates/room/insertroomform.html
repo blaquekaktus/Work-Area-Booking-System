@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Raumverwaltung</title>
+</head>
+<body>
+<h1>Raum eintragen</h1>
+
+<form th:action="@{/web/insertroom}" method="post" th:object="${myroom}">
+
+    <div class="form-group">
+        <label for="vertices">Eckpunkte</label>
+        <input type="text" id="vertices" th:field="*{vertices}"/>
+        <p th:if="${#fields.hasErrors('vertices')}" th:errorclass="error" th:errors="*{vertices}"/>
+    </div>
+    <div class="form-group">
+        <label for="floor">Stockwerk</label>
+        <input type="text" id="floor" th:field="*{floor}"/>
+        <p th:if="${#fields.hasErrors('floor')}" th:errorclass="error" th:errors="*{lname}"/>
+    </div>
+    <div class="form-group">
+        <label for="info">Info</label>
+        <input type="text" id="info" th:field="*{info}"/>
+        <p th:if="${#fields.hasErrors('info')}" th:errorclass="error" th:errors="*{info}"/>
+    </div>
+    <button type="submit" name="action" value="save">speichern</button>
+</form>
+
+</body>
+</html>
