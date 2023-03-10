@@ -5,7 +5,7 @@ import com.itkolleg.bookingsystem.domains.Employee;
 
 import java.util.List;
 
-public class DBAccessBookingFirebaseImpl implements DBAccessBooking {
+public class DBAccessBookingJPAH2 implements DBAccessBooking{
     @Override
     public List<Booking> getByEmployee(Employee employee) {
         return null;
