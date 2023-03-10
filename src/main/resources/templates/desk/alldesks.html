@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Tischliste</title>
+</head>
+<body>
+<h1>Tischliste</h1>
+<table>
+    <th:block th:each="desk : ${desks}">
+        <tr>
+            <td th:text="${desk.id}">...</td>
+            <td th:text="${desk.deskNr}">...</td>
+            <td th:text="${desk.nrOfMonitors}">...</td>
+            <td th:text="${desk.ports}">...</td>
+            <td><a th:href="@{/web/deletedesk/{id}(id=${desk.id})}">loeschen</a></td>
+        </tr>
+    </th:block>
+</table>
+
+<a th:href="@{/web/insertdeskform}">Tisch hinzufügen</a>
+
+</body>
+</html>

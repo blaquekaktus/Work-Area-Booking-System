@@ -2,6 +2,7 @@ package com.itkolleg.bookingsystem.repos;
 
 import com.google.api.core.ApiFuture;
 import com.google.cloud.firestore.*;
+import com.google.cloud.firestore.annotation.Exclude;
 import com.google.firebase.cloud.FirestoreClient;
 import com.itkolleg.bookingsystem.domains.Employee;
 import com.itkolleg.bookingsystem.domains.Room;
@@ -59,6 +60,7 @@ public class DBAccessRoomFirebaseImpl implements DBAccessRoom {
         List<Room> rooms = new ArrayList<>();
         for(QueryDocumentSnapshot document : documents){
             Room room = document.toObject(Room.class);
+
             rooms.add(room);
         }
         return rooms;
@@ -78,6 +80,9 @@ public class DBAccessRoomFirebaseImpl implements DBAccessRoom {
         if(document.exists()){
             // Konvertiere das DocumentSnapshot-Objekt in ein CRUD-Objekt
             room = document.toObject(Room.class);
+
+
+            // room.deserialize(document.getData());
             return room;
         }
         return null;

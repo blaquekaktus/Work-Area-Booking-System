@@ -17,7 +17,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 import java.util.concurrent.ExecutionException;
 @RestController
-@RequestMapping("/ressources")
+@RequestMapping("/api/v1/ressources")
 public class RessourceRestController {
 
 
@@ -27,8 +27,8 @@ public class RessourceRestController {
             this.ressourceService = ressourceService;
         }
 
-        @PostMapping("/create")
-        public Ressource addRessource(@Valid @RequestBody Ressource ressource, BindingResult bindingResult) throws RessourceNotFoundException, ExecutionException, InterruptedException, RessourceValidationException, RessourceAlreadyExistsException {
+        @PostMapping
+        public ResponseEntity<Ressource> addRessource(@Valid @RequestBody Ressource ressource, BindingResult bindingResult) throws RessourceNotFoundException, ExecutionException, InterruptedException, RessourceValidationException, RessourceAlreadyExistsException {
             // Erstelle ein neues Objekt der Klasse FormValidationExceptionDTO, das später dazu verwendet wird,
             // etwaige Validierungsfehler der übergebenen Ressource-Daten zu speichern.
             FormValidationExceptionDTO formValidationErrors = new FormValidationExceptionDTO("9000");
@@ -41,35 +41,41 @@ public class RessourceRestController {
                 }
                 // Wirf eine Exception, die die Validierungsfehler als DTO-Objekt enthält
                 throw new RessourceValidationException(formValidationErrors);
+            }else{
+                Ressource eingefuegt = this.ressourceService.addRessource(ressource);
+                return ResponseEntity.ok(eingefuegt);
+                // Füge den übergebenen Room der Datenbank hinzu und gib das neu erstellte Employee-Objekt zurück.
+                //return ResponseEntity.ok(ressourceService.addRessource(ressource));
             }
-
-            // Füge den übergebenen Room der Datenbank hinzu und gib das neu erstellte Employee-Objekt zurück.
-            return ressourceService.addRessource(ressource);
         }
 
 
         // Definiert den GET-Endpunkt für die Room-Ressource, der auf eine spezifische ID zugreift
         @GetMapping("/{id}")
-        public Ressource getRessourceById(@PathVariable Long id) throws InterruptedException, ExecutionException, RessourceNotFoundException {
-            // Aufruf des entsprechenden EmployeeService-Method, um den Employee mit der angegebenen ID zu finden
-            return ressourceService.getRessourceById(id);
+        public ResponseEntity<Ressource> getRessourceById(@PathVariable Long id) throws InterruptedException, ExecutionException, RessourceNotFoundException {
+            return ResponseEntity.ok(this.ressourceService.getRessourceById(id));
+            //Aufruf des entsprechenden EmployeeService-Method, um den Employee mit der angegebenen ID zu finden
+            //return ressourceService.getRessourceById(id);
         }
 
 
 
         @GetMapping
-        public List<Ressource> getAllRessource() throws ExecutionException, InterruptedException {
-            return ressourceService.getAllRessource();
+        public ResponseEntity<List<Ressource>> getAllRessource() throws ExecutionException, InterruptedException {
+            return ResponseEntity.ok(this.ressourceService.getAllRessource());
+            //return ressourceService.getAllRessource();
         }
 
         @PutMapping("/update")
-        public Ressource updateRessourceById(@Valid @RequestBody Ressource ressource) throws ExecutionException, InterruptedException, RessourceNotFoundException {
-            return ressourceService.updateRessourceById(ressource);
+        public ResponseEntity<Ressource> updateRessourceById(@Valid @RequestBody Ressource ressource) throws ExecutionException, InterruptedException, RessourceNotFoundException {
+            Ressource updated = this.ressourceService.updateRessourceById(ressource);
+            return ResponseEntity.ok(updated);
+            //return ressourceService.updateRessourceById(ressource);
         }
 
         @DeleteMapping("/{id}")
         public void deleteRessourceById(@Valid @PathVariable Long id) throws RessourceDeletionNotPossibleException {
-            ressourceService.deleteRessourceById(id);
+            this.ressourceService.deleteRessourceById(id);
         }
 
         @GetMapping("/test")

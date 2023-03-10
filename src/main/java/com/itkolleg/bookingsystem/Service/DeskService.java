@@ -5,11 +5,12 @@ import com.itkolleg.bookingsystem.exceptions.DeskExeceptions.DeskDeletionNotPoss
 import com.itkolleg.bookingsystem.exceptions.DeskExeceptions.DeskNotFoundException;
 
 import java.util.List;
+import java.util.concurrent.ExecutionException;
 
 public interface DeskService {
-    public Desk addDesk(Desk desk);
-    public List<Desk> getAllDesk();
-    public Desk getDeskById(Long id) throws DeskNotFoundException;
-    public Desk updateDeskById(Long id) throws DeskNotFoundException;
+    public Desk addDesk(Desk desk) throws ExecutionException, InterruptedException;
+    public List<Desk> getAllDesk() throws ExecutionException, InterruptedException;
+    public Desk getDeskById(Long id) throws DeskNotFoundException, ExecutionException, InterruptedException;
+    public Desk updateDeskById(Desk desk) throws DeskNotFoundException, ExecutionException, InterruptedException;
     public void deleteDeskById(Long id) throws DeskDeletionNotPossibleException;
 }
