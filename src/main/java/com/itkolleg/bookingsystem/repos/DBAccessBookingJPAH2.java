@@ -2,9 +2,11 @@ package com.itkolleg.bookingsystem.repos;
 
 import com.itkolleg.bookingsystem.domains.Booking.Booking;
 import com.itkolleg.bookingsystem.domains.Employee;
+import org.springframework.stereotype.Component;
 
 import java.util.List;
 
+@Component
 public class DBAccessBookingJPAH2 implements DBAccessBooking{
     @Override
     public List<Booking> getByEmployee(Employee employee) {

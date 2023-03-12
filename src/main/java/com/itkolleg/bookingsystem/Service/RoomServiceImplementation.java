@@ -1,7 +1,5 @@
 package com.itkolleg.bookingsystem.Service;
 
-import com.google.cloud.firestore.annotation.Exclude;
-import com.itkolleg.bookingsystem.domains.Ressource;
 import com.itkolleg.bookingsystem.domains.Room;
 import com.itkolleg.bookingsystem.exceptions.RoomExceptions.RoomDeletionNotPossibleException;
 import com.itkolleg.bookingsystem.exceptions.RoomExceptions.RoomNotFoundException;

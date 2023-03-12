@@ -3,10 +3,12 @@ package com.itkolleg.bookingsystem.repos;
 import com.itkolleg.bookingsystem.domains.Ressource;
 import com.itkolleg.bookingsystem.exceptions.RessourceExceptions.RessourceDeletionNotPossibleException;
 import com.itkolleg.bookingsystem.exceptions.RessourceExceptions.RessourceNotFoundException;
+import org.springframework.stereotype.Component;
 
 import java.util.List;
 import java.util.concurrent.ExecutionException;
 
+@Component
 public class DBAccessRessourceJPHA2 implements DBAccessRessource{
     @Override
     public Ressource addRessource(Ressource ressource) throws ExecutionException, InterruptedException {
