@@ -17,7 +17,7 @@ public interface DBAccessEmployees {
 
     Employee getEmployeeById(Long id) throws EmployeeNotFoundException, ExecutionException, InterruptedException;
 
-    Employee updateEmployeeById(Employee employee) throws EmployeeNotFoundException, ExecutionException, InterruptedException, EmployeeNotFoundException;
+    Employee updateEmployeeById(Employee employee) throws  ExecutionException, InterruptedException, EmployeeNotFoundException;
 
     void deleteEmployeeById(Long id) throws EmployeeDeletionNotPossibleException;
 }

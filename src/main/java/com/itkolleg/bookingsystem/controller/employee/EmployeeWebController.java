@@ -33,7 +33,7 @@ public class EmployeeWebController {
     }
 
     @GetMapping("/web/insertemployeeform")
-    public ModelAndView insertemployeeform() {
+    public ModelAndView insertemployeeform(){
         return new ModelAndView("employee/insertemployeeform", "myemployee", new Employee());
     }
 
@@ -51,13 +51,18 @@ public class EmployeeWebController {
     }
 
     @PostMapping("/web/insertemployee")
-    public String insertEmployee(@Valid @ModelAttribute("myemployee") Employee employee, BindingResult bindingResult) throws EmployeeAlreadyExistsException, ExecutionException, InterruptedException {
+    public String insertEmployee(@Valid @ModelAttribute("myemployee") Employee employee,Model model, BindingResult bindingResult) throws ExecutionException, InterruptedException {
         if (bindingResult.hasErrors()) {
             return "employee/insertemployeeform";
         } else {
-
-            this.employeeService.addEmployee(employee);
-            return "redirect:/web/allemployees";
+            try {
+                this.employeeService.addEmployee(employee);
+                return "redirect:/web/allemployees";
+            } catch (EmployeeAlreadyExistsException e) {
+                model.addAttribute("errortitle", "Mitarbeiter kann nicht eingefügt werden!");
+                model.addAttribute("errormessage", e.getMessage());
+                return "myerrorspage";
+            }
         }
     }
 }

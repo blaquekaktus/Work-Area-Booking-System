@@ -9,12 +9,12 @@ import java.util.List;
 import java.util.concurrent.ExecutionException;
 
 public interface EmployeeService {
-    Employee addEmployee(Employee Employee) throws ExecutionException, InterruptedException, EmployeeAlreadyExistsException, EmployeeAlreadyExistsException;
+    Employee addEmployee(Employee Employee) throws ExecutionException, InterruptedException, EmployeeAlreadyExistsException;
     List<Employee> getAllEmployees() throws ExecutionException, InterruptedException;
 
     Employee getEmployeeById(Long id) throws EmployeeNotFoundException, ExecutionException, InterruptedException;
 
-    Employee updateEmployeeById(Employee employee) throws EmployeeNotFoundException, ExecutionException, InterruptedException, EmployeeNotFoundException;
+    Employee updateEmployeeById(Employee employee) throws ExecutionException, InterruptedException, EmployeeNotFoundException;
 
-    void deleteEmployeeById(Long id) throws EmployeeDeletionNotPossibleException, EmployeeDeletionNotPossibleException;
+    void deleteEmployeeById(Long id) throws EmployeeDeletionNotPossibleException;
 }

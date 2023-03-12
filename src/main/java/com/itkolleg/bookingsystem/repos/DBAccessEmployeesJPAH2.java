@@ -11,28 +11,40 @@ import java.util.concurrent.ExecutionException;
 
 @Component
 public class DBAccessEmployeesJPAH2 implements DBAccessEmployees{
+
+    private EmployeesJPAH2 employeesJPAH2;
+
+    public DBAccessEmployeesJPAH2(EmployeesJPAH2 employeesJPAH2){
+        this.employeesJPAH2 = employeesJPAH2;
+    }
+
+
     @Override
-    public Employee addEmployee(Employee employee) throws ExecutionException, InterruptedException, EmployeeAlreadyExistsException {
+    public Employee addEmployee(Employee employee) throws EmployeeAlreadyExistsException {
+        return this.employeesJPAH2.save(employee);
+    }
+
+    @Override
+    public List<Employee> getAllEmployees() {
+        return this.employeesJPAH2.findAll();
+    }
+
+    @Override
+    public Employee getEmployeeById(Long id) {
         return null;
     }
 
     @Override
-    public List<Employee> getAllEmployees() throws ExecutionException, InterruptedException {
+    public Employee updateEmployeeById(Employee employee){
         return null;
     }
 
     @Override
-    public Employee getEmployeeById(Long id) throws EmployeeNotFoundException, ExecutionException, InterruptedException {
-        return null;
+    public void deleteEmployeeById(Long id) {
+
     }
 
-    @Override
-    public Employee updateEmployeeById(Employee employee) throws EmployeeNotFoundException, ExecutionException, InterruptedException, EmployeeNotFoundException {
-        return null;
-    }
-
-    @Override
-    public void deleteEmployeeById(Long id) throws EmployeeDeletionNotPossibleException {
-
+    public List<Employee> findAllByNick(String nick){
+        return this.employeesJPAH2.findAllByNick(nick);
     }
 }
