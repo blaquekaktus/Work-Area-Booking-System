@@ -17,4 +17,6 @@ public interface EmployeeService {
     Employee updateEmployeeById(Employee employee) throws ExecutionException, InterruptedException, EmployeeNotFoundException;
 
     void deleteEmployeeById(Long id) throws EmployeeDeletionNotPossibleException;
+
+    List<Employee> getEmployeesWithNick(String nick) throws ExecutionException, InterruptedException, EmployeeNotFoundException;
 }

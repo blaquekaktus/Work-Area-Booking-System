@@ -20,4 +20,6 @@ public interface DBAccessEmployees {
     Employee updateEmployeeById(Employee employee) throws  ExecutionException, InterruptedException, EmployeeNotFoundException;
 
     void deleteEmployeeById(Long id) throws EmployeeDeletionNotPossibleException;
+
+    List<Employee> findEmployeesByNick(String nick) throws EmployeeNotFoundException, ExecutionException, InterruptedException;
 }

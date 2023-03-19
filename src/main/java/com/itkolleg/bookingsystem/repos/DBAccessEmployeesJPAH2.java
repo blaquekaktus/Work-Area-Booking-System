@@ -7,6 +7,7 @@ import com.itkolleg.bookingsystem.exceptions.EmployeeExceptions.EmployeeNotFound
 import org.springframework.stereotype.Component;
 
 import java.util.List;
+import java.util.Optional;
 import java.util.concurrent.ExecutionException;
 
 @Component
@@ -30,21 +31,33 @@ public class DBAccessEmployeesJPAH2 implements DBAccessEmployees{
     }
 
     @Override
-    public Employee getEmployeeById(Long id) {
-        return null;
+    public Employee getEmployeeById(Long id) throws EmployeeNotFoundException {
+        Optional<Employee> optEmployee = this.employeesJPAH2.findById(id);
+        if(optEmployee.isPresent()){
+            return optEmployee.get();
+        } else {
+            throw new EmployeeNotFoundException();
+        }
     }
 
     @Override
-    public Employee updateEmployeeById(Employee employee){
-        return null;
+    public Employee updateEmployeeById(Employee employee) throws EmployeeNotFoundException {
+        Employee dbEmployee = this.getEmployeeById(employee.getId());
+        return this.updateEmployeeById(dbEmployee);
     }
 
     @Override
-    public void deleteEmployeeById(Long id) {
-
+    public void deleteEmployeeById(Long id) throws EmployeeDeletionNotPossibleException {
+        try{
+            this.employeesJPAH2.deleteById(id);
+        }catch(Exception e){
+            throw new EmployeeDeletionNotPossibleException("Mitarbeiter mit der ID " + id + " konnte nicht gelöscht werden!");
+        }
     }
 
-    public List<Employee> findAllByNick(String nick){
+    @Override
+    public List<Employee> findEmployeesByNick(String nick) throws EmployeeNotFoundException, ExecutionException, InterruptedException {
         return this.employeesJPAH2.findAllByNick(nick);
     }
+
 }

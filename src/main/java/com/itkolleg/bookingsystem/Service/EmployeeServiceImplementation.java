@@ -63,4 +63,9 @@ public class EmployeeServiceImplementation implements EmployeeService{
     public void deleteEmployeeById(Long id) throws EmployeeDeletionNotPossibleException {
        this.dbAccessEmployees.deleteEmployeeById(id);
     }
+
+    @Override
+    public List<Employee> getEmployeesWithNick(String nick) throws ExecutionException, InterruptedException, EmployeeNotFoundException {
+        return this.dbAccessEmployees.findEmployeesByNick(nick);
+    }
 }

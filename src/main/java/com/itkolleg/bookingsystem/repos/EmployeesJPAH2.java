@@ -7,4 +7,5 @@ import java.util.List;
 
 public interface EmployeesJPAH2 extends JpaRepository<Employee, Long> {
     public List<Employee> findAllByNick(String nick);
+
 }
