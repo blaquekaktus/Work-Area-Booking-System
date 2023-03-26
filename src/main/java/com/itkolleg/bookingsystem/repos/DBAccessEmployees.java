@@ -21,5 +21,8 @@ public interface DBAccessEmployees {
 
     void deleteEmployeeById(Long id) throws EmployeeDeletionNotPossibleException;
 
-    List<Employee> findEmployeesByNick(String nick) throws EmployeeNotFoundException, ExecutionException, InterruptedException;
+    List<Employee> findEmployeesByNickLikeIgnoreCase(String nick) throws EmployeeNotFoundException, ExecutionException, InterruptedException;
+
+    Employee getEmployeeByEmail(String email);
+
 }

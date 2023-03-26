@@ -6,6 +6,7 @@ import com.itkolleg.bookingsystem.exceptions.EmployeeExceptions.EmployeeDeletion
 import com.itkolleg.bookingsystem.exceptions.EmployeeExceptions.EmployeeNotFoundException;
 
 import java.util.List;
+import java.util.Optional;
 import java.util.concurrent.ExecutionException;
 
 public interface EmployeeService {
@@ -18,5 +19,7 @@ public interface EmployeeService {
 
     void deleteEmployeeById(Long id) throws EmployeeDeletionNotPossibleException;
 
-    List<Employee> getEmployeesWithNick(String nick) throws ExecutionException, InterruptedException, EmployeeNotFoundException;
+    List<Employee> getEmployeesWithNickLikeIgnoreCase(String nick) throws ExecutionException, InterruptedException, EmployeeNotFoundException;
+
+    Employee getEmployeeByEmail(String email) throws EmployeeNotFoundException;
 }

@@ -32,13 +32,12 @@ public class EmployeeWebController {
 
     @GetMapping("/web/employeeswithnick")
     public String searchEmployees() throws ExecutionException, InterruptedException, EmployeeNotFoundException {
-
         return "employee/employeeswithnick";
     }
 
     @PostMapping("/web/employeeswithnick")
     public String searchEmployeesByNickname(@RequestParam("nickname") String nickname, Model model) throws ExecutionException, InterruptedException, EmployeeNotFoundException {
-        List<Employee> employees = employeeService.getEmployeesWithNick(nickname);
+        List<Employee> employees = employeeService.getEmployeesWithNickLikeIgnoreCase(nickname);
         model.addAttribute("employeesnick", employees);
         return "employee/employeeswithnick";
     }

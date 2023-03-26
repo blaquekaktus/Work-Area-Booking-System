@@ -5,9 +5,11 @@ import com.itkolleg.bookingsystem.exceptions.EmployeeExceptions.EmployeeAlreadyE
 import com.itkolleg.bookingsystem.exceptions.EmployeeExceptions.EmployeeDeletionNotPossibleException;
 import com.itkolleg.bookingsystem.exceptions.EmployeeExceptions.EmployeeNotFoundException;
 import com.itkolleg.bookingsystem.repos.DBAccessEmployees;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Optional;
 import java.util.concurrent.ExecutionException;
 
 @Service
@@ -65,7 +67,18 @@ public class EmployeeServiceImplementation implements EmployeeService{
     }
 
     @Override
-    public List<Employee> getEmployeesWithNick(String nick) throws ExecutionException, InterruptedException, EmployeeNotFoundException {
-        return this.dbAccessEmployees.findEmployeesByNick(nick);
+    public List<Employee> getEmployeesWithNickLikeIgnoreCase(String nick) throws ExecutionException, InterruptedException, EmployeeNotFoundException {
+        return this.dbAccessEmployees.findEmployeesByNickLikeIgnoreCase(nick);
     }
+
+    public Employee findEmployeeByEmail(String email) throws EmployeeNotFoundException {
+        Optional<Employee> optionalEmployee = this.dbAccessEmployees.getEmployeeByEmail(email);
+        if (optionalEmployee.isPresent()) {
+            return optionalEmployee.get();
+        } else {
+            throw new EmployeeNotFoundException("No employee found with email: " + email);
+        }
+    }
+
+
 }

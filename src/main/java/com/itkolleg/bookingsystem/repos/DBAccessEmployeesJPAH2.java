@@ -56,8 +56,14 @@ public class DBAccessEmployeesJPAH2 implements DBAccessEmployees{
     }
 
     @Override
-    public List<Employee> findEmployeesByNick(String nick) throws EmployeeNotFoundException, ExecutionException, InterruptedException {
-        return this.employeesJPAH2.findAllByNick(nick);
+    public List<Employee> findEmployeesByNickLikeIgnoreCase(String nick) throws EmployeeNotFoundException, ExecutionException, InterruptedException {
+        return this.employeesJPAH2.findEmployeesByNickLikeIgnoreCase("%" + nick + "%");
     }
+
+    @Override
+    public Employee getEmployeeByEmail(String email) {
+        return this.employeesJPAH2.getEmployeeByEmail(email);
+    }
+
 
 }
