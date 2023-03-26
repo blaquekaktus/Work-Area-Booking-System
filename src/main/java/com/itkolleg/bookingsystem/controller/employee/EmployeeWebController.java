@@ -4,14 +4,12 @@ import com.itkolleg.bookingsystem.Service.EmployeeService;
 import com.itkolleg.bookingsystem.domains.Employee;
 import com.itkolleg.bookingsystem.exceptions.EmployeeExceptions.EmployeeAlreadyExistsException;
 import com.itkolleg.bookingsystem.exceptions.EmployeeExceptions.EmployeeDeletionNotPossibleException;
+import com.itkolleg.bookingsystem.exceptions.EmployeeExceptions.EmployeeNotFoundException;
 import jakarta.validation.Valid;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 
 import java.util.List;
@@ -30,6 +28,19 @@ public class EmployeeWebController {
     public ModelAndView allemployees() throws ExecutionException, InterruptedException {
         List<Employee> allEmployees = employeeService.getAllEmployees();
         return new ModelAndView("employee/allemployees", "employees", allEmployees);
+    }
+
+    @GetMapping("/web/employeeswithnick")
+    public String searchEmployees() throws ExecutionException, InterruptedException, EmployeeNotFoundException {
+
+        return "employee/employeeswithnick";
+    }
+
+    @PostMapping("/web/employeeswithnick")
+    public String searchEmployeesByNickname(@RequestParam("nickname") String nickname, Model model) throws ExecutionException, InterruptedException, EmployeeNotFoundException {
+        List<Employee> employees = employeeService.getEmployeesWithNick(nickname);
+        model.addAttribute("employeesnick", employees);
+        return "employee/employeeswithnick";
     }
 
     @GetMapping("/web/insertemployeeform")

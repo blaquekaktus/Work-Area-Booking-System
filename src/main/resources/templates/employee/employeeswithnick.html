@@ -7,11 +7,13 @@
 <body>
 <h1>Mitarbeiterliste</h1>
 <div>
-    <form th:action="@{/web/employeeswithnick}" method="get" th:action="${employeesnick}">
+    <form th:action="@{/web/employeeswithnick}" method="post">
         <div class="form-group">
-            <label for="nickname">Suche Nickname: </label>
-            <input type="text" id="nickname" name="nickname" th:field="${nickname}"/>
+            <label for="nickname">Suche nach Nickname: </label>
+            <input type="text" id="nickname" name="nickname"/>
+            <button class="btn btn-success" name="submit" type="submit">Suche</button>
         </div>
+    </form>
     <table>
         <th:block th:each="employee : ${employeesnick}">
             <tr>
@@ -20,12 +22,9 @@
                 <td th:text="${employee.lname}">...</td>
                 <td th:text="${employee.nick}">...</td>
                 <td th:text="${employee.role}">...</td>
-                <td><a th:href="@{/web/deleteemployee/{id}(id=${employee.id})}">loeschen</a></td>
             </tr>
         </th:block>
     </table>
-        <button type="submit" name="action" value="save">speichern</button>
-    </form>
 </div>
 
 </body>
