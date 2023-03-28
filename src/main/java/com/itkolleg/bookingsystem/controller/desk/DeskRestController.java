@@ -10,11 +10,9 @@ import com.itkolleg.bookingsystem.exceptions.DeskExeceptions.DeskNotFoundExcepti
 import com.itkolleg.bookingsystem.exceptions.DeskExeceptions.DeskValidationException;
 import com.itkolleg.bookingsystem.exceptions.EmployeeExceptions.EmployeeAlreadyExistsException;
 import com.itkolleg.bookingsystem.exceptions.EmployeeExceptions.EmployeeDeletionNotPossibleException;
-import com.itkolleg.bookingsystem.exceptions.EmployeeExceptions.EmployeeNotFoundException;
-import com.itkolleg.bookingsystem.exceptions.EmployeeExceptions.EmployeeValidationException;
-import com.itkolleg.bookingsystem.exceptions.RoomExceptions.RoomValidationException;
+
 import jakarta.validation.Valid;
-import org.apache.coyote.Response;
+
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.FieldError;

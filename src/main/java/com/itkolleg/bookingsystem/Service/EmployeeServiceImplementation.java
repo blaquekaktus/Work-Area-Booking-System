@@ -5,6 +5,9 @@ import com.itkolleg.bookingsystem.exceptions.EmployeeExceptions.EmployeeAlreadyE
 import com.itkolleg.bookingsystem.exceptions.EmployeeExceptions.EmployeeDeletionNotPossibleException;
 import com.itkolleg.bookingsystem.exceptions.EmployeeExceptions.EmployeeNotFoundException;
 import com.itkolleg.bookingsystem.repos.DBAccessEmployees;
+import org.springframework.context.annotation.Bean;
+import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 
@@ -13,8 +16,9 @@ import java.util.Optional;
 import java.util.concurrent.ExecutionException;
 
 @Service
-public class EmployeeServiceImplementation implements EmployeeService{
+public class EmployeeServiceImplementation implements EmployeeService, UserDetailsService {
 
+    //@Autowired
     private DBAccessEmployees dbAccessEmployees;
 
     /**
@@ -23,6 +27,11 @@ public class EmployeeServiceImplementation implements EmployeeService{
     public EmployeeServiceImplementation(DBAccessEmployees dbAccessEmployees){
         this.dbAccessEmployees = dbAccessEmployees;
     }
+
+    public EmployeeServiceImplementation(){
+
+    }
+
     /**
      * @param Employee
      * @return
@@ -71,14 +80,24 @@ public class EmployeeServiceImplementation implements EmployeeService{
         return this.dbAccessEmployees.findEmployeesByNickLikeIgnoreCase(nick);
     }
 
-    public Employee findEmployeeByEmail(String email) throws EmployeeNotFoundException {
-        Optional<Employee> optionalEmployee = this.dbAccessEmployees.getEmployeeByEmail(email);
-        if (optionalEmployee.isPresent()) {
-            return optionalEmployee.get();
-        } else {
-            throw new EmployeeNotFoundException("No employee found with email: " + email);
-        }
+    @Override
+    public Employee getEmployeeByEmail(String email) throws EmployeeNotFoundException {
+        return this.dbAccessEmployees.getEmployeeByEmail(email);
     }
 
 
+
+    @Override
+    public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
+        Employee employee = this.dbAccessEmployees.getEmployeeByEmail(username);
+        if (employee == null) {
+            throw new UsernameNotFoundException("User not found");
+        }
+        return employee;
+    }
+
+    @Bean
+    public UserDetailsService userDetailsService() {
+        return new EmployeeServiceImplementation(); // (1)
+    }
 }

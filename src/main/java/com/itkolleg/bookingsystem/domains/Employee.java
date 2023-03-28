@@ -4,6 +4,12 @@ import jakarta.persistence.*;
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.Size;
 import lombok.*;
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.core.userdetails.UserDetailsService;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
+
+import java.util.Collection;
 
 @Entity
 @NoArgsConstructor
@@ -11,7 +17,7 @@ import lombok.*;
 @Getter
 @Setter
 @ToString
-public class Employee {
+public class Employee implements UserDetails {
 
     @Id
     //@Column(name = "id")
@@ -35,6 +41,9 @@ public class Employee {
     @Email
     //@Column(name="EMAIL")
     private String email;
+
+
+
     //@Column(name="PASSWORD")
     private String password;
 
@@ -49,4 +58,35 @@ public class Employee {
         this.role=role;
     }
 
+
+
+    @Override
+    public Collection<? extends GrantedAuthority> getAuthorities() {
+        return null;
+    }
+
+    @Override
+    public String getUsername() {
+        return this.getEmail();
+    }
+
+    @Override
+    public boolean isAccountNonExpired() {
+        return false;
+    }
+
+    @Override
+    public boolean isAccountNonLocked() {
+        return false;
+    }
+
+    @Override
+    public boolean isCredentialsNonExpired() {
+        return false;
+    }
+
+    @Override
+    public boolean isEnabled() {
+        return false;
+    }
 }
