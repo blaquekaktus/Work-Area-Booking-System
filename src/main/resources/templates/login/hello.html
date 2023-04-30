@@ -1,0 +1,16 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+  <meta charset="UTF-8">
+  <title>Hello WABS Alpha</title>
+</head>
+<body>
+<h1>Hello
+  <!-- <span th:text="${#authentication.principal.username}"></span>*/ -->
+  </h1>
+<p>Welcome to our website!</p>
+<form th:action="@{/web/logout}" method="post">
+  <button type="submit">Logout</button>
+</form>
+</body>
+</html>

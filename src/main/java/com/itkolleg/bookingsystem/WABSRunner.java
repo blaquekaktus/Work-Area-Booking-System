@@ -8,9 +8,11 @@ import org.springframework.boot.ApplicationArguments;
 import org.springframework.boot.ApplicationRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
 
 
 @SpringBootApplication
+@EnableJpaRepositories
 public class WABSRunner implements ApplicationRunner{
 
     //
@@ -25,7 +27,7 @@ public class WABSRunner implements ApplicationRunner{
 
     @Override
     public void run(ApplicationArguments args) throws Exception {
-            this.dbAccessEmployees.addEmployee(new Employee("Marcel", "Schranz", "Marsa", "marcel-schranz@hotmail.com", "Testitest", Role.ADMIN));
+            // this.dbAccessEmployees.addEmployee(new Employee("Marcel", "Schranz", "Marsa", "marcel-schranz@hotmail.com", "Testitest", Role.ADMIN));
     }
 }
 

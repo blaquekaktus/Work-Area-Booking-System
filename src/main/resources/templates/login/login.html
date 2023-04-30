@@ -10,7 +10,7 @@
 
     <div class="col col-md-6 text-center">
 
-        <form method="post" th:action="@{/login}">
+        <form method="post" th:action="@{/web/login}">
             <h1 class="display-4 py-4">Sign In</h1>
 
             <div class="input-group">
@@ -19,7 +19,8 @@
                 <i class="fa fa-user text-info"></i>
             </span>
                 </div>
-                <input type="text" class="form-control" name="username" placeholder="username">
+                <label for="username" class="form-label">Name</label>
+                <input type="text" class="form-control" name="username" id="username" placeholder="username">
             </div>
 
             <div class="input-group my-3">
@@ -28,7 +29,8 @@
                 <i class="fa fa-lock text-info"></i>
             </span>
                 </div>
-                <input type="password" class="form-control" name="password" placeholder="password">
+                <label for="password" class="form-label">Passwort</label>
+                <input type="password" class="form-control" name="password" id="password" placeholder="password">
             </div>
 
             <button type="submit" class="btn btn-info btn-block">Sign in</button>
