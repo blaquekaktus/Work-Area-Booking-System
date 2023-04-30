@@ -12,6 +12,7 @@ import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import java.util.Collection;
 
 @Entity
+@Table(name="employee")
 @NoArgsConstructor
 @AllArgsConstructor
 @Getter
@@ -21,7 +22,7 @@ public class Employee implements UserDetails {
 
     @Id
     //@Column(name = "id")
-    @GeneratedValue(strategy = GenerationType.SEQUENCE)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
     //limit length of name

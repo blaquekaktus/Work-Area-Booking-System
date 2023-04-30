@@ -96,8 +96,4 @@ public class EmployeeServiceImplementation implements EmployeeService, UserDetai
         return employee;
     }
 
-    @Bean
-    public UserDetailsService userDetailsService() {
-        return new EmployeeServiceImplementation(); // (1)
-    }
 }
