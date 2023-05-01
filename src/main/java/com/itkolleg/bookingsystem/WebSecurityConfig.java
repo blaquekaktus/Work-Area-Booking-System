@@ -1,6 +1,7 @@
 package com.itkolleg.bookingsystem;
 
 import com.itkolleg.bookingsystem.Service.EmployeeService;
+import com.itkolleg.bookingsystem.domains.Employee;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.http.HttpMethod;
@@ -15,6 +16,9 @@ import org.springframework.security.provisioning.InMemoryUserDetailsManager;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
 
+import java.util.List;
+import java.util.concurrent.ExecutionException;
+
 /**
  * Konfigurationsklasse für die Sicherheitseinstellungen.
  */
@@ -22,10 +26,12 @@ import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
 @EnableWebSecurity
 public class WebSecurityConfig {
 
-    private final EmployeeService employeeService;
+    private EmployeeService employeeService;
+    private UserDetailsService userDetailsService;
 
-    public WebSecurityConfig(EmployeeService employeeService) {
+    public WebSecurityConfig(EmployeeService employeeService, UserDetailsService userDetailsService) {
         this.employeeService = employeeService;
+        this.userDetailsService = userDetailsService;
     }
 
     /**
@@ -87,14 +93,23 @@ public class WebSecurityConfig {
         return authenticationManagerBuilder.build();
     }
 
+
     /**
      Bean für den UserDetailsService.
      @param bCryptPasswordEncoder Das BCryptPasswordEncoder-Objekt.
      @return das UserDetailsService-Objekt.
      */
     @Bean
-    public UserDetailsService userDetailsService(BCryptPasswordEncoder bCryptPasswordEncoder) {
+    public UserDetailsService userDetailsService(BCryptPasswordEncoder bCryptPasswordEncoder) throws ExecutionException, InterruptedException {
         InMemoryUserDetailsManager manager = new InMemoryUserDetailsManager();
+        List<Employee> employeeList = this.employeeService.getAllEmployees();
+        for(Employee e : employeeList){
+            manager.createUser(User.withUsername(e.getNick())
+                    .password(bCryptPasswordEncoder.encode(e.getPassword()))
+                    .roles(e.getRole().toString())
+                    .build());
+
+        }
         manager.createUser(User.withUsername("user")
                 .password(bCryptPasswordEncoder.encode("password"))
                 .roles("USER")
@@ -103,6 +118,8 @@ public class WebSecurityConfig {
                 .password(bCryptPasswordEncoder.encode("password"))
                 .roles("ADMIN", "USER")
                 .build());
+
+
         return manager;
     }
 }

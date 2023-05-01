@@ -8,4 +8,5 @@ import java.util.List;
 public interface EmployeesJPAH2 extends JpaRepository<Employee, Long> {
     public List<Employee> findEmployeesByNickLikeIgnoreCase(String nick);
     public Employee getEmployeeByEmail(String email);
+    public Employee getEmployeeByNick(String nick);
 }

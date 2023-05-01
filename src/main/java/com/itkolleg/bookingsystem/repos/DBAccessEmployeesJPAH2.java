@@ -13,7 +13,7 @@ import java.util.concurrent.ExecutionException;
 @Component
 public class DBAccessEmployeesJPAH2 implements DBAccessEmployees{
 
-    private EmployeesJPAH2 employeesJPAH2;
+    private final EmployeesJPAH2 employeesJPAH2;
 
     public DBAccessEmployeesJPAH2(EmployeesJPAH2 employeesJPAH2){
         this.employeesJPAH2 = employeesJPAH2;
@@ -21,8 +21,12 @@ public class DBAccessEmployeesJPAH2 implements DBAccessEmployees{
 
 
     @Override
-    public Employee addEmployee(Employee employee) throws EmployeeAlreadyExistsException {
-        return this.employeesJPAH2.save(employee);
+    public Employee saveEmployee(Employee employee) throws EmployeeAlreadyExistsException {
+        try{
+            return this.employeesJPAH2.save(employee);
+        } catch(Exception e){
+            throw new EmployeeAlreadyExistsException("Mitarbeiter exisitiert bereits!");
+        }
     }
 
     @Override
@@ -38,12 +42,6 @@ public class DBAccessEmployeesJPAH2 implements DBAccessEmployees{
         } else {
             throw new EmployeeNotFoundException();
         }
-    }
-
-    @Override
-    public Employee updateEmployeeById(Employee employee) throws EmployeeNotFoundException {
-        Employee dbEmployee = this.getEmployeeById(employee.getId());
-        return this.updateEmployeeById(dbEmployee);
     }
 
     @Override
@@ -63,6 +61,11 @@ public class DBAccessEmployeesJPAH2 implements DBAccessEmployees{
     @Override
     public Employee getEmployeeByEmail(String email) {
         return this.employeesJPAH2.getEmployeeByEmail(email);
+    }
+
+    @Override
+    public Employee getEmployeeByNick(String nick) {
+        return this.employeesJPAH2.getEmployeeByNick(nick);
     }
 
 

@@ -5,20 +5,19 @@ import com.itkolleg.bookingsystem.exceptions.EmployeeExceptions.EmployeeAlreadyE
 import com.itkolleg.bookingsystem.exceptions.EmployeeExceptions.EmployeeDeletionNotPossibleException;
 import com.itkolleg.bookingsystem.exceptions.EmployeeExceptions.EmployeeNotFoundException;
 import com.itkolleg.bookingsystem.repos.DBAccessEmployees;
-import org.springframework.context.annotation.Bean;
+import org.springframework.security.core.userdetails.User;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
-import java.util.Optional;
 import java.util.concurrent.ExecutionException;
 
 @Service
-public class EmployeeServiceImplementation implements EmployeeService, UserDetailsService {
+public class EmployeeServiceImplementation implements EmployeeService{
 
-    //@Autowired
+
     private DBAccessEmployees dbAccessEmployees;
 
     /**
@@ -28,17 +27,14 @@ public class EmployeeServiceImplementation implements EmployeeService, UserDetai
         this.dbAccessEmployees = dbAccessEmployees;
     }
 
-    public EmployeeServiceImplementation(){
-
-    }
 
     /**
-     * @param Employee
+     * @param employee
      * @return
      */
     @Override
-    public Employee addEmployee(Employee Employee) throws ExecutionException, InterruptedException, EmployeeAlreadyExistsException {
-        return this.dbAccessEmployees.addEmployee(Employee);
+    public Employee addEmployee(Employee employee) throws ExecutionException, InterruptedException, EmployeeAlreadyExistsException {
+        return this.dbAccessEmployees.saveEmployee(employee);
     }
 
     /**
@@ -63,8 +59,16 @@ public class EmployeeServiceImplementation implements EmployeeService, UserDetai
      * @return
      */
     @Override
-    public Employee updateEmployeeById(Employee employee) throws EmployeeNotFoundException, ExecutionException, InterruptedException {
-        return this.dbAccessEmployees.updateEmployeeById(employee);
+    public Employee updateEmployeeById(Employee employee) throws EmployeeNotFoundException, ExecutionException, InterruptedException, EmployeeAlreadyExistsException {
+        Employee employeeFromDb = this.dbAccessEmployees.getEmployeeById(employee.getId());
+        employeeFromDb.setFname(employee.getFname());
+        employeeFromDb.setLname(employee.getLname());
+        employeeFromDb.setNick(employee.getNick());
+        employeeFromDb.setPassword(employee.getPassword());
+        employeeFromDb.setEmail(employee.getEmail());
+        employeeFromDb.setRole(employee.getRole());
+
+        return this.dbAccessEmployees.saveEmployee(employee);
     }
 
     /**
@@ -85,15 +89,25 @@ public class EmployeeServiceImplementation implements EmployeeService, UserDetai
         return this.dbAccessEmployees.getEmployeeByEmail(email);
     }
 
-
-
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-        Employee employee = this.dbAccessEmployees.getEmployeeByEmail(username);
+        Employee employee = this.dbAccessEmployees.getEmployeeByNick(username);
         if (employee == null) {
-            throw new UsernameNotFoundException("User not found");
+            throw new UsernameNotFoundException("Mitarbeiter mit dem nick " + username + "nicht gefunden!");
         }
-        return employee;
+        return User.builder()
+                .username(employee.getNick())
+                .password(employee.getPassword())
+                .roles(employee.getRole().toString())
+                .build();
     }
 
+
+    /*
+    public String getPasswordForEmployee(String nick) {
+        UserDetails userDetails = userDetailsService.loadUserByUsername(nick);
+        return userDetails.getPassword();
+        // Do something with the password
+    }
+*/
 }

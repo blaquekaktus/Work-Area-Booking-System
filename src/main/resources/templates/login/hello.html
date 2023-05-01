@@ -2,13 +2,13 @@
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
   <meta charset="UTF-8">
-  <title>Hello WABS Alpha</title>
+  <title>Willkommensseite WABS Alpha</title>
 </head>
 <body>
 <h1>Hello
-  <!-- <span th:text="${#authentication.principal.username}"></span>*/ -->
+  <span th:text="${username}"></span>
   </h1>
-<p>Welcome to our website!</p>
+<p>Willkommen auf unserer Website!</p>
 <form th:action="@{/web/logout}" method="post">
   <button type="submit">Logout</button>
 </form>

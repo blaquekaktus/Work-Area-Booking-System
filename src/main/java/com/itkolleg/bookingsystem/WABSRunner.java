@@ -27,7 +27,7 @@ public class WABSRunner implements ApplicationRunner{
 
     @Override
     public void run(ApplicationArguments args) throws Exception {
-            // this.dbAccessEmployees.addEmployee(new Employee("Marcel", "Schranz", "Marsa", "marcel-schranz@hotmail.com", "Testitest", Role.ADMIN));
+            this.dbAccessEmployees.saveEmployee(new Employee("Marcel", "Schranz", "user2", "marcel-schranz@hotmail.com", "password2", Role.ADMIN));
     }
 }
 
