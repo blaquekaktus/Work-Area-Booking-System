@@ -23,5 +23,6 @@ public interface EmployeeService extends UserDetailsService {
     List<Employee> getEmployeesWithNickLikeIgnoreCase(String nick) throws ExecutionException, InterruptedException, EmployeeNotFoundException;
 
     Employee getEmployeeByEmail(String email) throws EmployeeNotFoundException;
+    Employee getEmployeeByNick(String nick);
     //String getPasswordForEmployee(String username);
 }

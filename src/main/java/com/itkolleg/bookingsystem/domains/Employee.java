@@ -46,8 +46,6 @@ public class Employee implements UserDetails {
     //@Column(name="EMAIL")
     private String email;
 
-
-
     //@Column(name="PASSWORD")
     private String password;
 
@@ -63,14 +61,10 @@ public class Employee implements UserDetails {
     }
 
 
-
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
-        List<GrantedAuthority> authorities = new ArrayList<>();
-        authorities.add(new SimpleGrantedAuthority(role.name()));
-        return authorities;
+        return null;
     }
-
 
     @Override
     public String getUsername() {

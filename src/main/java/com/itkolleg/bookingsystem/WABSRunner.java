@@ -13,7 +13,7 @@ import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
 
 @SpringBootApplication
 @EnableJpaRepositories
-public class WABSRunner implements ApplicationRunner{
+public class WABSRunner implements ApplicationRunner {
 
     //
     @Autowired
@@ -27,7 +27,10 @@ public class WABSRunner implements ApplicationRunner{
 
     @Override
     public void run(ApplicationArguments args) throws Exception {
-            this.dbAccessEmployees.saveEmployee(new Employee("Marcel", "Schranz", "user2", "marcel-schranz@hotmail.com", "password2", Role.ADMIN));
+        Employee admin = this.dbAccessEmployees.saveEmployee(new Employee("Marcel", "Schranz", "admin", "marcel-schranz@hotmail.com", "password", Role.ADMIN));
+        Employee operator = this.dbAccessEmployees.saveEmployee(new Employee("Patrick", "Bayr", "operator", "bayr@hotmail.com", "password", Role.OPERATOR));
+        Employee pemployee = this.dbAccessEmployees.saveEmployee(new Employee("Manuel", "Payer", "pemployee", "m.payer@hotmail.com", "password", Role.P_EMPLOYEE));
+        Employee nemployee = this.dbAccessEmployees.saveEmployee(new Employee("Sonja", "Lechner", "nemployee", "lechner@hotmail.com", "password", Role.N_EMPLOYEE));
     }
 }
 

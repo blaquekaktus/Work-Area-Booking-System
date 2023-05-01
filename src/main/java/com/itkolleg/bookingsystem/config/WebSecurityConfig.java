@@ -1,4 +1,4 @@
-package com.itkolleg.bookingsystem;
+package com.itkolleg.bookingsystem.config;
 
 import com.itkolleg.bookingsystem.Service.EmployeeService;
 import com.itkolleg.bookingsystem.domains.Employee;
@@ -11,6 +11,7 @@ import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.core.userdetails.User;
 import org.springframework.security.core.userdetails.UserDetailsService;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.provisioning.InMemoryUserDetailsManager;
 import org.springframework.security.web.SecurityFilterChain;
@@ -27,11 +28,10 @@ import java.util.concurrent.ExecutionException;
 public class WebSecurityConfig {
 
     private EmployeeService employeeService;
-    private UserDetailsService userDetailsService;
 
-    public WebSecurityConfig(EmployeeService employeeService, UserDetailsService userDetailsService) {
-        this.employeeService = employeeService;
-        this.userDetailsService = userDetailsService;
+
+    public WebSecurityConfig(EmployeeService employeeService) {
+        this.employeeService = employeeService;;
     }
 
     /**
@@ -65,7 +65,7 @@ public class WebSecurityConfig {
      .formLogin(login -> {
      login.loginPage("/web/login");
      login.defaultSuccessUrl("/web/hello");
-     login.failureUrl("/login-error");
+     login.failureUrl("/web/login-error");
      }
      )
      .logout(logout -> {
@@ -100,26 +100,18 @@ public class WebSecurityConfig {
      @return das UserDetailsService-Objekt.
      */
     @Bean
-    public UserDetailsService userDetailsService(BCryptPasswordEncoder bCryptPasswordEncoder) throws ExecutionException, InterruptedException {
-        InMemoryUserDetailsManager manager = new InMemoryUserDetailsManager();
-        List<Employee> employeeList = this.employeeService.getAllEmployees();
-        for(Employee e : employeeList){
-            manager.createUser(User.withUsername(e.getNick())
-                    .password(bCryptPasswordEncoder.encode(e.getPassword()))
-                    .roles(e.getRole().toString())
-                    .build());
-
-        }
-        manager.createUser(User.withUsername("user")
-                .password(bCryptPasswordEncoder.encode("password"))
-                .roles("USER")
-                .build());
-        manager.createUser(User.withUsername("admin")
-                .password(bCryptPasswordEncoder.encode("password"))
-                .roles("ADMIN", "USER")
-                .build());
-
-
-        return manager;
+    public UserDetailsService userDetailsService(EmployeeService employeeService, BCryptPasswordEncoder bCryptPasswordEncoder) {
+        return username -> {
+            Employee employee = employeeService.getEmployeeByNick(username);
+            if (employee == null) {
+                throw new UsernameNotFoundException("Mitarbeiter mit dem nick " + username + " nicht gefunden!");
+            }
+            return User.builder()
+                    .username(employee.getNick())
+                    .password(bCryptPasswordEncoder.encode(employee.getPassword()))
+                    .roles(employee.getRole().toString())
+                    .build();
+        };
     }
+
 }

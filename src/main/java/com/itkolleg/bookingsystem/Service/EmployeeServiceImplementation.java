@@ -18,7 +18,7 @@ import java.util.concurrent.ExecutionException;
 public class EmployeeServiceImplementation implements EmployeeService{
 
 
-    private DBAccessEmployees dbAccessEmployees;
+    private final DBAccessEmployees dbAccessEmployees;
 
     /**
      * @param dbAccessEmployees
@@ -61,6 +61,9 @@ public class EmployeeServiceImplementation implements EmployeeService{
     @Override
     public Employee updateEmployeeById(Employee employee) throws EmployeeNotFoundException, ExecutionException, InterruptedException, EmployeeAlreadyExistsException {
         Employee employeeFromDb = this.dbAccessEmployees.getEmployeeById(employee.getId());
+        if (employeeFromDb == null) {
+            throw new EmployeeNotFoundException();
+        }
         employeeFromDb.setFname(employee.getFname());
         employeeFromDb.setLname(employee.getLname());
         employeeFromDb.setNick(employee.getNick());
@@ -68,7 +71,8 @@ public class EmployeeServiceImplementation implements EmployeeService{
         employeeFromDb.setEmail(employee.getEmail());
         employeeFromDb.setRole(employee.getRole());
 
-        return this.dbAccessEmployees.saveEmployee(employee);
+        return this.dbAccessEmployees.saveEmployee(employeeFromDb);
+
     }
 
     /**
@@ -87,6 +91,11 @@ public class EmployeeServiceImplementation implements EmployeeService{
     @Override
     public Employee getEmployeeByEmail(String email) throws EmployeeNotFoundException {
         return this.dbAccessEmployees.getEmployeeByEmail(email);
+    }
+
+    @Override
+    public Employee getEmployeeByNick(String nick) {
+        return this.dbAccessEmployees.getEmployeeByNick(nick);
     }
 
     @Override

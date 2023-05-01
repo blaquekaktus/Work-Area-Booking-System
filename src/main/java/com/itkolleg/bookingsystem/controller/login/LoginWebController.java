@@ -38,7 +38,8 @@ public class LoginWebController {
      * @return der Name des HTML-Formulars, das das Login-Formular darstellt.
      */
     @GetMapping("/web/login")
-    public String showLoginForm() {
+    public String showLoginForm(Model model) {
+        model.addAttribute("error", "");
         return "login/login";
     }
 
@@ -64,7 +65,7 @@ public class LoginWebController {
      * die Login-Fehlerseite, falls die Authentifizierung fehlgeschlagen ist.
      */
     @PostMapping("/web/login")
-    public String processLoginForm(HttpServletRequest request) {
+    public String processLoginForm(HttpServletRequest request, Model model) {
         String username = request.getParameter("username");
         String password = request.getParameter("password");
         UsernamePasswordAuthenticationToken token = new UsernamePasswordAuthenticationToken(username, password);
@@ -73,7 +74,8 @@ public class LoginWebController {
             SecurityContextHolder.getContext().setAuthentication(authentication);
             return "redirect:/web/hello";
         } catch (AuthenticationException e) {
-            return "redirect:/login-error";
+            model.addAttribute("error", "Benutzername oder Passwort ungültig");
+            return "login/login";
         }
     }
 
@@ -82,7 +84,7 @@ public class LoginWebController {
      *
      * @return der Name des HTML-Dokuments, das die Login-Fehlerseite darstellt.
      */
-    @GetMapping("/login-error")
+    @GetMapping("/web/login-error")
     public String loginError() {
         return "login/login-error";
     }
