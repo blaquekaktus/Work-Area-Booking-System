@@ -32,6 +32,7 @@ public class LoginWebController {
     }
 
 
+
     @GetMapping("/web/hello")
     public String hello(Model model, Principal principal) {
         String username = principal.getName();

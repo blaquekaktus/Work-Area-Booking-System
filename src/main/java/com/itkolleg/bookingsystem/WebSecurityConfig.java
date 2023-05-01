@@ -42,7 +42,7 @@ public class WebSecurityConfig {
     SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         http
                 .authorizeHttpRequests(authConfig -> {
-                    authConfig.requestMatchers(HttpMethod.GET, "/*", "/web/login", "/web/hello", "/error", "/login-error", "/logout", "/css/**").permitAll();
+                    authConfig.requestMatchers(HttpMethod.GET, "/*", "/web/login", "/web/hello", "/error", "/login-error", "/web/logout", "/css/**").permitAll();
                     authConfig.requestMatchers(HttpMethod.POST, "/web/login").permitAll();
                     authConfig.requestMatchers(HttpMethod.GET, "/web/allemployees").hasRole("USER");
                     authConfig.requestMatchers(HttpMethod.GET, "/admin").hasRole("ADMIN");
@@ -59,7 +59,7 @@ public class WebSecurityConfig {
                 )
                 .logout(logout -> {
                     logout.logoutRequestMatcher(new AntPathRequestMatcher("/web/logout"));
-                    logout.logoutSuccessUrl("/");
+                    logout.logoutSuccessUrl("/web/login");
                     logout.deleteCookies("JSESSIONID");
                     logout.invalidateHttpSession(true);
                 });
