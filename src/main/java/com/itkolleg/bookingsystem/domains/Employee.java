@@ -49,15 +49,12 @@ public class Employee implements UserDetails {
     //@Column(name="PASSWORD")
     private String password;
 
-    private Role role;
-
     public Employee(String fname, String lname, String nick, String email, String password, Role role){
         this.fname=fname;
         this.lname=lname;
         this.nick=nick;
         this.email=email;
         this.password=password;
-        this.role=role;
     }
 
 

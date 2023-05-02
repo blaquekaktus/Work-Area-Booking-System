@@ -74,8 +74,8 @@ public class LoginWebController {
             SecurityContextHolder.getContext().setAuthentication(authentication);
             return "redirect:/web/hello";
         } catch (AuthenticationException e) {
-            model.addAttribute("error", "Benutzername oder Passwort ungültig");
-            return "login/login";
+            model.addAttribute("errorMessage", "Benutzername oder Passwort ungültig");
+            return "login/login-error";
         }
     }
 
