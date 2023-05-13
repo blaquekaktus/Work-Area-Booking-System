@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Raumliste</title>
+</head>
+<body>
+<h1>Raumliste</h1>
+<table>
+    <th:block th:each="room : ${rooms}">
+        <tr>
+            <td th:text="${room.id}">...</td>
+            <td th:text="${room.vertices}">...</td>
+            <td th:text="${room.floor}">...</td>
+            <td th:text="${room.info}">...</td>
+            <td><a th:href="@{/web/deleteroom/{id}(id=${room.id})}">loeschen</a></td>
+        </tr>
+    </th:block>
+</table>
+
+<a th:href="@{/web/insertroomform}">Raum hinzufügen</a>
+
+</body>
+</html>

@@ -1,12 +1,15 @@
 package com.itkolleg.bookingsystem.Service;
 
 import com.itkolleg.bookingsystem.domains.Desk;
-import com.itkolleg.bookingsystem.exceptions.DeskDeletionNotPossibleException;
-import com.itkolleg.bookingsystem.exceptions.DeskNotFoundException;
+import com.itkolleg.bookingsystem.exceptions.DeskExeceptions.DeskDeletionNotPossibleException;
+import com.itkolleg.bookingsystem.exceptions.DeskExeceptions.DeskNotFoundException;
 import com.itkolleg.bookingsystem.repos.DBAccessDesks;
+import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.concurrent.ExecutionException;
 
+@Service
 public class DeskServiceImplementation implements DeskService{
 
     private DBAccessDesks dbAccessDesks;
@@ -22,7 +25,7 @@ public class DeskServiceImplementation implements DeskService{
      * @return desk
      */
     @Override
-    public Desk addDesk(Desk desk) {
+    public Desk addDesk(Desk desk) throws ExecutionException, InterruptedException {
         return this.dbAccessDesks.addDesk(desk);
     }
 
@@ -30,7 +33,7 @@ public class DeskServiceImplementation implements DeskService{
      * @return
      */
     @Override
-    public List<Desk> getAllDesk() {
+    public List<Desk> getAllDesk() throws ExecutionException, InterruptedException {
         return this.dbAccessDesks.getAllDesk();
     }
 
@@ -40,18 +43,18 @@ public class DeskServiceImplementation implements DeskService{
      * @throws DeskNotFoundException
      */
     @Override
-    public Desk getDeskById(Long id) throws DeskNotFoundException {
+    public Desk getDeskById(Long id) throws DeskNotFoundException, ExecutionException, InterruptedException {
         return this.dbAccessDesks.getDeskById(id);
     }
 
     /**
-     * @param id
+     * @param
      * @return
      * @throws DeskNotFoundException
      */
     @Override
-    public Desk updateDeskById(Long id) throws DeskNotFoundException {
-        return this.dbAccessDesks.updateDeskById(id);
+    public Desk updateDeskById(Desk desk) throws DeskNotFoundException, ExecutionException, InterruptedException {
+        return this.dbAccessDesks.updateDeskById(desk);
     }
 
     /**

@@ -1,10 +1,15 @@
 package com.itkolleg.bookingsystem.controller;
 
 import com.itkolleg.bookingsystem.exceptions.*;
+import com.itkolleg.bookingsystem.exceptions.EmployeeExceptions.EmployeeAlreadyExistsException;
+import com.itkolleg.bookingsystem.exceptions.EmployeeExceptions.EmployeeDeletionNotPossibleException;
+import com.itkolleg.bookingsystem.exceptions.EmployeeExceptions.EmployeeNotFoundException;
+import com.itkolleg.bookingsystem.exceptions.EmployeeExceptions.EmployeeValidationException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
+
 
 @ControllerAdvice
 public class ExceptionController {

@@ -14,7 +14,7 @@ public class Port {
     //@Id
     //@GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
-
+    
     @Size(min = 2)
     private String name;
 

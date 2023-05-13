@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Ressourcen</title>
+</head>
+<body>
+<h1>Ressourcenliste</h1>
+<table>
+    <th:block th:each="ressource : ${ressources}">
+        <tr>
+            <td th:text="${ressource.id}">...</td>
+            <td th:text="${ressource.name}">...</td>
+            <td th:text="${ressource.ressourcetype}">...</td>
+            <td th:text="${ressource.description}">...</td>
+            <td th:text="${ressource.info}">...</td>
+            <td th:text="${ressource.serialnumber}">...</td>
+            <td><a th:href="@{/web/deleteressource/{id}(id=${ressource.id})}">loeschen</a></td>
+        </tr>
+    </th:block>
+</table>
+
+<a th:href="@{/web/insertressourceform}">Ressource hinzufügen</a>
+
+</body>
+</html>
