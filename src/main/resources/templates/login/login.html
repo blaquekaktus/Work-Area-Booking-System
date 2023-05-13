@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Login WABS Alpha</title>
+</head>
+<body>
+<h1>Login</h1>
+<div class="row justify-content-center">
+    <div class="col col-md-6 text-center">
+
+    <form method="post" th:action="@{/web/login}" th:error="${#fields.errors()}">
+        <h1 class="display-4 py-4">Anmelden</h1>
+
+        <div class="input-group">
+            <div class="prepend">
+        <span class="input-group-text">
+            <i class="fa fa-user text-info"></i>
+        </span>
+            </div>
+            <label for="username" class="form-label">Name</label>
+            <input type="text" class="form-control" name="username" id="username" placeholder="username">
+        </div>
+
+        <div class="input-group my-3">
+            <div class="prepend">
+        <span class="input-group-text">
+            <i class="fa fa-lock text-info"></i>
+        </span>
+            </div>
+            <label for="password" class="form-label">Passwort</label>
+            <input type="password" class="form-control" name="password" id="password" placeholder="password">
+        </div>
+
+        <!-- Ergänzung: Fehlermeldungen bei Falscheingabe -->
+        <div th:if="${error}" class="alert alert-danger" role="alert">
+            <span th:text="${error}"></span>
+        </div>
+
+
+        <button type="submit" class="btn btn-info btn-block">Anmelden</button>
+
+    </form>
+    <!-- <a href="/register" class="btn btn-secondary btn-block my-3">Create account</a> -->
+
+</div>
+</div>
+</body>
+</html>

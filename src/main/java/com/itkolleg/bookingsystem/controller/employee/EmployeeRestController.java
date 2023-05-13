@@ -1,15 +1,13 @@
 package com.itkolleg.bookingsystem.controller.employee;
 
-import com.itkolleg.bookingsystem.Service.EmployeeService;
+import com.itkolleg.bookingsystem.Service.Employee.EmployeeService;
 import com.itkolleg.bookingsystem.domains.Employee;
 import com.itkolleg.bookingsystem.exceptions.*;
 import com.itkolleg.bookingsystem.exceptions.EmployeeExceptions.EmployeeAlreadyExistsException;
 import com.itkolleg.bookingsystem.exceptions.EmployeeExceptions.EmployeeDeletionNotPossibleException;
 import com.itkolleg.bookingsystem.exceptions.EmployeeExceptions.EmployeeNotFoundException;
 import com.itkolleg.bookingsystem.exceptions.EmployeeExceptions.EmployeeValidationException;
-import com.itkolleg.bookingsystem.exceptions.RoomExceptions.RoomValidationException;
 import jakarta.validation.Valid;
-import org.apache.coyote.Response;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.FieldError;
@@ -28,7 +26,6 @@ public class EmployeeRestController {
         this.employeeService = employeeService;
     }
 
-    //TODO: Response Entity zurückgeben
     @PostMapping
     public ResponseEntity<Employee> addEmployee(@Valid @RequestBody Employee employee, BindingResult bindingResult) throws EmployeeValidationException, EmployeeAlreadyExistsException, ExecutionException, InterruptedException {
         // Erstelle ein neues Objekt der Klasse FormValidationExceptionDTO, das später dazu verwendet wird,
@@ -69,7 +66,7 @@ public class EmployeeRestController {
     }
 
     @PutMapping("/update")
-    public ResponseEntity<Employee> updateEmployeeById(@Valid @RequestBody Employee employee) throws ExecutionException, InterruptedException, EmployeeNotFoundException {
+    public ResponseEntity<Employee> updateEmployeeById(@Valid @RequestBody Employee employee) throws ExecutionException, InterruptedException, EmployeeNotFoundException, EmployeeAlreadyExistsException {
         Employee updated = this.employeeService.updateEmployeeById(employee);
         return ResponseEntity.ok(updated);
         //return employeeService.updateEmployeeById(employee);

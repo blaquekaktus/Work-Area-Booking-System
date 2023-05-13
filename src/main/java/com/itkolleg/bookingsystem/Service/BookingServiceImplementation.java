@@ -2,10 +2,12 @@ package com.itkolleg.bookingsystem.Service;
 
 import com.itkolleg.bookingsystem.domains.Booking.Booking;
 import com.itkolleg.bookingsystem.domains.Employee;
+import org.springframework.stereotype.Service;
 
 import java.sql.Date;
 import java.util.List;
 
+// @Service
 public class BookingServiceImplementation implements BookingService <Booking,Long> {
 
     @Override

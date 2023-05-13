@@ -1,17 +1,15 @@
 package com.itkolleg.bookingsystem.controller.employee;
 
-import com.itkolleg.bookingsystem.Service.EmployeeService;
+import com.itkolleg.bookingsystem.Service.Employee.EmployeeService;
 import com.itkolleg.bookingsystem.domains.Employee;
 import com.itkolleg.bookingsystem.exceptions.EmployeeExceptions.EmployeeAlreadyExistsException;
 import com.itkolleg.bookingsystem.exceptions.EmployeeExceptions.EmployeeDeletionNotPossibleException;
+import com.itkolleg.bookingsystem.exceptions.EmployeeExceptions.EmployeeNotFoundException;
 import jakarta.validation.Valid;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 
 import java.util.List;
@@ -32,8 +30,20 @@ public class EmployeeWebController {
         return new ModelAndView("employee/allemployees", "employees", allEmployees);
     }
 
+    @GetMapping("/web/employeeswithnick")
+    public String searchEmployees() throws ExecutionException, InterruptedException, EmployeeNotFoundException {
+        return "employee/employeeswithnick";
+    }
+
+    @PostMapping("/web/employeeswithnick")
+    public String searchEmployeesByNickname(@RequestParam("nickname") String nickname, Model model) throws ExecutionException, InterruptedException, EmployeeNotFoundException {
+        List<Employee> employees = employeeService.getEmployeesWithNickLikeIgnoreCase(nickname);
+        model.addAttribute("employeesnick", employees);
+        return "employee/employeeswithnick";
+    }
+
     @GetMapping("/web/insertemployeeform")
-    public ModelAndView insertemployeeform() {
+    public ModelAndView insertemployeeform(){
         return new ModelAndView("employee/insertemployeeform", "myemployee", new Employee());
     }
 
@@ -51,13 +61,18 @@ public class EmployeeWebController {
     }
 
     @PostMapping("/web/insertemployee")
-    public String insertEmployee(@Valid @ModelAttribute("myemployee") Employee employee, BindingResult bindingResult) throws EmployeeAlreadyExistsException, ExecutionException, InterruptedException {
+    public String insertEmployee(@Valid @ModelAttribute("myemployee") Employee employee,Model model, BindingResult bindingResult) throws ExecutionException, InterruptedException {
         if (bindingResult.hasErrors()) {
             return "employee/insertemployeeform";
         } else {
-
-            this.employeeService.addEmployee(employee);
-            return "redirect:/web/allemployees";
+            try {
+                this.employeeService.addEmployee(employee);
+                return "redirect:/web/allemployees";
+            } catch (EmployeeAlreadyExistsException e) {
+                model.addAttribute("errortitle", "Mitarbeiter kann nicht eingefügt werden!");
+                model.addAttribute("errormessage", e.getMessage());
+                return "myerrorspage";
+            }
         }
     }
 }

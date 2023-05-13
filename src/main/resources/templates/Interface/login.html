@@ -1,0 +1,197 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+  <meta charset="UTF-8">
+  <title>Login Page</title>
+  <link href="https://fonts.googleapis.com/css?family=Roboto+Condensed&display=swap" rel="stylesheet">
+  <style>
+    body {
+      background-image: url('../pic/background.jpg');
+      background-size: cover;
+      margin: 0;
+      padding: 0;
+      font-family: 'Roboto Condensed', sans-serif;
+    }
+
+    .back-container {
+      position: absolute;
+      top: 16%;
+      left: 2%;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+    }
+
+    @media screen and (max-width: 600px) {
+      .back-container {
+        top: 5%;
+        left: 2%;
+      }
+    }
+
+    .back-box {
+      width: 80px;
+      height: 40px;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      font-size: 16px;
+      font-weight: bold;
+      color: white;
+      cursor: pointer;
+      border-radius: 8px;
+      border: none;
+      background-color: #96c01e;
+    }
+
+    .back-box:hover {
+      background-color: #3b3b3b;
+    }
+
+    .header {
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      margin-top: 30px;
+      text-align: center;
+    }
+
+    .header h1 {
+      font-size: 40px;
+      margin: 0;
+    }
+
+    .header h2 {
+      font-size: 20px;
+      margin: 0;
+    }
+
+    .container {
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+      padding: 0 20px;
+    }
+
+    .logo {
+      position: absolute;
+      top: 10px;
+      left: 10px;
+      width: 200px;
+      height: auto;
+    }
+
+    .form-container {
+      width: 100%;
+      max-width: 400px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      margin-bottom: 10px;
+    }
+
+    .form-container input {
+      width: 100%;
+      height: 40px;
+      margin-bottom: 10px;
+      font-size: 16px;
+      padding: 10px;
+      border-radius: 8px;
+      border: none;
+    }
+
+    .button-container {
+      width: 100%;
+      max-width: 400px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      margin-top: 20px;
+    }
+
+    .login-box, .register-box {
+      width: 100%;
+      height: 40px;
+      margin: 10px 0;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      font-size: 16px;
+      font-weight: bold;
+      color: white;
+      cursor: pointer;
+      border-radius: 8px;
+      border: none;
+    }
+
+    .login-box {
+      background-color: #96c01e;
+    }
+
+    .register-box {
+      background-color: #00b8eb;
+    }
+
+    .login-box:hover {
+      background-color: #3b3b3b;
+    }
+
+    .register-box:hover {
+      background-color: #3b3b3b;
+    }
+  </style>
+</head>
+<body>
+<img class="logo" src="../pic/LogoWhite.png">
+<div class="back-container">
+  <a href="#" class="back-box">Back</a>
+</div>
+<div class="header">
+  <h1>W.A.B.S.</h1>
+  <h2>Work-Area Booking System</h2>
+</div>
+<div class="container">
+  <div class="form-container">
+    <form method="post" action="/login">
+      <h3>Benutzername</h3>
+      <input type="text" placeholder="Username" name="username" required>
+      <h4>Passwort</h4>
+      <input type="password" placeholder="Password" name="password" required>
+    </form>
+  </div>
+  <div class="button-container">
+    <a href="https://example.com/login" class="login-box">Login</a>
+    <a href="https://example.com/register" class="register-box">Login As Admin</a>
+  </div>
+</div>
+<script>
+  // Responsive design: adjust layout based on screen size
+  function adjustLayout() {
+    if (window.innerWidth < 600) {
+      // Adjust the header text size and margin for small screens
+      document.querySelector('.header h1').style.fontSize = '50px';
+      document.querySelector('.header h2').style.fontSize = '30px';
+      document.querySelector('.header').style.marginTop = '50px';
+
+      // Adjust the form container width and button container margin for small screens
+      document.querySelector('.form-container').style.width = '80%';
+      document.querySelector('.button-container').style.marginTop = '20px';
+    } else {
+      // Revert to original styles for larger screens
+      document.querySelector('.header h1').style.fontSize = '80px';
+      document.querySelector('.header h2').style.fontSize = '40px';
+      document.querySelector('.header').style.marginTop = '10px';
+      document.querySelector('.form-container').style.width = '25%';
+      document.querySelector('.button-container').style.marginTop = '0';
+    }
+  }
+
+  // Call adjustLayout() initially and whenever the screen is resized
+  adjustLayout();
+  window.addEventListener('resize', adjustLayout);
+</script>
+</body>
+</html>
