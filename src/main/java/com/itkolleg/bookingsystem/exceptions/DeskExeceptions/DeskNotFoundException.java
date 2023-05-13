@@ -1,7 +1,8 @@
 package com.itkolleg.bookingsystem.exceptions.DeskExeceptions;
 
 public class DeskNotFoundException extends Exception{
-    public DeskNotFoundException() {
-        super("Desk not found!");
+
+    public DeskNotFoundException(String message) {
+        super("Desk Not Found!");
     }
 }

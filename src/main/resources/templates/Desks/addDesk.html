@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
+<head>
+  <meta charset="UTF-8">
+  <title>Add Desk</title>
+  <link th:rel="stylesheet" th:href="@{/webjars/bootstrap/4.0.0-2/css/bootstrap.min.css} "/>
+</head>
+<body style="background-image: url('/images/bgbild.jpg');background-repeat:no-repeat;background-size:cover;">
+<nav class="navbar navbar-expand-lg navbar-light" style="background-color: #96C01E;height: 200px;display:flex;align-items:center;">
+  <div class=" row d-flex justify-content-evenly align-items-center" style="width:100%">
+    <div class="col-4"><img src="/images/GreenLogo.png" alt="KlimaBuendnis Green Logo" height="180px"></div>
+    <div class="col-6"><img src="/images/wabs.png" alt="WABS" height="190px" ></div>
+    <div class="col-2"><img src="/images/kb_badge.png" alt="Badge" height="160px"></div>
+  </div>
+</nav>
+<br>
+<br>
+<div>
+  <h1 class="text-center text-dark">ADD DESK</h1>
+</div>
+<br>
+<br>
+<div class="container">
+  <div class="row justify-content-center">
+    <div class="col-md-6">
+      <div style="display:flex;justify-content:flex-end;align-items:center;">
+        <a th:href="@{/web/v1/desks}" class="btn btn-dark" role="button"  style="margin-right: 50px">VIEW ALL DESKS</a>
+      </div>
+      <br>
+      <br>
+      <form th:object="${desk}" th:action="@{/web/v1/desks/add}" method="post">
+        <div class="mb-3">
+          <label for="deskNr" class="form-label">DESK NR</label>
+          <input type="text" class="form-control" id="deskNr" name="deskNr" th:field="*{deskNr}">
+          <div class="form-text" th:if="${#fields.hasErrors('deskNr')}" th:errorclass="errors" th:errors="*{deskNr}"></div>
+        </div>
+        <div class="mb-3">
+          <label for="nrOfMonitors" class="form-label">NR OF MONITORS</label>
+          <input type="text" class="form-control" id="nrOfMonitors" name="nrOfMonitors" th:field="*{nrOfMonitors}">
+          <div class="form-text" th:if="${#fields.hasErrors('nrOfMonitors')}" th:errorclass="errors" th:errors="*{nrOfMonitors}"></div>
+        </div>
+        <div class="mb-3">
+          <label for="ports" class="form-label">PORTS</label>
+          <input type="text" class="form-control" id="ports" name="ports" th:field="*{ports}">
+          <div class="form-text" th:if="${#fields.hasErrors('ports')}" th:errorclass="errors" th:errors="*{ports}"></div>
+        </div>
+        <br>
+        <br>
+        <div class="d-flex justify-content-center">
+          <button type="submit" class="btn btn-info my-2 my-sm-0 mr-3">SAVE</button>
+          <a th:href="@{/web/v1/desks}" class="btn btn-dark my-2 my-sm-0">CANCEL</a>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>
+<script th:src="@{/webjars/jquery/3.0.0/jquery.min.js}"></script>
+<script th:src="@{/webjars/popper.js/1.12.9-1/umd/popper.min.js}"></script>
+<script th:src="@{/webjars/bootstrap/4.0.0-2/js/bootstrap.min.js}"></script>
+</body>
+</html>l>

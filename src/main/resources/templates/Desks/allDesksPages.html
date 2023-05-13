@@ -1,0 +1,52 @@
+<!-- Determine total number of desks -->
+<!-- This assumes you have a List<Desk> desks variable in your model -->
+<!-- and a getDesks() method to retrieve it -->
+<!-- Replace with your own logic to get the total number of desks -->
+<th:block th:with="totalDesks=${#lists.size(desks)}"></th:block>
+
+<!-- Calculate total number of pages based on the selected page size -->
+<th:block th:with="totalPages=${(totalDesks + pageSize - 1) / pageSize}"></th:block>
+
+<!-- Loop through each page of results -->
+<th:block th:each="pageNo : ${#numbers.sequence(1, totalPages)}">
+  <div th:if="${pageNo == 1}">
+    <!-- Display first page of results -->
+    <h2>Page 1</h2>
+    <table>
+      <thead>
+      <tr>
+        <th>Desk Number</th>
+        <th>Number of Monitors</th>
+        <th>Ports</th>
+      </tr>
+      </thead>
+      <tbody>
+      <tr th:each="desk, deskIndex : ${desks}" th:if="${deskIndex.index >= (pageNo - 1) * pageSize and deskIndex.index < pageNo * pageSize}">
+        <td th:text="${desk.deskNr}"></td>
+        <td th:text="${desk.nrOfMonitors}"></td>
+        <td th:text="${desk.ports}"></td>
+      </tr>
+      </tbody>
+    </table>
+  </div>
+  <div th:if="${pageNo > 1}">
+    <!-- Display subsequent pages of results -->
+    <h2 th:text="'Page ' + ${pageNo}"></h2>
+    <table>
+      <thead>
+      <tr>
+        <th>Desk Number</th>
+        <th>Number of Monitors</th>
+        <th>Ports</th>
+      </tr>
+      </thead>
+      <tbody>
+      <tr th:each="desk, deskIndex : ${desks}" th:if="${deskIndex.index >= (pageNo - 1) * pageSize and deskIndex.index < pageNo * pageSize}">
+        <td th:text="${desk.deskNr}"></td>
+        <td th:text="${desk.nrOfMonitors}"></td>
+        <td th:text="${desk.ports}"></td>
+      </tr>
+      </tbody>
+    </table>
+  </div>
+</th:block>

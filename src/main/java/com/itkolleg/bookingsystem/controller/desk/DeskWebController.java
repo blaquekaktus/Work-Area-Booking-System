@@ -2,71 +2,94 @@ package com.itkolleg.bookingsystem.controller.desk;
 
 
 import com.itkolleg.bookingsystem.Service.DeskService;
-import com.itkolleg.bookingsystem.Service.EmployeeService;
 import com.itkolleg.bookingsystem.domains.Desk;
-import com.itkolleg.bookingsystem.domains.Employee;
-import com.itkolleg.bookingsystem.exceptions.DeskExeceptions.DeskDeletionNotPossibleException;
-import com.itkolleg.bookingsystem.exceptions.EmployeeExceptions.EmployeeAlreadyExistsException;
-import com.itkolleg.bookingsystem.exceptions.EmployeeExceptions.EmployeeDeletionNotPossibleException;
 import jakarta.validation.Valid;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.servlet.ModelAndView;
-
-import java.util.List;
-import java.util.concurrent.ExecutionException;
 
 @Controller
+@RequestMapping("/web/v1/desks")
 public class DeskWebController {
 
-     DeskService deskService;
+    private final DeskService deskService;
 
-    /**
-     * Erstellt einen neuen DeskWebController, der mit dem angegebenen DeskService arbeitet.
-     *
-     * @param deskService Der DeskService, der von diesem DeskWebController verwendet werden soll.
-     */
-    public DeskWebController(DeskService deskService) {
+    public DesksController(DeskService deskService) {
         this.deskService = deskService;
     }
 
-    @GetMapping("/web/alldesks")
-    public ModelAndView alldesks() throws ExecutionException, InterruptedException {
-        List<Desk> allDesks = deskService.getAllDesk();
-        return new ModelAndView("desk/alldesks", "desks", allDesks);
+    @GetMapping
+    public String getAllDesks(Model model){
+        model.addAttribute("viewAllDesks", this.deskService.getAllDesks());
+        return "Desks/allDesks";
     }
 
-    @GetMapping("/web/insertdeskform")
-    public ModelAndView insertdeskform() {
-        return new ModelAndView("desk/insertdeskform", "mydesk", new Desk());
+    @GetMapping("/add")
+    public String addDeskForm(Model model){
+        Desk desk = new Desk();
+        model.addAttribute("desk", desk);
+        return "Desks/addDesk";
     }
 
-    @GetMapping("/web/deletedesk/{id}")
-    public String deleteDeskWithId(@PathVariable Long id, Model model) {
-        try {
-            this.deskService.deleteDeskById(id);
-            return "redirect:/web/alldesks";
-        } catch (DeskDeletionNotPossibleException e)
-        {
-            model.addAttribute("errortitle", "Mitarbeiter-Löschen schlägt fehl!");
-            model.addAttribute("errormessage", e.getMessage());
-            return "myerrorspage";
+    @PostMapping("/add")
+    public String addDesk(@Valid Desk desk, BindingResult bindingResult){
+        if (bindingResult.hasErrors()){
+            return "Desks/addDesk";
+        }else{
+            this.deskService.addDesk(desk);
+            return "redirect:/web/v1/desks";
         }
     }
 
-    @PostMapping("/web/insertdesk")
-    public String insertDesk(@Valid @ModelAttribute("mydesk") Desk desk, BindingResult bindingResult) throws EmployeeAlreadyExistsException, ExecutionException, InterruptedException {
-        if (bindingResult.hasErrors()) {
-            return "desk/insertdeskform";
-        } else {
+    @GetMapping("/view/{id}")
+    public String viewDesk(@PathVariable Long id, Model model){
+        try{
+            Desk desk =  this.deskService.getDeskById(id);
+            model.addAttribute("myDesk", desk);
+            return "Desks/viewDesk";
+        }catch(DeskNotFoundException deskNotFoundException){
+            return "redirect:/web/v1/desks";
+        }
+    }
 
-            this.deskService.addDesk(desk);
-            return "redirect:/web/alldesks";
+    @GetMapping("/update/{id}")
+    public String updateDeskForm (@PathVariable Long id, Model model){
+        try{
+            Desk desk =  this.deskService.getDeskById(id);
+            model.addAttribute("updatedDesk", desk);
+            return "Desks/updateDesk";
+        }catch(DeskNotFoundException deskNotFoundException){
+            return "redirect:/web/v1/desks";
+        }
+    }
+
+    @PostMapping("/update")
+    public String updateDesk(@Valid Desk desk, BindingResult bindingResult) {
+        if (bindingResult.hasErrors()) {
+            return "Desks/updateDesk";
+        } else {
+            try {
+                this.deskService.updateDesk(desk);
+                return "redirect:/web/v1/desks";
+            } catch (DeskNotFoundException deskNotFoundException) {
+                return "redirect:/web/v1/desks";
+            }
+
+        }
+    }
+
+    @GetMapping ("/delete/{id}")
+    public String deleteDesk(@PathVariable Long id, Model model){
+        try{
+            this.deskService.deleteDeskById(id);
+            return "redirect:/web/v1/desks";
+        }catch(DeskDeletionFailureException deskDeletionFailureException){
+            model.addAttribute("errortitle", "Desk Deletion Failure");
+            model.addAttribute("errormessage", deskDeletionFailureException.getMessage());
+            return "myerrorspage";
         }
     }
 }
