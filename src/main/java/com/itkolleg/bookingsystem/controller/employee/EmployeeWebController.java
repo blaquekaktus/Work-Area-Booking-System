@@ -1,6 +1,6 @@
 package com.itkolleg.bookingsystem.controller.employee;
 
-import com.itkolleg.bookingsystem.Service.EmployeeService;
+import com.itkolleg.bookingsystem.Service.Employee.EmployeeService;
 import com.itkolleg.bookingsystem.domains.Employee;
 import com.itkolleg.bookingsystem.exceptions.EmployeeExceptions.EmployeeAlreadyExistsException;
 import com.itkolleg.bookingsystem.exceptions.EmployeeExceptions.EmployeeDeletionNotPossibleException;

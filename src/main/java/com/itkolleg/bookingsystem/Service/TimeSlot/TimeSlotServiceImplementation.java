@@ -1,5 +1,12 @@
 package com.itkolleg.bookingsystem.Service.TimeSlot;
 
+import com.itkolleg.bookingsystem.domains.TimeSlot;
+import com.itkolleg.bookingsystem.exceptions.TimeSlot.TimeSlotNotFoundException;
+import com.itkolleg.bookingsystem.repos.Desk.DeskDBAccess;
+import com.itkolleg.bookingsystem.repos.Employee.EmployeeDBAccess;
+import com.itkolleg.bookingsystem.repos.TimeSlot.TimeSlotDBAccess;
+import org.springframework.stereotype.Service;
+
 import java.time.LocalTime;
 import java.util.List;
 

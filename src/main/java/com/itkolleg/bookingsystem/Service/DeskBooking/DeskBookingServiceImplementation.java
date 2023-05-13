@@ -1,5 +1,19 @@
 package com.itkolleg.bookingsystem.Service.DeskBooking;
 
+import com.itkolleg.bookingsystem.domains.Booking.DeskBooking;
+import com.itkolleg.bookingsystem.domains.Desk;
+import com.itkolleg.bookingsystem.domains.Employee;
+import com.itkolleg.bookingsystem.exceptions.BookingExceptions.BookingNotFoundException;
+import com.itkolleg.bookingsystem.exceptions.DeskExeceptions.DeskNotAvailableException;
+import com.itkolleg.bookingsystem.repos.Desk.DeskDBAccess;
+import com.itkolleg.bookingsystem.repos.DeskBooking.DeskBookingDBAccess;
+import com.itkolleg.bookingsystem.repos.Employee.EmployeeDBAccess;
+import org.springframework.stereotype.Service;
+
+import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.time.LocalTime;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -7,13 +21,13 @@ import java.util.Optional;
 public class DeskBookingServiceImplementation implements DeskBookingService {
 
     private final DeskBookingDBAccess deskBookingDBAccess;
-    private DeskDBAccess deskDBAccess;
-    private EmployeeDBAccess employeeDBAccess;
+    private final DeskDBAccess deskDBAccess;
+    // private EmployeeDBAccess employeeDBAccess;
 
-    public DeskBookingServiceImplementation(DeskBookingDBAccess deskBookingDBAccess, DeskDBAccess deskDBAccess, EmployeeDBAccess employeeDBAccess) {
+    public DeskBookingServiceImplementation(DeskBookingDBAccess deskBookingDBAccess, DeskDBAccess deskDBAccess) {
         this.deskBookingDBAccess = deskBookingDBAccess;
         this.deskDBAccess = deskDBAccess;
-        this.employeeDBAccess = employeeDBAccess;
+        // this.employeeDBAccess = employeeDBAccess;
     }
 
 
@@ -31,10 +45,6 @@ public class DeskBookingServiceImplementation implements DeskBookingService {
         return deskBookingDBAccess.getAllBookings();
     }
 
-    /*@Override
-    public List<DeskBooking> searchBookings(Employee employee, Desk desk, LocalDate date) {
-        return null;
-    }*/
 
     @Override
     public List<DeskBooking> searchBookings(Employee employee, LocalDate date) {

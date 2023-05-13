@@ -1,10 +1,18 @@
 package com.itkolleg.bookingsystem.controller.desk;
 
-import com.itkolleg.bookingsystem.Service.DeskService;
+import com.itkolleg.bookingsystem.Service.Desk.DeskService;
 import com.itkolleg.bookingsystem.domains.Desk;
 
+import com.itkolleg.bookingsystem.exceptions.DeskExeceptions.DeskDeletionFailureException;
+import com.itkolleg.bookingsystem.exceptions.DeskExeceptions.DeskNotFoundException;
+import com.itkolleg.bookingsystem.exceptions.DeskExeceptions.DeskValidationFailureException;
+import com.itkolleg.bookingsystem.exceptions.FormValidationExceptionDTO;
 import jakarta.validation.Valid;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.FieldError;
@@ -12,20 +20,22 @@ import org.springframework.validation.ObjectError;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.concurrent.ExecutionException;
+
 
 @RestController
 
 public class DeskRestController {
-    private static final Logger LOGGER = LoggerFactory.getLogger(DesksRestController.class);
+    private static final Logger LOGGER = LoggerFactory.getLogger(DeskRestController.class);
     private final DeskService deskService;
 
-    public DesksRestController(DeskService deskService) {
+    public DeskRestController(DeskService deskService) {
         this.deskService = deskService;
     }
 
     @PostMapping("api/v1/desk/")
-    public ResponseEntity<Desk> addDesk(@Valid @RequestBody Desk desk, BindingResult bindingResult) throws DeskValidationFailureException {
-        FormValidationExceptionsDTO formValidationErrors = new FormValidationExceptionsDTO("9000");
+    public ResponseEntity<Desk> addDesk(@Valid @RequestBody Desk desk, BindingResult bindingResult) throws DeskValidationFailureException, ExecutionException, InterruptedException {
+        FormValidationExceptionDTO formValidationErrors = new FormValidationExceptionDTO("9000");
         String errors = "";
         if (bindingResult.hasErrors()) {
             for (ObjectError error : bindingResult.getAllErrors()) {

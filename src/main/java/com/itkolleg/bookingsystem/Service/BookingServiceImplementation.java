@@ -7,7 +7,7 @@ import org.springframework.stereotype.Service;
 import java.sql.Date;
 import java.util.List;
 
-@Service
+// @Service
 public class BookingServiceImplementation implements BookingService <Booking,Long> {
 
     @Override

@@ -1,4 +1,4 @@
-package com.itkolleg.bookingsystem.repos;
+package com.itkolleg.bookingsystem.repos.Ressource;
 
 
 import com.itkolleg.bookingsystem.domains.Ressource;

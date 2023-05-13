@@ -20,6 +20,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 import java.util.List;
+import java.util.concurrent.ExecutionException;
 
 @Controller
 @RequestMapping("web/v1/deskBookings")
@@ -31,7 +32,7 @@ public class DeskBookingWebController {
     private EmployeeService employeeService;
     private TimeSlotService timeSlotService;
 
-    public DeskBookingController(DeskBookingService deskBookingService, DeskService deskService, EmployeeService employeeService, TimeSlotService timeSlotService) {
+    public DeskBookingWebController(DeskBookingService deskBookingService, DeskService deskService, EmployeeService employeeService, TimeSlotService timeSlotService) {
         this.deskBookingService = deskBookingService;
         this.deskService = deskService;
         this.employeeService = employeeService;
@@ -45,7 +46,7 @@ public class DeskBookingWebController {
     }
 
     @GetMapping("/add")
-    public String addDeskBookingForm(Model model){
+    public String addDeskBookingForm(Model model) throws ExecutionException, InterruptedException {
         DeskBooking deskBooking = new DeskBooking();
         List<Desk> deskList = deskService.getAllDesks();
         List<Employee> employeeList = employeeService.getAllEmployees();

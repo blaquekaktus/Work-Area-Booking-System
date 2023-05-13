@@ -1,5 +1,10 @@
 package com.itkolleg.bookingsystem.repos.TimeSlot;
 
+import com.itkolleg.bookingsystem.domains.TimeSlot;
+import com.itkolleg.bookingsystem.exceptions.TimeSlot.TimeSlotNotFoundException;
+import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.stereotype.Repository;
+
 import java.time.LocalTime;
 
 @Repository

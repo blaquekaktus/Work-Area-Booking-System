@@ -1,5 +1,16 @@
 package com.itkolleg.bookingsystem.Service.Desk;
 
+import com.itkolleg.bookingsystem.domains.Desk;
+import com.itkolleg.bookingsystem.domains.Port;
+import com.itkolleg.bookingsystem.exceptions.DeskExeceptions.DeskDeletionFailureException;
+import com.itkolleg.bookingsystem.exceptions.DeskExeceptions.DeskNotFoundException;
+
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+
+
 import java.util.List;
 
 public interface DeskService {

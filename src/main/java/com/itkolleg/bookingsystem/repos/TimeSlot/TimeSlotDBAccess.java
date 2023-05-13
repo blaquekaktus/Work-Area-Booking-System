@@ -1,5 +1,8 @@
 package com.itkolleg.bookingsystem.repos.TimeSlot;
 
+import com.itkolleg.bookingsystem.domains.TimeSlot;
+import com.itkolleg.bookingsystem.exceptions.TimeSlot.TimeSlotNotFoundException;
+
 import java.time.LocalTime;
 import java.util.List;
 

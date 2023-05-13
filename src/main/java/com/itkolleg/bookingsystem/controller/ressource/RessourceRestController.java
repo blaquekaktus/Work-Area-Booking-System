@@ -1,6 +1,6 @@
 package com.itkolleg.bookingsystem.controller.ressource;
 
-import com.itkolleg.bookingsystem.Service.RessourceService;
+import com.itkolleg.bookingsystem.Service.Ressource.RessourceService;
 import com.itkolleg.bookingsystem.domains.Ressource;
 import com.itkolleg.bookingsystem.exceptions.FormValidationExceptionDTO;
 import com.itkolleg.bookingsystem.exceptions.RessourceExceptions.RessourceAlreadyExistsException;

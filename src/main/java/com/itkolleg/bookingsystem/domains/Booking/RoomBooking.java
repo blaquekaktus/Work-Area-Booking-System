@@ -1,5 +1,5 @@
 package com.itkolleg.bookingsystem.domains.Booking;
-
+/*
 import com.itkolleg.bookingsystem.domains.Booking.Booking;
 import com.itkolleg.bookingsystem.domains.Employee;
 import com.itkolleg.bookingsystem.domains.Room;
@@ -27,4 +27,4 @@ public class RoomBooking extends Booking {
         this.room=room;
     }
 
-}
+} */

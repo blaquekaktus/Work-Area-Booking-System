@@ -1,14 +1,20 @@
 package com.itkolleg.bookingsystem.controller.booking;
 
 import com.itkolleg.bookingsystem.Service.DeskBooking.DeskBookingService;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+
+import com.itkolleg.bookingsystem.domains.Booking.DeskBooking;
+import com.itkolleg.bookingsystem.exceptions.BookingExceptions.BookingNotFoundException;
+import com.itkolleg.bookingsystem.exceptions.DeskExeceptions.DeskNotAvailableException;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 
 @RestController
 @RequestMapping("api/v1/deskbooking")
 public class DeskBookingRestController {
     private final DeskBookingService deskBookingService;
-    public DeskBookingsRestController(DeskBookingService deskBookingService) {
+    public DeskBookingRestController(DeskBookingService deskBookingService) {
         this.deskBookingService = deskBookingService;
     }
 

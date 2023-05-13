@@ -1,8 +1,10 @@
 package com.itkolleg.bookingsystem.controller.desk;
 
 
-import com.itkolleg.bookingsystem.Service.DeskService;
+import com.itkolleg.bookingsystem.Service.Desk.DeskService;
 import com.itkolleg.bookingsystem.domains.Desk;
+import com.itkolleg.bookingsystem.exceptions.DeskExeceptions.DeskDeletionFailureException;
+import com.itkolleg.bookingsystem.exceptions.DeskExeceptions.DeskNotFoundException;
 import jakarta.validation.Valid;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -10,6 +12,7 @@ import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
 
 @Controller
 @RequestMapping("/web/v1/desks")
@@ -17,7 +20,7 @@ public class DeskWebController {
 
     private final DeskService deskService;
 
-    public DesksController(DeskService deskService) {
+    public DeskWebController(DeskService deskService) {
         this.deskService = deskService;
     }
 

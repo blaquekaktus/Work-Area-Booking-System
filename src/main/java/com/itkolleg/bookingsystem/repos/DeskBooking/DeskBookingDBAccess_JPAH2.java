@@ -1,5 +1,16 @@
 package com.itkolleg.bookingsystem.repos.DeskBooking;
 
+import com.itkolleg.bookingsystem.domains.Booking.DeskBooking;
+import com.itkolleg.bookingsystem.domains.Desk;
+import com.itkolleg.bookingsystem.domains.Employee;
+import com.itkolleg.bookingsystem.exceptions.BookingExceptions.BookingNotFoundException;
+import com.itkolleg.bookingsystem.exceptions.DeskExeceptions.DeskNotAvailableException;
+import com.itkolleg.bookingsystem.repos.Desk.DeskJPARepo;
+import com.itkolleg.bookingsystem.repos.Employee.EmployeeJPARepo;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.stereotype.Component;
+
 import java.time.LocalDate;
 import java.time.LocalTime;
 import java.util.ArrayList;

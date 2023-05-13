@@ -1,5 +1,11 @@
 package com.itkolleg.bookingsystem.repos.DeskBooking;
 
+import com.itkolleg.bookingsystem.domains.Booking.DeskBooking;
+import com.itkolleg.bookingsystem.domains.Desk;
+import com.itkolleg.bookingsystem.domains.Employee;
+import com.itkolleg.bookingsystem.exceptions.BookingExceptions.BookingNotFoundException;
+import com.itkolleg.bookingsystem.exceptions.DeskExeceptions.DeskNotAvailableException;
+
 import java.time.LocalDate;
 import java.time.LocalTime;
 import java.util.List;

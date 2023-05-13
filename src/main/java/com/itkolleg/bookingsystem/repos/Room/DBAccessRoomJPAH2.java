@@ -1,8 +1,9 @@
-package com.itkolleg.bookingsystem.repos;
+package com.itkolleg.bookingsystem.repos.Room;
 
 import com.itkolleg.bookingsystem.domains.Room;
 import com.itkolleg.bookingsystem.exceptions.RoomExceptions.RoomDeletionNotPossibleException;
 import com.itkolleg.bookingsystem.exceptions.RoomExceptions.RoomNotFoundException;
+import com.itkolleg.bookingsystem.repos.Room.DBAccessRoom;
 import org.springframework.stereotype.Component;
 
 import java.util.List;

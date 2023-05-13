@@ -1,16 +1,17 @@
-package com.itkolleg.bookingsystem.Service;
+package com.itkolleg.bookingsystem.Service.Ressource;
 
+import com.itkolleg.bookingsystem.Service.Ressource.RessourceService;
 import com.itkolleg.bookingsystem.domains.Ressource;
 import com.itkolleg.bookingsystem.exceptions.RessourceExceptions.RessourceDeletionNotPossibleException;
 import com.itkolleg.bookingsystem.exceptions.RessourceExceptions.RessourceNotFoundException;
-import com.itkolleg.bookingsystem.repos.DBAccessRessource;
+import com.itkolleg.bookingsystem.repos.Ressource.DBAccessRessource;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.concurrent.ExecutionException;
 
 @Service
-public class RessourceServiceImplementation implements RessourceService{
+public class RessourceServiceImplementation implements RessourceService {
 
     private DBAccessRessource dbAccessRessource;
 
