@@ -29,6 +29,8 @@ public class WABSRunner implements ApplicationRunner {
     public void run(ApplicationArguments args) throws Exception {
         Employee admin = this.employeeDBAccess.saveEmployee(new Employee("Marcel", "Schranz", "admin", "marcel-schranz@hotmail.com", "password", Role.ADMIN));
         Employee operator = this.employeeDBAccess.saveEmployee(new Employee("Patrick", "Bayr", "operator", "bayr@hotmail.com", "password", Role.OPERATOR));
+        Employee pemployee = this.employeeDBAccess.saveEmployee(new Employee("Manuel", "Payr", "nemployee", "bayr@hotmail.com", "password", Role.N_EMPLOYEE));
+        Employee nemployee = this.employeeDBAccess.saveEmployee(new Employee("Sonja", "Lechner", "pemployee", "bayr@hotmail.com", "password", Role.P_EMPLOYEE));
     }
 }
 
