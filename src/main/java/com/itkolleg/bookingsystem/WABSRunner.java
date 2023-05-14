@@ -2,7 +2,7 @@ package com.itkolleg.bookingsystem;
 
 import com.itkolleg.bookingsystem.domains.Employee;
 import com.itkolleg.bookingsystem.domains.Role;
-import com.itkolleg.bookingsystem.repos.DBAccessEmployees;
+import com.itkolleg.bookingsystem.repos.Employee.EmployeeDBAccess;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.ApplicationArguments;
 import org.springframework.boot.ApplicationRunner;
@@ -17,7 +17,7 @@ public class WABSRunner implements ApplicationRunner {
 
     //
     @Autowired
-    DBAccessEmployees dbAccessEmployees;
+    EmployeeDBAccess employeeDBAccess;
 
 
     public static void main(String[] args) {
@@ -27,8 +27,8 @@ public class WABSRunner implements ApplicationRunner {
 
     @Override
     public void run(ApplicationArguments args) throws Exception {
-        Employee admin = this.dbAccessEmployees.saveEmployee(new Employee("Marcel", "Schranz", "admin", "marcel-schranz@hotmail.com", "password", Role.ADMIN));
-        Employee operator = this.dbAccessEmployees.saveEmployee(new Employee("Patrick", "Bayr", "operator", "bayr@hotmail.com", "password", Role.OPERATOR));
+        Employee admin = this.employeeDBAccess.saveEmployee(new Employee("Marcel", "Schranz", "admin", "marcel-schranz@hotmail.com", "password", Role.ADMIN));
+        Employee operator = this.employeeDBAccess.saveEmployee(new Employee("Patrick", "Bayr", "operator", "bayr@hotmail.com", "password", Role.OPERATOR));
     }
 }
 

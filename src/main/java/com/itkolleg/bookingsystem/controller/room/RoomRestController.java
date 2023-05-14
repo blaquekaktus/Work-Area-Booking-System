@@ -1,6 +1,6 @@
 package com.itkolleg.bookingsystem.controller.room;
 
-import com.itkolleg.bookingsystem.Service.RoomService;
+import com.itkolleg.bookingsystem.Service.Room.RoomService;
 import com.itkolleg.bookingsystem.domains.Room;
 import com.itkolleg.bookingsystem.exceptions.FormValidationExceptionDTO;
 import com.itkolleg.bookingsystem.exceptions.RoomExceptions.RoomDeletionNotPossibleException;
