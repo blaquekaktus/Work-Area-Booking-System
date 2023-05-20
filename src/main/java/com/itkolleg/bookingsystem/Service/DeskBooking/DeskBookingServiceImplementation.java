@@ -4,7 +4,8 @@ import com.itkolleg.bookingsystem.domains.Booking.DeskBooking;
 import com.itkolleg.bookingsystem.domains.Desk;
 import com.itkolleg.bookingsystem.domains.Employee;
 import com.itkolleg.bookingsystem.exceptions.BookingExceptions.BookingNotFoundException;
-import com.itkolleg.bookingsystem.exceptions.DeskExeceptions.DeskNotAvailableException;
+import com.itkolleg.bookingsystem.exceptions.DeskExceptions.DeskNotAvailableException;
+import com.itkolleg.bookingsystem.exceptions.DeskExceptions.DeskNotFoundException;
 import com.itkolleg.bookingsystem.repos.Desk.DeskDBAccess;
 import com.itkolleg.bookingsystem.repos.DeskBooking.DeskBookingDBAccess;
 import com.itkolleg.bookingsystem.repos.Employee.EmployeeDBAccess;
@@ -22,17 +23,17 @@ public class DeskBookingServiceImplementation implements DeskBookingService {
 
     private final DeskBookingDBAccess deskBookingDBAccess;
     private final DeskDBAccess deskDBAccess;
-    // private EmployeeDBAccess employeeDBAccess;
+    private final EmployeeDBAccess employeeDBAccess;
 
-    public DeskBookingServiceImplementation(DeskBookingDBAccess deskBookingDBAccess, DeskDBAccess deskDBAccess) {
+    public DeskBookingServiceImplementation(DeskBookingDBAccess deskBookingDBAccess, DeskDBAccess deskDBAccess, EmployeeDBAccess employeeDBAccess) {
         this.deskBookingDBAccess = deskBookingDBAccess;
         this.deskDBAccess = deskDBAccess;
-        // this.employeeDBAccess = employeeDBAccess;
+        this.employeeDBAccess = employeeDBAccess;
     }
 
 
     @Override
-    public DeskBooking addDeskBooking(DeskBooking booking) throws DeskNotAvailableException {
+    public DeskBooking addDeskBooking(DeskBooking booking) throws DeskNotAvailableException, DeskNotFoundException {
         List<DeskBooking> bookings = deskBookingDBAccess.getByDeskAndDate(booking.getDesk(), booking.getDate());
         if (!bookings.isEmpty()) {
             throw new DeskNotAvailableException("Desk not available for booking period");
@@ -104,7 +105,7 @@ public class DeskBookingServiceImplementation implements DeskBookingService {
     }
 
     @Override
-    public DeskBooking updateBooking(DeskBooking booking) throws BookingNotFoundException, DeskNotAvailableException {
+    public DeskBooking updateBooking(DeskBooking booking) throws BookingNotFoundException, DeskNotAvailableException, DeskNotFoundException {
         DeskBooking existingBooking = deskBookingDBAccess.getBookingByBookingId(booking.getId())
                 .orElseThrow(() -> new BookingNotFoundException("Booking not found for id: " + booking.getId()));
         // Check if the desk is available for the updated booking period

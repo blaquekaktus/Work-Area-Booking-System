@@ -1,5 +1,7 @@
 package com.itkolleg.bookingsystem.config;
 
+import com.itkolleg.bookingsystem.Service.Desk.DeskService;
+import com.itkolleg.bookingsystem.Service.DeskBooking.DeskBookingService;
 import com.itkolleg.bookingsystem.Service.Employee.EmployeeService;
 import com.itkolleg.bookingsystem.domains.Employee;
 import org.springframework.context.annotation.Bean;
@@ -24,11 +26,15 @@ import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
 @EnableWebSecurity
 public class WebSecurityConfig {
 
-    private EmployeeService employeeService;
+    private final EmployeeService employeeService;
+    private final DeskService deskService;
+    private final DeskBookingService deskBookingService;
 
 
-    public WebSecurityConfig(EmployeeService employeeService) {
-        this.employeeService = employeeService;;
+    public WebSecurityConfig(EmployeeService employeeService, DeskService deskService, DeskBookingService deskBookingService) {
+        this.employeeService = employeeService;
+        this.deskService = deskService;
+        this.deskBookingService = deskBookingService;
     }
 
     /**
@@ -50,14 +56,19 @@ public class WebSecurityConfig {
      SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
      http
      .authorizeHttpRequests(authConfig -> {
-     authConfig.requestMatchers(HttpMethod.GET, "/", "/web/login", "/web/hello", "/error", "/web/login-error", "/web/logout", "/css/**").permitAll();
+     authConfig.requestMatchers(HttpMethod.GET, "/","/web/*", "/web/login", "/web/hello", "/error", "/web/login-error", "/web/logout", "/css/**").permitAll();
      authConfig.requestMatchers(HttpMethod.POST, "/web/login").permitAll();
      authConfig.requestMatchers(HttpMethod.GET, "/web/allemployees").hasRole("USER");
      authConfig.requestMatchers(HttpMethod.GET, "/admin").hasRole("ADMIN");
      authConfig.requestMatchers(HttpMethod.GET, "/developer").hasRole("DEVELOPER");
      authConfig.requestMatchers(HttpMethod.GET, "/users").hasAnyRole("DEVELOPER");
      authConfig.requestMatchers(HttpMethod.GET, "/authorities").hasAnyRole("DEVELOPER");
-     authConfig.anyRequest().authenticated();
+     //authConfig.requestMatchers(HttpMethod.GET,  "/web/v1/desks", "/web/v1/desks/add","/web/v1/desks/update/{id}","/web/v1/desks/view/{id}","/web/v1/desks/delete/{id}").permitAll();
+     //authConfig.requestMatchers(HttpMethod.POST, "/web/v1/desks/add","/web/v1/desks/update").permitAll();
+     //authConfig.requestMatchers(HttpMethod.GET,  "/web/v1/deskBookings", "/web/v1/deskBookings/add","/web/v1/deskBookings/view/{id}","/web/v1/deskBookings/update/{id}","/web/v1/desks/delete/{id}").permitAll();
+     //authConfig.requestMatchers(HttpMethod.POST, "/web/v1/deskBookings/add","/web/v1/deskBookings/update").permitAll();
+
+         authConfig.anyRequest().authenticated();
      })
      .formLogin(login -> {
      login.loginPage("/web/login");

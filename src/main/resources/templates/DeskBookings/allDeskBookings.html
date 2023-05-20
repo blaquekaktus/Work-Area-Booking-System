@@ -10,7 +10,7 @@
   <!-- Navigation content -->
   <div class=" row d-flex justify-content-evenly align-items-center" style="width:100%">
     <div class="col-4"><img src="/images/GreenLogo.png" alt="KlimaBuendnis Green Logo" height="180px"></div>
-    <div class="col-6"><img src="/images/wabs.png" alt="WABS" height="190px" ></div>
+    <div class="col-6"><img src="/images/wabs.png" alt="WABS App Logo" height="190px" ></div>
     <div class="col-2"><img src="/images/kb_badge.png" alt="Badge" height="160px"></div>
   </div>
 </nav>
@@ -45,7 +45,7 @@
       <tbody>
       <tr th:each="booking: ${viewAllDeskBookings}">
         <td th:text="${booking.id}"></td>
-        <td th:text="${booking.employee.name}"></td>
+        <td th:text="${booking.employee.fname } + ' '+ ${booking.employee.lname}" ></td>
         <td th:text="${booking.desk.deskNr}"></td>
         <!--<td th:text="${#temporals.format(booking.bookingStart, 'EEEE, MMMM d h:mm a', 'US/Eastern')}"></td>
         //<td th:text="${#temporals.format(booking.bookingEnd, 'EEEE, MMMM d h:mm a', 'US/Eastern')}"></td>-->

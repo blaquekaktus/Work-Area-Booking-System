@@ -3,9 +3,9 @@ package com.itkolleg.bookingsystem.controller.desk;
 import com.itkolleg.bookingsystem.Service.Desk.DeskService;
 import com.itkolleg.bookingsystem.domains.Desk;
 
-import com.itkolleg.bookingsystem.exceptions.DeskExeceptions.DeskDeletionFailureException;
-import com.itkolleg.bookingsystem.exceptions.DeskExeceptions.DeskNotFoundException;
-import com.itkolleg.bookingsystem.exceptions.DeskExeceptions.DeskValidationFailureException;
+import com.itkolleg.bookingsystem.exceptions.DeskExceptions.DeskDeletionFailureException;
+import com.itkolleg.bookingsystem.exceptions.DeskExceptions.DeskNotFoundException;
+import com.itkolleg.bookingsystem.exceptions.DeskExceptions.DeskValidationFailureException;
 import com.itkolleg.bookingsystem.exceptions.FormValidationExceptionDTO;
 import jakarta.validation.Valid;
 

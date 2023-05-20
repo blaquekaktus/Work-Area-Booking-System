@@ -9,7 +9,8 @@ import com.itkolleg.bookingsystem.domains.Desk;
 import com.itkolleg.bookingsystem.domains.Employee;
 import com.itkolleg.bookingsystem.domains.TimeSlot;
 import com.itkolleg.bookingsystem.exceptions.BookingExceptions.BookingNotFoundException;
-import com.itkolleg.bookingsystem.exceptions.DeskExeceptions.DeskNotAvailableException;
+import com.itkolleg.bookingsystem.exceptions.DeskExceptions.DeskNotAvailableException;
+import com.itkolleg.bookingsystem.exceptions.DeskExceptions.DeskNotFoundException;
 import jakarta.validation.Valid;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -25,12 +26,12 @@ import java.util.concurrent.ExecutionException;
 @Controller
 @RequestMapping("web/v1/deskBookings")
 public class DeskBookingWebController {
-    private DeskBookingService deskBookingService;
+    private final DeskBookingService deskBookingService;
 
-    private DeskService deskService;
+    private final DeskService deskService;
 
-    private EmployeeService employeeService;
-    private TimeSlotService timeSlotService;
+    private final EmployeeService employeeService;
+    private final TimeSlotService timeSlotService;
 
     public DeskBookingWebController(DeskBookingService deskBookingService, DeskService deskService, EmployeeService employeeService, TimeSlotService timeSlotService) {
         this.deskBookingService = deskBookingService;
@@ -59,7 +60,7 @@ public class DeskBookingWebController {
     }
 
     @PostMapping("/add")
-    public String addDeskBooking(@Valid DeskBooking deskBooking, BindingResult bindingResult) throws DeskNotAvailableException {
+    public String addDeskBooking(@Valid DeskBooking deskBooking, BindingResult bindingResult) throws DeskNotAvailableException, DeskNotFoundException {
         if (bindingResult.hasErrors()){
             return "DeskBookings/addDeskBooking";
         }else{

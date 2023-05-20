@@ -4,11 +4,15 @@ import com.itkolleg.bookingsystem.domains.Booking.DeskBooking;
 import com.itkolleg.bookingsystem.domains.Desk;
 import com.itkolleg.bookingsystem.domains.Employee;
 import com.itkolleg.bookingsystem.exceptions.BookingExceptions.BookingNotFoundException;
-import com.itkolleg.bookingsystem.exceptions.DeskExeceptions.DeskNotAvailableException;
+import com.itkolleg.bookingsystem.exceptions.DeskExceptions.DeskNotAvailableException;
+import com.itkolleg.bookingsystem.exceptions.DeskExceptions.DeskNotFoundException;
 import com.itkolleg.bookingsystem.repos.Desk.DeskJPARepo;
 import com.itkolleg.bookingsystem.repos.Employee.EmployeeJPARepo;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.context.annotation.ComponentScan;
+import org.springframework.data.jpa.repository.Query;
+import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Component;
 
 import java.time.LocalDate;
@@ -18,6 +22,7 @@ import java.util.List;
 import java.util.Optional;
 
 @Component
+@ComponentScan({"com.itkolleg.repos"})
 public class DeskBookingDBAccess_JPAH2 implements DeskBookingDBAccess {
     private static final Logger logger = LoggerFactory.getLogger(DeskBookingDBAccess_JPAH2.class);
     private final DeskBookingJPARepo deskBookingJPARepo;
@@ -30,13 +35,35 @@ public class DeskBookingDBAccess_JPAH2 implements DeskBookingDBAccess {
         this.employeeJPARepo = employeeJPARepo;
     }
 
-    @Override
+    /*@Override
     public DeskBooking addBooking(DeskBooking booking) throws DeskNotAvailableException {
         // Check if the desk is available for the booking period
         List<DeskBooking> bookings = deskBookingJPARepo.getBookingsByDeskAndDate(Optional.ofNullable(booking.getDesk()), booking.getDate());
         if (!bookings.isEmpty()) {
             throw new DeskNotAvailableException("Desk not available for booking period");
         }
+        return this.deskBookingJPARepo.save(booking);
+    }*/
+    /*@Query("SELECT b FROM DeskBooking b WHERE b.desk.id = :deskId")
+     DeskBooking getBookingByDeskId(@Param("deskId") Long deskId);*/
+
+    public DeskBooking addBooking(DeskBooking deskBooking) throws DeskNotAvailableException, DeskNotFoundException {
+        // Load the associated Desk entity from the database
+       Long deskid = deskBooking.getDesk().getId();
+       Desk desk =  deskJPARepo.findDeskById(deskid);
+       if (desk == null){
+           throw new DeskNotFoundException("Desk was not found");
+       }
+        // Create a new Booking entity
+        DeskBooking booking = new DeskBooking();
+        booking.setEmployee(deskBooking.getEmployee());
+        booking.setDesk(desk);
+        booking.setDate(deskBooking.getDate());
+        booking.setStart(deskBooking.getStart());
+        booking.setEndTime(deskBooking.getEndTime());
+
+        // Save the booking
+        //this.deskJPARepo.save(desk);
         return this.deskBookingJPARepo.save(booking);
     }
 

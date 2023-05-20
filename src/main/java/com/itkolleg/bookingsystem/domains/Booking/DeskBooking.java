@@ -3,14 +3,13 @@ package com.itkolleg.bookingsystem.domains.Booking;
 
 import com.itkolleg.bookingsystem.domains.Desk;
 import com.itkolleg.bookingsystem.domains.Employee;
-import com.itkolleg.bookingsystem.domains.TimeSlot;
+import jakarta.persistence.CascadeType;
 import jakarta.persistence.Entity;
 import jakarta.persistence.FetchType;
 import jakarta.persistence.ManyToOne;
 import lombok.*;
 
 import java.time.LocalDate;
-import java.time.LocalDateTime;
 import java.time.LocalTime;
 
 @Entity
@@ -22,16 +21,16 @@ import java.time.LocalTime;
 public class DeskBooking extends Booking {
 
     @ToString.Include
-    @ManyToOne(fetch = FetchType.EAGER)
+    @ManyToOne(fetch = FetchType.EAGER, cascade = CascadeType.MERGE)
     private Desk desk;
 
-    public DeskBooking(Employee employee, Desk desk, LocalDate date, LocalTime bookingStart, LocalTime bookingEnd, LocalTime timeStamp) {
-        super(employee, date, bookingStart, bookingEnd, timeStamp);
+    public DeskBooking(Employee employee, Desk desk, LocalDate date, LocalTime startTIme, LocalTime endTime, LocalTime timeStamp) {
+        super(employee, date, startTIme, endTime, timeStamp);
         this.desk = desk;
     }
 
-    public DeskBooking(Employee employee, Desk desk, LocalDate date, TimeSlot timeSlot, LocalTime timeStamp) {
+    /*public DeskBooking(Employee employee, Desk desk, LocalDate date, TimeSlot timeSlot, LocalTime timeStamp) {
         super(employee, date, timeSlot, timeStamp);
         this.desk = desk;
-    }
+    }*/
 }

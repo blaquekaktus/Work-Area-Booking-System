@@ -28,4 +28,5 @@ public interface DeskBookingJPARepo extends JpaRepository<DeskBooking, Long> {
     List<DeskBooking> getBookingsByDeskAndDateAndStartBetween(Desk desk, LocalDate date, LocalTime start, LocalTime end);
     List<DeskBooking> getBookingsByEmployeeIdAndDateAndDeskId(Long employeeId, LocalDate date, Long deskId);
 
+    Desk getBookingByDeskId(Long id);
 }
