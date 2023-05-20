@@ -19,14 +19,14 @@
 <br>
 <br>
 <div style="display:flex;justify-content:flex-end;align-items:center;">
-  <a th:href="@{/web/v1/desks}" class="btn btn-dark" role="button"  style="margin-right: 50px">VIEW ALL DESKS</a>
+  <a th:href="@{/web/desks}" class="btn btn-dark" role="button"  style="margin-right: 50px">VIEW ALL DESKS</a>
 </div>
 <br>
 <br>
 <div class="container">
   <div class="row justify-content-center">
     <div class="col-md-6">
-      <form th:object="${updatedDesk}" th:action="@{/web/v1/desks/update}" method="post">
+      <form th:object="${updatedDesk}" th:action="@{/web/desks/update}" method="post">
         <div class="mb-3">
           <label for="id" class="form-label">ID</label>
           <input type="text" class="form-control" id="id" name="id" th:field="*{id}" readonly>
@@ -51,7 +51,7 @@
         <br>
         <div class="d-flex justify-content-center">
           <button type="submit" class="btn btn-info my-2 my-sm-0 mr-3">UPDATE</button>
-          <a th:href="@{/web/v1/desks}" class="btn btn-dark my-2 my-sm-0">CANCEL</a>
+          <a th:href="@{/web/desks}" class="btn btn-dark my-2 my-sm-0">CANCEL</a>
         </div>
         <br>
       </form>

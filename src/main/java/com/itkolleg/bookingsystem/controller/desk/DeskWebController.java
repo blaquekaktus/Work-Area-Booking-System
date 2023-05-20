@@ -3,19 +3,16 @@ package com.itkolleg.bookingsystem.controller.desk;
 
 import com.itkolleg.bookingsystem.Service.Desk.DeskService;
 import com.itkolleg.bookingsystem.domains.Desk;
-import com.itkolleg.bookingsystem.exceptions.DeskExeceptions.DeskDeletionFailureException;
-import com.itkolleg.bookingsystem.exceptions.DeskExeceptions.DeskNotFoundException;
+import com.itkolleg.bookingsystem.exceptions.DeskExceptions.DeskDeletionFailureException;
+import com.itkolleg.bookingsystem.exceptions.DeskExceptions.DeskNotFoundException;
 import jakarta.validation.Valid;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.*;
 
 @Controller
-@RequestMapping("/web/v1/desks")
+@RequestMapping("/web/desks")
 public class DeskWebController {
 
     private final DeskService deskService;
@@ -30,6 +27,12 @@ public class DeskWebController {
         return "Desks/allDesks";
     }
 
+    /*@GetMapping("/testAllDesksTemplate")
+    public String getAllDesks(Model model){
+        model.addAttribute("testAllDesks", this.deskService.getAllDesks());
+        return "Desks/deskstrial";
+    }*/
+
     @GetMapping("/add")
     public String addDeskForm(Model model){
         Desk desk = new Desk();
@@ -43,7 +46,7 @@ public class DeskWebController {
             return "Desks/addDesk";
         }else{
             this.deskService.addDesk(desk);
-            return "redirect:/web/v1/desks";
+            return "redirect:/web/desks";
         }
     }
 
@@ -54,7 +57,7 @@ public class DeskWebController {
             model.addAttribute("myDesk", desk);
             return "Desks/viewDesk";
         }catch(DeskNotFoundException deskNotFoundException){
-            return "redirect:/web/v1/desks";
+            return "redirect:/web/desks";
         }
     }
 
@@ -65,7 +68,7 @@ public class DeskWebController {
             model.addAttribute("updatedDesk", desk);
             return "Desks/updateDesk";
         }catch(DeskNotFoundException deskNotFoundException){
-            return "redirect:/web/v1/desks";
+            return "redirect:/web/desks";
         }
     }
 
@@ -76,23 +79,25 @@ public class DeskWebController {
         } else {
             try {
                 this.deskService.updateDesk(desk);
-                return "redirect:/web/v1/desks";
+                return "redirect:/web/desks";
             } catch (DeskNotFoundException deskNotFoundException) {
-                return "redirect:/web/v1/desks";
+                return "redirect:/web/desks";
             }
 
         }
     }
 
-    @GetMapping ("/delete/{id}")
+    @GetMapping("/delete/{id}")
     public String deleteDesk(@PathVariable Long id, Model model){
         try{
             this.deskService.deleteDeskById(id);
-            return "redirect:/web/v1/desks";
+            return "redirect:/web/desks";
         }catch(DeskDeletionFailureException deskDeletionFailureException){
             model.addAttribute("errortitle", "Desk Deletion Failure");
             model.addAttribute("errormessage", deskDeletionFailureException.getMessage());
-            return "myerrorspage";
+            return "errorPage";
         }
     }
+
+
 }

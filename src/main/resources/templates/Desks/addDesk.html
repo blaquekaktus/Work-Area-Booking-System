@@ -24,11 +24,11 @@
   <div class="row justify-content-center">
     <div class="col-md-6">
       <div style="display:flex;justify-content:flex-end;align-items:center;">
-        <a th:href="@{/web/v1/desks}" class="btn btn-dark" role="button"  style="margin-right: 50px">VIEW ALL DESKS</a>
+        <a th:href="@{/web/desks}" class="btn btn-dark" role="button"  style="margin-right: 50px">VIEW ALL DESKS</a>
       </div>
       <br>
       <br>
-      <form th:object="${desk}" th:action="@{/web/v1/desks/add}" method="post">
+      <form th:object="${desk}" th:action="@{/web/desks/add}" method="post">
         <div class="mb-3">
           <label for="deskNr" class="form-label">DESK NR</label>
           <input type="text" class="form-control" id="deskNr" name="deskNr" th:field="*{deskNr}">
@@ -48,7 +48,7 @@
         <br>
         <div class="d-flex justify-content-center">
           <button type="submit" class="btn btn-info my-2 my-sm-0 mr-3">SAVE</button>
-          <a th:href="@{/web/v1/desks}" class="btn btn-dark my-2 my-sm-0">CANCEL</a>
+          <a th:href="@{/web/desks}" class="btn btn-dark my-2 my-sm-0">CANCEL</a>
         </div>
       </form>
     </div>

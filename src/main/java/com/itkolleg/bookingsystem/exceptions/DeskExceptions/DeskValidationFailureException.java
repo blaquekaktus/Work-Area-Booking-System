@@ -1,4 +1,4 @@
-package com.itkolleg.bookingsystem.exceptions.DeskExeceptions;
+package com.itkolleg.bookingsystem.exceptions.DeskExceptions;
 
 public class DeskValidationFailureException  extends Exception{
 
