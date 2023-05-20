@@ -50,14 +50,16 @@ public class WebSecurityConfig {
      SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
      http
      .authorizeHttpRequests(authConfig -> {
-     authConfig.requestMatchers(HttpMethod.GET, "/*","/web/allemployees", "/web/login", "/web/hello", "/error", "/web/login-error", "/web/logout", "/css/**").permitAll();
-     authConfig.requestMatchers(HttpMethod.POST, "/web/login").permitAll();
-     // authConfig.requestMatchers(HttpMethod.GET, "/web/allemployees").hasRole("USER");
+     authConfig.requestMatchers(HttpMethod.GET, "/web/*","/web/allemployees", "/web/login", "/web/hello", "/error", "/web/login-error", "/web/logout", "/css/**").permitAll();
+     authConfig.requestMatchers(HttpMethod.POST, "web/*","/web/login").permitAll();
+         authConfig.requestMatchers(HttpMethod.DELETE, "/web/*").permitAll();
+         authConfig.requestMatchers(HttpMethod.PUT, "/web/*").permitAll();
+     /*authConfig.requestMatchers(HttpMethod.GET, "/web/allemployees").hasRole("USER");
      authConfig.requestMatchers(HttpMethod.GET, "/admin").hasRole("ADMIN");
      authConfig.requestMatchers(HttpMethod.GET, "/operator").hasRole("OPERATOR");
      authConfig.requestMatchers(HttpMethod.GET, "/users").hasAnyRole("DEVELOPER");
      authConfig.requestMatchers(HttpMethod.GET, "/authorities").hasAnyRole("DEVELOPER");
-     authConfig.anyRequest().authenticated();
+     authConfig.anyRequest().authenticated();*/
      })
      .formLogin(login -> {
      login.loginPage("/web/login");
