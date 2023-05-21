@@ -23,11 +23,20 @@ public class EmployeeWebController {
     public EmployeeWebController(EmployeeService employeeService) {
         this.employeeService = employeeService;
     }
-
+/*
     @GetMapping("/web/allemployees")
     public ModelAndView allemployees() throws ExecutionException, InterruptedException {
         List<Employee> allEmployees = employeeService.getAllEmployees();
         return new ModelAndView("employee/allemployees", "employees", allEmployees);
+    } */
+
+    @GetMapping("/web/allemployees")
+    public ModelAndView allemployees() throws ExecutionException, InterruptedException {
+        List<Employee> allEmployees = employeeService.getAllEmployees();
+        ModelAndView modelAndView = new ModelAndView();
+        modelAndView.setViewName("employee/allemployees");
+        modelAndView.addObject("employees", allEmployees);
+        return modelAndView;
     }
 
     @GetMapping("/web/employeeswithnick")
