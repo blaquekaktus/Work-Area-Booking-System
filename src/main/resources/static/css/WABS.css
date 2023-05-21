@@ -1,0 +1,199 @@
+/* CSS */
+body {
+    font-family: 'Roboto Condensed', sans-serif;
+}
+
+/* Top Bar */
+.top-bar {
+    background-color: #96c01e;
+    height: 100px;
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    z-index: 1;
+}
+
+.top-barAdmin {
+    background-color: #00b8eb;
+    height: 100px;
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    z-index: 1;
+}
+
+/* Logo */
+.logo {
+    position: absolute;
+    top: 5px;
+    left: 10px;
+    width: 200px;
+    height: auto;
+}
+
+/* Settings-Link */
+.settings-link {
+    position: absolute;
+    top: 60px;
+    right: 110px;
+    color: white;
+    font-size: 20px;
+    text-decoration: none;
+}
+
+/* Logout-Link */
+.logout-link {
+    position: absolute;
+    top: 60px;
+    right: 20px;
+    color: white;
+    font-size: 20px;
+    text-decoration: none;
+}
+
+/* TopBar-Header */
+.top-bar-header {
+    position: absolute;
+    top: 45%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    text-align: center;
+}
+
+.top-bar-header h1 {
+    font-size: 50px;
+    color: white;
+}
+
+/* TopBar-SubHeader */
+.top-bar-sub-header {
+    position: absolute;
+    top: 80%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    text-align: center;
+}
+
+.top-bar-sub-header h2 {
+    font-size: 16px;
+    color: white;
+}
+
+
+/* Extra small devices (phones, 600px and down) */
+@media only screen and (max-width: 600px) {
+    .logo {
+        width: 150px;
+    }
+
+    .top-bar-header {
+        top: 30%;
+    }
+
+    .top-bar-header h1 {
+        font-size: 18px;
+    }
+
+    .top-bar-sub-header {
+        top: 60%;
+    }
+
+    .top-bar-sub-header h2 {
+        font-size: 12px;
+    }
+}
+
+/* Small devices (landscape phones, 576px and up) */
+@media only screen and (min-width: 576px) {
+    .logo {
+        width: 180px;
+    }
+
+    .top-bar-header {
+        top: 35%;
+    }
+
+    .top-bar-header h1 {
+        font-size: 24px;
+    }
+
+    .top-bar-sub-header {
+        top: 65%;
+    }
+
+    .top-bar-sub-header h2 {
+        font-size: 14px;
+    }
+}
+
+/* Medium devices (tablets, 768px and up) */
+@media only screen and (min-width: 768px) {
+    .logo {
+        width: 200px;
+    }
+
+    .top-bar-header {
+        top: 40%;
+    }
+
+    .top-bar-header h1 {
+        font-size: 30px;
+    }
+
+    .top-bar-sub-header {
+        top: 70%;
+    }
+
+    .top-bar-sub-header h2 {
+        font-size: 16px;
+    }
+}
+
+/* Large devices (desktops, 992px and up) */
+@media only screen and (min-width: 992px) {
+    .logo {
+        width: 200px;
+    }
+
+    .top-bar-header {
+        top: 45%;
+    }
+
+    .top-bar-header h1 {
+        font-size: 40px;
+    }
+
+    .top-bar-sub-header {
+        top: 75%;
+    }
+
+    .top-bar-sub-header h2 {
+        font-size: 18px;
+    }
+}
+
+/* Extra large devices (large desktops, 1200px and up) */
+@media only screen and (min-width: 1200px) {
+    .logo {
+        width: 200px;
+    }
+
+    .top-bar-header {
+        top: 50%;
+    }
+
+    .top-bar-header h1 {
+        font-size: 50px;
+    }
+
+    .top-bar-sub-header {
+        top: 80%;
+    }
+
+    .top-bar-sub-header h2 {
+        font-size: 20px;
+    }
+}
+
