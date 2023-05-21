@@ -17,38 +17,40 @@
 <br>
 <br>
 <div>
-  <h1 class="text-center text-dark">DESK BOOKING DETAIL</h1>
+  <h1 class="text-center text-dark">DESK BOOKING DETAILS</h1>
 </div>
 <br>
 <br>
 <div class="container">
   <div class="row justify-content-center">
-    <div class="col-md-6">
-      <dl class="row">
-        <dt class="col-sm-4">Booking ID:</dt>
-        <dd class="col-sm-8" th:text="${booking.id}"></dd>
-
-        <dt class="col-sm-4">Desk ID:</dt>
-        <dd class="col-sm-8" th:text="${booking.desk.deskNr}"></dd>
-
-        <dt class="col-sm-4">Employee ID:</dt>
-        <dd class="col-sm-8" th:text="${booking.employee.name}"></dd>
-
-        <dt class="col-sm-4">Date:</dt>
-        <dd class="col-sm-8" th:text="${booking.date}"></dd>
-
-        <dt class="col-sm-4">Start Time:</dt>
-        <dd class="col-sm-8" th:text="${booking.start}"></dd>
-
-        <dt class="col-sm-4">End Time:</dt>
-        <dd class="col-sm-8" th:text="${booking.endTime}"></dd>
-      </dl>
-      <div class="d-flex justify-content-center">
-        <a th:href="@{/web/v1/deskBookings}" class="btn btn-dark my-2 my-sm-0">Back to My Bookings</a>
-      </div>
+      <form class="col-md-6" th:object="${myDeskBooking}" th:action="@{/web/deskbookings/view/{id}}" method="get">
+        <div class="mb-3">
+          <label for="employee" class="form-label">EMPLOYEE</label>
+          <input type="text" class="form-control" id="employee" name="employee" th:value="${myDeskBooking.employee.fname} + ' '+ ${myDeskBooking.employee.lname}" readonly>
+        </div>
+        <div class="mb-3">
+          <label for="deskNr" class="form-label">DESK NUMBER</label>
+          <input type="text" class="form-control" id="deskNr" name="deskNr" th:field="${myDeskBooking.desk.deskNr}" readonly>
+        </div>
+        <div class="mb-3">
+          <label for="date" class="form-label">DATE</label>
+          <input type="text" class="form-control" id="date" name="date" th:field="${myDeskBooking.date}" readonly>
+        </div>
+        <div class="mb-3">
+          <label for="start" class="form-label">START</label>
+<!--          <--Use field value directly -->
+          <input type="text" class="form-control" id="start" name="start" th:field="${myDeskBooking.start}" readonly>
+        </div>
+        <div class="mb-3">
+          <label for="end" class="form-label">END</label>
+          <input type="text" class="form-control" id="end" name="end" th:field="${myDeskBooking.endTime}" readonly>
+        </div>
+        <div class="d-flex justify-content-center">
+          <a th:href="@{/web/deskBookings}" class="btn btn-dark my-2 my-sm-0">Back to My Bookings</a>
+        </div>
+      </form>
     </div>
   </div>
-</div>
 <script th:src="@{/webjars/jquery/3.0.0/jquery.min.js}"></script>
 <script th:src="@{/webjars/popper.js/1.12.9-1/umd/popper.min.js}"></script>
 <script th:src="@{/webjars/bootstrap/4.0.0-2/js/bootstrap.min.js}"></script>

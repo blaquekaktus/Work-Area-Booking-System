@@ -26,17 +26,14 @@
         <div class="mb-3">
           <label for="deskNr" class="form-label">DESK NR</label>
           <input type="text" class="form-control" id="deskNr" name="deskNr" th:field="*{deskNr}" readonly>
-          <div class="form-text" th:if="${#fields.hasErrors('deskNr')}" th:errorclass="errors" th:errors="*{deskNr}"></div>
-        </div>
+          </div>
         <div class="mb-3">
           <label for="nrOfMonitors" class="form-label">NR OF MONITORS</label>
           <input type="text" class="form-control" id="nrOfMonitors" name="nrOfMonitors" th:field="*{nrOfMonitors}" readonly>
-          <div class="form-text" th:if="${#fields.hasErrors('nrOfMonitors')}" th:errorclass="errors" th:errors="*{nrOfMonitors}"></div>
         </div>
         <div class="mb-3">
           <label for="ports" class="form-label">PORTS</label>
           <input type="text" class="form-control" id="ports" name="ports" th:field="*{ports}" readonly>
-          <div class="form-text" th:if="${#fields.hasErrors('ports')}" th:errorclass="errors" th:errors="*{ports}"></div>
         </div>
         <br>
         <div style="display:flex;justify-content:flex-end;align-items:center;">

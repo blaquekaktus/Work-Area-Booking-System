@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Edit Booking</title>
+    <link th:rel="stylesheet" th:href="@{/webjars/bootstrap/4.0.0-2/css/bootstrap.min.css} "/>
+</head>
+<body>
+<nav class="navbar navbar-expand-lg navbar-light" style="background-color: #96C01E;height: 200px;display:flex;align-items:center;">
+    <!-- Navigation content -->
+    <div class=" row d-flex justify-content-evenly align-items-center" style="width:100%">
+        <div class="col-4"><img src="/images/GreenLogo.png" alt="KlimaBuendnis Green Logo" height="180px"></div>
+        <div class="col-6"><img src="/images/wabs.png" alt="WABS" height="190px" ></div>
+        <div class="col-2"><img src="/images/kb_badge.png" alt="Badge" height="160px"></div>
+    </div>
+</nav>
+<div class="container">
+    <h1 class="text-center">UPDATE MY DESK BOOKING</h1>
+    <form th:object="${booking}" th:action="@{/web/deskBookings/update}" method="post">
+        <input type="hidden" th:field="*{id}" />
+        <div class="form-group">
+            <label for="employee">Employee</label>
+            <input type="text" class="form-control" id="employee" name="employee" th:value="${booking.employee.fname} + ' '+ ${booking.employee.lname}" readonly>
+        </div>
+        <div class="mb-3 form-group">
+            <label for="deskNr" class="form-label">DESK</label>
+            <select class="form-control" id="deskNr" name="deskNr" th:field="*{desk.deskNr}" th:default="${booking.desk.getDeskNr()}">
+                <option value="" selected="selected">--Select Desk--</option>
+                <option th:each="desk : ${desks}" th:value="${desk.deskNr}" th:text="${desk.deskNr}"></option>
+            </select>
+            <div class="form-text" th:if="${#fields.hasErrors('desk.deskNr')}" th:errorclass="errors" th:errors="*{desk.deskNr}"></div>
+        </div>
+        <div class="form-group">
+            <label for="date">Date</label>
+            <input type="datetime-local" class="form-control" id="date" name="date" th:field="*{date}"  required>
+        </div>
+        <div class="form-group">
+            <label for="start">Start</label>
+            <input type="datetime-local" class="form-control" id="start" name="start" th:field="*{start}" required>
+        </div>
+        <div class="form-group">
+            <label for="end">End</label>
+            <input type="datetime-local" class="form-control" id="end" name="end" th:field="*{endTime}" required>
+        </div>
+        <button type="submit" class="btn btn-primary">Save</button>
+        <a th:href="@{/web/deskBookings}" class="btn btn-secondary">Cancel</a>
+    </form>
+</div>
+<script th:src="@{/webjars/jquery/3.0.0/jquery.min.js}"></script>
+<script th:src="@{/webjars/popper.js/1.12.9-1/umd/popper.min.js}"></script>
+<script th:src="@{/webjars/bootstrap/4.0.0-2/js/bootstrap.min.js}"></script>
+</body>
+</html>

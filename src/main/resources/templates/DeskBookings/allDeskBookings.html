@@ -23,7 +23,7 @@
   <br>
   <br>
   <div style="display:flex;justify-content:flex-end;align-items:center;">
-    <a th:href="@{/web/v1/deskBookings/add}" class="btn btn-dark" role="button" style="margin-right: 100px" method="post">BOOK A DESK</a>
+    <a th:href="@{/web/deskBookings/add}" class="btn btn-dark" role="button" style="margin-right: 100px" method="post">BOOK A DESK</a>
   </div>
   <br>
   <br>
@@ -52,9 +52,9 @@
         <td th:text="${#temporals.format(booking.date, 'MMMM d, yyyy')}"></td>
         <td th:text="${#temporals.format(booking.start, 'h:mm a')}"></td>
         <td th:text="${#temporals.format(booking.endTime, 'h:mm a')}"></td>
-        <td><a th:href="@{/web/v1/deskBookings/view/{id}(id=${booking.id})}" class = "btn btn-info" role="button">View</a></td>
-        <td><a th:href="@{/web/v1/deskBookings/update/{id}(id=${booking.id})}" class = "btn btn-warning" role="button">Edit</a></td>
-        <td><a th:href="@{/web/v1/deskBookings/cancel/{id}(id=${booking.id})}" class = "btn btn-danger" role="button">Delete</a></td>
+        <td><a th:href="@{/web/deskBookings/view/{id}(id=${booking.id})}" class = "btn btn-info" role="button">View</a></td>
+        <td><a th:href="@{/web/deskBookings/update/{id}(id=${booking.id})}" class = "btn btn-warning" role="button">Edit</a></td>
+        <td><a th:href="@{/web/deskBookings/cancel/{id}(id=${booking.id})}" class = "btn btn-danger" role="button">Cancel</a></td>
       </tr>
       </tbody>
     </table>
