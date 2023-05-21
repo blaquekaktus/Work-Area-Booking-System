@@ -28,4 +28,5 @@ public class ThymeleafConfig {
         resolver.setCacheable(false);
         return resolver;
     }
+
 }

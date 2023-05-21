@@ -16,10 +16,10 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
 
-
 /**
  * Konfigurationsklasse für die Sicherheitseinstellungen.
  */
+
 @Configuration
 @EnableWebSecurity
 public class WebSecurityConfig {
@@ -31,6 +31,8 @@ public class WebSecurityConfig {
         this.employeeService = employeeService;;
     }
 
+
+
     /**
      Bean zum Verschlüsseln des Passworts mit bcrypt-Algorithmus.
      @return das BCryptPasswordEncoder-Objekt.
@@ -39,6 +41,7 @@ public class WebSecurityConfig {
     public BCryptPasswordEncoder bCryptpasswordEncoder() {
         return new BCryptPasswordEncoder();
     }
+
 
     /**
      Konfiguriert die Sicherheitseinstellungen für die Http-Requests.
@@ -49,20 +52,24 @@ public class WebSecurityConfig {
      @Bean
      SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
      http
+             .headers()
+             .contentTypeOptions()
+             .disable()
+             .and()
      .authorizeHttpRequests(authConfig -> {
-     authConfig.requestMatchers(HttpMethod.GET, "/", "/web/login", "/web/hello", "/error", "/web/login-error", "/web/logout", "/css/**").permitAll();
-     authConfig.requestMatchers(HttpMethod.POST, "/web/login").permitAll();
-     authConfig.requestMatchers(HttpMethod.GET, "/web/allemployees").hasRole("USER");
+     authConfig.requestMatchers(HttpMethod.GET, "/web/**","/web/allemployees", "/web/login", "/web/hello", "/error", "/web/login-error", "/web/logout", "/static/**").permitAll();
+     authConfig.requestMatchers(HttpMethod.POST, "/web/**","/web/login").permitAll();
+     /*authConfig.requestMatchers(HttpMethod.GET, "/web/allemployees").hasRole("USER");
      authConfig.requestMatchers(HttpMethod.GET, "/admin").hasRole("ADMIN");
-     authConfig.requestMatchers(HttpMethod.GET, "/developer").hasRole("DEVELOPER");
+     authConfig.requestMatchers(HttpMethod.GET, "/operator").hasRole("OPERATOR");
      authConfig.requestMatchers(HttpMethod.GET, "/users").hasAnyRole("DEVELOPER");
-     authConfig.requestMatchers(HttpMethod.GET, "/authorities").hasAnyRole("DEVELOPER");
+     authConfig.requestMatchers(HttpMethod.GET, "/authorities").hasAnyRole("DEVELOPER");*/
      authConfig.anyRequest().authenticated();
      })
      .formLogin(login -> {
      login.loginPage("/web/login");
-     login.defaultSuccessUrl("/web/hello");
-     // login.failureUrl("/web/login-error");
+     login.defaultSuccessUrl("/web/hello", true);
+     login.failureUrl("/web/login-error");
      }
      )
      .logout(logout -> {
