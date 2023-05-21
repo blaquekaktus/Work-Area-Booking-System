@@ -1,51 +1,177 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org">
-<link rel="stylesheet"  href="../static/css/WABS.css">
-
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
-    <title>Login WABS Alpha</title>
+    <title>Login Page</title>
+    <link href="https://fonts.googleapis.com/css?family=Roboto+Condensed&display=swap" rel="stylesheet">
+    <style>
+        body {
+            background-image: url('/img/background.jpg');
+            background-size: cover;
+            margin: 0;
+            padding: 0;
+            font-family: 'Roboto Condensed', sans-serif;
+        }
+
+        .back-container {
+            position: absolute;
+            top: 16%;
+            left: 2%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        @media screen and (max-width: 600px) {
+            .back-container {
+                top: 5%;
+                left: 2%;
+            }
+        }
+
+        .back-box {
+            width: 80px;
+            height: 40px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-size: 16px;
+            font-weight: bold;
+            color: white;
+            cursor: pointer;
+            border-radius: 8px;
+            border: none;
+            background-color: #96c01e;
+        }
+
+        .back-box:hover {
+            background-color: #3b3b3b;
+        }
+
+        .header {
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            margin-top: 30px;
+            text-align: center;
+        }
+
+        .header h1 {
+            font-size: 40px;
+            margin: 0;
+        }
+
+        .header h2 {
+            font-size: 20px;
+            margin: 0;
+        }
+
+        .container {
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            padding: 0 20px;
+        }
+
+        .logo {
+            position: absolute;
+            top: 10px;
+            left: 10px;
+            width: 200px;
+            height: auto;
+        }
+
+        .form-container {
+            width: 100%;
+            max-width: 400px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            margin-bottom: 10px;
+        }
+
+        .form-container input {
+            width: 100%;
+            height: 40px;
+            margin-bottom: 10px;
+            font-size: 16px;
+            padding: 10px;
+            border-radius: 8px;
+            border: none;
+        }
+
+        .button-container {
+            width: 100%;
+            max-width: 400px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            margin-top: 20px;
+        }
+
+        .login-box, .register-box {
+            width: 100%;
+            height: 40px;
+            margin: 10px 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-size: 16px;
+            font-weight: bold;
+            color: white;
+            cursor: pointer;
+            border-radius: 8px;
+            border: none;
+        }
+
+        .login-box {
+            background-color: #96c01e;
+        }
+
+        .register-box {
+            background-color: #00b8eb;
+        }
+
+        .login-box:hover {
+            background-color: #3b3b3b;
+        }
+
+        .register-box:hover {
+            background-color: #3b3b3b;
+        }
+    </style>
 </head>
 <body>
-<h1>Login</h1>
-<div class="row justify-content-center">
-    <div class="col col-md-6 text-center">
-
-    <form method="post" th:action="@{/web/login}" th:error="${#fields.errors()}">
-        <h1 class="display-4 py-4">Anmelden</h1>
-
-        <div class="input-group">
-            <div class="prepend">
-        <span class="input-group-text">
-            <i class="fa fa-user text-info"></i>
-        </span>
-            </div>
-            <label for="username" class="form-label">Name</label>
+<img class="logo" src="/static/img/LogoWhite.png" alt="Logo">
+<div class="header">
+    <h1>W.A.B.S</h1>
+    <h2>Work-Area Booking System</h2>
+</div>
+<div class="container">
+    <div class="form-container">
+        <form method="post" th:action="@{/web/login}" th:error="${#fields.errors()}">
+            <!-- <h3>Benutzername</h3> -->
+            <label for="username" class="form-label">Benutzername</label>
             <input type="text" class="form-control" name="username" id="username" placeholder="username">
-        </div>
-
-        <div class="input-group my-3">
-            <div class="prepend">
-        <span class="input-group-text">
-            <i class="fa fa-lock text-info"></i>
-        </span>
-            </div>
+            <!-- <h4>Passwort</h4> -->
             <label for="password" class="form-label">Passwort</label>
             <input type="password" class="form-control" name="password" id="password" placeholder="password">
-        </div>
-
-        <!-- Ergänzung: Fehlermeldungen bei Falscheingabe -->
-        <div th:if="${error}" class="alert alert-danger" role="alert">
-            <span th:text="${error}"></span>
-        </div>
-
-
-        <button type="submit" class="btn btn-info btn-block">Anmelden</button>
-
-    </form>
-    <!-- <a href="/register" class="btn btn-secondary btn-block my-3">Create account</a> -->
-
+            <!-- Ergänzung: Fehlermeldungen bei Falscheingabe -->
+            <div th:if="${error}" class="alert alert-danger" role="alert">
+                <span th:text="${error}"></span>
+            </div>
+        </form>
+        <!-- <a href="/register" class="btn btn-secondary btn-block my-3">Create account</a> -->
+    </div>
+    <div class="button-container">
+        <button class="login-box" type="submit">Login</button>
+        <!-- <a href="https://example.com/login" class="login-box">Login</a> -->
+        <!-- <a href="https://example.com/register" class="register-box">Login As Admin</a> -->
+    </div>
 </div>
-</div>
+
 </body>
 </html>
