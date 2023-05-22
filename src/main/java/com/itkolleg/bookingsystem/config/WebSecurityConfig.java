@@ -52,7 +52,7 @@ public class WebSecurityConfig {
      @Bean
      SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
      http
-             .headers()
+             .headers().frameOptions().sameOrigin()
              .contentTypeOptions()
              .disable()
              .and()

@@ -28,7 +28,7 @@ public class RoomWebController {
     }
 
     @GetMapping("/web/allrooms")
-    public ModelAndView allemployees() throws ExecutionException, InterruptedException {
+    public ModelAndView allrooms() throws ExecutionException, InterruptedException {
         List<Room> allRooms = roomService.getAllRooms();
         return new ModelAndView("room/allrooms", "rooms", allRooms);
     }
@@ -61,4 +61,10 @@ public class RoomWebController {
             return "redirect:/web/allrooms";
         }
     }
+    @GetMapping("/web/floors")
+    public ModelAndView allfloors() throws ExecutionException, InterruptedException {
+        List<Room> allFloors = roomService.getAllRooms();
+        return new ModelAndView("room/floors", "floors", allFloors);
+    }
+
 }
