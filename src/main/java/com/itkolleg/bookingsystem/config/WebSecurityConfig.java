@@ -61,27 +61,27 @@ public class WebSecurityConfig {
                  .disable()
                  .and() */
                 .authorizeHttpRequests(authConfig -> {
-                    authConfig.requestMatchers(HttpMethod.GET, "/web/**", "/error", "/web/login-error", "/web/logout", "/static/**", "/templates/**").permitAll();
+                    authConfig.requestMatchers(HttpMethod.GET, "/web/hello","/web/login", "/error", "/web/login-error", "/web/logout", "/static/**", "/templates/**").permitAll();
                     authConfig.requestMatchers(HttpMethod.POST, "/web/**", "/web/login").permitAll();
-     /*authConfig.requestMatchers(HttpMethod.GET, "/web/allemployees").hasRole("USER");
-     authConfig.requestMatchers(HttpMethod.GET, "/admin").hasRole("ADMIN");
-     authConfig.requestMatchers(HttpMethod.GET, "/operator").hasRole("OPERATOR");
-     authConfig.requestMatchers(HttpMethod.GET, "/users").hasAnyRole("DEVELOPER");
-     authConfig.requestMatchers(HttpMethod.GET, "/authorities").hasAnyRole("DEVELOPER");*/
-                    authConfig.anyRequest().authenticated();
+                    authConfig.requestMatchers(HttpMethod.GET, "/web/allemployees", "/web/insertemployeeform", "/web/insertemployee", "/web/admin-start").hasRole("ADMIN");
+                    /*authConfig.requestMatchers(HttpMethod.GET, "/web").hasRole("ADMIN");
+                    authConfig.requestMatchers(HttpMethod.GET, "/operator").hasRole("OPERATOR");
+                    authConfig.requestMatchers(HttpMethod.GET, "/users").hasAnyRole("Admin", "DEVELOPER");
+                    authConfig.requestMatchers(HttpMethod.GET, "/authorities").hasAnyRole("DEVELOPER");
+                    authConfig.anyRequest().authenticated();*/
                 })
                 .formLogin(login -> {
                     login.loginPage("/web/login")
                             .successHandler((request, response, authentication) -> {
                                 Set<String> roles = AuthorityUtils.authorityListToSet(authentication.getAuthorities());
                                 if (roles.contains("ROLE_ADMIN")) {
-                                    response.sendRedirect("/web/hello");
+                                    response.sendRedirect("/web/admin-start");
                                 } else if (roles.contains("ROLE_OPERATOR")) {
                                     response.sendRedirect("/web/hello");
                                 } else if (roles.contains("ROLE_N_EMPLOYEE")) {
-                                    response.sendRedirect("/n-employee-success-url");
+                                    response.sendRedirect("/web/hello");
                                 } else if (roles.contains("ROLE_P_EMPLOYEE")) {
-                                    response.sendRedirect("/p-employee-success-url");
+                                    response.sendRedirect("/web/hello");
                                 } else {
                                     response.sendRedirect("/web/login-error");
                                 }
@@ -90,8 +90,8 @@ public class WebSecurityConfig {
                 })
 
                 .logout(logout -> {
-                    logout.logoutRequestMatcher(new AntPathRequestMatcher("/web/logout"));
-                    logout.logoutSuccessUrl("/web/login");
+                    logout.logoutRequestMatcher(new AntPathRequestMatcher("/logout"));
+                    logout.logoutSuccessUrl("/web/logout");
                     logout.deleteCookies("JSESSIONID");
                     logout.invalidateHttpSession(true);
                 });

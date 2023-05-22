@@ -78,6 +78,13 @@ public class LoginWebController {
         }
     }
 
+    @GetMapping("/web/logout")
+    public String logout(HttpServletRequest request) {
+        request.getSession().invalidate();
+        SecurityContextHolder.clearContext();
+        return "login/logout";
+    }
+
 
     /**
      * Zeigt die Login-Fehlerseite an.

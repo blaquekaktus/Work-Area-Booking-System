@@ -14,6 +14,14 @@ body {
     z-index: 1;
 }
 
+/* Content */
+.content {
+    /* max-width: 800px; /* Ändern Sie die Breite nach Bedarf */
+    /* margin: 100px auto; /* Zentriert den Inhalt horizontal und gibt 100px Abstand nach oben */
+    /* padding: 20px; /* Fügen Sie hier Ihre gewünschten Abstände hinzu */
+    /* background-color: #fff; /* Hintergrundfarbe des Inhalts */
+}
+
 .top-barAdmin {
     background-color: #00b8eb;
     height: 100px;

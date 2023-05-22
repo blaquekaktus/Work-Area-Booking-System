@@ -39,6 +39,16 @@ public class EmployeeWebController {
         return modelAndView;
     }
 
+
+    @GetMapping("/web/admin-start")
+    public ModelAndView home() throws ExecutionException, InterruptedException {
+        ModelAndView modelAndView = new ModelAndView();
+        modelAndView.setViewName("employee/admin-start");
+        return modelAndView;
+    }
+
+
+
     @GetMapping("/web/employeeswithnick")
     public String searchEmployees() throws ExecutionException, InterruptedException, EmployeeNotFoundException {
         return "employee/employeeswithnick";
