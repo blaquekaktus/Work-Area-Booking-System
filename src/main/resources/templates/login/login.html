@@ -8,10 +8,11 @@
     <style>
         body {
             background-image: url('/../static/img/background.jpg');
-            background-size: cover;
+            background-size: 100% 100%;
             margin: 0;
             padding: 0;
             font-family: 'Roboto Condensed', sans-serif;
+            overflow: hidden; /* Add this line to hide vertical scroll */
         }
 
         .back-container {
@@ -73,9 +74,15 @@
             flex-direction: column;
             justify-content: center;
             align-items: center;
+            /* min-height: 100vh; */
             height: 100vh;
             padding: 0 20px;
+            /* box-sizing: border-box; */
         }
+
+
+
+
 
         .logo {
             position: absolute;
@@ -154,6 +161,7 @@
 </div>
 <div class="container">
     <div class="form-container">
+        <!-- <h1>Login</h1> -->
         <form method="post" th:action="@{/web/login}" th:error="${#fields.errors()}">
             <h3>Benutzername</h3>
             <label for="username"></label>
@@ -161,10 +169,10 @@
             <h4>Passwort</h4>
             <label for="password"></label>
             <input type="password" name="password" id="password" placeholder="password" required>
-            <!-- Ergänzung: Fehlermeldungen bei Falscheingabe -->
             <div th:if="${error}" class="alert alert-danger" role="alert">
                 <span th:text="${error}"></span>
             </div>
+
 
             <div class="button-container">
                 <button class="login-box" type="submit">Login</button>
