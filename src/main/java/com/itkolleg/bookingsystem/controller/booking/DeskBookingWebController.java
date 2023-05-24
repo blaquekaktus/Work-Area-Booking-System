@@ -67,7 +67,6 @@ public class DeskBookingWebController {
                                  @RequestParam("employee.id") Long employeeId,
                                  @RequestParam("desk.id") Long deskId) throws ExecutionException, InterruptedException, EmployeeNotFoundException, DeskNotFoundException, DeskNotAvailableException {
         if (bindingResult.hasErrors()) {
-
             return "DeskBookings/addDeskBooking";
         } else {
             Employee employee = employeeService.getEmployeeById(employeeId);
@@ -75,7 +74,6 @@ public class DeskBookingWebController {
 
             booking.setEmployee(employee);
             booking.setDesk(desk);
-
 
             this.deskBookingService.addDeskBooking(booking);
             return "redirect:/web/deskBookings";
@@ -93,6 +91,7 @@ public class DeskBookingWebController {
     public String updateDeskBookingForm(@PathVariable Long id, Model model) throws BookingNotFoundException {
         DeskBooking booking = this.deskBookingService.getBookingById(id);
         Employee employee = this.deskBookingService.getBookingById(id).getEmployee();
+
             if (booking == null) {
                 // Log an error message indicating that the booking was not found
                 logger.error("Booking with ID {} not found.", id);
@@ -129,14 +128,21 @@ public class DeskBookingWebController {
         return "DeskBookings/updateDeskBooking";
     }
 
-    @PostMapping("/update/{id}")
-    public String updateDeskBooking(@Valid DeskBooking booking,@PathVariable Long id, BindingResult bindingResult) throws BookingNotFoundException, DeskNotAvailableException {
+    @PostMapping("/update")
+    public String updateDeskBooking(@Valid DeskBooking booking, BindingResult bindingResult, @RequestParam("id") Long id, @RequestParam("desk.id") Long deskId) throws BookingNotFoundException, DeskNotAvailableException, DeskNotFoundException {
         if (bindingResult.hasErrors()) {
+
             System.out.println("Errors: " + bindingResult.getAllErrors());
             return "DeskBookings/updateDeskBooking";
+
         } else {
+            Desk desk = deskService.getDeskById(deskId);
+
+            booking.setDesk(desk);
+            booking.setId(id);
             booking.setTimeStamp(LocalDateTime.now());
-            this.deskBookingService.updateBookingById(id, booking);
+
+            this.deskBookingService.updateBooking(booking);
             return "redirect:/web/deskBookings";
         }
     }

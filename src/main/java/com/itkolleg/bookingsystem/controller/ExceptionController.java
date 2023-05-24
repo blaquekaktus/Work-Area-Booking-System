@@ -41,32 +41,35 @@ public class ExceptionController {
     }
 
     @ExceptionHandler(BookingNotFoundException.class)
-    public ModelAndView handleBookingNotFoundException(BookingNotFoundException ex) {
+    public ModelAndView handleBookingNotFoundException(BookingNotFoundException e) {
         ModelAndView modelAndView = new ModelAndView("errorPage");
         modelAndView.addObject("errorDetails", new ErrorDetails("Booking Not Found", "The booking was not found."));
+        e.printStackTrace();
         return modelAndView;
     }
 
 
     @ExceptionHandler(DeskNotFoundException.class)
-    public ModelAndView handleDeskNotFoundException(DeskNotFoundException ex) {
+    public ModelAndView handleDeskNotFoundException(DeskNotFoundException e) {
         ModelAndView modelAndView = new ModelAndView("errorPage");
         modelAndView.addObject("errorDetails", new ErrorDetails("Desk Not Found", "The desk was not found."));
+        e.printStackTrace();
         return modelAndView;
     }
 
     @ExceptionHandler(DeskNotAvailableException.class)
-    public ModelAndView handleDeskNotAvailableException(DeskNotAvailableException ex) {
+    public ModelAndView handleDeskNotAvailableException(DeskNotAvailableException e) {
         ModelAndView modelAndView = new ModelAndView("errorPage");
         modelAndView.addObject("errorDetails", new ErrorDetails("Desk Not Available", "The desk is not available."));
+        e.printStackTrace();
         return modelAndView;
     }
 
     @ExceptionHandler(Exception.class)
-    public ModelAndView handleGeneralException(Exception ex) {
+    public ModelAndView handleGeneralException(Exception e) {
         ModelAndView modelAndView = new ModelAndView("errorPage");
         modelAndView.addObject("errorDetails", new ErrorDetails("UnknownException", "An unexpected error occurred."));
-        ex.printStackTrace();
+        e.printStackTrace();
         return modelAndView;
     }
 
