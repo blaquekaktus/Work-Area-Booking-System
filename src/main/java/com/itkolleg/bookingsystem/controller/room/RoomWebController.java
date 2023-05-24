@@ -67,4 +67,16 @@ public class RoomWebController {
         return new ModelAndView("room/floors", "floors", allFloors);
     }
 
+    @GetMapping("/web/png2room")
+    public ModelAndView allpng2room() throws ExecutionException, InterruptedException {
+        List<Room> allFloors = roomService.getAllRooms();
+        return new ModelAndView("room/png2room", "floors", allFloors);
+    }
+
+    @GetMapping("/web/imagemap")
+    public ModelAndView allimagemap() throws ExecutionException, InterruptedException {
+        List<Room> allFloors = roomService.getAllRooms();
+        return new ModelAndView("room/imagemap", "floors", allFloors);
+    }
+
 }

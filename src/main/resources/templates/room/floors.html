@@ -18,19 +18,20 @@
       background-image: url("/static/img/background.jpg");
       background-size: cover;
       background-repeat: no-repeat;
-      margin: 0;
-      padding: 0;
     }
 
     .content {
-      position: relative;
-      margin: 100px auto;
+      position: absolute; /* Ändere die Position auf absolut */
+      top: 70%; /* Setze den oberen Abstand auf 50% */
+      left: 50%; /* Setze den linken Abstand auf 50% */
+      transform: translate(-50%, -40%); /* Zentriere den Inhalt horizontal und vertikal */
       max-width: 1588px; /* Breite des SVG-Elements */
       height: 1123px; /* Höhe des SVG-Elements */
-
-      padding: 50px;
       z-index: 0;
     }
+
+
+  </style>
 
     /* Hintergrundbild für den Content-Bereich */
 
@@ -76,8 +77,8 @@
 <div class="content">
   <h1>Stockwerk 1</h1>
   <!-- Hier wird deine Grundriss.svg eingebunden -->
-  <object data="/static/img/Grundriss.svg" type="image/svg+xml" id="svgContainer"></object>
-  <div id="roomInfo" style="position: absolute; display: none;"></div>
+  <object data="/static/img/Grundriss.svg" type="image/svg+xml" id="svgContainer" style="width: 100%;"></object>
+ <!-- <div id="roomInfo" style="position: absolute; display: none;"></div> -->
 </div>
 
 <script>
