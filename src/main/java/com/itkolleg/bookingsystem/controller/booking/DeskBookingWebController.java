@@ -1,9 +1,9 @@
 package com.itkolleg.bookingsystem.controller.booking;
 
-import com.itkolleg.bookingsystem.Service.Desk.DeskService;
-import com.itkolleg.bookingsystem.Service.DeskBooking.DeskBookingService;
-import com.itkolleg.bookingsystem.Service.Employee.EmployeeService;
-import com.itkolleg.bookingsystem.Service.TimeSlot.TimeSlotService;
+import com.itkolleg.bookingsystem.service.Desk.DeskService;
+import com.itkolleg.bookingsystem.service.DeskBooking.DeskBookingService;
+import com.itkolleg.bookingsystem.service.Employee.EmployeeService;
+import com.itkolleg.bookingsystem.service.TimeSlot.TimeSlotService;
 import com.itkolleg.bookingsystem.domains.Booking.DeskBooking;
 import com.itkolleg.bookingsystem.domains.Desk;
 import com.itkolleg.bookingsystem.domains.Employee;
@@ -11,20 +11,22 @@ import com.itkolleg.bookingsystem.domains.TimeSlot;
 import com.itkolleg.bookingsystem.exceptions.BookingExceptions.BookingNotFoundException;
 import com.itkolleg.bookingsystem.exceptions.DeskExceptions.DeskNotAvailableException;
 import com.itkolleg.bookingsystem.exceptions.DeskExceptions.DeskNotFoundException;
+import com.itkolleg.bookingsystem.exceptions.EmployeeExceptions.EmployeeNotFoundException;
 import jakarta.validation.Valid;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.*;
 
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.concurrent.ExecutionException;
+import java.util.stream.Collectors;
+
+import static com.itkolleg.bookingsystem.service.DeskBooking.DeskBookingService.logger;
 
 @Controller
-@RequestMapping("web/v1/deskBookings")
+@RequestMapping("web/deskBookings")
 public class DeskBookingWebController {
     private final DeskBookingService deskBookingService;
 
@@ -32,6 +34,7 @@ public class DeskBookingWebController {
 
     private final EmployeeService employeeService;
     private final TimeSlotService timeSlotService;
+
 
     public DeskBookingWebController(DeskBookingService deskBookingService, DeskService deskService, EmployeeService employeeService, TimeSlotService timeSlotService) {
         this.deskBookingService = deskBookingService;
@@ -60,61 +63,119 @@ public class DeskBookingWebController {
     }
 
     @PostMapping("/add")
-    public String addDeskBooking(@Valid DeskBooking deskBooking, BindingResult bindingResult) throws DeskNotAvailableException, DeskNotFoundException {
-        if (bindingResult.hasErrors()){
+    public String addDeskBooking(@Valid DeskBooking booking, BindingResult bindingResult,
+                                 @RequestParam("employee.id") Long employeeId,
+                                 @RequestParam("desk.id") Long deskId) throws ExecutionException, InterruptedException, EmployeeNotFoundException, DeskNotFoundException, DeskNotAvailableException {
+        if (bindingResult.hasErrors()) {
+
             return "DeskBookings/addDeskBooking";
-        }else{
-            this.deskBookingService.addDeskBooking(deskBooking);
-            return "redirect:/web/v1/deskBookings";
+        } else {
+            Employee employee = employeeService.getEmployeeById(employeeId);
+            Desk desk = deskService.getDeskById(deskId);
+
+            booking.setEmployee(employee);
+            booking.setDesk(desk);
+
+
+            this.deskBookingService.addDeskBooking(booking);
+            return "redirect:/web/deskBookings";
         }
     }
 
     @GetMapping("/view/{id}")
-    public String viewDeskBooking(@PathVariable Long id, Model model){
-        try{
-            DeskBooking deskBooking =  this.deskBookingService.getBookingById(id);
-            model.addAttribute("myDeskBooking", deskBooking);
-            return "DeskBookings/viewDeskBooking";
-        }catch(BookingNotFoundException bookingNotFoundException){
-            return "redirect:/web/v1/deskBookings";
-        }
-    }
-    @GetMapping("/edit/{id}")
-    public String updateDeskBookingForm(@PathVariable Long id, Model model) throws BookingNotFoundException {
-        model.addAttribute("booking", deskBookingService.getBookingById(id));
-        return "DeskBookings/editDeskBooking";
+    public String viewDeskBooking(@PathVariable Long id, Model model) throws BookingNotFoundException {
+        DeskBooking deskBooking = this.deskBookingService.getBookingById(id);
+        model.addAttribute("myDeskBooking", deskBooking);
+        return "DeskBookings/viewDeskBooking";
     }
 
-    @PostMapping("/{id}")
-    public String updateDeskBooking(@PathVariable Long id, DeskBooking booking) throws BookingNotFoundException, DeskNotAvailableException {
-        deskBookingService.updateBookingById(id, booking);
-        return "redirect:/web/v1/deskBookings";
+    @GetMapping("/update/{id}")
+    public String updateDeskBookingForm(@PathVariable Long id, Model model) throws BookingNotFoundException {
+        DeskBooking booking = this.deskBookingService.getBookingById(id);
+        Employee employee = this.deskBookingService.getBookingById(id).getEmployee();
+            if (booking == null) {
+                // Log an error message indicating that the booking was not found
+                logger.error("Booking with ID {} not found.", id);
+                //throw new BookingNotFoundException("Booking not found for ID: " + id);
+                return "redirect:/error";
+            }
+        List<Desk> desks = this.deskService.getAllDesks();
+        List<TimeSlot> times = timeSlotService.getAllTimeSlots();
+
+        // Creating list of unique start times
+        List<String> uniqueStartTimes = times.stream()
+                .map(TimeSlot::getStartTimeAsString)
+                .distinct()
+                .collect(Collectors.toList());
+        // Creating list of unique end times
+        List<String> uniqueEndTimes = times.stream()
+                .map(TimeSlot::getEndTimeAsString)
+                .distinct()
+                .collect(Collectors.toList());
+
+        System.out.println(employee);
+        System.out.println(employee.getFname());
+        System.out.println(employee.getLname());
+        System.out.println(booking);
+        logger.info("DeskBooking object before adding to model: {}", booking);
+        model.addAttribute("booking", booking);
+        model.addAttribute("employee", employee);
+        logger.info("DeskBooking object after adding to model: {}", model.getAttribute("booking"));
+        model.addAttribute("desks", desks);
+        model.addAttribute("uniqueStartTimes", uniqueStartTimes);
+        model.addAttribute("uniqueEndTimes", uniqueEndTimes);
+        logger.info("Booking object added to the model: {}", booking);
+        System.out.println(booking);
+        return "DeskBookings/updateDeskBooking";
+    }
+
+    @PostMapping("/update/{id}")
+    public String updateDeskBooking(@Valid DeskBooking booking,@PathVariable Long id, BindingResult bindingResult) throws BookingNotFoundException, DeskNotAvailableException {
+        if (bindingResult.hasErrors()) {
+            System.out.println("Errors: " + bindingResult.getAllErrors());
+            return "DeskBookings/updateDeskBooking";
+        } else {
+            booking.setTimeStamp(LocalDateTime.now());
+            this.deskBookingService.updateBookingById(id, booking);
+            return "redirect:/web/deskBookings";
+        }
     }
 
     @GetMapping("/delete/{id}")
-    public String deleteDeskbooking(@PathVariable Long id) throws BookingNotFoundException {
-        deskBookingService.deleteBooking(id);
-        return "redirect:/web/v1/deskBookings";
+    public String cancelDeskbooking(@PathVariable Long id, Model model) throws BookingNotFoundException {
+        DeskBooking booking = this.deskBookingService.getBookingById(id);
+        model.addAttribute("booking", booking);
+        this.deskBookingService.deleteBooking(id);
+        return "redirect:/web/deskBookings";
     }
 
-    @GetMapping("/mybookings/{employeeId}")
-    public String getMyDeskBookings(Model model, Long employeeId) {
-        model.addAttribute("myBookings", deskBookingService.getBookingsByEmployeeId(employeeId));
+    @GetMapping("/mybookings/{id}")
+    public String getMyDeskBookings(Model model, @PathVariable Long id) {
+        List<DeskBooking> myBookings = this.deskBookingService.getBookingsByEmployeeId(id);
+        model.addAttribute("myBookings", myBookings);
         return "DeskBookings/myDeskBookings";
     }
 
-    @GetMapping("/bookinghistory/{employeeId}")
-    public String getMyDeskBookingHistory(Model model, Long employeeId) {
-        model.addAttribute("myBookings", deskBookingService.getMyBookingHistory(employeeId));
+    @GetMapping("/bookinghistory/{id}")
+    public String getMyDeskBookingHistory(Model model, @PathVariable Long id) {
+        List<DeskBooking> myBookingHistory = this.deskBookingService.getMyBookingHistory(id);
+        model.addAttribute("myBookingHistory", myBookingHistory);
         return "DeskBookings/myDeskBookingsHistory";
     }
 
     @GetMapping("/admin")
     public String getAdminDashboard(Model model) {
-        model.addAttribute("bookings", deskBookingService.getAllBookings());
-        model.addAttribute("desks", deskService.getAllDesks());
-        // additional items to display on the admin dashboard eg. All Equipment Bookings & All Room Bookings
+        List<DeskBooking> bookings = this.deskBookingService.getAllBookings();
+        List<Desk> desks = this.deskService.getAllDesks();
+        model.addAttribute("bookings", bookings);
+        model.addAttribute("desks", desks);
+        // additional items to display on the admin dashboard e.g. All Equipment Bookings & All Room Bookings
         return "DeskBookings/adminDashboard";
     }
 
+
+    @GetMapping("/error")
+    public String getError() {
+        return "errorPage";
+    }
 }

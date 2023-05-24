@@ -1,6 +1,5 @@
-package com.itkolleg.bookingsystem.Service.Room;
+package com.itkolleg.bookingsystem.service.Room;
 
-import com.itkolleg.bookingsystem.Service.Room.RoomService;
 import com.itkolleg.bookingsystem.domains.Room;
 import com.itkolleg.bookingsystem.exceptions.RoomExceptions.RoomDeletionNotPossibleException;
 import com.itkolleg.bookingsystem.exceptions.RoomExceptions.RoomNotFoundException;
@@ -12,9 +11,9 @@ import java.util.concurrent.ExecutionException;
 
 @Service
 public class RoomServiceImplementation implements RoomService {
-    private DBAccessRoom dbAccessRoom;
+    private final DBAccessRoom dbAccessRoom;
 
-    public RoomServiceImplementation(DBAccessRoom dbAccessRoom){
+    public RoomServiceImplementation(DBAccessRoom dbAccessRoom) {
         this.dbAccessRoom = dbAccessRoom;
     }
 

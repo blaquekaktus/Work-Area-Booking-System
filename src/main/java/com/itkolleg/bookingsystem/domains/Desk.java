@@ -2,7 +2,10 @@ package com.itkolleg.bookingsystem.domains;
 
 import jakarta.persistence.*;
 import jakarta.validation.constraints.*;
-import lombok.*;
+import lombok.Getter;
+import lombok.NonNull;
+import lombok.Setter;
+import lombok.ToString;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -13,22 +16,19 @@ import java.util.List;
 @ToString
 
 public class Desk {
-    @Id
-    @GeneratedValue(strategy = GenerationType.SEQUENCE)
-    private Long id;
-
-    @NotEmpty
-    private String deskNr;
-
-    @Digits(integer = 2, fraction = 0)
-    @Min(0)
-    @Max(10)
-    private int nrOfMonitors;
-
     @NotEmpty
     @Size(min = 1)
     @ElementCollection
     protected List<Port> ports;
+    @Id
+    @GeneratedValue(strategy = GenerationType.SEQUENCE)
+    private Long id;
+    @NotEmpty
+    private String deskNr;
+    @Digits(integer = 2, fraction = 0)
+    @Min(0)
+    @Max(10)
+    private int nrOfMonitors;
 
     public Desk() {
         this.ports = new ArrayList<>();

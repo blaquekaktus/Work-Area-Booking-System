@@ -1,10 +1,9 @@
-package com.itkolleg.bookingsystem.Service.Desk;
+package com.itkolleg.bookingsystem.service.Desk;
 
 import com.itkolleg.bookingsystem.domains.Desk;
 import com.itkolleg.bookingsystem.domains.Port;
 import com.itkolleg.bookingsystem.exceptions.DeskExceptions.DeskDeletionFailureException;
 import com.itkolleg.bookingsystem.exceptions.DeskExceptions.DeskNotFoundException;
-
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.data.domain.Page;
@@ -92,8 +91,8 @@ public interface DeskService {
     /**
      * Creates a new port for a desk.
      *
-     * @param deskId   The ID of the desk.
-     * @param newPort  The new port to be created.
+     * @param deskId  The ID of the desk.
+     * @param newPort The new port to be created.
      * @return The desk with the newly created port.
      */
     Desk createPort(Long deskId, Port newPort);
@@ -101,25 +100,25 @@ public interface DeskService {
     /**
      * Updates an existing port for a desk.
      *
-     * @param deskId       The ID of the desk.
-     * @param portName     The name of the port to be updated.
-     * @param updatedPort  The updated port object.
+     * @param deskId      The ID of the desk.
+     * @param portName    The name of the port to be updated.
+     * @param updatedPort The updated port object.
      * @return The desk with the updated port.
      */
     Desk updatePort(Long deskId, String portName, Port updatedPort);
 
     /**
      * Deletes a port from a desk.
-     *
      */
 
-     Desk deletePort(Long deskId, String portName);
+    Desk deletePort(Long deskId, String portName);
 
-     /**
-     Retrieves the list of ports for a desk.
-     @param deskId The ID of the desk.
-     @return The list of ports for the specified desk.
+    /**
+     * Retrieves the list of ports for a desk.
+     *
+     * @param deskId The ID of the desk.
+     * @return The list of ports for the specified desk.
      */
     List<Port> getPorts(Long deskId);
 
-    }
+}

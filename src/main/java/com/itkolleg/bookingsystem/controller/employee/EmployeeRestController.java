@@ -1,12 +1,12 @@
 package com.itkolleg.bookingsystem.controller.employee;
 
-import com.itkolleg.bookingsystem.Service.Employee.EmployeeService;
+import com.itkolleg.bookingsystem.service.Employee.EmployeeService;
 import com.itkolleg.bookingsystem.domains.Employee;
-import com.itkolleg.bookingsystem.exceptions.*;
 import com.itkolleg.bookingsystem.exceptions.EmployeeExceptions.EmployeeAlreadyExistsException;
 import com.itkolleg.bookingsystem.exceptions.EmployeeExceptions.EmployeeDeletionNotPossibleException;
 import com.itkolleg.bookingsystem.exceptions.EmployeeExceptions.EmployeeNotFoundException;
 import com.itkolleg.bookingsystem.exceptions.EmployeeExceptions.EmployeeValidationException;
+import com.itkolleg.bookingsystem.exceptions.FormValidationExceptionDTO;
 import jakarta.validation.Valid;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.BindingResult;
@@ -20,7 +20,7 @@ import java.util.concurrent.ExecutionException;
 @RestController
 @RequestMapping("/api/v1/employees")
 public class EmployeeRestController {
-    private EmployeeService employeeService;
+    private final EmployeeService employeeService;
 
     public EmployeeRestController(EmployeeService employeeService) {
         this.employeeService = employeeService;
@@ -34,13 +34,13 @@ public class EmployeeRestController {
 
         // Prüfe, ob es Validierungsfehler in den übergebenen Employee-Daten gibt. Falls ja, iteriere durch alle
         // Fehler und füge sie dem formValidationErrors-Objekt hinzu.
-        if(bindingResult.hasErrors()){
-            for(ObjectError error : bindingResult.getAllErrors()){
+        if (bindingResult.hasErrors()) {
+            for (ObjectError error : bindingResult.getAllErrors()) {
                 formValidationErrors.addFormValidationError(((FieldError) error).getField(), error.getDefaultMessage());
             }
             // Wirf eine Exception, die die Validierungsfehler als DTO-Objekt enthält
             throw new EmployeeValidationException(formValidationErrors);
-        }else{
+        } else {
             Employee eingefuegt = this.employeeService.addEmployee(employee);
             return ResponseEntity.ok(eingefuegt);
             // Füge den übergebenen Employee der Datenbank hinzu und gib das neu erstellte Employee-Objekt zurück.
@@ -51,13 +51,13 @@ public class EmployeeRestController {
 
     // Definiert den GET-Endpunkt für die Employee-Ressource, der auf eine spezifische ID zugreift
     @GetMapping("/{id}")
-    public ResponseEntity<Employee> getEmployeeById(@PathVariable Long id) throws InterruptedException, ExecutionException, EmployeeNotFoundException, EmployeeNotFoundException {
+    public ResponseEntity<Employee> getEmployeeById(@PathVariable Long id) throws InterruptedException, ExecutionException, EmployeeNotFoundException {
         return ResponseEntity.ok(this.employeeService.getEmployeeById(id));
         // Aufruf des entsprechenden EmployeeService-Method, um den Employee mit der angegebenen ID zu finden
         //return employeeService.getEmployeeById(id);
     }
 
- //test
+    //test
 
     @GetMapping
     public ResponseEntity<List<Employee>> getAllEmployees() throws ExecutionException, InterruptedException {
@@ -78,7 +78,7 @@ public class EmployeeRestController {
     }
 
     @GetMapping("/test")
-    public ResponseEntity<String> testGetEndpoint(){
+    public ResponseEntity<String> testGetEndpoint() {
         return ResponseEntity.ok("Test Get Endpoint is Working!");
     }
 

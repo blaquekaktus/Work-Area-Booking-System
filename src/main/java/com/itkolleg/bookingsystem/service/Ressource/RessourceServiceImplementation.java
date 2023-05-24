@@ -1,6 +1,5 @@
-package com.itkolleg.bookingsystem.Service.Ressource;
+package com.itkolleg.bookingsystem.service.Ressource;
 
-import com.itkolleg.bookingsystem.Service.Ressource.RessourceService;
 import com.itkolleg.bookingsystem.domains.Ressource;
 import com.itkolleg.bookingsystem.exceptions.RessourceExceptions.RessourceDeletionNotPossibleException;
 import com.itkolleg.bookingsystem.exceptions.RessourceExceptions.RessourceNotFoundException;
@@ -13,18 +12,20 @@ import java.util.concurrent.ExecutionException;
 @Service
 public class RessourceServiceImplementation implements RessourceService {
 
-    private DBAccessRessource dbAccessRessource;
+    private final DBAccessRessource dbAccessRessource;
 
     /**
      * Sets the DBAccess Object into the global Datafield
+     *
      * @param dbAccessRessource
      */
-    public RessourceServiceImplementation(DBAccessRessource dbAccessRessource){
-        this.dbAccessRessource=dbAccessRessource;
+    public RessourceServiceImplementation(DBAccessRessource dbAccessRessource) {
+        this.dbAccessRessource = dbAccessRessource;
     }
 
     /**
      * Method, that adds a ressource
+     *
      * @param ressource
      * @return ressource
      */
@@ -35,6 +36,7 @@ public class RessourceServiceImplementation implements RessourceService {
 
     /**
      * Method, that returns a list of all ressources
+     *
      * @return list of ressources
      */
     @Override
@@ -44,6 +46,7 @@ public class RessourceServiceImplementation implements RessourceService {
 
     /**
      * Method, that returns a ressource by its ID
+     *
      * @param id Long
      * @return Reccource by ID
      * @throws RessourceNotFoundException
@@ -55,6 +58,7 @@ public class RessourceServiceImplementation implements RessourceService {
 
     /**
      * Method, that updates a specific ressource found by its ID
+     *
      * @return updated ressource by ID
      * @throws RessourceNotFoundException
      */
@@ -64,7 +68,8 @@ public class RessourceServiceImplementation implements RessourceService {
     }
 
     /**
-     *Method, that deletes a ressource by its ID
+     * Method, that deletes a ressource by its ID
+     *
      * @param id long
      * @throws RessourceDeletionNotPossibleException
      */
@@ -75,6 +80,7 @@ public class RessourceServiceImplementation implements RessourceService {
 
     /**
      * Method, that returns the Ressource according to its Serialnubmer (String)
+     *
      * @param Serialnumber String
      * @return Ressource found by Serialnumber
      * @throws RessourceNotFoundException

@@ -1,4 +1,4 @@
-package com.itkolleg.bookingsystem.Service.TimeSlot;
+package com.itkolleg.bookingsystem.service.TimeSlot;
 
 import com.itkolleg.bookingsystem.domains.TimeSlot;
 import com.itkolleg.bookingsystem.exceptions.TimeSlot.TimeSlotNotFoundException;
@@ -11,8 +11,8 @@ import java.time.LocalTime;
 import java.util.List;
 
 @Service
-public class TimeSlotServiceImplementation implements TimeSlotService{
-    private TimeSlotDBAccess timeSlotDBAccess;
+public class TimeSlotServiceImplementation implements TimeSlotService {
+    private final TimeSlotDBAccess timeSlotDBAccess;
 
     public TimeSlotServiceImplementation(TimeSlotDBAccess timeSlotDBAccess, DeskDBAccess deskDBAccess, EmployeeDBAccess employeeDBAccess) {
         this.timeSlotDBAccess = timeSlotDBAccess;
@@ -52,6 +52,7 @@ public class TimeSlotServiceImplementation implements TimeSlotService{
     public void deleteTimeSlotById(Long id) throws TimeSlotNotFoundException {
         this.timeSlotDBAccess.deleteTimeSlotById(id);
     }
+
     @Override
     public void deleteTimeSlotByName(String name) throws TimeSlotNotFoundException {
         this.timeSlotDBAccess.deleteTimeSlotByName(name);

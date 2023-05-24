@@ -1,14 +1,13 @@
-package com.itkolleg.bookingsystem.Service;
+package com.itkolleg.bookingsystem.service;
 
 import com.itkolleg.bookingsystem.domains.Booking.Booking;
 import com.itkolleg.bookingsystem.domains.Employee;
-import org.springframework.stereotype.Service;
 
 import java.sql.Date;
 import java.util.List;
 
-// @Service
-public class BookingServiceImplementation implements BookingService <Booking,Long> {
+// @service
+public class BookingServiceImplementation implements BookingService<Booking, Long> {
 
     @Override
     public Booking createBooking(Employee employee, Booking bookable) {
@@ -16,7 +15,7 @@ public class BookingServiceImplementation implements BookingService <Booking,Lon
     }
 
     @Override
-    public Booking createBooking(Long employeeID, Booking bookable) {
+    public Booking createBooking(Long employeeId, Booking bookable) {
         return null;
     }
 

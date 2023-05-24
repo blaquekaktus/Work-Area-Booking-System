@@ -1,4 +1,4 @@
-package com.itkolleg.bookingsystem.Service.Employee;
+package com.itkolleg.bookingsystem.service.Employee;
 
 import com.itkolleg.bookingsystem.domains.Employee;
 import com.itkolleg.bookingsystem.exceptions.EmployeeExceptions.EmployeeAlreadyExistsException;
@@ -49,7 +49,7 @@ public class EmployeeServiceImplementation implements EmployeeService {
     public Employee updateEmployeeById(Employee employee) throws ExecutionException, InterruptedException, EmployeeNotFoundException, EmployeeAlreadyExistsException {
         Employee employeeFromDb = this.employeeDBAccess.getEmployeeById(employee.getId());
         if (employeeFromDb == null) {
-            throw new EmployeeNotFoundException();
+            throw new EmployeeNotFoundException("The Employee with the ID: " + employeeDBAccess.getEmployeeById(employee.getId()) + " was not found!");
         }
         employeeFromDb.setFname(employee.getFname());
         employeeFromDb.setLname(employee.getLname());

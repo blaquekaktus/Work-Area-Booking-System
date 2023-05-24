@@ -1,4 +1,5 @@
-package com.itkolleg.bookingsystem.Service.Employee;
+package com.itkolleg.bookingsystem.service.Employee;
+
 import com.itkolleg.bookingsystem.domains.Employee;
 import com.itkolleg.bookingsystem.exceptions.EmployeeExceptions.EmployeeAlreadyExistsException;
 import com.itkolleg.bookingsystem.exceptions.EmployeeExceptions.EmployeeDeletionNotPossibleException;
@@ -7,15 +8,16 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.security.core.userdetails.UserDetailsService;
 
-
 import java.util.List;
 import java.util.concurrent.ExecutionException;
 
 public interface EmployeeService extends UserDetailsService {
     Employee addEmployee(Employee employee) throws EmployeeAlreadyExistsException, ExecutionException, InterruptedException;
+
     List<Employee> getAllEmployees() throws ExecutionException, InterruptedException;
 
     Page<Employee> getAllEmployeesByPage(Pageable pageable);
+
     Employee getEmployeeById(Long id) throws EmployeeNotFoundException, ExecutionException, InterruptedException;
 
     Employee updateEmployeeById(Employee employee) throws ExecutionException, InterruptedException, EmployeeNotFoundException, EmployeeAlreadyExistsException;
@@ -25,6 +27,7 @@ public interface EmployeeService extends UserDetailsService {
     List<Employee> getEmployeesWithNickLikeIgnoreCase(String nick) throws ExecutionException, InterruptedException, EmployeeNotFoundException;
 
     Employee getEmployeeByEmail(String email) throws EmployeeNotFoundException;
+
     Employee getEmployeeByNick(String nick);
     //String getPasswordForEmployee(String username);
 }

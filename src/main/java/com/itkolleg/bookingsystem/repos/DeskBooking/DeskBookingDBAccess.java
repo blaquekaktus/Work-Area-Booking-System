@@ -6,7 +6,6 @@ import com.itkolleg.bookingsystem.domains.Employee;
 import com.itkolleg.bookingsystem.exceptions.BookingExceptions.BookingNotFoundException;
 import com.itkolleg.bookingsystem.exceptions.DeskExceptions.DeskNotAvailableException;
 import com.itkolleg.bookingsystem.exceptions.DeskExceptions.DeskNotFoundException;
-import org.springframework.stereotype.Repository;
 
 import java.time.LocalDate;
 import java.time.LocalTime;
@@ -33,10 +32,12 @@ public interface DeskBookingDBAccess {
     List<DeskBooking> searchBookings(Long employeeId, Long deskId, LocalDate date);
 
     List<DeskBooking> getByDeskAndDate(Desk desk, LocalDate date);
+
     List<DeskBooking> getBookingByDate(LocalDate date);
 
     DeskBooking updateBookingByBookingId(Long bookingId, DeskBooking updatedBooking) throws BookingNotFoundException;
-    DeskBooking updateBooking(DeskBooking updatedBooking);
+
+    DeskBooking updateBooking(DeskBooking updatedBooking) throws BookingNotFoundException;
 
     void deleteBookingById(Long employeeId) throws BookingNotFoundException;
 

@@ -1,4 +1,4 @@
-package com.itkolleg.bookingsystem.Service.DeskBooking;
+package com.itkolleg.bookingsystem.service.DeskBooking;
 
 import com.itkolleg.bookingsystem.domains.Booking.DeskBooking;
 import com.itkolleg.bookingsystem.domains.Desk;
@@ -34,11 +34,12 @@ public class DeskBookingServiceImplementation implements DeskBookingService {
 
     @Override
     public DeskBooking addDeskBooking(DeskBooking booking) throws DeskNotAvailableException, DeskNotFoundException {
-        List<DeskBooking> bookings = deskBookingDBAccess.getByDeskAndDate(booking.getDesk(), booking.getDate());
+        List<DeskBooking> bookings = deskBookingDBAccess.getBookingsByDeskAndDateAndBookingTimeBetween(booking.getDesk(), booking.getDate(),booking.getStart(), booking.getEndTime());
+        System.out.println(bookings);
         if (!bookings.isEmpty()) {
             throw new DeskNotAvailableException("Desk not available for booking period");
         }
-        return deskBookingDBAccess.addBooking(booking);
+        return this.deskBookingDBAccess.addBooking(booking);
     }
 
     @Override
@@ -50,7 +51,7 @@ public class DeskBookingServiceImplementation implements DeskBookingService {
     @Override
     public List<DeskBooking> searchBookings(Employee employee, LocalDate date) {
         List<DeskBooking> bookings = new ArrayList<>();
-        if (employee != null  && date != null) {
+        if (employee != null && date != null) {
             // Search for bookings by employee and date range
             bookings = deskBookingDBAccess.getBookingsByEmployeeAndDate(employee, date);
         } else if (employee != null) {
@@ -155,7 +156,7 @@ public class DeskBookingServiceImplementation implements DeskBookingService {
         List<Desk> allDesks = deskDBAccess.getAllDesks();
         List<Desk> availableDesks = new ArrayList<>();
         for (Desk desk : allDesks) {
-            List<DeskBooking> bookings = getBookingsByDeskAndDateAndBookingStartBetween (desk, date, bookingStart, bookingEnd);
+            List<DeskBooking> bookings = getBookingsByDeskAndDateAndBookingStartBetween(desk, date, bookingStart, bookingEnd);
             if (bookings.isEmpty()) {
                 availableDesks.add(desk);
             }
@@ -182,4 +183,5 @@ public class DeskBookingServiceImplementation implements DeskBookingService {
     public List<DeskBooking> getMyBookingHistory(Long employeeId) {
         return null;
     }
+
 }

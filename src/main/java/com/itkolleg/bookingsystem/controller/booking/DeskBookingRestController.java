@@ -1,7 +1,6 @@
 package com.itkolleg.bookingsystem.controller.booking;
 
-import com.itkolleg.bookingsystem.Service.DeskBooking.DeskBookingService;
-
+import com.itkolleg.bookingsystem.service.DeskBooking.DeskBookingService;
 import com.itkolleg.bookingsystem.domains.Booking.DeskBooking;
 import com.itkolleg.bookingsystem.exceptions.BookingExceptions.BookingNotFoundException;
 import com.itkolleg.bookingsystem.exceptions.DeskExceptions.DeskNotAvailableException;
@@ -15,6 +14,7 @@ import java.util.List;
 @RequestMapping("api/v1/deskbooking")
 public class DeskBookingRestController {
     private final DeskBookingService deskBookingService;
+
     public DeskBookingRestController(DeskBookingService deskBookingService) {
         this.deskBookingService = deskBookingService;
     }

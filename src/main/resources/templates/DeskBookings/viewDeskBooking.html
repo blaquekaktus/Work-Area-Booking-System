@@ -1,56 +1,61 @@
 <!DOCTYPE html>
 <html lang="en" xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
 <head>
-  <meta charset="UTF-8">
-  <title>Booking Detail</title>
-  <link th:rel="stylesheet" th:href="@{/webjars/bootstrap/4.0.0-2/css/bootstrap.min.css} "/>
+    <meta charset="UTF-8">
+    <title>Booking Detail</title>
+    <link th:href="@{/webjars/bootstrap/4.0.0-2/css/bootstrap.min.css} " th:rel="stylesheet"/>
 </head>
 <body style="background-image: url('/images/bgbild.jpg');background-repeat:no-repeat;background-size:cover;">
-<nav class="navbar navbar-expand-lg navbar-light" style="background-color: #96C01E;height: 200px;display:flex;align-items:center;">
-  <!-- Navigation content -->
-  <div class=" row d-flex justify-content-evenly align-items-center" style="width:100%">
-    <div class="col-4"><img src="/images/GreenLogo.png" alt="KlimaBuendnis Green Logo" height="180px"></div>
-    <div class="col-6"><img src="/images/wabs.png" alt="WABS" height="190px" ></div>
-    <div class="col-2"><img src="/images/kb_badge.png" alt="Badge" height="160px"></div>
-  </div>
+<nav class="navbar navbar-expand-lg navbar-light"
+     style="background-color: #96C01E;height: 200px;display:flex;align-items:center;">
+    <!-- Navigation content -->
+    <div class=" row d-flex justify-content-evenly align-items-center" style="width:100%">
+        <div class="col-4"><img alt="KlimaBuendnis Green Logo" height="180px" src="/images/GreenLogo.png"></div>
+        <div class="col-6"><img alt="WABS" height="190px" src="/images/wabs.png"></div>
+        <div class="col-2"><img alt="Badge" height="160px" src="/images/kb_badge.png"></div>
+    </div>
 </nav>
 <br>
 <br>
 <div>
-  <h1 class="text-center text-dark">DESK BOOKING DETAILS</h1>
+    <h1 class="text-center text-dark">DESK BOOKING DETAILS</h1>
 </div>
 <br>
 <br>
 <div class="container">
-  <div class="row justify-content-center">
-      <form class="col-md-6" th:object="${myDeskBooking}" th:action="@{/web/deskbookings/view/{id}}" method="get">
-        <div class="mb-3">
-          <label for="employee" class="form-label">EMPLOYEE</label>
-          <input type="text" class="form-control" id="employee" name="employee" th:value="${myDeskBooking.employee.fname} + ' '+ ${myDeskBooking.employee.lname}" readonly>
-        </div>
-        <div class="mb-3">
-          <label for="deskNr" class="form-label">DESK NUMBER</label>
-          <input type="text" class="form-control" id="deskNr" name="deskNr" th:field="${myDeskBooking.desk.deskNr}" readonly>
-        </div>
-        <div class="mb-3">
-          <label for="date" class="form-label">DATE</label>
-          <input type="text" class="form-control" id="date" name="date" th:field="${myDeskBooking.date}" readonly>
-        </div>
-        <div class="mb-3">
-          <label for="start" class="form-label">START</label>
-<!--          <--Use field value directly -->
-          <input type="text" class="form-control" id="start" name="start" th:field="${myDeskBooking.start}" readonly>
-        </div>
-        <div class="mb-3">
-          <label for="end" class="form-label">END</label>
-          <input type="text" class="form-control" id="end" name="end" th:field="${myDeskBooking.endTime}" readonly>
-        </div>
-        <div class="d-flex justify-content-center">
-          <a th:href="@{/web/deskBookings}" class="btn btn-dark my-2 my-sm-0">Back to My Bookings</a>
-        </div>
-      </form>
+    <div class="row justify-content-center">
+        <form class="col-md-6" method="get" th:action="@{/web/deskbookings/view/{id}}" th:object="${myDeskBooking}">
+            <div class="mb-3">
+                <label class="form-label" for="employee">EMPLOYEE</label>
+                <input class="form-control" id="employee" name="employee" readonly
+                       th:value="${myDeskBooking.employee.fname} + ' '+ ${myDeskBooking.employee.lname}" type="text">
+            </div>
+            <div class="mb-3">
+                <label class="form-label" for="deskNr">DESK NUMBER</label>
+                <input class="form-control" id="deskNr" name="deskNr" readonly
+                       th:field="${myDeskBooking.desk.deskNr}" type="text">
+            </div>
+            <div class="mb-3">
+                <label class="form-label" for="date">DATE</label>
+                <input class="form-control" id="date" name="date" readonly th:field="${myDeskBooking.date}" type="text">
+            </div>
+            <div class="mb-3">
+                <label class="form-label" for="start">START</label>
+                <!--          <--Use field value directly -->
+                <input class="form-control" id="start" name="start" readonly th:field="${myDeskBooking.start}"
+                       type="text">
+            </div>
+            <div class="mb-3">
+                <label class="form-label" for="end">END</label>
+                <input class="form-control" id="end" name="end" readonly th:field="${myDeskBooking.endTime}"
+                       type="text">
+            </div>
+            <div class="d-flex justify-content-center">
+                <a class="btn btn-dark my-2 my-sm-0" th:href="@{/web/deskBookings}">Back to My Bookings</a>
+            </div>
+        </form>
     </div>
-  </div>
+</div>
 <script th:src="@{/webjars/jquery/3.0.0/jquery.min.js}"></script>
 <script th:src="@{/webjars/popper.js/1.12.9-1/umd/popper.min.js}"></script>
 <script th:src="@{/webjars/bootstrap/4.0.0-2/js/bootstrap.min.js}"></script>
