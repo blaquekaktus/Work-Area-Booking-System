@@ -1,21 +1,19 @@
 package com.itkolleg.bookingsystem.service.Holiday;
 
-import com.itkolleg.bookingsystem.domains.Desk;
 import com.itkolleg.bookingsystem.domains.Holiday;
-import com.itkolleg.bookingsystem.repos.Desk.DeskRepo;
 import com.itkolleg.bookingsystem.repos.Holiday.HolidayRepo;
-import com.itkolleg.bookingsystem.service.Desk.DeskService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
+import java.util.List;
 
 @Service
 
 public class HolidayServiceImplementation implements HolidayService{
 
     @Autowired
-    private final HolidayRepo holidayRepo;
+    private HolidayRepo holidayRepo;
 
     public HolidayServiceImplementation(HolidayRepo holidayRepo) {
         this.holidayRepo = holidayRepo;
@@ -23,11 +21,15 @@ public class HolidayServiceImplementation implements HolidayService{
 
     @Override
     public void addHoliday(Holiday holiday) {
-        holidayRepo.addHoliday(holiday);
+         this.holidayRepo.addHoliday(holiday);
     }
 
     public void deleteHoliday(Long id) {
         holidayRepo.deleteHoliday(id);
+    }
+
+    public List<Holiday> getAllHolidays(){
+        return this.holidayRepo.getAllHolidays();
     }
 
     public boolean isBookingAllowedOnHoliday(LocalDate date) {

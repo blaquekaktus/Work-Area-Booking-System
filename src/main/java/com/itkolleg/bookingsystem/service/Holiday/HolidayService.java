@@ -5,6 +5,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.time.LocalDate;
+import java.util.List;
 
 public interface HolidayService {
 
@@ -13,6 +14,7 @@ public interface HolidayService {
 
 
     void addHoliday(Holiday holiday);
+    List<Holiday>getAllHolidays();
     void deleteHoliday(Long id);
     boolean isBookingAllowedOnHoliday(LocalDate date);
 

@@ -121,12 +121,13 @@ public class DeskWebController {
             this.deskService.deleteDeskById(id);
             return "redirect:/web/desks";
         } catch (DeskDeletionFailureException deskDeletionFailureException) {
-            /*ErrorDetails errorDetails = new ErrorDetails("Desk Deletion Failure", deskDeletionFailureException.getMessage());
-            model.addAttribute("errorDetails", errorDetails);
-            return "errorPage";*/
             return "redirect:web/desks";
         }
     }
 
 
+    @GetMapping("/error")
+    public String getError() {
+        return "errorPage";
+    }
 }

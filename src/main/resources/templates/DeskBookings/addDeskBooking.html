@@ -5,21 +5,15 @@
     <title>Book Desk</title>
     <link th:href="@{/webjars/bootstrap/4.0.0-2/css/bootstrap.min.css} " th:rel="stylesheet"/>
 </head>
-<body style="background-image: url('/images/bgbild.jpg');background-repeat:no-repeat;background-size:cover;">
-<style>
-    img {
-    width: 100%;
-    height: auto;
-}</style>
+<body style="background-image: url('../../static/img/background2.jpg');background-repeat:no-repeat;background-size:cover;">
 <nav class="navbar navbar-expand-lg navbar-light"
      style="background-color: #96C01E;height: 200px;display:flex;align-items:center;">
     <!-- Navigation content -->
-    <div class="row d-flex justify-content-evenly align-items-center" style="width:100%">
-        <div class="col-12 col-sm-6 col-md-4">
-            <img alt="White KlimaBuendnis Logo" height="180px" src="../../static/img/LogoWhite.png">
-        </div>
-    </div>
-   <!-- height="735" width="1827"-->
+    <div class=" row d-flex justify-content-evenly align-items-center" style="width:100%">
+        <!--  <div class="col-4"><img alt="KlimaBuendnis Green Logo" src="../../static/img/LogoWhite.png"></div>
+         <div class="col-6"><img alt="WABS" src="../../static/img/W.A.B.S_green.jpg"></div>
+         <div class="col-2"><img alt="Badge" src="../../static/img/Kb_Badge.png"></div>
+     --></div>
 </nav>
 <br>
 <br>
@@ -40,7 +34,9 @@
             <br>
             <br>
             <form method="post" th:action="@{/web/deskBookings/add}" th:object="${deskBooking}">
-
+                <div th:if="${errorMessage}" class="alert alert-danger">
+                    <p th:text="${errorMessage}"></p>
+                </div>
                 <div class="mb-3 form-group">
                     <label class="form-label" for="employee.id">EMPLOYEE</label>
                     <select class="form-control" id="employee.id" name="employee.id" th:field="*{employee.id}">

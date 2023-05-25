@@ -1,4 +1,4 @@
-package com.itkolleg.bookingsystem.controller.booking;
+package com.itkolleg.bookingsystem.controller.booking.DeskBooking;
 
 import com.itkolleg.bookingsystem.service.Desk.DeskService;
 import com.itkolleg.bookingsystem.service.DeskBooking.DeskBookingService;
@@ -63,7 +63,7 @@ public class DeskBookingWebController {
     }
 
     @PostMapping("/add")
-    public String addDeskBooking(@Valid DeskBooking booking, BindingResult bindingResult,  @RequestParam("employee.id") Long employeeId, @RequestParam("desk.id") Long deskId) {
+    public String addDeskBooking(@Valid DeskBooking booking, BindingResult bindingResult, @RequestParam("employee.id") Long employeeId, @RequestParam("desk.id") Long deskId, Model model) throws ExecutionException, InterruptedException {
         try {
             if (bindingResult.hasErrors()) {
                 System.out.println("Errors: " + bindingResult.getAllErrors());
@@ -80,14 +80,30 @@ public class DeskBookingWebController {
                 return "redirect:/web/deskBookings";
             }
         } catch (DeskNotAvailableException e) {
-            // Log the error message and stack trace for further investigation
             logger.error("Desk is not available for booking: " + e.getMessage(), e);
-            return "errorPage";
+            model.addAttribute("errorMessage", "Desk is not available for booking.");
+            addAttributesToModel(model);
+            return "DeskBookings/addDeskBooking";
         } catch (ExecutionException | InterruptedException | EmployeeNotFoundException | DeskNotFoundException e) {
-            // Log the error message and stack trace for further investigation
             logger.error("Error occurred while booking the desk: " + e.getMessage(), e);
-            return "errorPage";
+            model.addAttribute("errorMessage", "Error occurred while booking the desk.");
+            addAttributesToModel(model);
+            return "DeskBookings/addDeskBooking";
+        } catch (IllegalArgumentException e) {
+            logger.error("Cannot create booking for a past date: " + e.getMessage(), e);
+            model.addAttribute("errorMessage", "Cannot create booking for a past date.");
+            addAttributesToModel(model);
+            return "DeskBookings/addDeskBooking";
         }
+    }
+
+    private void addAttributesToModel(Model model) throws ExecutionException, InterruptedException {
+        List<Desk> deskList = deskService.getAllDesks();
+        List<Employee> employeeList = employeeService.getAllEmployees();
+        List<TimeSlot> timeSlotList = timeSlotService.getAllTimeSlots();
+        model.addAttribute("deskList", deskList);
+        model.addAttribute("employeeList", employeeList);
+        model.addAttribute("timeSlotList", timeSlotList);
     }
 
     @GetMapping("/view/{id}")
@@ -159,7 +175,7 @@ public class DeskBookingWebController {
         }
     }
 
-    @GetMapping("/delete/{id}")
+    @GetMapping("/cancel/{id}")
     public String cancelDeskbooking(@PathVariable Long id, Model model) throws BookingNotFoundException {
         DeskBooking booking = this.deskBookingService.getBookingById(id);
         model.addAttribute("booking", booking);

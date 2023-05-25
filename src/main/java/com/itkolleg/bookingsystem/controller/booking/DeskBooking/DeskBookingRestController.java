@@ -1,4 +1,4 @@
-package com.itkolleg.bookingsystem.controller.booking;
+package com.itkolleg.bookingsystem.controller.booking.DeskBooking;
 
 import com.itkolleg.bookingsystem.service.DeskBooking.DeskBookingService;
 import com.itkolleg.bookingsystem.domains.Booking.DeskBooking;

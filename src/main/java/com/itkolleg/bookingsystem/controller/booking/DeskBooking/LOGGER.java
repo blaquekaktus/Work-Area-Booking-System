@@ -1,4 +1,4 @@
-package com.itkolleg.bookingsystem.controller;
+package com.itkolleg.bookingsystem.controller.booking.DeskBooking;
 
 import com.itkolleg.bookingsystem.domains.Desk;
 import com.itkolleg.bookingsystem.domains.Employee;
@@ -19,10 +19,12 @@ public class LOGGER implements Serializable {
     @NotNull
     private final Employee employee;
     @NotNull
+    private final Desk desk;
+    @NotNull
     private final LocalDate date;
     private final TimeSlot timeSlot;
     private final LocalTime timeStamp;
     private final LocalTime start;
     private final LocalTime endTime;
-    private final Desk desk;
+
 }

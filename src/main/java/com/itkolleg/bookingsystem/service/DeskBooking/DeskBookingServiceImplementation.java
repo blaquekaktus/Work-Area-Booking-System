@@ -9,6 +9,7 @@ import com.itkolleg.bookingsystem.exceptions.DeskExceptions.DeskNotFoundExceptio
 import com.itkolleg.bookingsystem.repos.Desk.DeskRepo;
 import com.itkolleg.bookingsystem.repos.DeskBooking.DeskBookingRepo;
 import com.itkolleg.bookingsystem.repos.Employee.EmployeeDBAccess;
+import com.itkolleg.bookingsystem.repos.Holiday.HolidayRepo;
 import org.springframework.dao.DataAccessException;
 import org.springframework.stereotype.Service;
 
@@ -27,18 +28,22 @@ public class DeskBookingServiceImplementation implements DeskBookingService {
     private final DeskBookingRepo deskBookingRepo;
     private final DeskRepo deskRepo;
     private final EmployeeDBAccess employeeDBAccess;
+    private final HolidayRepo holidayRepo;
 
 
-    public DeskBookingServiceImplementation(DeskBookingRepo deskBookingRepo, DeskRepo deskRepo, EmployeeDBAccess employeeDBAccess) {
+    public DeskBookingServiceImplementation(DeskBookingRepo deskBookingRepo, DeskRepo deskRepo, EmployeeDBAccess employeeDBAccess, HolidayRepo holidayRepo) {
         this.deskBookingRepo = deskBookingRepo;
         this.deskRepo = deskRepo;
         this.employeeDBAccess = employeeDBAccess;
+        this.holidayRepo = holidayRepo;
     }
 
     @Override
     public DeskBooking addDeskBooking(DeskBooking booking) throws DeskNotAvailableException, DeskNotFoundException {
         List<DeskBooking> bookings = deskBookingRepo.getBookingsByDeskAndDateAndBookingTimeBetween(booking.getDesk(), booking.getDate(),booking.getStart(), booking.getEndTime());
         LocalDate currentDate = LocalDate.now();
+        System.out.println("Booking date: " + booking.getDate());
+        System.out.println("Current date: " + LocalDate.now());
         //Check if desk is available for the date and time chosen
         if (!bookings.isEmpty()) {
             throw new DeskNotAvailableException("Desk not available for booking period");
@@ -52,6 +57,11 @@ public class DeskBookingServiceImplementation implements DeskBookingService {
         DayOfWeek dayOfWeek = booking.getDate().getDayOfWeek();
         if (dayOfWeek == DayOfWeek.SATURDAY || dayOfWeek == DayOfWeek.SUNDAY) {
             throw new IllegalArgumentException("Cannot create booking for a weekend");
+        }
+
+        // Check if booking is allowed on this day
+        if (!holidayRepo.isBookingAllowedOnHoliday(booking.getDate())) {
+            throw new IllegalArgumentException("Cannot create booking on this day");
         }
 
         return this.deskBookingRepo.addBooking(booking);

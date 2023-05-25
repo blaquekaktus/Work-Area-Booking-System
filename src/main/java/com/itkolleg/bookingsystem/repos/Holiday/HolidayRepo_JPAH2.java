@@ -8,6 +8,7 @@ import org.springframework.context.annotation.ComponentScan;
 import org.springframework.stereotype.Component;
 
 import java.time.LocalDate;
+import java.util.List;
 
 @Component
 @ComponentScan({"com.itkolleg.repos"})
@@ -20,9 +21,14 @@ public class HolidayRepo_JPAH2 implements HolidayRepo{
     }
 
     @Override
-    public Holiday addHoliday(Holiday holiday) {
-        return this.holidayJPARepo.save(holiday);
+    public void addHoliday(Holiday holiday) {
+        this.holidayJPARepo.save(holiday);
 
+    }
+
+    @Override
+    public List<Holiday> getAllHolidays() {
+        return this.holidayJPARepo.findAll();
     }
 
     @Override
@@ -33,7 +39,9 @@ public class HolidayRepo_JPAH2 implements HolidayRepo{
     @Override
     public boolean isBookingAllowedOnHoliday(LocalDate date) {
         Holiday holiday = this.holidayJPARepo.findByDate(date);
-        return holiday != null && holiday.isBookingAllowed();
+        System.out.println("Holiday: " + holiday); // Debugging statement
+        // If holiday object is null (no entry in Holiday table), consider it a normal day and allow bookings
+        return holiday == null || holiday.isBookingAllowed();
     }
 
     @Override
