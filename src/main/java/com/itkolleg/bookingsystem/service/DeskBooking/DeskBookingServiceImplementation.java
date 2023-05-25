@@ -6,8 +6,8 @@ import com.itkolleg.bookingsystem.domains.Employee;
 import com.itkolleg.bookingsystem.exceptions.BookingExceptions.BookingNotFoundException;
 import com.itkolleg.bookingsystem.exceptions.DeskExceptions.DeskNotAvailableException;
 import com.itkolleg.bookingsystem.exceptions.DeskExceptions.DeskNotFoundException;
-import com.itkolleg.bookingsystem.repos.Desk.DeskDBAccess;
-import com.itkolleg.bookingsystem.repos.DeskBooking.DeskBookingDBAccess;
+import com.itkolleg.bookingsystem.repos.Desk.DeskRepo;
+import com.itkolleg.bookingsystem.repos.DeskBooking.DeskBookingRepo;
 import com.itkolleg.bookingsystem.repos.Employee.EmployeeDBAccess;
 import org.springframework.dao.DataAccessException;
 import org.springframework.stereotype.Service;
@@ -24,20 +24,20 @@ import java.util.stream.Collectors;
 @Service
 public class DeskBookingServiceImplementation implements DeskBookingService {
 
-    private final DeskBookingDBAccess deskBookingDBAccess;
-    private final DeskDBAccess deskDBAccess;
+    private final DeskBookingRepo deskBookingRepo;
+    private final DeskRepo deskRepo;
     private final EmployeeDBAccess employeeDBAccess;
 
 
-    public DeskBookingServiceImplementation(DeskBookingDBAccess deskBookingDBAccess, DeskDBAccess deskDBAccess, EmployeeDBAccess employeeDBAccess) {
-        this.deskBookingDBAccess = deskBookingDBAccess;
-        this.deskDBAccess = deskDBAccess;
+    public DeskBookingServiceImplementation(DeskBookingRepo deskBookingRepo, DeskRepo deskRepo, EmployeeDBAccess employeeDBAccess) {
+        this.deskBookingRepo = deskBookingRepo;
+        this.deskRepo = deskRepo;
         this.employeeDBAccess = employeeDBAccess;
     }
 
     @Override
     public DeskBooking addDeskBooking(DeskBooking booking) throws DeskNotAvailableException, DeskNotFoundException {
-        List<DeskBooking> bookings = deskBookingDBAccess.getBookingsByDeskAndDateAndBookingTimeBetween(booking.getDesk(), booking.getDate(),booking.getStart(), booking.getEndTime());
+        List<DeskBooking> bookings = deskBookingRepo.getBookingsByDeskAndDateAndBookingTimeBetween(booking.getDesk(), booking.getDate(),booking.getStart(), booking.getEndTime());
         LocalDate currentDate = LocalDate.now();
         //Check if desk is available for the date and time chosen
         if (!bookings.isEmpty()) {
@@ -54,12 +54,12 @@ public class DeskBookingServiceImplementation implements DeskBookingService {
             throw new IllegalArgumentException("Cannot create booking for a weekend");
         }
 
-        return this.deskBookingDBAccess.addBooking(booking);
+        return this.deskBookingRepo.addBooking(booking);
     }
 
     @Override
     public List<DeskBooking> getAllBookings() {
-        return deskBookingDBAccess.getAllBookings();
+        return deskBookingRepo.getAllBookings();
     }
 
 
@@ -68,42 +68,42 @@ public class DeskBookingServiceImplementation implements DeskBookingService {
         List<DeskBooking> bookings = new ArrayList<>();
         if (employee != null && date != null) {
             // Search for bookings by employee and date range
-            bookings = deskBookingDBAccess.getBookingsByEmployeeAndDate(employee, date);
+            bookings = deskBookingRepo.getBookingsByEmployeeAndDate(employee, date);
         } else if (employee != null) {
             // Search for bookings by employee
-            bookings = deskBookingDBAccess.getBookingsByEmployee(employee);
+            bookings = deskBookingRepo.getBookingsByEmployee(employee);
         } else if (date != null) {
             // Search for bookings by date range
-            bookings = deskBookingDBAccess.getBookingByDate(date);
+            bookings = deskBookingRepo.getBookingByDate(date);
         }
         return bookings;
     }
 
     @Override
     public List<DeskBooking> getBookingsByEmployeeId(Long employeeId) {
-        return deskBookingDBAccess.getBookingsByEmployeeId(employeeId);
+        return deskBookingRepo.getBookingsByEmployeeId(employeeId);
     }
 
     @Override
     public List<DeskBooking> getBookingsByEmployee(Employee employee) {
-        return deskBookingDBAccess.getBookingsByEmployee(employee);
+        return deskBookingRepo.getBookingsByEmployee(employee);
     }
 
     @Override
     public List<DeskBooking> getBookingByDesk(Desk desk) {
-        return deskBookingDBAccess.getBookingByDesk(desk);
+        return deskBookingRepo.getBookingByDesk(desk);
     }
 
     @Override
     public List<DeskBooking> getBookingsByDate(LocalDate date) {
         LocalTime startOfDay = LocalTime.from(date.atStartOfDay());
         LocalTime endOfDay = startOfDay.plusHours(24).minusSeconds(1);
-        return deskBookingDBAccess.getBookingByDateAndByStartBetween(date, startOfDay, endOfDay);
+        return deskBookingRepo.getBookingByDateAndByStartBetween(date, startOfDay, endOfDay);
     }
 
     @Override
     public DeskBooking getBookingById(Long bookingId) throws BookingNotFoundException {
-        Optional<DeskBooking> optionalBooking = deskBookingDBAccess.getBookingByBookingId(bookingId);
+        Optional<DeskBooking> optionalBooking = deskBookingRepo.getBookingByBookingId(bookingId);
         if (optionalBooking.isPresent()) {
             return optionalBooking.get();
         } else {
@@ -112,7 +112,7 @@ public class DeskBookingServiceImplementation implements DeskBookingService {
     }
 
     public DeskBooking updateBookingById(Long bookingId, DeskBooking updatedBooking) throws BookingNotFoundException, DeskNotAvailableException {
-        Optional<DeskBooking> booking = deskBookingDBAccess.getBookingByBookingId(bookingId);
+        Optional<DeskBooking> booking = deskBookingRepo.getBookingByBookingId(bookingId);
         if (!booking.isPresent()) {
             throw new BookingNotFoundException("Booking not found for id: " + bookingId);
         }
@@ -124,16 +124,16 @@ public class DeskBookingServiceImplementation implements DeskBookingService {
         if(isDeskAvailable(desk, date, start, endTime)) {
             updatedBooking.setId(bookingId);
         }
-        return deskBookingDBAccess.updateBooking(updatedBooking);
+        return deskBookingRepo.updateBooking(updatedBooking);
     }
 
     @Override
     public DeskBooking updateBooking(DeskBooking booking) throws BookingNotFoundException, DeskNotAvailableException, DeskNotFoundException {
         try {
-            DeskBooking existingBooking = deskBookingDBAccess.getBookingByBookingId(booking.getId())
+            DeskBooking existingBooking = deskBookingRepo.getBookingByBookingId(booking.getId())
                     .orElseThrow(() -> new BookingNotFoundException("Booking not found for id: " + booking.getId()));
             // Check if the desk is available for the updated booking period
-            List<DeskBooking> bookings = deskBookingDBAccess.getBookingsByDeskAndDateAndBookingTimeBetween(booking.getDesk(), booking.getDate(), booking.getStart(), booking.getEndTime());
+            List<DeskBooking> bookings = deskBookingRepo.getBookingsByDeskAndDateAndBookingTimeBetween(booking.getDesk(), booking.getDate(), booking.getStart(), booking.getEndTime());
             bookings.remove(existingBooking);
             if (!bookings.isEmpty()) {
                 throw new DeskNotAvailableException("Desk not available for booking period");
@@ -144,7 +144,7 @@ public class DeskBookingServiceImplementation implements DeskBookingService {
             existingBooking.setStart(booking.getStart());
             existingBooking.setEndTime(booking.getEndTime());
             existingBooking.setTimeStamp(LocalDateTime.now());
-            return deskBookingDBAccess.addBooking(existingBooking);
+            return deskBookingRepo.addBooking(existingBooking);
         }catch (DataAccessException e){
             throw new BookingNotFoundException("Database access error occurred for id: " + booking.getId(), e);
         }
@@ -153,16 +153,16 @@ public class DeskBookingServiceImplementation implements DeskBookingService {
 
     @Override
     public List<DeskBooking> findByDeskAndBookingEndAfterAndBookingStartBefore(Desk desk, LocalDate date, LocalTime start, LocalTime endTime) {
-        return deskBookingDBAccess.getBookingsByDeskAndDateAndBookingTimeBetween(desk, date, start, endTime);
+        return deskBookingRepo.getBookingsByDeskAndDateAndBookingTimeBetween(desk, date, start, endTime);
     }
 
     @Override
     public void deleteBookingById(Long bookingId) throws BookingNotFoundException {
-        Optional<DeskBooking> booking = deskBookingDBAccess.getBookingByBookingId(bookingId);
+        Optional<DeskBooking> booking = deskBookingRepo.getBookingByBookingId(bookingId);
         if (!booking.isPresent()) {
             throw new BookingNotFoundException("Booking not Found!");
         }
-        deskBookingDBAccess.deleteBookingById(bookingId);
+        deskBookingRepo.deleteBookingById(bookingId);
     }
 
     @Override
@@ -172,10 +172,10 @@ public class DeskBookingServiceImplementation implements DeskBookingService {
 
     /*@Override
     public List<Desk> getAvailableDesks(LocalDate date, LocalTime start, LocalTime endTime) {
-        List<Desk> allDesks = deskDBAccess.getAllDesks();
+        List<Desk> allDesks = deskRepo.getAllDesks();
         List<Desk> availableDesks = new ArrayList<>();
         for (Desk desk : allDesks) {
-            List<DeskBooking> bookings = deskBookingDBAccess.getBookingsByDeskAndDateAndBookingTimeBetween(desk, date, start, endTime);
+            List<DeskBooking> bookings = deskBookingRepo.getBookingsByDeskAndDateAndBookingTimeBetween(desk, date, start, endTime);
             if (bookings != null && bookings.isEmpty()) {
                 availableDesks.add(desk);
             }
@@ -184,27 +184,27 @@ public class DeskBookingServiceImplementation implements DeskBookingService {
     }*/
     @Override
     public List<Desk> getAvailableDesks(LocalDate date, LocalTime start, LocalTime endTime) {
-        return deskDBAccess.getAllDesks().stream()
-                .filter(desk -> deskBookingDBAccess.getBookingsByDeskAndDateAndBookingTimeBetween(desk, date, start, endTime).isEmpty())
+        return deskRepo.getAllDesks().stream()
+                .filter(desk -> deskBookingRepo.getBookingsByDeskAndDateAndBookingTimeBetween(desk, date, start, endTime).isEmpty())
                 .collect(Collectors.toList());
     }
 
 
     @Override
     public boolean isDeskAvailable(Desk desk, LocalDate date, LocalTime startDateTime, LocalTime endDateTime) {
-        List<DeskBooking> bookings = deskBookingDBAccess.getBookingsByDeskAndDateAndBookingTimeBetween(desk, date, startDateTime, endDateTime);
+        List<DeskBooking> bookings = deskBookingRepo.getBookingsByDeskAndDateAndBookingTimeBetween(desk, date, startDateTime, endDateTime);
         return bookings.isEmpty();
     }
 
     @Override
     public void deleteBooking(Long id) throws BookingNotFoundException {
-        deskBookingDBAccess.deleteBookingById(id);
+        deskBookingRepo.deleteBookingById(id);
     }
 
 
     @Override
     public List<DeskBooking> getMyBookingHistory(Long employeeId) {
-        return deskBookingDBAccess.getBookingsByEmployeeId(employeeId);
+        return deskBookingRepo.getBookingsByEmployeeId(employeeId);
     }
 
 }

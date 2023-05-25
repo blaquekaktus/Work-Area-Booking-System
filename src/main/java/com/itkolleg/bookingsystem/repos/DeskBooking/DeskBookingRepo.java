@@ -13,7 +13,7 @@ import java.util.List;
 import java.util.Optional;
 
 
-public interface DeskBookingDBAccess {
+public interface DeskBookingRepo {
     DeskBooking addBooking(DeskBooking booking) throws DeskNotAvailableException, DeskNotFoundException;
 
     List<DeskBooking> getAllBookings();

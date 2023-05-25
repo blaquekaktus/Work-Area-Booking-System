@@ -8,10 +8,10 @@ import java.time.LocalTime;
 import java.util.List;
 
 @Component
-public class TimeSlotDBAccess_JPAH2 implements TimeSlotDBAccess {
+public class TimeSlotRepo_JPAH2 implements TimeSlotRepo {
     TimeSlotJPARepo timeSlotJPARepo;
 
-    public TimeSlotDBAccess_JPAH2(TimeSlotJPARepo timeSlotJPARepo) {
+    public TimeSlotRepo_JPAH2(TimeSlotJPARepo timeSlotJPARepo) {
         this.timeSlotJPARepo = timeSlotJPARepo;
     }
 

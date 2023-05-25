@@ -22,14 +22,14 @@ import java.util.Optional;
 
 @Component
 @ComponentScan({"com.itkolleg.repos"})
-public class DeskBookingDBAccess_JPAH2 implements DeskBookingDBAccess {
-    private static final Logger logger = LoggerFactory.getLogger(DeskBookingDBAccess_JPAH2.class);
+public class DeskBookingRepo_JPAH2 implements DeskBookingRepo {
+    private static final Logger logger = LoggerFactory.getLogger(DeskBookingRepo_JPAH2.class);
     private final DeskBookingJPARepo deskBookingJPARepo;
     private final DeskJPARepo deskJPARepo;
     private final EmployeeJPARepo employeeJPARepo;
 
 
-    public DeskBookingDBAccess_JPAH2(DeskBookingJPARepo deskBookingJPARepo, DeskJPARepo deskJPARepo, EmployeeJPARepo employeeJPARepo) {
+    public DeskBookingRepo_JPAH2(DeskBookingJPARepo deskBookingJPARepo, DeskJPARepo deskJPARepo, EmployeeJPARepo employeeJPARepo) {
         this.deskBookingJPARepo = deskBookingJPARepo;
         this.deskJPARepo = deskJPARepo;
         this.employeeJPARepo = employeeJPARepo;

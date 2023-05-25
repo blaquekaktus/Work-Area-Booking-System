@@ -6,7 +6,7 @@ import com.itkolleg.bookingsystem.exceptions.TimeSlot.TimeSlotNotFoundException;
 import java.time.LocalTime;
 import java.util.List;
 
-public interface TimeSlotDBAccess {
+public interface TimeSlotRepo {
     TimeSlot addTimeSlot(TimeSlot timeSlot);
 
     List<TimeSlot> getAllTimeSlots();

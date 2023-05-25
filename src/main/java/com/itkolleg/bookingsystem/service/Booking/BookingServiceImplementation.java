@@ -1,7 +1,8 @@
-package com.itkolleg.bookingsystem.service;
+package com.itkolleg.bookingsystem.service.Booking;
 
 import com.itkolleg.bookingsystem.domains.Booking.Booking;
 import com.itkolleg.bookingsystem.domains.Employee;
+import com.itkolleg.bookingsystem.service.Booking.BookingService;
 
 import java.sql.Date;
 import java.util.List;

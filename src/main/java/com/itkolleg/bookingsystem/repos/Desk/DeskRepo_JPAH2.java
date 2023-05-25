@@ -12,11 +12,11 @@ import java.util.List;
 import java.util.Optional;
 
 @Component
-public class DeskDBAccess_JPAH2 implements DeskDBAccess {
+public class DeskRepo_JPAH2 implements DeskRepo {
 
     DeskJPARepo deskJPARepo;
 
-    public DeskDBAccess_JPAH2(DeskJPARepo deskJPARepo) {
+    public DeskRepo_JPAH2(DeskJPARepo deskJPARepo) {
         this.deskJPARepo = deskJPARepo;
     }
 
