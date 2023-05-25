@@ -63,20 +63,30 @@ public class DeskBookingWebController {
     }
 
     @PostMapping("/add")
-    public String addDeskBooking(@Valid DeskBooking booking, BindingResult bindingResult,
-                                 @RequestParam("employee.id") Long employeeId,
-                                 @RequestParam("desk.id") Long deskId) throws ExecutionException, InterruptedException, EmployeeNotFoundException, DeskNotFoundException, DeskNotAvailableException {
-        if (bindingResult.hasErrors()) {
-            return "DeskBookings/addDeskBooking";
-        } else {
-            Employee employee = employeeService.getEmployeeById(employeeId);
-            Desk desk = deskService.getDeskById(deskId);
+    public String addDeskBooking(@Valid DeskBooking booking, BindingResult bindingResult,  @RequestParam("employee.id") Long employeeId, @RequestParam("desk.id") Long deskId) {
+        try {
+            if (bindingResult.hasErrors()) {
+                System.out.println("Errors: " + bindingResult.getAllErrors());
+                return "DeskBookings/addDeskBooking";
+            } else {
+                Desk desk = deskService.getDeskById(deskId);
+                Employee employee = employeeService.getEmployeeById(employeeId);
 
-            booking.setEmployee(employee);
-            booking.setDesk(desk);
+                booking.setDesk(desk);
+                booking.setEmployee(employee);
+                booking.setTimeStamp(LocalDateTime.now());
 
-            this.deskBookingService.addDeskBooking(booking);
-            return "redirect:/web/deskBookings";
+                this.deskBookingService.addDeskBooking(booking);
+                return "redirect:/web/deskBookings";
+            }
+        } catch (DeskNotAvailableException e) {
+            // Log the error message and stack trace for further investigation
+            logger.error("Desk is not available for booking: " + e.getMessage(), e);
+            return "errorPage";
+        } catch (ExecutionException | InterruptedException | EmployeeNotFoundException | DeskNotFoundException e) {
+            // Log the error message and stack trace for further investigation
+            logger.error("Error occurred while booking the desk: " + e.getMessage(), e);
+            return "errorPage";
         }
     }
 
