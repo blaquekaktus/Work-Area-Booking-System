@@ -38,15 +38,13 @@ public interface DeskBookingService {
 
     DeskBooking updateBooking(DeskBooking booking) throws BookingNotFoundException, DeskNotAvailableException, DeskNotFoundException;
 
-    List<DeskBooking> findByDeskAndBookingEndAfterAndBookingStartBefore(Desk desk, LocalDateTime startDateTime, LocalDateTime endDateTime);
+    List<DeskBooking> findByDeskAndBookingEndAfterAndBookingStartBefore(Desk desk, LocalDate date, LocalTime start, LocalTime endTime);
 
     void deleteBookingById(Long bookingID) throws BookingNotFoundException;
 
-    List<Desk> getAvailableDesks(LocalDateTime startDateTime, LocalDateTime endDateTime);
+    List<Desk> getAvailableDesks(LocalDate date, LocalTime start, LocalTime endTime);
 
     boolean isDeskAvailable(Desk desk, LocalDateTime startDateTime, LocalDateTime endDateTime);
-
-    List<Desk> getAvailableDesks(LocalDate date, LocalTime bookingStart, LocalTime bookingEnd);
 
     boolean isDeskAvailable(Desk desk, LocalDate date, LocalTime startDateTime, LocalTime endDateTime);
 

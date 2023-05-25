@@ -10,6 +10,7 @@ import com.itkolleg.bookingsystem.exceptions.EmployeeExceptions.EmployeeNotFound
 import com.itkolleg.bookingsystem.exceptions.EmployeeExceptions.EmployeeValidationException;
 import com.itkolleg.bookingsystem.exceptions.ExceptionDTO;
 import com.itkolleg.bookingsystem.exceptions.FormValidationExceptionDTO;
+import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.ControllerAdvice;
@@ -18,7 +19,7 @@ import org.springframework.web.servlet.ModelAndView;
 
 
 @ControllerAdvice
-public class ExceptionController {
+public class GlobalExceptionController {
 
     @ExceptionHandler(EmployeeNotFoundException.class)
     public ResponseEntity<ExceptionDTO> employeeNotFound(EmployeeNotFoundException employeeNotFoundException) {
@@ -63,6 +64,12 @@ public class ExceptionController {
         modelAndView.addObject("errorDetails", new ErrorDetails("Desk Not Available", "The desk is not available."));
         e.printStackTrace();
         return modelAndView;
+    }
+
+    @ExceptionHandler(EmptyResultDataAccessException.class)
+    public ResponseEntity<String> handleEmptyResultDataAccessException(EmptyResultDataAccessException e) {
+        // customize error message and HTTP status as needed
+        return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Booking not Found!");
     }
 
     @ExceptionHandler(Exception.class)

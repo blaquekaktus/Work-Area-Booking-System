@@ -90,14 +90,15 @@ public class DeskBookingWebController {
     @GetMapping("/update/{id}")
     public String updateDeskBookingForm(@PathVariable Long id, Model model) throws BookingNotFoundException {
         DeskBooking booking = this.deskBookingService.getBookingById(id);
-        Employee employee = this.deskBookingService.getBookingById(id).getEmployee();
 
-            if (booking == null) {
-                // Log an error message indicating that the booking was not found
-                logger.error("Booking with ID {} not found.", id);
-                //throw new BookingNotFoundException("Booking not found for ID: " + id);
-                return "redirect:/error";
-            }
+        if (booking == null) {
+            // Log an error message indicating that the booking was not found
+            logger.error("Booking with ID {} not found.", id);
+            return "redirect:/error";
+        }
+
+        // Get the employee, Desks and TimesSlots after checking that the booking is not null
+        Employee employee = booking.getEmployee();
         List<Desk> desks = this.deskService.getAllDesks();
         List<TimeSlot> times = timeSlotService.getAllTimeSlots();
 
@@ -111,34 +112,35 @@ public class DeskBookingWebController {
                 .map(TimeSlot::getEndTimeAsString)
                 .distinct()
                 .collect(Collectors.toList());
-
-        System.out.println(employee);
-        System.out.println(employee.getFname());
-        System.out.println(employee.getLname());
-        System.out.println(booking);
-        logger.info("DeskBooking object before adding to model: {}", booking);
+        //Add booking, employee, desks, unique booking start and end times to the model
         model.addAttribute("booking", booking);
         model.addAttribute("employee", employee);
-        logger.info("DeskBooking object after adding to model: {}", model.getAttribute("booking"));
         model.addAttribute("desks", desks);
         model.addAttribute("uniqueStartTimes", uniqueStartTimes);
         model.addAttribute("uniqueEndTimes", uniqueEndTimes);
-        logger.info("Booking object added to the model: {}", booking);
-        System.out.println(booking);
+
         return "DeskBookings/updateDeskBooking";
     }
 
-    @PostMapping("/update")
-    public String updateDeskBooking(@Valid DeskBooking booking, BindingResult bindingResult, @RequestParam("id") Long id, @RequestParam("desk.id") Long deskId) throws BookingNotFoundException, DeskNotAvailableException, DeskNotFoundException {
-        if (bindingResult.hasErrors()) {
 
+
+    @PostMapping("/update")
+    public String updateDeskBooking(@Valid DeskBooking booking, BindingResult bindingResult, @RequestParam("id") Long id, @RequestParam("desk.id") Long deskId, @RequestParam("employee.id") Long employeeId) throws BookingNotFoundException, DeskNotAvailableException, DeskNotFoundException, ExecutionException, InterruptedException, EmployeeNotFoundException {
+        if (bindingResult.hasErrors()) {
             System.out.println("Errors: " + bindingResult.getAllErrors());
             return "DeskBookings/updateDeskBooking";
-
         } else {
             Desk desk = deskService.getDeskById(deskId);
+                if(desk == null) {
+                    throw new DeskNotFoundException("Desk not found for id: " + deskId);
+                }
+            Employee employee = employeeService.getEmployeeById(employeeId);
+                if(employee == null) {
+                    throw new EmployeeNotFoundException("Employee not found for id: " + employeeId);
+                }
 
             booking.setDesk(desk);
+            booking.setEmployee(employee);
             booking.setId(id);
             booking.setTimeStamp(LocalDateTime.now());
 

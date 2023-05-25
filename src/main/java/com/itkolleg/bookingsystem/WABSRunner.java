@@ -1,7 +1,7 @@
 package com.itkolleg.bookingsystem;
 
-import com.itkolleg.bookingsystem.domains.*;
 import com.itkolleg.bookingsystem.domains.Booking.DeskBooking;
+import com.itkolleg.bookingsystem.domains.*;
 import com.itkolleg.bookingsystem.exceptions.DeskExceptions.DeskNotAvailableException;
 import com.itkolleg.bookingsystem.repos.Desk.DeskDBAccess;
 import com.itkolleg.bookingsystem.repos.DeskBooking.DeskBookingDBAccess;
@@ -12,10 +12,10 @@ import org.springframework.boot.ApplicationRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.autoconfigure.domain.EntityScan;
-import org.springframework.context.annotation.ComponentScan;
 import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
 
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.time.LocalTime;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -23,7 +23,7 @@ import java.util.List;
 
 
 @SpringBootApplication
-@EnableJpaRepositories (basePackages = "com.itkolleg.bookingsystem.*")
+@EnableJpaRepositories(basePackages = "com.itkolleg.bookingsystem.*")
 //@ComponentScan("com.itkolleg.bookingsystem")//to scan repository files
 @EntityScan("com.itkolleg.bookingsystem.*")
 public class WABSRunner implements ApplicationRunner {
@@ -41,9 +41,11 @@ public class WABSRunner implements ApplicationRunner {
         this.deskBookingDBAccess = deskBookingDBAccess;
         this.timeSlotDBAccess = timeSlotDBAccess;
     }
+
     public static void main(String[] args) {
         SpringApplication.run(WABSRunner.class, args);
     }
+
     @Override
     public void run(ApplicationArguments args) throws Exception {
         System.out.println("\n\nSystem is up and running!\n");
@@ -78,7 +80,7 @@ public class WABSRunner implements ApplicationRunner {
         d1.add(hdmi);
         d1.add(io);
         d1.add(display);
-        portList ++;
+        portList++;
 
         List<Port> d2 = new ArrayList<>();
         d2.add(usba);
@@ -86,7 +88,7 @@ public class WABSRunner implements ApplicationRunner {
         d2.add(io);
         d2.add(display);
         d2.add(micro);
-        portList ++;
+        portList++;
 
         List<Port> d3 = new ArrayList<>();
         d3.add(rj45);
@@ -95,7 +97,7 @@ public class WABSRunner implements ApplicationRunner {
         d3.add(display);
         d3.add(audio);
         d3.add(mini);
-        portList ++;
+        portList++;
 
         List<Port> d4 = new ArrayList<>();
         d4.add(sd);
@@ -103,44 +105,43 @@ public class WABSRunner implements ApplicationRunner {
         d4.add(dvi);
         d4.add(vga);
         d4.add(thunderbolt);
-        portList ++;
+        portList++;
 
         System.out.println("\n" + portList + " Lists of Ports created\n");
 
         int noOfDesks = 0;
-        Desk desk1= new Desk("D1-1", 2, d3);
+        Desk desk1 = new Desk("D1-1", 2, d3);
         deskDBAccess.addDesk(desk1);
-        noOfDesks ++;
+        noOfDesks++;
         Desk desk2 = new Desk("D1-2", 2, d2);
         deskDBAccess.addDesk(desk2);
-        noOfDesks ++;
+        noOfDesks++;
         Desk desk3 = new Desk("D2-3", 2, d1);
         deskDBAccess.addDesk(desk3);
-        noOfDesks ++;
+        noOfDesks++;
         Desk desk4 = new Desk("D1-3", 2, d1);
         deskDBAccess.addDesk(desk4);
-        noOfDesks ++;
+        noOfDesks++;
         Desk desk5 = new Desk("D1-4", 2, d1);
         deskDBAccess.addDesk(desk5);
-        noOfDesks ++;
+        noOfDesks++;
         Desk desk6 = new Desk("D2-1", 3, d1);
         deskDBAccess.addDesk(desk6);
-        noOfDesks ++;
+        noOfDesks++;
         Desk desk7 = new Desk("D2-4", 2, d3);
         deskDBAccess.addDesk(desk7);
-        noOfDesks ++;
+        noOfDesks++;
         Desk desk8 = new Desk("D3-3", 2, d3);
         deskDBAccess.addDesk(desk8);
-        noOfDesks ++;
+        noOfDesks++;
         Desk desk9 = new Desk("D3-1", 2, d4);
         deskDBAccess.addDesk(desk9);
-        noOfDesks ++;
+        noOfDesks++;
         Desk desk10 = new Desk("D3-2", 3, d4);
         deskDBAccess.addDesk(desk10);
-        noOfDesks ++;
+        noOfDesks++;
 
         System.out.println("\n" + noOfDesks + " Desks successfully added to the database!\n");
-
 
 
         int noOfDeskBookings = 0;
@@ -188,25 +189,25 @@ public class WABSRunner implements ApplicationRunner {
         Desk savedDesk10 = deskDBAccess.getDeskById(desk10.getId());
 
         //Create 10 new DeskBookings
-        DeskBooking deskBooking = new DeskBooking(admin, savedDesk3,date , bookingTime1[0], bookingTime1[1], LocalTime.now());
+        DeskBooking deskBooking = new DeskBooking(admin, savedDesk3, date, bookingTime1[0], bookingTime1[1], LocalDateTime.now());
         noOfDeskBookings++;
-        DeskBooking deskBooking1 = new DeskBooking(sonlech,savedDesk4 ,date1, bookingTime2[0], bookingTime2[1], LocalTime.now());
-        noOfDeskBookings ++;
-        DeskBooking deskBooking2 = new DeskBooking(jaslech,savedDesk3, date4,bookingTime3[0], bookingTime3[1], LocalTime.now());
-        noOfDeskBookings ++;
-        DeskBooking deskBooking3 = new DeskBooking(jaslech,savedDesk4, date3, bookingTime3[0], bookingTime3[1], LocalTime.now());
-        noOfDeskBookings ++;
-        DeskBooking deskBooking4 = new DeskBooking(camlech,savedDesk2, date4, bookingTime2[0], bookingTime2[1], LocalTime.now());
+        DeskBooking deskBooking1 = new DeskBooking(sonlech, savedDesk4, date1, bookingTime2[0], bookingTime2[1], LocalDateTime.now());
         noOfDeskBookings++;
-        DeskBooking deskBooking5 = new DeskBooking(joslech,savedDesk1, date, bookingTime3[0], bookingTime3[1], LocalTime.now());
+        DeskBooking deskBooking2 = new DeskBooking(jaslech, savedDesk3, date4, bookingTime3[0], bookingTime3[1], LocalDateTime.now());
         noOfDeskBookings++;
-        DeskBooking deskBooking6 = new DeskBooking(joslech,savedDesk1, date1, bookingTime3[0], bookingTime3[1], LocalTime.now());
+        DeskBooking deskBooking3 = new DeskBooking(jaslech, savedDesk4, date3, bookingTime3[0], bookingTime3[1], LocalDateTime.now());
         noOfDeskBookings++;
-        DeskBooking deskBooking7 = new DeskBooking(joslech,savedDesk1, date2, bookingTime3[0], bookingTime3[1], LocalTime.now());
+        DeskBooking deskBooking4 = new DeskBooking(camlech, savedDesk2, date4, bookingTime2[0], bookingTime2[1], LocalDateTime.now());
         noOfDeskBookings++;
-        DeskBooking deskBooking8 = new DeskBooking(sonlech,savedDesk1, date3, bookingTime3[0], bookingTime3[1], LocalTime.now());
+        DeskBooking deskBooking5 = new DeskBooking(joslech, savedDesk1, date, bookingTime3[0], bookingTime3[1], LocalDateTime.now());
         noOfDeskBookings++;
-        DeskBooking deskBooking9 = new DeskBooking(sonlech,savedDesk1, date4,  bookingTime3[0], bookingTime3[1], LocalTime.now());
+        DeskBooking deskBooking6 = new DeskBooking(joslech, savedDesk1, date1, bookingTime3[0], bookingTime3[1], LocalDateTime.now());
+        noOfDeskBookings++;
+        DeskBooking deskBooking7 = new DeskBooking(joslech, savedDesk1, date2, bookingTime3[0], bookingTime3[1], LocalDateTime.now());
+        noOfDeskBookings++;
+        DeskBooking deskBooking8 = new DeskBooking(sonlech, savedDesk1, date3, bookingTime3[0], bookingTime3[1], LocalDateTime.now());
+        noOfDeskBookings++;
+        DeskBooking deskBooking9 = new DeskBooking(sonlech, savedDesk1, date4, bookingTime3[0], bookingTime3[1], LocalDateTime.now());
         noOfDeskBookings++;
         System.out.println("\n" + noOfDeskBookings + " Desk Bookings successfully created! \n");
 
@@ -225,13 +226,14 @@ public class WABSRunner implements ApplicationRunner {
             throw new RuntimeException(e);
         }
 
-        if(deskBookingDBAccess.getAllBookings()!=null){
+        if (deskBookingDBAccess.getAllBookings() != null) {
             System.out.println("\nDesk Bookings successfully added to the Database\n");
-        }else{
+        } else {
             System.out.println("Error: Desk Bookings were not added to the Database.");
         }
 
     }
+
     private LocalTime[] getBookingTimes(int option) {
         LocalTime[] bookingTimes = new LocalTime[2];
 
