@@ -3,15 +3,16 @@
 <head>
     <meta charset="UTF-8">
     <title>Cancel Booking</title>
-    <link th:rel="stylesheet" th:href="@{/webjars/bootstrap/4.0.0-2/css/bootstrap.min.css} "/>
+    <link th:href="@{/webjars/bootstrap/4.0.0-2/css/bootstrap.min.css} " th:rel="stylesheet"/>
 </head>
 <body style="background-image: url('/images/bgbild.jpg');background-repeat:no-repeat;background-size:cover;">
-<nav class="navbar navbar-expand-lg navbar-light" style="background-color: #96C01E;height: 200px;display:flex;align-items:center;">
+<nav class="navbar navbar-expand-lg navbar-light"
+     style="background-color: #96C01E;height: 200px;display:flex;align-items:center;">
     <!-- Navigation content -->
     <div class=" row d-flex justify-content-evenly align-items-center" style="width:100%">
-        <div class="col-4"><img src="/images/GreenLogo.png" alt="KlimaBuendnis Green Logo" height="180px"></div>
-        <div class="col-6"><img src="/images/wabs.png" alt="WABS" height="190px" ></div>
-        <div class="col-2"><img src="/images/kb_badge.png" alt="Badge" height="160px"></div>
+        <div class="col-4"><img alt="KlimaBuendnis Green Logo" height="180px" src="/images/GreenLogo.png"></div>
+        <div class="col-6"><img alt="WABS" height="190px" src="/images/wabs.png"></div>
+        <div class="col-2"><img alt="Badge" height="160px" src="/images/kb_badge.png"></div>
     </div>
 </nav>
 <br>
@@ -22,13 +23,14 @@
 <br>
 <br>
 <div class="container">
-    <div class="row justify-content-center">
+    <div class="row justify-content-center">@{/web/deskBookings/add}" th:object="${deskBooking}"
         <div class="col-md-6">
-            <p class="text-center">Are you sure you want to cancel this booking?</p>
-            <form th:object="${booking}" th:action="@{/web/v1/deskBookings/cancel/{id}(id=${booking.id})}" method="post">
+            <form method="post" th:action="@{/web/desks/cancel/{id}(id=${booking.id})}" th:object="${booking}">
+                <p class="text-center">Are you sure you want to cancel booking ID: <strong
+                        th:text="${desk.id}"></strong>?</p>
                 <div class="d-flex justify-content-center">
-                    <button type="submit" class="btn btn-danger my-2 my-sm-0 mr-3">Confirm Cancellation</button>
-                    <a th:href="@{/web/v1/deskBookings}" class="btn btn-dark my-2 my-sm-0">Back to My Desk Bookings</a>
+                    <button class="btn btn-danger my-2 my-sm-0 mr-3" type="submit">Confirm Cancellation</button>
+                    <a class="btn btn-dark my-2 my-sm-0" th:href="@{/web/desks}">Back to Desks</a>
                 </div>
             </form>
         </div>

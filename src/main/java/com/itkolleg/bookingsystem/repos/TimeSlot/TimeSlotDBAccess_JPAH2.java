@@ -8,11 +8,13 @@ import java.time.LocalTime;
 import java.util.List;
 
 @Component
-public class TimeSlotDBAccess_JPAH2 implements TimeSlotDBAccess{
+public class TimeSlotDBAccess_JPAH2 implements TimeSlotDBAccess {
     TimeSlotJPARepo timeSlotJPARepo;
+
     public TimeSlotDBAccess_JPAH2(TimeSlotJPARepo timeSlotJPARepo) {
         this.timeSlotJPARepo = timeSlotJPARepo;
     }
+
     @Override
     public TimeSlot addTimeSlot(TimeSlot timeSlot) {
         return this.timeSlotJPARepo.save(timeSlot);

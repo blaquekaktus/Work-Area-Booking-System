@@ -1,6 +1,6 @@
 package com.itkolleg.bookingsystem.controller.room;
 
-import com.itkolleg.bookingsystem.Service.Room.RoomService;
+import com.itkolleg.bookingsystem.service.Room.RoomService;
 import com.itkolleg.bookingsystem.domains.Room;
 import com.itkolleg.bookingsystem.exceptions.FormValidationExceptionDTO;
 import com.itkolleg.bookingsystem.exceptions.RoomExceptions.RoomDeletionNotPossibleException;
@@ -19,9 +19,9 @@ import java.util.concurrent.ExecutionException;
 @RestController
 @RequestMapping("/api/v1/rooms")
 public class RoomRestController {
-    private RoomService roomService;
+    private final RoomService roomService;
 
-    public RoomRestController(RoomService roomService){
+    public RoomRestController(RoomService roomService) {
         this.roomService = roomService;
     }
 
@@ -40,7 +40,7 @@ public class RoomRestController {
             // Wirf eine Exception, die die Validierungsfehler als DTO-Objekt enthält
             throw new RoomValidationException(formValidationErrors);
         } else {
-            Room roomInserted =  this.roomService.addRoom(room);
+            Room roomInserted = this.roomService.addRoom(room);
             return ResponseEntity.ok(roomInserted);
             // Füge den übergebenen Employee der Datenbank hinzu und gib das neu erstellte Room-Objekt zurück.
             //return roomService.addRoom(room);
@@ -56,7 +56,6 @@ public class RoomRestController {
         // Aufruf des entsprechenden EmployeeService-Method, um den Raum mit der angegebenen ID zu finden
         //return this.roomService.getRoomById(id);
     }
-
 
 
     @GetMapping
@@ -81,7 +80,7 @@ public class RoomRestController {
     }
 
     @GetMapping("/test")
-    public ResponseEntity<String> testGetEndpoint(){
+    public ResponseEntity<String> testGetEndpoint() {
         return ResponseEntity.ok("Test Get Endpoint is Working!");
     }
 

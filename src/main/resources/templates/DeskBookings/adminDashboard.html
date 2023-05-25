@@ -3,14 +3,15 @@
 <head>
     <meta charset="UTF-8">
     <title>Admin Dashboard</title>
-    <link th:rel="stylesheet" th:href="@{/webjars/bootstrap/4.0.0-2/css/bootstrap.min.css} "/>
+    <link th:href="@{/webjars/bootstrap/4.0.0-2/css/bootstrap.min.css} " th:rel="stylesheet"/>
 </head>
 <body style="background-image: url('/images/bgbild.jpg');background-repeat:no-repeat;background-size:cover;">
-<nav class="navbar navbar-expand-lg navbar-light" style="background-color: #96C01E;height: 200px;display:flex;align-items:center;">
+<nav class="navbar navbar-expand-lg navbar-light"
+     style="background-color: #96C01E;height: 200px;display:flex;align-items:center;">
     <div class=" row d-flex justify-content-evenly align-items-center" style="width:100%">
-        <div class="col-4"><img src="/images/GreenLogo.png" alt="KlimaBuendnis Green Logo" height="180px"></div>
-        <div class="col-6"><img src="/images/wabs.png" alt="WABS" height="190px" ></div>
-        <div class="col-2"><img src="/images/kb_badge.png" alt="Badge" height="160px"></div>
+        <div class="col-4"><img alt="KlimaBuendnis Green Logo" height="180px" src="/images/GreenLogo.png"></div>
+        <div class="col-6"><img alt="WABS" height="190px" src="/images/wabs.png"></div>
+        <div class="col-2"><img alt="Badge" height="160px" src="/images/kb_badge.png"></div>
     </div>
 </nav>
 <br>
@@ -20,21 +21,21 @@
     <div class="row">
         <div class="col-md-6">
             <h2>Desks</h2>
-            <a th:href="@{/web/v1/desks}" class="btn btn-primary">Manage Desks</a>
+            <a class="btn btn-primary" th:href="@{/web/v1/desks}">Manage Desks</a>
         </div>
         <div class="col-md-6">
             <h2>Bookings</h2>
-            <a th:href="@{/web/v1/bookings}" class="btn btn-primary">Manage Bookings</a>
+            <a class="btn btn-primary" th:href="@{/web/v1/bookings}">Manage Bookings</a>
         </div>
     </div>
     <div class="row mt-4">
         <div class="col-md-6">
             <h2>Employees</h2>
-            <a th:href="@{/web/v1/employees}" class="btn btn-primary">Manage Employees</a>
+            <a class="btn btn-primary" th:href="@{/web/v1/employees}">Manage Employees</a>
         </div>
         <div class="col-md-6">
             <h2>Reports</h2>
-            <a th:href="@{/web/v1/reports}" class="btn btn-primary">View Reports</a>
+            <a class="btn btn-primary" th:href="@{/web/v1/reports}">View Reports</a>
         </div>
     </div>
 </div>

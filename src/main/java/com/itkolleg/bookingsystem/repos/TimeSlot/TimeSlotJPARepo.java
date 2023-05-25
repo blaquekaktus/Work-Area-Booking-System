@@ -12,6 +12,7 @@ public interface TimeSlotJPARepo extends JpaRepository<TimeSlot, Long> {
     TimeSlot getTimeSlotByStartTime(LocalTime startTime) throws TimeSlotNotFoundException;
 
     TimeSlot getTimeSlotByEndTime(LocalTime endTime) throws TimeSlotNotFoundException;
+
     TimeSlot getTimeSlotByName(String name) throws TimeSlotNotFoundException;
 
     default TimeSlot updateTimeSlot(TimeSlot timeslot) throws TimeSlotNotFoundException {
@@ -19,5 +20,6 @@ public interface TimeSlotJPARepo extends JpaRepository<TimeSlot, Long> {
     }
 
     void deleteTimeSlotById(Long id) throws TimeSlotNotFoundException;
+
     void deleteTimeSlotByName(String name);
 }

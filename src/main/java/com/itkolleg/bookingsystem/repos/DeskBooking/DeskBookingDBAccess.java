@@ -4,15 +4,17 @@ import com.itkolleg.bookingsystem.domains.Booking.DeskBooking;
 import com.itkolleg.bookingsystem.domains.Desk;
 import com.itkolleg.bookingsystem.domains.Employee;
 import com.itkolleg.bookingsystem.exceptions.BookingExceptions.BookingNotFoundException;
-import com.itkolleg.bookingsystem.exceptions.DeskExeceptions.DeskNotAvailableException;
+import com.itkolleg.bookingsystem.exceptions.DeskExceptions.DeskNotAvailableException;
+import com.itkolleg.bookingsystem.exceptions.DeskExceptions.DeskNotFoundException;
 
 import java.time.LocalDate;
 import java.time.LocalTime;
 import java.util.List;
 import java.util.Optional;
 
+
 public interface DeskBookingDBAccess {
-    DeskBooking addBooking(DeskBooking booking) throws DeskNotAvailableException;
+    DeskBooking addBooking(DeskBooking booking) throws DeskNotAvailableException, DeskNotFoundException;
 
     List<DeskBooking> getAllBookings();
 
@@ -30,10 +32,12 @@ public interface DeskBookingDBAccess {
     List<DeskBooking> searchBookings(Long employeeId, Long deskId, LocalDate date);
 
     List<DeskBooking> getByDeskAndDate(Desk desk, LocalDate date);
+
     List<DeskBooking> getBookingByDate(LocalDate date);
 
     DeskBooking updateBookingByBookingId(Long bookingId, DeskBooking updatedBooking) throws BookingNotFoundException;
-    DeskBooking updateBooking(DeskBooking updatedBooking);
+
+    DeskBooking updateBooking(DeskBooking updatedBooking) throws BookingNotFoundException;
 
     void deleteBookingById(Long employeeId) throws BookingNotFoundException;
 

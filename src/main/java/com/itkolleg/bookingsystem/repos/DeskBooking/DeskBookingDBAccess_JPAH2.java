@@ -4,11 +4,14 @@ import com.itkolleg.bookingsystem.domains.Booking.DeskBooking;
 import com.itkolleg.bookingsystem.domains.Desk;
 import com.itkolleg.bookingsystem.domains.Employee;
 import com.itkolleg.bookingsystem.exceptions.BookingExceptions.BookingNotFoundException;
-import com.itkolleg.bookingsystem.exceptions.DeskExeceptions.DeskNotAvailableException;
+import com.itkolleg.bookingsystem.exceptions.DeskExceptions.DeskNotAvailableException;
+import com.itkolleg.bookingsystem.exceptions.DeskExceptions.DeskNotFoundException;
+import com.itkolleg.bookingsystem.exceptions.EmployeeExceptions.EmployeeNotFoundException;
 import com.itkolleg.bookingsystem.repos.Desk.DeskJPARepo;
 import com.itkolleg.bookingsystem.repos.Employee.EmployeeJPARepo;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.context.annotation.ComponentScan;
 import org.springframework.stereotype.Component;
 
 import java.time.LocalDate;
@@ -18,11 +21,13 @@ import java.util.List;
 import java.util.Optional;
 
 @Component
+@ComponentScan({"com.itkolleg.repos"})
 public class DeskBookingDBAccess_JPAH2 implements DeskBookingDBAccess {
     private static final Logger logger = LoggerFactory.getLogger(DeskBookingDBAccess_JPAH2.class);
     private final DeskBookingJPARepo deskBookingJPARepo;
     private final DeskJPARepo deskJPARepo;
     private final EmployeeJPARepo employeeJPARepo;
+
 
     public DeskBookingDBAccess_JPAH2(DeskBookingJPARepo deskBookingJPARepo, DeskJPARepo deskJPARepo, EmployeeJPARepo employeeJPARepo) {
         this.deskBookingJPARepo = deskBookingJPARepo;
@@ -30,7 +35,7 @@ public class DeskBookingDBAccess_JPAH2 implements DeskBookingDBAccess {
         this.employeeJPARepo = employeeJPARepo;
     }
 
-    @Override
+    /*@Override
     public DeskBooking addBooking(DeskBooking booking) throws DeskNotAvailableException {
         // Check if the desk is available for the booking period
         List<DeskBooking> bookings = deskBookingJPARepo.getBookingsByDeskAndDate(Optional.ofNullable(booking.getDesk()), booking.getDate());
@@ -38,6 +43,42 @@ public class DeskBookingDBAccess_JPAH2 implements DeskBookingDBAccess {
             throw new DeskNotAvailableException("Desk not available for booking period");
         }
         return this.deskBookingJPARepo.save(booking);
+    }*/
+    /*@Query("SELECT b FROM DeskBooking b WHERE b.desk.id = :deskId")
+     DeskBooking getBookingByDeskId(@Param("deskId") Long deskId);*/
+
+    public DeskBooking addBooking(DeskBooking deskBooking) throws DeskNotAvailableException, DeskNotFoundException {
+        // Check for null values
+        if(deskBooking == null || deskBooking.getEmployee() == null || deskBooking.getDesk() == null) {
+            throw new IllegalArgumentException("The DeskBooking or Employee or Desk cannot be null.");
+        }
+
+        // Load the associated Desk entity from the database
+        Long deskid = deskBooking.getDesk().getId();
+        Desk desk = deskJPARepo.findDeskById(deskid);
+        if (desk == null) {
+            throw new DeskNotFoundException("Desk was not found");
+        }
+
+        // Check if the desk is available for the booking period
+        if (!isDeskAvailable(desk, deskBooking.getDate(), deskBooking.getStart(), deskBooking.getEndTime())) {
+            throw new DeskNotAvailableException("Desk not available for booking period");
+        }
+
+        // Create a new Booking entity
+        DeskBooking booking = new DeskBooking();
+        booking.setEmployee(deskBooking.getEmployee());
+        booking.setDesk(desk);
+        booking.setDate(deskBooking.getDate());
+        booking.setStart(deskBooking.getStart());
+        booking.setEndTime(deskBooking.getEndTime());
+
+        // Save the booking
+        try {
+            return this.deskBookingJPARepo.save(booking);
+        } catch (Exception e) {
+            throw new RuntimeException("Error saving the booking to the database", e);
+        }
     }
 
     @Override
@@ -74,6 +115,10 @@ public class DeskBookingDBAccess_JPAH2 implements DeskBookingDBAccess {
     @Override
     public List<DeskBooking> searchBookings(Long employeeId, Long deskId, LocalDate date) {
         List<DeskBooking> bookings = new ArrayList<>();
+        if (employeeId == null && deskId == null && date == null) {
+            // Handle scenario where all parameters are null
+            bookings = deskBookingJPARepo.findAll();
+        }
         if (employeeId != null && deskId != null && date != null) {
             // Search for bookings by employee ID, desk ID, and date
             Optional<Employee> employee = employeeJPARepo.findById(employeeId);
@@ -117,56 +162,76 @@ public class DeskBookingDBAccess_JPAH2 implements DeskBookingDBAccess {
     public List<DeskBooking> getBookingsByEmployeeId(Long employeeId) {
         return this.deskBookingJPARepo.getBookingsByEmployeeId(employeeId);
     }
+
     public List<DeskBooking> getBookingsByDateAndBookingStartBetween(LocalDate date, LocalTime bookingStart, LocalTime bookingEnd) {
         return this.deskBookingJPARepo.getBookingsByDateAndStartBetween(date, bookingStart, bookingEnd);
     }
+
     @Override
     public DeskBooking updateBookingByBookingId(Long deskBookingId, DeskBooking updatedDeskBooking) throws BookingNotFoundException {
-        Optional<DeskBooking>bookingOptional = this.deskBookingJPARepo.findById(deskBookingId);
-        if (bookingOptional.isPresent()) {
-            DeskBooking deskBooking = bookingOptional.get();
-            deskBooking.setDesk(updatedDeskBooking.getDesk());
-            deskBooking.setEmployee(updatedDeskBooking.getEmployee());
-            deskBooking.setDate(updatedDeskBooking.getDate());
-            deskBooking.setEndTime(updatedDeskBooking.getEndTime());
-            deskBooking.setTimeStamp(updatedDeskBooking.getTimeStamp());
-            return this.deskBookingJPARepo.save(deskBooking);
-        }else{
-            throw new BookingNotFoundException("The Desk Booking with the ID: " + deskBookingId + " was not found!");
+        // Checking for mandatory fields on the updated booking
+        if(updatedDeskBooking.getDesk() == null || updatedDeskBooking.getEmployee() == null || updatedDeskBooking.getDate() == null
+                || updatedDeskBooking.getStart() == null || updatedDeskBooking.getEndTime() == null || updatedDeskBooking.getTimeStamp() == null) {
+            throw new IllegalArgumentException("Updated Booking must have valid Desk, Employee, Date, StartTime, EndTime and TimeStamp.");
         }
+
+        return deskBookingJPARepo.findById(deskBookingId).map(existingBooking -> {
+            Desk fetchedDesk;
+            try {
+                fetchedDesk = deskJPARepo.findById(updatedDeskBooking.getDesk().getId())
+                        .orElseThrow(() -> new DeskNotFoundException("The Desk with the ID: " + updatedDeskBooking.getDesk().getId() + " was not found!"));
+            } catch (DeskNotFoundException e) {
+                logger.error(e.getMessage());
+                throw new RuntimeException("Failed to update booking due to missing desk. Original error: " + e.getMessage());
+            }
+
+            Employee fetchedEmployee;
+            try {
+                fetchedEmployee = employeeJPARepo.findById(updatedDeskBooking.getEmployee().getId())
+                        .orElseThrow(() -> new EmployeeNotFoundException("The Employee with the ID: " + updatedDeskBooking.getEmployee().getId() + " was not found!"));
+            } catch (EmployeeNotFoundException e) {
+                logger.error(e.getMessage());
+                throw new RuntimeException("Failed to update booking due to missing employee. Original error: " + e.getMessage());
+            }
+
+            existingBooking.setDesk(fetchedDesk);
+            existingBooking.setEmployee(fetchedEmployee);
+            existingBooking.setDate(updatedDeskBooking.getDate());
+            existingBooking.setStart(updatedDeskBooking.getStart());
+            existingBooking.setEndTime(updatedDeskBooking.getEndTime());
+            existingBooking.setTimeStamp(updatedDeskBooking.getTimeStamp());
+            return deskBookingJPARepo.save(existingBooking);
+        }).orElseThrow(() -> new BookingNotFoundException("The Desk Booking with the ID: " + deskBookingId + " was not found!"));
     }
+
     @Override
-    public DeskBooking updateBooking(DeskBooking updatedBooking) {
-        return this.deskBookingJPARepo.save(updatedBooking);
+    public DeskBooking updateBooking(DeskBooking updatedBooking) throws BookingNotFoundException {
+        return null;
     }
+
+
     @Override
     public void deleteBookingById(Long bookingId) throws BookingNotFoundException {
-        Optional<DeskBooking>bookingOptional = this.deskBookingJPARepo.findById(bookingId);
+        Optional<DeskBooking> bookingOptional = this.deskBookingJPARepo.findById(bookingId);
         if (bookingOptional.isPresent()) {
             this.deskBookingJPARepo.deleteById(bookingId);
-        }else{
+        } else {
             throw new BookingNotFoundException("The Desk Booking with the ID: " + bookingId + " was not found!");
         }
     }
 
+
     @Override
     public List<Desk> getAvailableDesks(LocalDate date, LocalTime start, LocalTime end) {
         List<Desk> allDesks = deskJPARepo.findAll();
-        List<DeskBooking> bookings = deskBookingJPARepo.getBookingsByDateAndStartBetween(date, start, end);
         List<Desk> availableDesks = new ArrayList<>();
 
         for (Desk desk : allDesks) {
-            boolean isBooked = false;
-            for (DeskBooking booking : bookings) {
-                if (desk.equals(booking.getDesk())) {
-                    isBooked = true;
-                    break;
-                }
-            }
-            if (!isBooked) {
+            if (isDeskAvailable(desk, date, start, end)) {
                 availableDesks.add(desk);
             }
         }
+
         return availableDesks;
     }
 

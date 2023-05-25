@@ -1,8 +1,8 @@
 package com.itkolleg.bookingsystem.exceptions;
 
-import com.itkolleg.bookingsystem.exceptions.DeskExeceptions.DeskDeletionFailureException;
-import com.itkolleg.bookingsystem.exceptions.DeskExeceptions.DeskNotFoundException;
-import com.itkolleg.bookingsystem.exceptions.DeskExeceptions.DeskValidationFailureException;
+import com.itkolleg.bookingsystem.exceptions.DeskExceptions.DeskDeletionFailureException;
+import com.itkolleg.bookingsystem.exceptions.DeskExceptions.DeskNotFoundException;
+import com.itkolleg.bookingsystem.exceptions.DeskExceptions.DeskValidationFailureException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.http.HttpHeaders;

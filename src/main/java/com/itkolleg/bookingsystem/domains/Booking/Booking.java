@@ -4,8 +4,10 @@ import com.itkolleg.bookingsystem.domains.Employee;
 import com.itkolleg.bookingsystem.domains.TimeSlot;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotNull;
-import lombok.*;
-
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
+import lombok.ToString;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
@@ -31,11 +33,11 @@ public class Booking {
     private LocalDate date;
     @ManyToOne(fetch = FetchType.EAGER)
     private TimeSlot timeSlot;
-    private LocalTime timeStamp;
+    private LocalDateTime timeStamp;
     private LocalTime start;
     private LocalTime endTime;
 
-    public Booking(@NotNull Employee employee, @NotNull LocalDate date, LocalTime startTime, LocalTime endTime, @NotNull LocalTime timeStamp) {
+    public Booking(@NotNull Employee employee, @NotNull LocalDate date, LocalTime startTime, LocalTime endTime, @NotNull LocalDateTime timeStamp) {
         this.employee = employee;
         this.date = date;
         this.start = startTime;
@@ -43,7 +45,7 @@ public class Booking {
         this.timeStamp = timeStamp;
     }
 
-    public Booking(@NotNull Employee employee, @NotNull LocalDate date, TimeSlot timeSlot, @NotNull LocalTime timeStamp) {
+    public Booking(@NotNull Employee employee, @NotNull LocalDate date, TimeSlot timeSlot, @NotNull LocalDateTime timeStamp) {
         this.employee = employee;
         this.date = date;
         this.timeSlot = timeSlot;

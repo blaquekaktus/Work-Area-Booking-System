@@ -2,8 +2,8 @@ package com.itkolleg.bookingsystem.repos.Desk;
 
 import com.itkolleg.bookingsystem.domains.Desk;
 import com.itkolleg.bookingsystem.domains.Port;
-import com.itkolleg.bookingsystem.exceptions.DeskExeceptions.DeskDeletionFailureException;
-import com.itkolleg.bookingsystem.exceptions.DeskExeceptions.DeskNotFoundException;
+import com.itkolleg.bookingsystem.exceptions.DeskExceptions.DeskDeletionFailureException;
+import com.itkolleg.bookingsystem.exceptions.DeskExceptions.DeskNotFoundException;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Component;
@@ -33,7 +33,8 @@ public class DeskDBAccess_JPAH2 implements DeskDBAccess {
     public int getTotalDesks() {
         return this.getAllDesks().size();
     }
-    public Page<Desk> getAllDesksByPage(Pageable pageable){
+
+    public Page<Desk> getAllDesksByPage(Pageable pageable) {
         return this.deskJPARepo.findAllDesksByPage(pageable);
     }
 
@@ -50,13 +51,13 @@ public class DeskDBAccess_JPAH2 implements DeskDBAccess {
     @Override
     public Desk updateDeskById(Long id, Desk updatedDesk) throws DeskNotFoundException {
         Optional<Desk> deskOptional = this.deskJPARepo.findById(id);
-        if (deskOptional.isPresent()){
+        if (deskOptional.isPresent()) {
             Desk desk = deskOptional.get();
             desk.setDeskNr(updatedDesk.getDeskNr());
             desk.setNrOfMonitors(updatedDesk.getNrOfMonitors());
             desk.setPorts(updatedDesk.getPorts());
             return this.deskJPARepo.save(desk);
-        }else{
+        } else {
             throw new DeskNotFoundException("The Desk with the ID: " + id + " was not found!");
         }
     }
@@ -64,20 +65,17 @@ public class DeskDBAccess_JPAH2 implements DeskDBAccess {
     public Desk updateDesk(Desk updatedDesk) throws DeskNotFoundException {
         try {
             Optional<Desk> desk = this.deskJPARepo.findById(updatedDesk.getId());
-            if(desk.isPresent())
-            {
+            if (desk.isPresent()) {
                 Desk deskToUpdate = desk.get();
                 deskToUpdate.setDeskNr(updatedDesk.getDeskNr());
                 deskToUpdate.setNrOfMonitors(updatedDesk.getNrOfMonitors());
                 deskToUpdate.deleteAllPorts();
-                for(Port p : updatedDesk.getPorts())
-                {
+                for (Port p : updatedDesk.getPorts()) {
                     deskToUpdate.addPort(new Port(p.getName()));
                 }
                 return this.deskJPARepo.save(deskToUpdate);
-            } else
-            {
-                throw new DeskNotFoundException("Desk with ID " +updatedDesk.getId() + " not found!");
+            } else {
+                throw new DeskNotFoundException("Desk with ID " + updatedDesk.getId() + " not found!");
             }
 
         } catch (Exception e) {

@@ -2,7 +2,9 @@ package com.itkolleg.bookingsystem.domains;
 
 import jakarta.persistence.Embeddable;
 import jakarta.validation.constraints.Size;
-import lombok.*;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
 
 @Embeddable
 @NoArgsConstructor
@@ -11,7 +13,7 @@ import lombok.*;
 
 
 public class Port {
-    @Size(min=2)
+    @Size(min = 2)
     private String name;
 
     public Port(String name) {

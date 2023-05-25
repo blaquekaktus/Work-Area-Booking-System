@@ -1,7 +1,7 @@
 package com.itkolleg.bookingsystem.controller.ressource;
 
 
-import com.itkolleg.bookingsystem.Service.Ressource.RessourceService;
+import com.itkolleg.bookingsystem.service.Ressource.RessourceService;
 import com.itkolleg.bookingsystem.domains.Ressource;
 import com.itkolleg.bookingsystem.exceptions.EmployeeExceptions.EmployeeAlreadyExistsException;
 import com.itkolleg.bookingsystem.exceptions.RessourceExceptions.RessourceDeletionNotPossibleException;
@@ -43,11 +43,10 @@ public class RessourceWebController {
         try {
             this.ressourceService.deleteRessourceById(id);
             return "redirect:/web/allressources";
-        } catch (RessourceDeletionNotPossibleException e)
-        {
+        } catch (RessourceDeletionNotPossibleException e) {
             model.addAttribute("errortitle", "Ressource-Löschen schlägt fehl!");
             model.addAttribute("errormessage", e.getMessage());
-            return "myerrorspage";
+            return "errorPage";
         }
     }
 
