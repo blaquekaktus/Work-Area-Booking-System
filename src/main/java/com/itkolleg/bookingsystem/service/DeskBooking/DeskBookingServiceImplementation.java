@@ -12,6 +12,7 @@ import com.itkolleg.bookingsystem.repos.Employee.EmployeeDBAccess;
 import org.springframework.dao.DataAccessException;
 import org.springframework.stereotype.Service;
 
+import java.time.DayOfWeek;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
@@ -37,10 +38,22 @@ public class DeskBookingServiceImplementation implements DeskBookingService {
     @Override
     public DeskBooking addDeskBooking(DeskBooking booking) throws DeskNotAvailableException, DeskNotFoundException {
         List<DeskBooking> bookings = deskBookingDBAccess.getBookingsByDeskAndDateAndBookingTimeBetween(booking.getDesk(), booking.getDate(),booking.getStart(), booking.getEndTime());
-        System.out.println(bookings);
+        LocalDate currentDate = LocalDate.now();
+        //Check if desk is available for the date and time chosen
         if (!bookings.isEmpty()) {
             throw new DeskNotAvailableException("Desk not available for booking period");
         }
+        // Check if booking is for a past date
+        if (booking.getDate().isBefore(currentDate)) {
+            throw new IllegalArgumentException("Cannot create booking for a past date");
+        }
+
+        // Check if booking is for a weekday
+        DayOfWeek dayOfWeek = booking.getDate().getDayOfWeek();
+        if (dayOfWeek == DayOfWeek.SATURDAY || dayOfWeek == DayOfWeek.SUNDAY) {
+            throw new IllegalArgumentException("Cannot create booking for a weekend");
+        }
+
         return this.deskBookingDBAccess.addBooking(booking);
     }
 
