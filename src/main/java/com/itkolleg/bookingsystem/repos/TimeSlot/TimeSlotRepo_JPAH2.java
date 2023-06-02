@@ -2,12 +2,14 @@ package com.itkolleg.bookingsystem.repos.TimeSlot;
 
 import com.itkolleg.bookingsystem.domains.TimeSlot;
 import com.itkolleg.bookingsystem.exceptions.TimeSlot.TimeSlotNotFoundException;
+import org.springframework.context.annotation.ComponentScan;
 import org.springframework.stereotype.Component;
 
 import java.time.LocalTime;
 import java.util.List;
 
 @Component
+@ComponentScan({"com.itkolleg.repos"})
 public class TimeSlotRepo_JPAH2 implements TimeSlotRepo {
     TimeSlotJPARepo timeSlotJPARepo;
 

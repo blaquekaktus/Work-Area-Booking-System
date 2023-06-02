@@ -1,5 +1,6 @@
 package com.itkolleg.bookingsystem.controller.booking.DeskBooking;
 
+import com.itkolleg.bookingsystem.exceptions.BookingExceptions.DeskBookingDeletionFailureException;
 import com.itkolleg.bookingsystem.service.Desk.DeskService;
 import com.itkolleg.bookingsystem.service.DeskBooking.DeskBookingService;
 import com.itkolleg.bookingsystem.service.Employee.EmployeeService;
@@ -13,6 +14,9 @@ import com.itkolleg.bookingsystem.exceptions.DeskExceptions.DeskNotAvailableExce
 import com.itkolleg.bookingsystem.exceptions.DeskExceptions.DeskNotFoundException;
 import com.itkolleg.bookingsystem.exceptions.EmployeeExceptions.EmployeeNotFoundException;
 import jakarta.validation.Valid;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -23,8 +27,6 @@ import java.util.List;
 import java.util.concurrent.ExecutionException;
 import java.util.stream.Collectors;
 
-import static com.itkolleg.bookingsystem.service.DeskBooking.DeskBookingService.logger;
-
 @Controller
 @RequestMapping("web/deskBookings")
 public class DeskBookingWebController {
@@ -34,6 +36,7 @@ public class DeskBookingWebController {
 
     private final EmployeeService employeeService;
     private final TimeSlotService timeSlotService;
+    private static final Logger logger = LoggerFactory.getLogger(DeskBookingWebController.class);
 
 
     public DeskBookingWebController(DeskBookingService deskBookingService, DeskService deskService, EmployeeService employeeService, TimeSlotService timeSlotService) {
@@ -176,12 +179,22 @@ public class DeskBookingWebController {
     }
 
     @GetMapping("/cancel/{id}")
-    public String cancelDeskbooking(@PathVariable Long id, Model model) throws BookingNotFoundException {
-        DeskBooking booking = this.deskBookingService.getBookingById(id);
-        model.addAttribute("booking", booking);
-        this.deskBookingService.deleteBooking(id);
-        return "redirect:/web/deskBookings";
+    public String cancelDeskBooking(@PathVariable Long id, Model model) throws DeskBookingDeletionFailureException, BookingNotFoundException {
+        try {
+            DeskBooking booking = this.deskBookingService.getBookingById(id);
+            model.addAttribute("booking", booking);
+            this.deskBookingService.deleteBooking(id);
+            return "redirect:/web/deskBookings";
+        } catch(DeskBookingDeletionFailureException e) {
+            // Log the error
+            logger.error("Failed to cancel booking", e);
+
+            // Handle the exception here. This could be logging the error, showing an error message, etc.
+            model.addAttribute("errorMessage", "Failed to cancel booking due to: " + e.getMessage());
+            return "error"; // return to an error page
+        }
     }
+
 
     @GetMapping("/mybookings/{id}")
     public String getMyDeskBookings(Model model, @PathVariable Long id) {

@@ -4,6 +4,7 @@ import com.itkolleg.bookingsystem.domains.Booking.DeskBooking;
 import com.itkolleg.bookingsystem.domains.Desk;
 import com.itkolleg.bookingsystem.domains.Employee;
 import com.itkolleg.bookingsystem.exceptions.BookingExceptions.BookingNotFoundException;
+import com.itkolleg.bookingsystem.exceptions.BookingExceptions.DeskBookingDeletionFailureException;
 import com.itkolleg.bookingsystem.exceptions.DeskExceptions.DeskNotAvailableException;
 import com.itkolleg.bookingsystem.exceptions.DeskExceptions.DeskNotFoundException;
 import com.itkolleg.bookingsystem.exceptions.EmployeeExceptions.EmployeeNotFoundException;
@@ -211,12 +212,12 @@ public class DeskBookingRepo_JPAH2 implements DeskBookingRepo {
 
 
     @Override
-    public void deleteBookingById(Long bookingId) throws BookingNotFoundException {
+    public void deleteBookingById(Long bookingId) throws DeskBookingDeletionFailureException {
         Optional<DeskBooking> bookingOptional = this.deskBookingJPARepo.findById(bookingId);
         if (bookingOptional.isPresent()) {
             this.deskBookingJPARepo.deleteById(bookingId);
         } else {
-            throw new BookingNotFoundException("The Desk Booking with the ID: " + bookingId + " was not found!");
+            throw new DeskBookingDeletionFailureException("The Desk Booking with the ID: " + bookingId + " was not found!");
         }
     }
 
@@ -231,7 +232,6 @@ public class DeskBookingRepo_JPAH2 implements DeskBookingRepo {
                 availableDesks.add(desk);
             }
         }
-
         return availableDesks;
     }
 
@@ -247,8 +247,13 @@ public class DeskBookingRepo_JPAH2 implements DeskBookingRepo {
     }
 
     @Override
-    public List<DeskBooking> getBookingsByDeskAndDateAndBookingTimeBetween(Desk desk, LocalDate date, LocalTime start, LocalTime end) {
-        return deskBookingJPARepo.getBookingsByDeskAndDateAndStartBetween(desk, date, start, end);
+    public DeskBooking save(DeskBooking booking) {
+        return this.deskBookingJPARepo.save(booking);
+    }
+
+    @Override
+    public List<DeskBooking> getBookingsByDeskAndDateAndBookingTimeBetween(Desk desk, LocalDate date, LocalTime start, LocalTime endTime) {
+        return deskBookingJPARepo.getBookingsByDeskAndDateAndStartBetween(desk, date, start, endTime);
     }
 
 

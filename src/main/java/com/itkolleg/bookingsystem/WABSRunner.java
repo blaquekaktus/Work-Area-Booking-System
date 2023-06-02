@@ -6,6 +6,7 @@ import com.itkolleg.bookingsystem.exceptions.DeskExceptions.DeskNotAvailableExce
 import com.itkolleg.bookingsystem.repos.Desk.DeskRepo;
 import com.itkolleg.bookingsystem.repos.DeskBooking.DeskBookingRepo;
 import com.itkolleg.bookingsystem.repos.Employee.EmployeeDBAccess;
+import com.itkolleg.bookingsystem.repos.Holiday.HolidayRepo;
 import com.itkolleg.bookingsystem.repos.TimeSlot.TimeSlotRepo;
 import org.springframework.boot.ApplicationArguments;
 import org.springframework.boot.ApplicationRunner;
@@ -34,12 +35,14 @@ public class WABSRunner implements ApplicationRunner {
     DeskRepo deskRepo;
     DeskBookingRepo deskBookingRepo;
     TimeSlotRepo timeSlotRepo;
+    HolidayRepo holidayRepo;
 
-    public WABSRunner(EmployeeDBAccess employeeDBAccess, DeskRepo deskRepo, DeskBookingRepo deskBookingRepo, TimeSlotRepo timeSlotRepo) {
+    public WABSRunner(EmployeeDBAccess employeeDBAccess, DeskRepo deskRepo, DeskBookingRepo deskBookingRepo, TimeSlotRepo timeSlotRepo, HolidayRepo holidayRepo) {
         this.employeeDBAccess = employeeDBAccess;
         this.deskRepo = deskRepo;
         this.deskBookingRepo = deskBookingRepo;
         this.timeSlotRepo = timeSlotRepo;
+        this.holidayRepo = holidayRepo;
     }
 
     public static void main(String[] args) {
@@ -141,15 +144,19 @@ public class WABSRunner implements ApplicationRunner {
         deskRepo.addDesk(desk10);
         noOfDesks++;
 
-        System.out.println("\n" + noOfDesks + " Desks successfully added to the database!\n");
+        if (deskRepo.getAllDesks () != null) {
+            System.out.println("\nDesks successfully added to the Database\n");
+        } else {
+            System.out.println("Error: Desks  were not added to the Database.");
+        }
 
 
         int noOfDeskBookings = 0;
         List<Desk> allDesks = deskRepo.getAllDesks();
         //Booking Times - (Morning, Afternoon, All Day)
-   /* int bookingOption1 = 1;
-    int bookingOption2 = 2;
-    int bookingOption3 = 3;*/
+        /* int bookingOption1 = 1;
+        int bookingOption2 = 2;
+        int bookingOption3 = 3;*/
 
 
         //set the booking date (Mon -Fri)
@@ -230,6 +237,32 @@ public class WABSRunner implements ApplicationRunner {
             System.out.println("\nDesk Bookings successfully added to the Database\n");
         } else {
             System.out.println("Error: Desk Bookings were not added to the Database.");
+        }
+        //Creat Holidays
+        Holiday whitMonday = new Holiday(LocalDate.of(2023, 5, 29), "Whit Monday", false);
+        Holiday corpusChristie = new Holiday(LocalDate.of(2023, 6, 8),"Corpus Christie", false);
+        Holiday assumptionOfMary = new Holiday(LocalDate.of(2023,6,15)," Assumption of Mary",false);
+        Holiday nationalDay = new Holiday(LocalDate.of(2023, 10, 26), "National Day", true);
+        Holiday immaculateConception = new Holiday(LocalDate.of(2023, 12,8), "Immaculate Conception", true);
+        Holiday christmasDay = new Holiday(LocalDate.of(2023,12,25),"Christmas Day", false);
+        Holiday boxingDay = new Holiday(LocalDate.of(2023,12,26), "Boxing Day (St. Stephen's Day)",false);
+
+        //Add to Database
+        try{
+            this.holidayRepo.addHoliday(whitMonday);
+            this.holidayRepo.addHoliday(corpusChristie);
+            this.holidayRepo.addHoliday(assumptionOfMary);
+            this.holidayRepo.addHoliday(nationalDay);
+            this.holidayRepo.addHoliday(immaculateConception);
+
+        }catch(RuntimeException e){
+            throw new RuntimeException(e);
+        }
+
+        if (holidayRepo.getAllHolidays() != null) {
+            System.out.println("\nHolidays successfully added to the Database\n");
+        } else {
+            System.out.println("Error: Holidays were not added to the Database.");
         }
 
     }

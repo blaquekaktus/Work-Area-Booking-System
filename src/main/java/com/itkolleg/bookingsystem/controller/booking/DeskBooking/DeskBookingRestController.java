@@ -1,5 +1,6 @@
 package com.itkolleg.bookingsystem.controller.booking.DeskBooking;
 
+import com.itkolleg.bookingsystem.exceptions.BookingExceptions.DeskBookingDeletionFailureException;
 import com.itkolleg.bookingsystem.service.DeskBooking.DeskBookingService;
 import com.itkolleg.bookingsystem.domains.Booking.DeskBooking;
 import com.itkolleg.bookingsystem.exceptions.BookingExceptions.BookingNotFoundException;
@@ -38,15 +39,13 @@ public class DeskBookingRestController {
     public ResponseEntity<DeskBooking> updateBookingById(@PathVariable Long id, @RequestBody DeskBooking deskBooking) throws BookingNotFoundException, DeskNotAvailableException {
         try {
             return ResponseEntity.ok(this.deskBookingService.updateBookingById(id, deskBooking));
-        } catch (BookingNotFoundException e) {
-            throw new RuntimeException(e);
-        } catch (DeskNotAvailableException e) {
+        } catch (BookingNotFoundException | DeskNotAvailableException e) {
             throw new RuntimeException(e);
         }
     }
 
     @DeleteMapping("/{id}/")
-    public ResponseEntity<Void> deleteBookingById(@PathVariable Long id) throws BookingNotFoundException {
+    public ResponseEntity<Void> deleteBookingById(@PathVariable Long id) throws BookingNotFoundException, DeskBookingDeletionFailureException {
         this.deskBookingService.deleteBookingById(id);
         return ResponseEntity.noContent().build();
     }

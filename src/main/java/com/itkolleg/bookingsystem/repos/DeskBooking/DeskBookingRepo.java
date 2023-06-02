@@ -4,6 +4,7 @@ import com.itkolleg.bookingsystem.domains.Booking.DeskBooking;
 import com.itkolleg.bookingsystem.domains.Desk;
 import com.itkolleg.bookingsystem.domains.Employee;
 import com.itkolleg.bookingsystem.exceptions.BookingExceptions.BookingNotFoundException;
+import com.itkolleg.bookingsystem.exceptions.BookingExceptions.DeskBookingDeletionFailureException;
 import com.itkolleg.bookingsystem.exceptions.DeskExceptions.DeskNotAvailableException;
 import com.itkolleg.bookingsystem.exceptions.DeskExceptions.DeskNotFoundException;
 
@@ -39,7 +40,7 @@ public interface DeskBookingRepo {
 
     DeskBooking updateBooking(DeskBooking updatedBooking) throws BookingNotFoundException;
 
-    void deleteBookingById(Long employeeId) throws BookingNotFoundException;
+    void deleteBookingById(Long employeeId) throws DeskBookingDeletionFailureException;
 
     List<Desk> getAvailableDesks(LocalDate date, LocalTime start, LocalTime end);
 
@@ -48,4 +49,6 @@ public interface DeskBookingRepo {
     List<DeskBooking> getBookingsByDeskAndDateAndBookingTimeBetween(Desk desk, LocalDate date, LocalTime startDateTime, LocalTime endDateTime);
 
     List<DeskBooking> getBookingByDateAndByStartBetween(LocalDate date, LocalTime startOfDay, LocalTime endOfDay);
+
+    DeskBooking save(DeskBooking booking);
 }

@@ -4,6 +4,7 @@ import com.itkolleg.bookingsystem.domains.Booking.DeskBooking;
 import com.itkolleg.bookingsystem.domains.Desk;
 import com.itkolleg.bookingsystem.domains.Employee;
 import com.itkolleg.bookingsystem.exceptions.BookingExceptions.BookingNotFoundException;
+import com.itkolleg.bookingsystem.exceptions.BookingExceptions.DeskBookingDeletionFailureException;
 import com.itkolleg.bookingsystem.exceptions.DeskExceptions.DeskNotAvailableException;
 import com.itkolleg.bookingsystem.exceptions.DeskExceptions.DeskNotFoundException;
 import org.slf4j.Logger;
@@ -40,7 +41,7 @@ public interface DeskBookingService {
 
     List<DeskBooking> findByDeskAndBookingEndAfterAndBookingStartBefore(Desk desk, LocalDate date, LocalTime start, LocalTime endTime);
 
-    void deleteBookingById(Long bookingID) throws BookingNotFoundException;
+    void deleteBookingById(Long bookingID) throws BookingNotFoundException, DeskBookingDeletionFailureException;
 
     List<Desk> getAvailableDesks(LocalDate date, LocalTime start, LocalTime endTime);
 
@@ -48,7 +49,9 @@ public interface DeskBookingService {
 
     boolean isDeskAvailable(Desk desk, LocalDate date, LocalTime startDateTime, LocalTime endDateTime);
 
-    void deleteBooking(Long id) throws BookingNotFoundException;
+    void deleteBooking(Long id) throws BookingNotFoundException, DeskBookingDeletionFailureException;
 
     List<DeskBooking> getMyBookingHistory(Long employeeId);
+
+    DeskBooking save(DeskBooking booking);
 }

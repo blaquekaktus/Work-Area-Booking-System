@@ -1,9 +1,11 @@
 package com.itkolleg.bookingsystem.service.DeskBooking;
 
+import com.itkolleg.bookingsystem.domains.Booking.Booking;
 import com.itkolleg.bookingsystem.domains.Booking.DeskBooking;
 import com.itkolleg.bookingsystem.domains.Desk;
 import com.itkolleg.bookingsystem.domains.Employee;
 import com.itkolleg.bookingsystem.exceptions.BookingExceptions.BookingNotFoundException;
+import com.itkolleg.bookingsystem.exceptions.BookingExceptions.DeskBookingDeletionFailureException;
 import com.itkolleg.bookingsystem.exceptions.DeskExceptions.DeskNotAvailableException;
 import com.itkolleg.bookingsystem.exceptions.DeskExceptions.DeskNotFoundException;
 import com.itkolleg.bookingsystem.repos.Desk.DeskRepo;
@@ -167,10 +169,10 @@ public class DeskBookingServiceImplementation implements DeskBookingService {
     }
 
     @Override
-    public void deleteBookingById(Long bookingId) throws BookingNotFoundException {
+    public void deleteBookingById(Long bookingId) throws DeskBookingDeletionFailureException, BookingNotFoundException {
         Optional<DeskBooking> booking = deskBookingRepo.getBookingByBookingId(bookingId);
         if (!booking.isPresent()) {
-            throw new BookingNotFoundException("Booking not Found!");
+            throw new DeskBookingDeletionFailureException("Booking not Found!");
         }
         deskBookingRepo.deleteBookingById(bookingId);
     }
@@ -207,7 +209,7 @@ public class DeskBookingServiceImplementation implements DeskBookingService {
     }
 
     @Override
-    public void deleteBooking(Long id) throws BookingNotFoundException {
+    public void deleteBooking(Long id) throws DeskBookingDeletionFailureException, BookingNotFoundException{
         deskBookingRepo.deleteBookingById(id);
     }
 
@@ -217,4 +219,8 @@ public class DeskBookingServiceImplementation implements DeskBookingService {
         return deskBookingRepo.getBookingsByEmployeeId(employeeId);
     }
 
+    @Override
+    public DeskBooking save(DeskBooking booking) {
+        return this.deskBookingRepo.save(booking);
+    }
 }

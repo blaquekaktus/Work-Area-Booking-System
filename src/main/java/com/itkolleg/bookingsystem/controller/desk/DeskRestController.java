@@ -24,7 +24,7 @@ import java.util.concurrent.ExecutionException;
 @RestController
 
 public class DeskRestController {
-    private static final Logger LOGGER = LoggerFactory.getLogger(DeskRestController.class);
+    private static final Logger logger = LoggerFactory.getLogger(DeskRestController.class);
     private final DeskService deskService;
 
     public DeskRestController(DeskService deskService) {
