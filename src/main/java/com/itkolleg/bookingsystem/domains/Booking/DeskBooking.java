@@ -19,6 +19,10 @@ import java.time.LocalTime;
 /**
  * This class extends the Booking class to include a Desk.
  * It represents a desk booking within the system.
+ *
+ * @author Sonja Lechner
+ * @version 1.0
+ * @since 2023-05-24
  */
 @Entity
 @AllArgsConstructor

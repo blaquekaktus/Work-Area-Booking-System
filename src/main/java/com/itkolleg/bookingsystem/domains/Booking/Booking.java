@@ -23,6 +23,10 @@ import static com.itkolleg.bookingsystem.domains.TimeSlot.PM;
  * This class represents a Booking within the booking system.
  * It holds information about the booking's employee, date, time slot, timestamp, start and end times.
  * It also validates certain fields to ensure the integrity of the data.
+ *
+ * @author Sonja Lechner
+ * @version 1.0
+ * @since 2023-05-24
  */
 @Entity
 @NoArgsConstructor

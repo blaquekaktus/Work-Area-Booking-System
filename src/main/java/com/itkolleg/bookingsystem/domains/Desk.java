@@ -15,6 +15,10 @@ import java.util.List;
 /**
  * This class represents a Desk in the system.
  * Each desk has an identifier, a number of monitors, and a list of ports.
+ *
+ * @author Sonja Lechner
+ * @version 1.0
+ * @since 2023-05-24
  */
 @Entity
 @Getter
