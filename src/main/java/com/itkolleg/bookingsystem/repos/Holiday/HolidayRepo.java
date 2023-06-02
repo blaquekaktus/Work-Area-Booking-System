@@ -1,16 +1,16 @@
 package com.itkolleg.bookingsystem.repos.Holiday;
 
-import com.itkolleg.bookingsystem.domains.Holiday;
+import com.itkolleg.bookingsystem.domains.PublicHoliday;
 
 import java.time.LocalDate;
 import java.util.List;
 
 public interface HolidayRepo {
 
-    void addHoliday(Holiday holiday);
-    List<Holiday> getAllHolidays();
+    void addHoliday(PublicHoliday publicHoliday);
+    List<PublicHoliday> getAllHolidays();
     void deleteHoliday(Long id);
     boolean isBookingAllowedOnHoliday(LocalDate date);
-    Holiday findByDate(LocalDate date);
+    PublicHoliday findByDate(LocalDate date);
 
 }

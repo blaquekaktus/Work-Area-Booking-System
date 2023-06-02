@@ -1,7 +1,9 @@
 package com.itkolleg.bookingsystem.repos.TimeSlot;
 
 import com.itkolleg.bookingsystem.domains.TimeSlot;
-import com.itkolleg.bookingsystem.exceptions.TimeSlot.TimeSlotNotFoundException;
+import com.itkolleg.bookingsystem.exceptions.ResourceNotFoundException;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.stereotype.Component;
 
@@ -11,6 +13,8 @@ import java.util.List;
 @Component
 @ComponentScan({"com.itkolleg.repos"})
 public class TimeSlotRepo_JPAH2 implements TimeSlotRepo {
+
+    Logger logger = LoggerFactory.getLogger(TimeSlotRepo_JPAH2.class);
     TimeSlotJPARepo timeSlotJPARepo;
 
     public TimeSlotRepo_JPAH2(TimeSlotJPARepo timeSlotJPARepo) {
@@ -28,27 +32,27 @@ public class TimeSlotRepo_JPAH2 implements TimeSlotRepo {
     }
 
     @Override
-    public TimeSlot getTimeSlotByName(String name) throws TimeSlotNotFoundException {
+    public TimeSlot getTimeSlotByName(String name) throws ResourceNotFoundException {
         return this.timeSlotJPARepo.getTimeSlotByName(name);
     }
 
     @Override
-    public TimeSlot getTimeSlotByStartTime(LocalTime startTime) throws TimeSlotNotFoundException {
+    public TimeSlot getTimeSlotByStartTime(LocalTime startTime) throws ResourceNotFoundException {
         return this.timeSlotJPARepo.getTimeSlotByStartTime(startTime);
     }
 
     @Override
-    public TimeSlot getTimeSlotByEndTime(LocalTime endTime) throws TimeSlotNotFoundException {
+    public TimeSlot getTimeSlotByEndTime(LocalTime endTime) throws ResourceNotFoundException {
         return this.timeSlotJPARepo.getTimeSlotByEndTime(endTime);
     }
 
     @Override
-    public TimeSlot updateTimeSlot(TimeSlot timeSlot) throws TimeSlotNotFoundException {
+    public TimeSlot updateTimeSlot(TimeSlot timeSlot) throws ResourceNotFoundException {
         return this.timeSlotJPARepo.updateTimeSlot(timeSlot);
     }
 
     @Override
-    public void deleteTimeSlotById(Long id) throws TimeSlotNotFoundException {
+    public void deleteTimeSlotById(Long id) throws ResourceNotFoundException {
         this.timeSlotJPARepo.deleteTimeSlotById(id);
     }
 

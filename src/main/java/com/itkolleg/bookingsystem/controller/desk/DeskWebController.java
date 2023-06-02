@@ -1,10 +1,10 @@
 package com.itkolleg.bookingsystem.controller.desk;
 
 
+import com.itkolleg.bookingsystem.exceptions.ResourceDeletionFailureException;
+import com.itkolleg.bookingsystem.exceptions.ResourceNotFoundException;
 import com.itkolleg.bookingsystem.service.Desk.DeskService;
 import com.itkolleg.bookingsystem.domains.Desk;
-import com.itkolleg.bookingsystem.exceptions.DeskExceptions.DeskDeletionFailureException;
-import com.itkolleg.bookingsystem.exceptions.DeskExceptions.DeskNotFoundException;
 import jakarta.validation.Valid;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -59,9 +59,8 @@ public class DeskWebController {
             Desk desk = this.deskService.getDeskById(id);
             model.addAttribute("myDesk", desk);
             return "Desks/viewDesk";
-        } catch (DeskNotFoundException deskNotFoundException) {
-            return "redirect:/web/desks";
-        }
+        } catch ( ResourceNotFoundException e){
+            return "redirect:/web/desks";}
     }
 
     @GetMapping("/update/{id}")
@@ -70,7 +69,7 @@ public class DeskWebController {
             Desk desk = this.deskService.getDeskById(id);
             model.addAttribute("updatedDesk", desk);
             return "Desks/updateDesk";
-        } catch (DeskNotFoundException deskNotFoundException) {
+        } catch (ResourceNotFoundException ResourceNotFoundException) {
             return "redirect:/web/desks";
         }
     }
@@ -83,7 +82,7 @@ public class DeskWebController {
             try {
                 this.deskService.updateDesk(desk);
                 return "redirect:/web/desks";
-            } catch (DeskNotFoundException deskNotFoundException) {
+            } catch (ResourceNotFoundException e) {
                 return "redirect:/web/desks";
             }
 
@@ -96,8 +95,8 @@ public class DeskWebController {
             Desk desk = this.deskService.getDeskById(id);
             model.addAttribute("desk", desk);
             return "DeskBookings/cancelDeskBooking";
-        } catch (DeskNotFoundException deskNotFoundException) {
-            ErrorDetails errorDetails = new ErrorDetails("Desk Not Found", deskNotFoundException.getMessage());
+        } catch (ResourceNotFoundException ResourceNotFoundException) {
+            ErrorDetails errorDetails = new ErrorDetails("Desk Not Found", ResourceNotFoundException.getMessage());
             model.addAttribute("errorDetails", errorDetails);
             return "errorPage";
         }
@@ -120,7 +119,7 @@ public class DeskWebController {
         try {
             this.deskService.deleteDeskById(id);
             return "redirect:/web/desks";
-        } catch (DeskDeletionFailureException deskDeletionFailureException) {
+        } catch (ResourceDeletionFailureException e) {
             return "redirect:web/desks";
         }
     }

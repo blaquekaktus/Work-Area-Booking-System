@@ -1,17 +1,18 @@
 package com.itkolleg.bookingsystem.service.DeskBooking;
 
-import com.itkolleg.bookingsystem.domains.Booking.Booking;
 import com.itkolleg.bookingsystem.domains.Booking.DeskBooking;
 import com.itkolleg.bookingsystem.domains.Desk;
 import com.itkolleg.bookingsystem.domains.Employee;
-import com.itkolleg.bookingsystem.exceptions.BookingExceptions.BookingNotFoundException;
-import com.itkolleg.bookingsystem.exceptions.BookingExceptions.DeskBookingDeletionFailureException;
 import com.itkolleg.bookingsystem.exceptions.DeskExceptions.DeskNotAvailableException;
-import com.itkolleg.bookingsystem.exceptions.DeskExceptions.DeskNotFoundException;
+import com.itkolleg.bookingsystem.exceptions.ResourceDeletionFailureException;
+import com.itkolleg.bookingsystem.exceptions.ResourceNotFoundException;
 import com.itkolleg.bookingsystem.repos.Desk.DeskRepo;
 import com.itkolleg.bookingsystem.repos.DeskBooking.DeskBookingRepo;
 import com.itkolleg.bookingsystem.repos.Employee.EmployeeDBAccess;
 import com.itkolleg.bookingsystem.repos.Holiday.HolidayRepo;
+import com.itkolleg.bookingsystem.service.TimeSlot.TimeSlotService;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.dao.DataAccessException;
 import org.springframework.stereotype.Service;
 
@@ -27,11 +28,12 @@ import java.util.stream.Collectors;
 @Service
 public class DeskBookingServiceImplementation implements DeskBookingService {
 
+    Logger logger = LoggerFactory.getLogger(DeskBookingServiceImplementation.class);
+
     private final DeskBookingRepo deskBookingRepo;
     private final DeskRepo deskRepo;
     private final EmployeeDBAccess employeeDBAccess;
     private final HolidayRepo holidayRepo;
-
 
     public DeskBookingServiceImplementation(DeskBookingRepo deskBookingRepo, DeskRepo deskRepo, EmployeeDBAccess employeeDBAccess, HolidayRepo holidayRepo) {
         this.deskBookingRepo = deskBookingRepo;
@@ -41,7 +43,7 @@ public class DeskBookingServiceImplementation implements DeskBookingService {
     }
 
     @Override
-    public DeskBooking addDeskBooking(DeskBooking booking) throws DeskNotAvailableException, DeskNotFoundException {
+    public DeskBooking addDeskBooking(DeskBooking booking) throws DeskNotAvailableException, ResourceNotFoundException {
         List<DeskBooking> bookings = deskBookingRepo.getBookingsByDeskAndDateAndBookingTimeBetween(booking.getDesk(), booking.getDate(),booking.getStart(), booking.getEndTime());
         LocalDate currentDate = LocalDate.now();
         System.out.println("Booking date: " + booking.getDate());
@@ -114,19 +116,19 @@ public class DeskBookingServiceImplementation implements DeskBookingService {
     }
 
     @Override
-    public DeskBooking getBookingById(Long bookingId) throws BookingNotFoundException {
+    public DeskBooking getBookingById(Long bookingId) throws ResourceNotFoundException {
         Optional<DeskBooking> optionalBooking = deskBookingRepo.getBookingByBookingId(bookingId);
         if (optionalBooking.isPresent()) {
             return optionalBooking.get();
         } else {
-            throw new BookingNotFoundException("Booking with ID " + bookingId + " not found.");
+            throw new ResourceNotFoundException("Booking with ID " + bookingId + " not found.");
         }
     }
 
-    public DeskBooking updateBookingById(Long bookingId, DeskBooking updatedBooking) throws BookingNotFoundException, DeskNotAvailableException {
+    public DeskBooking updateBookingById(Long bookingId, DeskBooking updatedBooking) throws ResourceNotFoundException, DeskNotAvailableException {
         Optional<DeskBooking> booking = deskBookingRepo.getBookingByBookingId(bookingId);
         if (!booking.isPresent()) {
-            throw new BookingNotFoundException("Booking not found for id: " + bookingId);
+            throw new ResourceNotFoundException("Booking not found for id: " + bookingId);
         }
 
         Desk desk = booking.get().getDesk();
@@ -140,10 +142,10 @@ public class DeskBookingServiceImplementation implements DeskBookingService {
     }
 
     @Override
-    public DeskBooking updateBooking(DeskBooking booking) throws BookingNotFoundException, DeskNotAvailableException, DeskNotFoundException {
+    public DeskBooking updateBooking(DeskBooking booking) throws ResourceNotFoundException, DeskNotAvailableException, ResourceNotFoundException {
         try {
             DeskBooking existingBooking = deskBookingRepo.getBookingByBookingId(booking.getId())
-                    .orElseThrow(() -> new BookingNotFoundException("Booking not found for id: " + booking.getId()));
+                    .orElseThrow(() -> new ResourceNotFoundException("Booking not found for id: " + booking.getId()));
             // Check if the desk is available for the updated booking period
             List<DeskBooking> bookings = deskBookingRepo.getBookingsByDeskAndDateAndBookingTimeBetween(booking.getDesk(), booking.getDate(), booking.getStart(), booking.getEndTime());
             bookings.remove(existingBooking);
@@ -158,7 +160,7 @@ public class DeskBookingServiceImplementation implements DeskBookingService {
             existingBooking.setTimeStamp(LocalDateTime.now());
             return deskBookingRepo.addBooking(existingBooking);
         }catch (DataAccessException e){
-            throw new BookingNotFoundException("Database access error occurred for id: " + booking.getId(), e);
+            throw new ResourceNotFoundException("Database access error occurred for id: " + booking.getId(), e);
         }
 
     }
@@ -169,10 +171,10 @@ public class DeskBookingServiceImplementation implements DeskBookingService {
     }
 
     @Override
-    public void deleteBookingById(Long bookingId) throws DeskBookingDeletionFailureException, BookingNotFoundException {
+    public void deleteBookingById(Long bookingId) throws ResourceDeletionFailureException, ResourceNotFoundException {
         Optional<DeskBooking> booking = deskBookingRepo.getBookingByBookingId(bookingId);
         if (!booking.isPresent()) {
-            throw new DeskBookingDeletionFailureException("Booking not Found!");
+            throw new ResourceDeletionFailureException("Booking not Found!");
         }
         deskBookingRepo.deleteBookingById(bookingId);
     }
@@ -209,7 +211,7 @@ public class DeskBookingServiceImplementation implements DeskBookingService {
     }
 
     @Override
-    public void deleteBooking(Long id) throws DeskBookingDeletionFailureException, BookingNotFoundException{
+    public void deleteBooking(Long id) throws ResourceDeletionFailureException, ResourceNotFoundException {
         deskBookingRepo.deleteBookingById(id);
     }
 

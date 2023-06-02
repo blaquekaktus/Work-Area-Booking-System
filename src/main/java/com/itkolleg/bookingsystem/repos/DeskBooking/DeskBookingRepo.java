@@ -3,10 +3,9 @@ package com.itkolleg.bookingsystem.repos.DeskBooking;
 import com.itkolleg.bookingsystem.domains.Booking.DeskBooking;
 import com.itkolleg.bookingsystem.domains.Desk;
 import com.itkolleg.bookingsystem.domains.Employee;
-import com.itkolleg.bookingsystem.exceptions.BookingExceptions.BookingNotFoundException;
-import com.itkolleg.bookingsystem.exceptions.BookingExceptions.DeskBookingDeletionFailureException;
+import com.itkolleg.bookingsystem.exceptions.ResourceNotFoundException;
+import com.itkolleg.bookingsystem.exceptions.ResourceDeletionFailureException;
 import com.itkolleg.bookingsystem.exceptions.DeskExceptions.DeskNotAvailableException;
-import com.itkolleg.bookingsystem.exceptions.DeskExceptions.DeskNotFoundException;
 
 import java.time.LocalDate;
 import java.time.LocalTime;
@@ -15,11 +14,11 @@ import java.util.Optional;
 
 
 public interface DeskBookingRepo {
-    DeskBooking addBooking(DeskBooking booking) throws DeskNotAvailableException, DeskNotFoundException;
+    DeskBooking addBooking(DeskBooking booking) throws DeskNotAvailableException, ResourceNotFoundException;
 
     List<DeskBooking> getAllBookings();
 
-    Optional<DeskBooking> getBookingByBookingId(Long bookingId) throws BookingNotFoundException;
+    Optional<DeskBooking> getBookingByBookingId(Long bookingId) throws ResourceNotFoundException;
 
 
     List<DeskBooking> getBookingsByEmployeeId(Long employeeId);
@@ -36,11 +35,11 @@ public interface DeskBookingRepo {
 
     List<DeskBooking> getBookingByDate(LocalDate date);
 
-    DeskBooking updateBookingByBookingId(Long bookingId, DeskBooking updatedBooking) throws BookingNotFoundException;
+    DeskBooking updateBookingByBookingId(Long bookingId, DeskBooking updatedBooking) throws ResourceNotFoundException;
 
-    DeskBooking updateBooking(DeskBooking updatedBooking) throws BookingNotFoundException;
+    DeskBooking updateBooking(DeskBooking updatedBooking) throws ResourceNotFoundException;
 
-    void deleteBookingById(Long employeeId) throws DeskBookingDeletionFailureException;
+    void deleteBookingById(Long employeeId) throws ResourceDeletionFailureException;
 
     List<Desk> getAvailableDesks(LocalDate date, LocalTime start, LocalTime end);
 

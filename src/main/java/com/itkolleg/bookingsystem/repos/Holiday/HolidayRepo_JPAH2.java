@@ -1,6 +1,6 @@
 package com.itkolleg.bookingsystem.repos.Holiday;
 
-import com.itkolleg.bookingsystem.domains.Holiday;
+import com.itkolleg.bookingsystem.domains.PublicHoliday;
 import com.itkolleg.bookingsystem.repos.DeskBooking.DeskBookingRepo_JPAH2;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -21,13 +21,13 @@ public class HolidayRepo_JPAH2 implements HolidayRepo{
     }
 
     @Override
-    public void addHoliday(Holiday holiday) {
-        this.holidayJPARepo.save(holiday);
+    public void addHoliday(PublicHoliday publicHoliday) {
+        this.holidayJPARepo.save(publicHoliday);
 
     }
 
     @Override
-    public List<Holiday> getAllHolidays() {
+    public List<PublicHoliday> getAllHolidays() {
         return this.holidayJPARepo.findAll();
     }
 
@@ -38,14 +38,14 @@ public class HolidayRepo_JPAH2 implements HolidayRepo{
 
     @Override
     public boolean isBookingAllowedOnHoliday(LocalDate date) {
-        Holiday holiday = this.holidayJPARepo.findByDate(date);
-        System.out.println("Holiday: " + holiday); // Debugging statement
-        // If holiday object is null (no entry in Holiday table), consider it a normal day and allow bookings
-        return holiday == null || holiday.isBookingAllowed();
+        PublicHoliday publicHoliday = this.holidayJPARepo.findByDate(date);
+        System.out.println("PublicHoliday: " + publicHoliday); // Debugging statement
+        // If publicHoliday object is null (no entry in PublicHoliday table), consider it a normal day and allow bookings
+        return publicHoliday == null || publicHoliday.isBookingAllowed();
     }
 
     @Override
-    public Holiday findByDate(LocalDate date) {
+    public PublicHoliday findByDate(LocalDate date) {
         return this.holidayJPARepo.findByDate(date);
     }
 }

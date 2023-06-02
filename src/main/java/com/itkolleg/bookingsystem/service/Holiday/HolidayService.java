@@ -1,7 +1,6 @@
 package com.itkolleg.bookingsystem.service.Holiday;
 
-import com.itkolleg.bookingsystem.domains.Holiday;
-import com.itkolleg.bookingsystem.service.Desk.DeskService;
+import com.itkolleg.bookingsystem.domains.PublicHoliday;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -14,8 +13,8 @@ public interface HolidayService {
      */
     Logger logger = LoggerFactory.getLogger(HolidayService.class);
 
-    void addHoliday(Holiday holiday);
-    List<Holiday>getAllHolidays();
+    void addHoliday(PublicHoliday publicHoliday);
+    List<PublicHoliday>getAllHolidays();
     void deleteHoliday(Long id);
     boolean isBookingAllowedOnHoliday(LocalDate date);
 

@@ -2,8 +2,8 @@ package com.itkolleg.bookingsystem.repos.Desk;
 
 import com.itkolleg.bookingsystem.domains.Desk;
 import com.itkolleg.bookingsystem.domains.Port;
-import com.itkolleg.bookingsystem.exceptions.DeskExceptions.DeskDeletionFailureException;
-import com.itkolleg.bookingsystem.exceptions.DeskExceptions.DeskNotFoundException;
+import com.itkolleg.bookingsystem.exceptions.ResourceNotFoundException;
+import com.itkolleg.bookingsystem.exceptions.ResourceDeletionFailureException;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Component;
@@ -39,17 +39,17 @@ public class DeskRepo_JPAH2 implements DeskRepo {
     }
 
     @Override
-    public Desk getDeskById(Long id) throws DeskNotFoundException {
+    public Desk getDeskById(Long id) throws ResourceNotFoundException {
         Optional<Desk> deskOptional = this.deskJPARepo.findById(id);
         if (deskOptional.isPresent()) {
             return deskOptional.get();
         } else {
-            throw new DeskNotFoundException("The Desk with the ID: " + id + " was not found!");
+            throw new ResourceNotFoundException("The Desk with the ID: " + id + " was not found!");
         }
     }
 
     @Override
-    public Desk updateDeskById(Long id, Desk updatedDesk) throws DeskNotFoundException {
+    public Desk updateDeskById(Long id, Desk updatedDesk) throws ResourceNotFoundException {
         Optional<Desk> deskOptional = this.deskJPARepo.findById(id);
         if (deskOptional.isPresent()) {
             Desk desk = deskOptional.get();
@@ -58,11 +58,11 @@ public class DeskRepo_JPAH2 implements DeskRepo {
             desk.setPorts(updatedDesk.getPorts());
             return this.deskJPARepo.save(desk);
         } else {
-            throw new DeskNotFoundException("The Desk with the ID: " + id + " was not found!");
+            throw new ResourceNotFoundException("The Desk with the ID: " + id + " was not found!");
         }
     }
 
-    public Desk updateDesk(Desk updatedDesk) throws DeskNotFoundException {
+    public Desk updateDesk(Desk updatedDesk) throws ResourceNotFoundException {
         try {
             Optional<Desk> desk = this.deskJPARepo.findById(updatedDesk.getId());
             if (desk.isPresent()) {
@@ -75,22 +75,22 @@ public class DeskRepo_JPAH2 implements DeskRepo {
                 }
                 return this.deskJPARepo.save(deskToUpdate);
             } else {
-                throw new DeskNotFoundException("Desk with ID " + updatedDesk.getId() + " not found!");
+                throw new ResourceNotFoundException("Desk with ID " + updatedDesk.getId() + " not found!");
             }
 
         } catch (Exception e) {
-            throw new DeskNotFoundException("Desk not found");
+            throw new ResourceNotFoundException("Desk not found");
         }
     }
 
     @Override
-    public List<Desk> deleteDeskById(Long id) throws DeskDeletionFailureException {
+    public List<Desk> deleteDeskById(Long id) throws ResourceDeletionFailureException {
         Optional<Desk> deskOptional = this.deskJPARepo.findById(id);
         if (deskOptional.isPresent()) {
             this.deskJPARepo.deleteById(id);
             return this.deskJPARepo.findAll();
         } else {
-            throw new DeskDeletionFailureException("The Desk with the ID: " + id + " was not possible!");
+            throw new ResourceDeletionFailureException("The Desk with the ID: " + id + " was not possible!");
         }
     }
 

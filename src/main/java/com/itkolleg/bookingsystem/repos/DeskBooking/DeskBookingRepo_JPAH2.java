@@ -3,10 +3,9 @@ package com.itkolleg.bookingsystem.repos.DeskBooking;
 import com.itkolleg.bookingsystem.domains.Booking.DeskBooking;
 import com.itkolleg.bookingsystem.domains.Desk;
 import com.itkolleg.bookingsystem.domains.Employee;
-import com.itkolleg.bookingsystem.exceptions.BookingExceptions.BookingNotFoundException;
-import com.itkolleg.bookingsystem.exceptions.BookingExceptions.DeskBookingDeletionFailureException;
+import com.itkolleg.bookingsystem.exceptions.ResourceDeletionFailureException;
+import com.itkolleg.bookingsystem.exceptions.ResourceNotFoundException;
 import com.itkolleg.bookingsystem.exceptions.DeskExceptions.DeskNotAvailableException;
-import com.itkolleg.bookingsystem.exceptions.DeskExceptions.DeskNotFoundException;
 import com.itkolleg.bookingsystem.exceptions.EmployeeExceptions.EmployeeNotFoundException;
 import com.itkolleg.bookingsystem.repos.Desk.DeskJPARepo;
 import com.itkolleg.bookingsystem.repos.Employee.EmployeeJPARepo;
@@ -48,7 +47,7 @@ public class DeskBookingRepo_JPAH2 implements DeskBookingRepo {
     /*@Query("SELECT b FROM DeskBooking b WHERE b.desk.id = :deskId")
      DeskBooking getBookingByDeskId(@Param("deskId") Long deskId);*/
 
-    public DeskBooking addBooking(DeskBooking deskBooking) throws DeskNotAvailableException, DeskNotFoundException {
+    public DeskBooking addBooking(DeskBooking deskBooking) throws DeskNotAvailableException, ResourceNotFoundException {
         // Check for null values
         if(deskBooking == null || deskBooking.getEmployee() == null || deskBooking.getDesk() == null) {
             throw new IllegalArgumentException("The DeskBooking or Employee or Desk cannot be null.");
@@ -58,7 +57,7 @@ public class DeskBookingRepo_JPAH2 implements DeskBookingRepo {
         Long deskid = deskBooking.getDesk().getId();
         Desk desk = deskJPARepo.findDeskById(deskid);
         if (desk == null) {
-            throw new DeskNotFoundException("Desk was not found");
+            throw new ResourceNotFoundException("Desk was not found");
         }
 
         // Check if the desk is available for the booking period
@@ -88,12 +87,12 @@ public class DeskBookingRepo_JPAH2 implements DeskBookingRepo {
     }
 
     @Override
-    public Optional<DeskBooking> getBookingByBookingId(Long bookingId) throws BookingNotFoundException {
+    public Optional<DeskBooking> getBookingByBookingId(Long bookingId) throws ResourceNotFoundException {
         Optional<DeskBooking> bookingOptional = deskBookingJPARepo.findById(bookingId);
         if (bookingOptional.isEmpty()) {
             String message = "The Booking with the ID: " + bookingId + " was not found!";
             logger.error(message);
-            throw new BookingNotFoundException(message);
+            throw new ResourceNotFoundException(message);
         }
         return bookingOptional;
     }
@@ -169,7 +168,7 @@ public class DeskBookingRepo_JPAH2 implements DeskBookingRepo {
     }
 
     @Override
-    public DeskBooking updateBookingByBookingId(Long deskBookingId, DeskBooking updatedDeskBooking) throws BookingNotFoundException {
+    public DeskBooking updateBookingByBookingId(Long deskBookingId, DeskBooking updatedDeskBooking) throws ResourceNotFoundException {
         // Checking for mandatory fields on the updated booking
         if(updatedDeskBooking.getDesk() == null || updatedDeskBooking.getEmployee() == null || updatedDeskBooking.getDate() == null
                 || updatedDeskBooking.getStart() == null || updatedDeskBooking.getEndTime() == null || updatedDeskBooking.getTimeStamp() == null) {
@@ -180,8 +179,8 @@ public class DeskBookingRepo_JPAH2 implements DeskBookingRepo {
             Desk fetchedDesk;
             try {
                 fetchedDesk = deskJPARepo.findById(updatedDeskBooking.getDesk().getId())
-                        .orElseThrow(() -> new DeskNotFoundException("The Desk with the ID: " + updatedDeskBooking.getDesk().getId() + " was not found!"));
-            } catch (DeskNotFoundException e) {
+                        .orElseThrow(() -> new ResourceNotFoundException("The Desk with the ID: " + updatedDeskBooking.getDesk().getId() + " was not found!"));
+            } catch (ResourceNotFoundException e) {
                 logger.error(e.getMessage());
                 throw new RuntimeException("Failed to update booking due to missing desk. Original error: " + e.getMessage());
             }
@@ -202,22 +201,22 @@ public class DeskBookingRepo_JPAH2 implements DeskBookingRepo {
             existingBooking.setEndTime(updatedDeskBooking.getEndTime());
             existingBooking.setTimeStamp(updatedDeskBooking.getTimeStamp());
             return deskBookingJPARepo.save(existingBooking);
-        }).orElseThrow(() -> new BookingNotFoundException("The Desk Booking with the ID: " + deskBookingId + " was not found!"));
+        }).orElseThrow(() -> new ResourceNotFoundException("The Desk Booking with the ID: " + deskBookingId + " was not found!"));
     }
 
     @Override
-    public DeskBooking updateBooking(DeskBooking updatedBooking) throws BookingNotFoundException {
+    public DeskBooking updateBooking(DeskBooking updatedBooking) throws ResourceNotFoundException {
         return null;
     }
 
 
     @Override
-    public void deleteBookingById(Long bookingId) throws DeskBookingDeletionFailureException {
+    public void deleteBookingById(Long bookingId) throws ResourceDeletionFailureException {
         Optional<DeskBooking> bookingOptional = this.deskBookingJPARepo.findById(bookingId);
         if (bookingOptional.isPresent()) {
             this.deskBookingJPARepo.deleteById(bookingId);
         } else {
-            throw new DeskBookingDeletionFailureException("The Desk Booking with the ID: " + bookingId + " was not found!");
+            throw new ResourceDeletionFailureException("The Desk Booking with the ID: " + bookingId + " was not found!");
         }
     }
 

@@ -2,8 +2,8 @@ package com.itkolleg.bookingsystem.service.Desk;
 
 import com.itkolleg.bookingsystem.domains.Desk;
 import com.itkolleg.bookingsystem.domains.Port;
-import com.itkolleg.bookingsystem.exceptions.DeskExceptions.DeskDeletionFailureException;
-import com.itkolleg.bookingsystem.exceptions.DeskExceptions.DeskNotFoundException;
+import com.itkolleg.bookingsystem.exceptions.ResourceDeletionFailureException;
+import com.itkolleg.bookingsystem.exceptions.ResourceNotFoundException;
 import com.itkolleg.bookingsystem.repos.Desk.DeskRepo;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -41,21 +41,21 @@ public class DeskServiceImplementation implements DeskService {
     }
 
     @Override
-    public Desk getDeskById(Long id) throws DeskNotFoundException {
+    public Desk getDeskById(Long id) throws ResourceNotFoundException {
         return this.deskRepo.getDeskById(id);
     }
 
     @Override
-    public Desk updateDeskById(Long id, Desk desk) throws DeskNotFoundException {
+    public Desk updateDeskById(Long id, Desk desk) throws ResourceNotFoundException {
         return this.deskRepo.updateDeskById(id, desk);
     }
 
-    public Desk updateDesk(Desk desk) throws DeskNotFoundException {
+    public Desk updateDesk(Desk desk) throws ResourceNotFoundException {
         return this.deskRepo.updateDesk(desk);
     }
 
     @Override
-    public List<Desk> deleteDeskById(Long id) throws DeskDeletionFailureException {
+    public List<Desk> deleteDeskById(Long id) throws ResourceDeletionFailureException {
         this.deskRepo.deleteDeskById(id);
         return this.deskRepo.getAllDesks();
     }

@@ -1,7 +1,7 @@
 package com.itkolleg.bookingsystem.service.TimeSlot;
 
 import com.itkolleg.bookingsystem.domains.TimeSlot;
-import com.itkolleg.bookingsystem.exceptions.TimeSlot.TimeSlotNotFoundException;
+import com.itkolleg.bookingsystem.exceptions.ResourceNotFoundException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -15,15 +15,15 @@ public interface TimeSlotService {
 
     List<TimeSlot> getAllTimeSlots();
 
-    TimeSlot getTimeSlotByName(String name) throws TimeSlotNotFoundException;
+    TimeSlot getTimeSlotByName(String name) throws ResourceNotFoundException;
 
-    TimeSlot getTimeSlotByStartTime(LocalTime startTime) throws TimeSlotNotFoundException;
+    TimeSlot getTimeSlotByStartTime(LocalTime startTime) throws ResourceNotFoundException;
 
-    TimeSlot getTimeSlotByEndTime(LocalTime endTime) throws TimeSlotNotFoundException;
+    TimeSlot getTimeSlotByEndTime(LocalTime endTime) throws ResourceNotFoundException;
 
-    TimeSlot updateTimeSlot(TimeSlot timeSlot) throws TimeSlotNotFoundException;
+    TimeSlot updateTimeSlot(TimeSlot timeSlot) throws ResourceNotFoundException;
 
-    void deleteTimeSlotById(Long id) throws TimeSlotNotFoundException;
+    void deleteTimeSlotById(Long id) throws ResourceNotFoundException;
 
-    void deleteTimeSlotByName(String name) throws TimeSlotNotFoundException;
+    void deleteTimeSlotByName(String name) throws ResourceNotFoundException;
 }

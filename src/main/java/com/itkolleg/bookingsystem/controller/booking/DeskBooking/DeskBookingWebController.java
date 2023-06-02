@@ -1,6 +1,7 @@
 package com.itkolleg.bookingsystem.controller.booking.DeskBooking;
 
-import com.itkolleg.bookingsystem.exceptions.BookingExceptions.DeskBookingDeletionFailureException;
+import com.itkolleg.bookingsystem.exceptions.ResourceDeletionFailureException;
+import com.itkolleg.bookingsystem.exceptions.ResourceNotFoundException;
 import com.itkolleg.bookingsystem.service.Desk.DeskService;
 import com.itkolleg.bookingsystem.service.DeskBooking.DeskBookingService;
 import com.itkolleg.bookingsystem.service.Employee.EmployeeService;
@@ -9,9 +10,7 @@ import com.itkolleg.bookingsystem.domains.Booking.DeskBooking;
 import com.itkolleg.bookingsystem.domains.Desk;
 import com.itkolleg.bookingsystem.domains.Employee;
 import com.itkolleg.bookingsystem.domains.TimeSlot;
-import com.itkolleg.bookingsystem.exceptions.BookingExceptions.BookingNotFoundException;
 import com.itkolleg.bookingsystem.exceptions.DeskExceptions.DeskNotAvailableException;
-import com.itkolleg.bookingsystem.exceptions.DeskExceptions.DeskNotFoundException;
 import com.itkolleg.bookingsystem.exceptions.EmployeeExceptions.EmployeeNotFoundException;
 import jakarta.validation.Valid;
 import org.slf4j.Logger;
@@ -87,7 +86,7 @@ public class DeskBookingWebController {
             model.addAttribute("errorMessage", "Desk is not available for booking.");
             addAttributesToModel(model);
             return "DeskBookings/addDeskBooking";
-        } catch (ExecutionException | InterruptedException | EmployeeNotFoundException | DeskNotFoundException e) {
+        } catch (ExecutionException | InterruptedException | EmployeeNotFoundException | ResourceNotFoundException e) {
             logger.error("Error occurred while booking the desk: " + e.getMessage(), e);
             model.addAttribute("errorMessage", "Error occurred while booking the desk.");
             addAttributesToModel(model);
@@ -110,14 +109,14 @@ public class DeskBookingWebController {
     }
 
     @GetMapping("/view/{id}")
-    public String viewDeskBooking(@PathVariable Long id, Model model) throws BookingNotFoundException {
+    public String viewDeskBooking(@PathVariable Long id, Model model) throws ResourceNotFoundException {
         DeskBooking deskBooking = this.deskBookingService.getBookingById(id);
         model.addAttribute("myDeskBooking", deskBooking);
         return "DeskBookings/viewDeskBooking";
     }
 
     @GetMapping("/update/{id}")
-    public String updateDeskBookingForm(@PathVariable Long id, Model model) throws BookingNotFoundException {
+    public String updateDeskBookingForm(@PathVariable Long id, Model model) throws ResourceNotFoundException {
         DeskBooking booking = this.deskBookingService.getBookingById(id);
 
         if (booking == null) {
@@ -154,14 +153,14 @@ public class DeskBookingWebController {
 
 
     @PostMapping("/update")
-    public String updateDeskBooking(@Valid DeskBooking booking, BindingResult bindingResult, @RequestParam("id") Long id, @RequestParam("desk.id") Long deskId, @RequestParam("employee.id") Long employeeId) throws BookingNotFoundException, DeskNotAvailableException, DeskNotFoundException, ExecutionException, InterruptedException, EmployeeNotFoundException {
+    public String updateDeskBooking(@Valid DeskBooking booking, BindingResult bindingResult, @RequestParam("id") Long id, @RequestParam("desk.id") Long deskId, @RequestParam("employee.id") Long employeeId) throws ResourceNotFoundException, DeskNotAvailableException, ExecutionException, InterruptedException, EmployeeNotFoundException {
         if (bindingResult.hasErrors()) {
             System.out.println("Errors: " + bindingResult.getAllErrors());
             return "DeskBookings/updateDeskBooking";
         } else {
             Desk desk = deskService.getDeskById(deskId);
                 if(desk == null) {
-                    throw new DeskNotFoundException("Desk not found for id: " + deskId);
+                    throw new ResourceNotFoundException("Desk not found for id: " + deskId);
                 }
             Employee employee = employeeService.getEmployeeById(employeeId);
                 if(employee == null) {
@@ -179,13 +178,13 @@ public class DeskBookingWebController {
     }
 
     @GetMapping("/cancel/{id}")
-    public String cancelDeskBooking(@PathVariable Long id, Model model) throws DeskBookingDeletionFailureException, BookingNotFoundException {
+    public String cancelDeskBooking(@PathVariable Long id, Model model) throws ResourceDeletionFailureException, ResourceNotFoundException {
         try {
             DeskBooking booking = this.deskBookingService.getBookingById(id);
             model.addAttribute("booking", booking);
             this.deskBookingService.deleteBooking(id);
             return "redirect:/web/deskBookings";
-        } catch(DeskBookingDeletionFailureException e) {
+        } catch(ResourceDeletionFailureException e) {
             // Log the error
             logger.error("Failed to cancel booking", e);
 

@@ -1,6 +1,6 @@
 package com.itkolleg.bookingsystem.service.Holiday;
 
-import com.itkolleg.bookingsystem.domains.Holiday;
+import com.itkolleg.bookingsystem.domains.PublicHoliday;
 import com.itkolleg.bookingsystem.repos.Holiday.HolidayRepo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -20,21 +20,21 @@ public class HolidayServiceImplementation implements HolidayService{
     }
 
     @Override
-    public void addHoliday(Holiday holiday) {
-         this.holidayRepo.addHoliday(holiday);
+    public void addHoliday(PublicHoliday publicHoliday) {
+         this.holidayRepo.addHoliday(publicHoliday);
     }
 
     public void deleteHoliday(Long id) {
         holidayRepo.deleteHoliday(id);
     }
 
-    public List<Holiday> getAllHolidays(){
+    public List<PublicHoliday> getAllHolidays(){
         return this.holidayRepo.getAllHolidays();
     }
 
     public boolean isBookingAllowedOnHoliday(LocalDate date) {
-        Holiday holiday = holidayRepo.findByDate(date);
-        return holiday != null && holiday.isBookingAllowed();
+        PublicHoliday publicHoliday = holidayRepo.findByDate(date);
+        return publicHoliday != null && publicHoliday.isBookingAllowed();
     }
 }
 

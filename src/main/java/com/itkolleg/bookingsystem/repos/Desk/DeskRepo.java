@@ -2,8 +2,8 @@ package com.itkolleg.bookingsystem.repos.Desk;
 
 import com.itkolleg.bookingsystem.domains.Desk;
 import com.itkolleg.bookingsystem.domains.Port;
-import com.itkolleg.bookingsystem.exceptions.DeskExceptions.DeskDeletionFailureException;
-import com.itkolleg.bookingsystem.exceptions.DeskExceptions.DeskNotFoundException;
+import com.itkolleg.bookingsystem.exceptions.ResourceDeletionFailureException;
+import com.itkolleg.bookingsystem.exceptions.ResourceNotFoundException;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 
@@ -19,13 +19,13 @@ public interface DeskRepo {
 
     Page<Desk> getAllDesksByPage(Pageable pageable);
 
-    Desk getDeskById(Long id) throws DeskNotFoundException;
+    Desk getDeskById(Long id) throws ResourceNotFoundException;
 
-    Desk updateDeskById(Long id, Desk desk) throws DeskNotFoundException;
+    Desk updateDeskById(Long id, Desk desk) throws ResourceNotFoundException;
 
-    Desk updateDesk(Desk desk) throws DeskNotFoundException;
+    Desk updateDesk(Desk desk) throws ResourceNotFoundException;
 
-    List<Desk> deleteDeskById(Long id) throws DeskDeletionFailureException;
+    List<Desk> deleteDeskById(Long id) throws ResourceDeletionFailureException;
 
     Desk createPort(Long deskId, Port newPort);
 
