@@ -62,7 +62,7 @@ a { text-decoration: none; }
     color: #fff;
 }
 
-/* Fülle leeren Bereich unter Sidebar */
+/* Fï¿½lle leeren Bereich unter Sidebar */
 .filler {
     position: fixed;
     top: 0;
@@ -107,8 +107,7 @@ a { text-decoration: none; }
         top: 100px;
         left: auto;
         background-color: #424242;
-        width: 5%;
-        min-width: 150px;
+        min-width: 100px;
         overflow-y: auto;
     }
     .filler {
@@ -116,7 +115,7 @@ a { text-decoration: none; }
         top: 0;
         left: 0;
         height: 100%;
-        width: 150px;
+        width: 100px;
         background-color: #e9e9e9;
         z-index: -1;
     }
@@ -130,8 +129,7 @@ a { text-decoration: none; }
         top: 100px;
         left: auto;
         background-color: #424242;
-        width: 6%;
-        min-width: 200px;
+        min-width: 150px;
         overflow-y: auto;
     }
     .filler {
@@ -139,7 +137,7 @@ a { text-decoration: none; }
         top: 0;
         left: 0;
         height: 100%;
-        width: 200px;
+        width: 150px;
         background-color: #e9e9e9;
         z-index: -1;
     }
