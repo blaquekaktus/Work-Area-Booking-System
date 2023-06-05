@@ -97,7 +97,7 @@ table {
 
 td, th {
     border: 1px solid #dddddd;
-    text-align: left;
+    text-align: center;
     padding: 8px;
 }
 
@@ -110,6 +110,13 @@ tr:nth-child(even) {
 @media only screen and (max-width: 600px) {
     .logo {
         width: 150px;
+    }
+
+    .content-container {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        height: 10vh;
     }
 
     .top-bar-header {
@@ -135,6 +142,13 @@ tr:nth-child(even) {
         width: 180px;
     }
 
+    .content-container {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        height: 10vh;
+    }
+
     .top-bar-header {
         top: 35%;
     }
@@ -158,6 +172,13 @@ tr:nth-child(even) {
         width: 200px;
     }
 
+    .content-container {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        height: 10vh;
+    }
+
     .top-bar-header {
         top: 40%;
     }
@@ -179,6 +200,13 @@ tr:nth-child(even) {
 @media only screen and (min-width: 992px) {
     .logo {
         width: 200px;
+    }
+
+    .content-container {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        height: 10vh;
     }
 
     .top-bar-header {
@@ -206,6 +234,13 @@ tr:nth-child(even) {
 
     .top-bar-header {
         top: 50%;
+    }
+
+    .content-container {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        height: 10vh;
     }
 
     .top-bar-header h1 {
