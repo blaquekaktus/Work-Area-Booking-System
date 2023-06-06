@@ -69,11 +69,6 @@
             <div class="form-text" th:errors="*{endTime}"
                  th:if="${#fields.hasErrors('endTime')}"></div>
         </div>
-        <div class="mb-3form-group">
-            <label for="timestamp" hidden="hidden"></label>
-            <input class="form-control" id="timestamp" name="timestamp" required th:field="${booking.timeStamp}"
-                   type="hidden">
-        </div>
         <button class="btn btn-primary" type="submit">Save</button>
         <a class="btn btn-secondary" th:href="@{/web/deskBookings}">Cancel</a>
     </form>

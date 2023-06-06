@@ -24,7 +24,7 @@
     <br>
     <br>
     <div style="display:flex;justify-content:flex-end;align-items:center;">
-        <a class="btn btn-dark" method="post" role="button" style="margin-right: 100px"
+        <a class="btn btn-dark" role="button" style="margin-right: 100px"
            th:href="@{/web/deskBookings/add}">BOOK A DESK</a>
     </div>
     <br>
@@ -39,6 +39,8 @@
                 <td>DATE</td>
                 <td>START</td>
                 <td>END</td>
+                <td>CREATED ON</td>
+                <td>LAST EDITED ON</td>
                 <td>VIEW</td>
                 <td>EDIT</td>
                 <td>DELETE</td>
@@ -54,6 +56,8 @@
                 <td th:text="${#temporals.format(booking.date, 'MMMM d, yyyy')}"></td>
                 <td th:text="${#temporals.format(booking.start, 'hh:mm a')}"></td>
                 <td th:text="${#temporals.format(booking.endTime, 'hh:mm a')}"></td>
+                <td th:text="${#temporals.format(booking.getCreatedOn, 'MMMM d, yyyy, hh:mm a')}"></td>
+                <td th:text="${#temporals.format(booking.getUpdatedOn, 'MMMM d, yyyy, hh:mm a')}"></td>
                 <td><a class="btn btn-info" role="button" th:href="@{/web/deskBookings/view/{id}(id=${booking.id})}">View</a>
                 </td>
                 <td><a class="btn btn-warning" role="button"

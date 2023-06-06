@@ -90,7 +90,7 @@ public class DeskBookingWebController {
 
                 booking.setDesk(desk);
                 booking.setEmployee(employee);
-                booking.setTimeStamp(LocalDateTime.now());
+                booking.setCreatedOn(LocalDateTime.now());
 
                 this.deskBookingService.addDeskBooking(booking);
                 return "redirect:/web/deskBookings";
@@ -200,7 +200,7 @@ public class DeskBookingWebController {
             booking.setDesk(desk);
             booking.setEmployee(employee);
             booking.setId(id);
-            booking.setTimeStamp(LocalDateTime.now());
+            booking.setCreatedOn(LocalDateTime.now());
 
             this.deskBookingService.updateBookingById(booking.getId(), booking);
             return "redirect:/web/deskBookings";

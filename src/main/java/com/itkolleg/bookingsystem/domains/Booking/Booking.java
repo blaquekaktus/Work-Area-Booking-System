@@ -11,6 +11,9 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 import lombok.ToString;
+import org.springframework.data.annotation.CreatedDate;
+import org.springframework.data.annotation.LastModifiedDate;
+import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
@@ -33,7 +36,8 @@ import static com.itkolleg.bookingsystem.domains.TimeSlot.PM;
 @Getter
 @Setter
 @ToString
-public class Booking {
+@EntityListeners(AuditingEntityListener.class)
+public abstract class Booking {
 
     /**
      * Unique identifier for each booking.
@@ -68,8 +72,12 @@ public class Booking {
      * The timestamp of when the booking was made.
      * It must be a present or past date/time.
      */
-    @PastOrPresent(message = "The timestamp must not be in the future")
-    private LocalDateTime timeStamp;
+    @CreatedDate
+    @PastOrPresent(message = "The date created must not be in the future")
+    protected LocalDateTime createdOn;
+
+    @LastModifiedDate
+    protected LocalDateTime updatedOn;
 
     /**
      * The start time of the booking.
@@ -81,26 +89,25 @@ public class Booking {
      */
     private LocalTime endTime;
 
+
     /**
      * Constructor for creating a booking with specific employee, date, start and end times, and timestamp.
      */
-    public Booking(@NotNull Employee employee, @NotNull LocalDate date, LocalTime startTime, LocalTime endTime, @NotNull LocalDateTime timeStamp) {
+    public Booking(@NotNull Employee employee, @NotNull LocalDate date, LocalTime startTime, LocalTime endTime) {
         this.employee = employee;
         this.date = date;
         this.start = startTime;
         this.endTime = endTime;
-        this.timeStamp = timeStamp;
     }
 
     /**
      * Constructor for creating a booking with specific employee, date, time slot, and timestamp.
      * The start and end times are determined by the time slot.
      */
-    public Booking(@NotNull Employee employee, @NotNull LocalDate date, TimeSlot timeSlot, @NotNull LocalDateTime timeStamp) {
+    public Booking(@NotNull Employee employee, @NotNull LocalDate date, TimeSlot timeSlot) {
         this.employee = employee;
         this.date = date;
         this.timeSlot = timeSlot;
-        this.timeStamp = timeStamp;
 
         if (timeSlot.equals(TimeSlot.AM)) {
             this.start = LocalTime.of(8, 0);
@@ -125,5 +132,26 @@ public class Booking {
     @AssertTrue(message = "Start time must be before end time")
     public boolean isValidTime() {
         return start.isBefore(endTime);
+    }
+
+    @PreUpdate
+    protected void onUpdate() {
+        updatedOn = LocalDateTime.now();
+    }
+
+    public LocalDateTime getCreatedOn() {
+        return this.createdOn;
+    }
+
+    public void setCreatedOn(LocalDateTime createdOn) {
+        this.createdOn = createdOn;
+    }
+
+    public LocalDateTime getUpdatedOn() {
+        return this.updatedOn;
+    }
+
+    public void setUpdatedOn(LocalDateTime updatedOn) {
+        this.updatedOn = updatedOn;
     }
 }

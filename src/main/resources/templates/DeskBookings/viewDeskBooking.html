@@ -37,7 +37,7 @@
             </div>
             <div class="mb-3">
                 <label class="form-label" for="date">DATE</label>
-                <input class="form-control" id="date" name="date" readonly th:field="${myDeskBooking.date}" type="text">
+                <input class="form-control" id="date" name="date" readonly th:value="${#temporals.format(myDeskBooking.date, 'dd-MM-YYYY')}" type="text">
             </div>
             <div class="mb-3">
                 <label class="form-label" for="start">START</label>

@@ -20,7 +20,6 @@ public interface DeskBookingRepo {
 
     Optional<DeskBooking> getBookingByBookingId(Long bookingId) throws ResourceNotFoundException;
 
-
     List<DeskBooking> getBookingsByEmployeeId(Long employeeId);
 
     List<DeskBooking> getBookingByDesk(Desk desk);
@@ -35,7 +34,7 @@ public interface DeskBookingRepo {
 
     List<DeskBooking> getBookingByDate(LocalDate date);
 
-    DeskBooking updateBookingByBookingId(Long bookingId, DeskBooking updatedBooking) throws ResourceNotFoundException;
+    DeskBooking updateBookingById(Long bookingId, DeskBooking updatedBooking) throws ResourceNotFoundException;
 
     DeskBooking updateBooking(DeskBooking updatedBooking) throws ResourceNotFoundException;
 

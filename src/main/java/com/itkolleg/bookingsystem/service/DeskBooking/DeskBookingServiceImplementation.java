@@ -156,7 +156,7 @@ public class DeskBookingServiceImplementation implements DeskBookingService {
             existingBooking.setDate(booking.getDate());
             existingBooking.setStart(booking.getStart());
             existingBooking.setEndTime(booking.getEndTime());
-            existingBooking.setTimeStamp(LocalDateTime.now());
+            existingBooking.setCreatedOn(LocalDateTime.now());
             return deskBookingRepo.addBooking(existingBooking);
         }catch (DataAccessException e){
             throw new ResourceNotFoundException("Database access error occurred for id: " + booking.getId(), e);

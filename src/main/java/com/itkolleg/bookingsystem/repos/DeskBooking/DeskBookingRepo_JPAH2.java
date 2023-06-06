@@ -15,6 +15,7 @@ import org.springframework.context.annotation.ComponentScan;
 import org.springframework.stereotype.Component;
 
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.time.LocalTime;
 import java.util.ArrayList;
 import java.util.List;
@@ -73,6 +74,10 @@ public class DeskBookingRepo_JPAH2 implements DeskBookingRepo {
         booking.setStart(deskBooking.getStart());
         booking.setEndTime(deskBooking.getEndTime());
 
+        // Set created and updated timestamps
+        booking.setCreatedOn(LocalDateTime.now());
+        booking.setUpdatedOn(LocalDateTime.now());
+
         // Save the booking
         try {
             return this.deskBookingJPARepo.save(booking);
@@ -80,6 +85,7 @@ public class DeskBookingRepo_JPAH2 implements DeskBookingRepo {
             throw new RuntimeException("Error saving the booking to the database", e);
         }
     }
+
 
     @Override
     public List<DeskBooking> getAllBookings() {
@@ -168,11 +174,11 @@ public class DeskBookingRepo_JPAH2 implements DeskBookingRepo {
     }
 
     @Override
-    public DeskBooking updateBookingByBookingId(Long deskBookingId, DeskBooking updatedDeskBooking) throws ResourceNotFoundException {
+    public DeskBooking updateBookingById(Long deskBookingId, DeskBooking updatedDeskBooking) throws ResourceNotFoundException {
         // Checking for mandatory fields on the updated booking
         if(updatedDeskBooking.getDesk() == null || updatedDeskBooking.getEmployee() == null || updatedDeskBooking.getDate() == null
-                || updatedDeskBooking.getStart() == null || updatedDeskBooking.getEndTime() == null || updatedDeskBooking.getTimeStamp() == null) {
-            throw new IllegalArgumentException("Updated Booking must have valid Desk, Employee, Date, StartTime, EndTime and TimeStamp.");
+                || updatedDeskBooking.getStart() == null || updatedDeskBooking.getEndTime() == null || updatedDeskBooking.getCreatedOn() == null) {
+            throw new IllegalArgumentException("Updated Booking must have valid Desk, Employee, Date, StartTime, EndTime and Creation Date.");
         }
 
         return deskBookingJPARepo.findById(deskBookingId).map(existingBooking -> {
@@ -198,7 +204,7 @@ public class DeskBookingRepo_JPAH2 implements DeskBookingRepo {
             existingBooking.setDate(updatedDeskBooking.getDate());
             existingBooking.setStart(updatedDeskBooking.getStart());
             existingBooking.setEndTime(updatedDeskBooking.getEndTime());
-            existingBooking.setTimeStamp(updatedDeskBooking.getTimeStamp());
+            existingBooking.setUpdatedOn(LocalDateTime.now());
             return existingBooking;
         }).orElseThrow(() -> new ResourceNotFoundException("The Desk Booking with the ID: " + deskBookingId + " was not found!"));
     }
