@@ -26,7 +26,7 @@
 <!-- Top Bar -->
 <div class="top-bar">
     <img src="/static/img/LogoWhite.png" alt="Logo" class="logo">
-    <a href="#" class="logout-link">Abmelden</a>
+    <a href="../Interface/start.html" target= "_self" class="logout-link">Abmelden</a>
     <div class="top-bar-header">
         <h1>W.A.B.S.</h1>
     </div>
@@ -53,7 +53,7 @@
                 <li><a href="#">Ressourcen</a></li>
                 <li><a href="#">Räume</a></li>
                 <li><a href="#">Vergangene Buchungen</a></li>
-            </ul>1
+            </ul>
         </li>
         <li><a href="#">Zurück</a></li>
     </ul>
@@ -62,7 +62,22 @@
 <div class="content-container">
     <div class="allRessourceContainer">
         <h1>Ressourcenliste</h1><br><br>
-        <!-- Inhalt -->
+        <table>
+            <th>ID</th>
+            <th>Name</th>
+            <th>Kategorie</th>
+            <th>Seriennummer</th>
+            <th>Aktion</th>
+            <th:block th:each="ressource : ${ressources}">
+                <tr>
+                    <td th:text="${ressource.id}">...</td>
+                    <td th:text="${ressource.name}">...</td>
+                    <td th:text="${ressource.ressourcetype}">...</td>
+                    <td th:text="${ressource.serialnumber}">...</td>
+                </tr>
+            </th:block>
+        </table>
+        <a href="manageRessource.html" class="action-button">Ressourcen Verwalten</a>
     </div>
 </div>
 <div class="filler"></div>

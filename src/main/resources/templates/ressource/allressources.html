@@ -74,14 +74,11 @@
                 <td th:text="${ressource.id}">...</td>
                 <td th:text="${ressource.name}">...</td>
                 <td th:text="${ressource.ressourcetype}">...</td>
-                <td th:text="${ressource.description}">...</td>
-                <td th:text="${ressource.info}">...</td>
                 <td th:text="${ressource.serialnumber}">...</td>
             </tr>
         </th:block>
     </table>
-        <a th:href="@{/web/deleteressource/{id}(id=${ressource.id})}">loeschen</a>
-        <a th:href="@{/web/insertressourceform}">Ressource hinzufügen</a>
+        <a href="manageRessource.html" class="action-button">Ressourcen Verwalten</a>
     </div>
 </div>
 <div class="filler"></div>
