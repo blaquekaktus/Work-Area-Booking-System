@@ -82,11 +82,18 @@ body {
 }
 
 .content-container {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 80%; /* Anpassen der Breite des Content-Containers */
+    min-width: 300px; /* Mindestbreite des Content-Containers */
+    height: 90vh; /* Höhe des Content-Containers */
     display: flex;
     justify-content: center;
     align-items: center;
-    height: 10vh;
 }
+
 
 table {
     font-family: arial, sans-serif;
