@@ -24,12 +24,6 @@
             <input class="form-control" id="id" name="id" required th:field="*{id}"
                    type="hidden">
         </div>
-
-        <!--<div class="mb-3">
-            <label class="form-label" for="employee">EMPLOYEE</label>
-            <input class="form-control" id="employee" name="employee" readonly
-                   th:value="${myDeskBooking.employee.fname} + ' '+ ${myDeskBooking.employee.lname}" type="text">
-        </div>-->
         <div class="mb-3 form-group">
             <label class="form-label" for="employee.name">EMPLOYEE</label>
             <input class="form-control" id="employee.name" name="employee.name"
@@ -50,7 +44,7 @@
             <label for="date">Date</label>
             <input class="form-control" id="date" name="date" required th:default="${booking.getDate()}"
                    th:field="${booking.date}" type="date">
-            <div class="form-text" th:errorclass="errors" th:errors="*{date}"
+            <div class="form-text" th:errors="*{date}"
                  th:if="${#fields.hasErrors('date')}"></div>
         </div>
         <div class="mb-3form-group">
@@ -61,18 +55,18 @@
                         th:text="${time}"
                         th:value="${time}"></option>
             </select>
-            <div class="form-text" th:errorclass="errors" th:errors="*{start}"
+            <div class="form-text" th:errors="*{start}"
                  th:if="${#fields.hasErrors('start')}"></div>
         </div>
         <div class="mb-3form-group">
-            <label for="end">End</label>
-            <select class="form-select" id="end" name="end" th:field="*{endTime}">
+            <label for="endTime">End Time</label>
+            <select class="form-select" id="endTime" name="endTime" th:field="*{endTime}">
                 <option value="">--Select End Time--</option>
                 <option th:each="time : ${uniqueEndTimes}"
                         th:text="${time}"
                         th:value="${time}"></option>
             </select>
-            <div class="form-text" th:errorclass="errors" th:errors="*{endTime}"
+            <div class="form-text" th:errors="*{endTime}"
                  th:if="${#fields.hasErrors('endTime')}"></div>
         </div>
         <div class="mb-3form-group">

@@ -1,29 +1,77 @@
 package com.itkolleg.bookingsystem.service.TimeSlot;
 
 import com.itkolleg.bookingsystem.domains.TimeSlot;
-import com.itkolleg.bookingsystem.exceptions.ResourceNotFoundException;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
 import java.time.LocalTime;
 import java.util.List;
+import java.util.Optional;
 
+/**
+ * Service interface for managing time slots.
+ *
+ * @author Sonja Lechner
+ * @version 1.0
+ * @since 2023-05-24
+ */
 public interface TimeSlotService {
-    Logger logger = LoggerFactory.getLogger(TimeSlotService.class);
 
+    /**
+     * Adds a new time slot.
+     *
+     * @param timeSlot The new time slot to add.
+     * @return The added time slot.
+     */
     TimeSlot addTimeSlot(TimeSlot timeSlot);
 
+    /**
+     * Retrieves all time slots.
+     *
+     * @return A list of all time slots.
+     */
     List<TimeSlot> getAllTimeSlots();
 
-    TimeSlot getTimeSlotByName(String name) throws ResourceNotFoundException;
+    /**
+     * Retrieves a time slot by name.
+     *
+     * @param name The name of the time slot.
+     * @return An Optional containing the time slot if it exists.
+     */
+    Optional<TimeSlot> getTimeSlotByName(String name);
 
-    TimeSlot getTimeSlotByStartTime(LocalTime startTime) throws ResourceNotFoundException;
+    /**
+     * Retrieves a time slot by start time.
+     *
+     * @param startTime The start time of the time slot.
+     * @return An Optional containing the time slot if it exists.
+     */
+    Optional<TimeSlot> getTimeSlotByStartTime(LocalTime startTime);
 
-    TimeSlot getTimeSlotByEndTime(LocalTime endTime) throws ResourceNotFoundException;
+    /**
+     * Retrieves a time slot by end time.
+     *
+     * @param endTime The end time of the time slot.
+     * @return An Optional containing the time slot if it exists.
+     */
+    Optional<TimeSlot> getTimeSlotByEndTime(LocalTime endTime);
 
-    TimeSlot updateTimeSlot(TimeSlot timeSlot) throws ResourceNotFoundException;
+    /**
+     * Updates a time slot.
+     *
+     * @param timeSlot The time slot to update.
+     * @return The updated time slot.
+     */
+    Optional<TimeSlot> updateTimeSlot(TimeSlot timeSlot);
 
-    void deleteTimeSlotById(Long id) throws ResourceNotFoundException;
+    /**
+     * Deletes a time slot by ID.
+     *
+     * @param id The ID of the time slot to delete.
+     */
+    void deleteTimeSlotById(Long id);
 
-    void deleteTimeSlotByName(String name) throws ResourceNotFoundException;
+    /**
+     * Deletes a time slot by name.
+     *
+     * @param name The name of the time slot to delete.
+     */
+    void deleteTimeSlotByName(String name);
 }

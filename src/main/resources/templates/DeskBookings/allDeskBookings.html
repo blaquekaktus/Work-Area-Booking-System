@@ -47,13 +47,13 @@
             <tbody>
             <tr th:each="booking: ${viewAllDeskBookings}">
                 <td th:text="${booking.id}"></td>
-                <td th:text="${booking.employee.fname } + ' '+ ${booking.employee.lname}"></td>
+                <td th:text="${booking.employee.fname } + ' ' + ${booking.employee.lname}"></td>
                 <td th:text="${booking.desk.deskNr}"></td>
                 <!--<td th:text="${#temporals.format(booking.bookingStart, 'EEEE, MMMM d h:mm a', 'US/Eastern')}"></td>
                 //<td th:text="${#temporals.format(booking.bookingEnd, 'EEEE, MMMM d h:mm a', 'US/Eastern')}"></td>-->
                 <td th:text="${#temporals.format(booking.date, 'MMMM d, yyyy')}"></td>
-                <td th:text="${#temporals.format(booking.start, 'h:mm a')}"></td>
-                <td th:text="${#temporals.format(booking.endTime, 'h:mm a')}"></td>
+                <td th:text="${#temporals.format(booking.start, 'hh:mm a')}"></td>
+                <td th:text="${#temporals.format(booking.endTime, 'hh:mm a')}"></td>
                 <td><a class="btn btn-info" role="button" th:href="@{/web/deskBookings/view/{id}(id=${booking.id})}">View</a>
                 </td>
                 <td><a class="btn btn-warning" role="button"

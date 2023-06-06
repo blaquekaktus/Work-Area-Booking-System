@@ -4,7 +4,7 @@ import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.*;
 
 import com.itkolleg.bookingsystem.domains.Booking.DeskBooking;
-import com.itkolleg.bookingsystem.exceptions.BookingExceptions.BookingNotFoundException;
+import com.itkolleg.bookingsystem.exceptions.ResourceNotFoundException;
 import com.itkolleg.bookingsystem.repos.DeskBooking.DeskBookingRepo;
 import org.junit.jupiter.api.Test;
 import org.mockito.InjectMocks;
@@ -23,7 +23,7 @@ public class DeskBookingServiceImplementationTest {
     DeskBookingServiceImplementation deskBookingService;
 
     @Test
-    public void testGetBookingById() throws BookingNotFoundException {
+    public void testGetBookingById() throws ResourceNotFoundException {
         Long testId = 5L;
         DeskBooking testBooking = new DeskBooking();
         testBooking.setId(testId);

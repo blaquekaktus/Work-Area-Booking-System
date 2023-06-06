@@ -2,7 +2,7 @@ package com.itkolleg.bookingsystem.controller;
 
 import com.itkolleg.bookingsystem.domains.ErrorDetails;
 import com.itkolleg.bookingsystem.exceptions.ResourceNotFoundException;
-import com.itkolleg.bookingsystem.exceptions.DeskExceptions.DeskNotAvailableException;
+import com.itkolleg.bookingsystem.exceptions.DeskNotAvailableException;
 import com.itkolleg.bookingsystem.exceptions.EmployeeExceptions.EmployeeAlreadyExistsException;
 import com.itkolleg.bookingsystem.exceptions.EmployeeExceptions.EmployeeDeletionNotPossibleException;
 import com.itkolleg.bookingsystem.exceptions.EmployeeExceptions.EmployeeNotFoundException;

@@ -5,7 +5,7 @@ import com.itkolleg.bookingsystem.domains.Desk;
 import com.itkolleg.bookingsystem.domains.Employee;
 import com.itkolleg.bookingsystem.exceptions.ResourceDeletionFailureException;
 import com.itkolleg.bookingsystem.exceptions.ResourceNotFoundException;
-import com.itkolleg.bookingsystem.exceptions.DeskExceptions.DeskNotAvailableException;
+import com.itkolleg.bookingsystem.exceptions.DeskNotAvailableException;
 import com.itkolleg.bookingsystem.exceptions.EmployeeExceptions.EmployeeNotFoundException;
 import com.itkolleg.bookingsystem.repos.Desk.DeskJPARepo;
 import com.itkolleg.bookingsystem.repos.Employee.EmployeeJPARepo;
@@ -155,7 +155,7 @@ public class DeskBookingRepo_JPAH2 implements DeskBookingRepo {
 
     @Override
     public List<DeskBooking> getBookingByDate(LocalDate date) {
-        return null;
+        return this.deskBookingJPARepo.getBookingsByDate(date);
     }
 
     @Override
@@ -193,20 +193,22 @@ public class DeskBookingRepo_JPAH2 implements DeskBookingRepo {
                 logger.error(e.getMessage());
                 throw new RuntimeException("Failed to update booking due to missing employee. Original error: " + e.getMessage());
             }
-
             existingBooking.setDesk(fetchedDesk);
             existingBooking.setEmployee(fetchedEmployee);
             existingBooking.setDate(updatedDeskBooking.getDate());
             existingBooking.setStart(updatedDeskBooking.getStart());
             existingBooking.setEndTime(updatedDeskBooking.getEndTime());
             existingBooking.setTimeStamp(updatedDeskBooking.getTimeStamp());
-            return deskBookingJPARepo.save(existingBooking);
+            return existingBooking;
         }).orElseThrow(() -> new ResourceNotFoundException("The Desk Booking with the ID: " + deskBookingId + " was not found!"));
     }
 
     @Override
     public DeskBooking updateBooking(DeskBooking updatedBooking) throws ResourceNotFoundException {
-        return null;
+        if(updatedBooking.getId() == null) {
+            throw new IllegalArgumentException("Id cannot be null when updating");
+        }
+        return deskBookingJPARepo.saveAndFlush(updatedBooking);
     }
 
 

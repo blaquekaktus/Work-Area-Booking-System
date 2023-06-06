@@ -40,7 +40,7 @@
                 <div class="mb-3 form-group">
                     <label class="form-label" for="employee.id">EMPLOYEE</label>
                     <select class="form-control" id="employee.id" name="employee.id" th:field="*{employee.id}">
-                        <option th:each="employee : ${employeeList}"
+                        <option th:each="employee : ${employees}"
                                 th:text="${employee.getFname()} + ' '+ ${employee.lname}"
                                 th:value="${employee.id}"></option>
                     </select>
@@ -51,7 +51,7 @@
                 <div class="mb-3 form-group">
                     <label class="form-label" for="deskNr">DESK</label>
                     <select class="form-control" id="deskNr" name="deskId" th:field="*{desk.id}">
-                        <option th:each="desk : ${deskList}"
+                        <option th:each="desk : ${desks}"
                                 th:text="${desk.deskNr}"
                                 th:value="${desk.id}"></option>
                     </select>
@@ -72,10 +72,10 @@
                 <div class="mb-3">
                     <label class="form-label" for="start">START TIME</label>
                     <select class="form-select" id="start" name="start" th:field="*{start}">
-                        <option selected="selected" value="">--Select Start Time--</option>
-                        <option th:each="timeSlot : ${timeSlotList}"
-                                th:text="${timeSlot.getStartTimeAsString()}"
-                                th:value="${timeSlot.getStartTimeAsString()}"></option>
+                        <option value="">--Select Start Time--</option>
+                        <option th:each="time : ${startTimes}"
+                                th:text="${time}"
+                                th:value="${time}"></option>
                     </select>
                     <div class="form-text"
                          th:errors="*{start}"
@@ -83,13 +83,12 @@
                 </div>
 
                 <div class="mb-3">
-                    <label class="form-label" for="endTime">END TIME</label>
-                    <select class="form-select" id="endTime" name="endTime" th:field="*{endTime}">
-                        <option selected="selected" value="">--Select End Time--</option>
-                        <option th:each="timeSlot : ${timeSlotList}"
-                                th:text="${timeSlot.getEndTimeAsString()}"
-                                th:value="${timeSlot.getEndTimeAsString()}">
-                        </option>
+                    <label class="form-label" for="end">END TIME</label>
+                    <select class="form-select" id="end" name="end" th:field="*{endTime}">
+                        <option value="">--Select End Time--</option>
+                        <option th:each="time : ${endTimes}"
+                                th:text="${time}"
+                                th:value="${time}"></option>
                     </select>
                     <div class="form-text"
                          th:errors="*{endTime}"

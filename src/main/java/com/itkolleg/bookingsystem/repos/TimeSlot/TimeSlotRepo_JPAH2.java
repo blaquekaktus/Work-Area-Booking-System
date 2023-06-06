@@ -1,7 +1,7 @@
 package com.itkolleg.bookingsystem.repos.TimeSlot;
 
 import com.itkolleg.bookingsystem.domains.TimeSlot;
-import com.itkolleg.bookingsystem.exceptions.ResourceNotFoundException;
+import com.itkolleg.bookingsystem.exceptions.DatabaseOperationException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.context.annotation.ComponentScan;
@@ -9,12 +9,13 @@ import org.springframework.stereotype.Component;
 
 import java.time.LocalTime;
 import java.util.List;
+import java.util.Optional;
 
 @Component
 @ComponentScan({"com.itkolleg.repos"})
 public class TimeSlotRepo_JPAH2 implements TimeSlotRepo {
 
-    Logger logger = LoggerFactory.getLogger(TimeSlotRepo_JPAH2.class);
+    private static final Logger logger = LoggerFactory.getLogger(TimeSlotRepo_JPAH2.class);
     TimeSlotJPARepo timeSlotJPARepo;
 
     public TimeSlotRepo_JPAH2(TimeSlotJPARepo timeSlotJPARepo) {
@@ -32,32 +33,37 @@ public class TimeSlotRepo_JPAH2 implements TimeSlotRepo {
     }
 
     @Override
-    public TimeSlot getTimeSlotByName(String name) throws ResourceNotFoundException {
-        return this.timeSlotJPARepo.getTimeSlotByName(name);
+    public Optional<TimeSlot> getTimeSlotByName(String name){
+        return this.timeSlotJPARepo.findByName(name);
     }
 
     @Override
-    public TimeSlot getTimeSlotByStartTime(LocalTime startTime) throws ResourceNotFoundException {
-        return this.timeSlotJPARepo.getTimeSlotByStartTime(startTime);
+    public Optional<TimeSlot> getTimeSlotByStartTime(LocalTime startTime){
+        return this.timeSlotJPARepo.findByStartTime(startTime);
     }
 
     @Override
-    public TimeSlot getTimeSlotByEndTime(LocalTime endTime) throws ResourceNotFoundException {
-        return this.timeSlotJPARepo.getTimeSlotByEndTime(endTime);
+    public Optional<TimeSlot> getTimeSlotByEndTime(LocalTime endTime){
+        return this.timeSlotJPARepo.findByEndTime(endTime);
     }
 
     @Override
-    public TimeSlot updateTimeSlot(TimeSlot timeSlot) throws ResourceNotFoundException {
-        return this.timeSlotJPARepo.updateTimeSlot(timeSlot);
+    public Optional<TimeSlot> updateTimeSlot(TimeSlot timeSlot){
+        return Optional.of(this.timeSlotJPARepo.saveAndFlush(timeSlot));
     }
 
     @Override
-    public void deleteTimeSlotById(Long id) throws ResourceNotFoundException {
-        this.timeSlotJPARepo.deleteTimeSlotById(id);
+    public void deleteTimeSlotById(Long id){
+        this.timeSlotJPARepo.deleteById(id);
     }
 
     @Override
     public void deleteTimeSlotByName(String name) {
         this.timeSlotJPARepo.deleteTimeSlotByName(name);
+    }
+
+    @Override
+    public void delete(TimeSlot toDelete) throws DatabaseOperationException {
+        this.timeSlotJPARepo.delete(toDelete);
     }
 }

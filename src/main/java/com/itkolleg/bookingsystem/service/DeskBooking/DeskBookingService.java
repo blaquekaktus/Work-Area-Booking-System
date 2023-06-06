@@ -5,8 +5,7 @@ import com.itkolleg.bookingsystem.domains.Desk;
 import com.itkolleg.bookingsystem.domains.Employee;
 import com.itkolleg.bookingsystem.exceptions.ResourceDeletionFailureException;
 import com.itkolleg.bookingsystem.exceptions.ResourceNotFoundException;
-import com.itkolleg.bookingsystem.exceptions.DeskExceptions.DeskNotAvailableException;
-import com.itkolleg.bookingsystem.exceptions.ResourceNotFoundException;
+import com.itkolleg.bookingsystem.exceptions.DeskNotAvailableException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
