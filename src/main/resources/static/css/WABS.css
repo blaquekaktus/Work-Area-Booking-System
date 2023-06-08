@@ -1,6 +1,50 @@
-/* CSS */
+
 body {
     font-family: 'Roboto Condensed', sans-serif;
+}
+
+.addRessourceContainer {
+    background-color: #fff;
+    padding: 20px;
+    border-radius: 5px; /*Abrundung der Box*/
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.3);
+    max-width: 500px;
+    margin-top: 100px;
+}
+
+.addRessourceContainer h1 {
+    text-align: center;
+}
+
+.form-group {
+    margin-bottom: 20px;
+}
+
+.form-group label {
+    display: block;
+    font-weight: bold;
+}
+
+.form-group input,
+.form-group textarea {
+    width: 100%;
+    padding: 8px;
+    font-size: 16px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+}
+
+.btn-primary {
+    background-color: #4CAF50;
+    color: white;
+    padding: 10px 20px;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+}
+
+.btn-primary:hover {
+    background-color: #45a049;
 }
 
 /* Top Bar */
@@ -135,6 +179,32 @@ td, th {
     touch-action: manipulation;
 }
 
+.add-button {
+    background-color: #96c01e;
+    border-radius: 8px;
+    border-style: none;
+    box-sizing: border-box;
+    color: #FFFFFF;
+    cursor: pointer;
+    display: inline-block;
+    font-size: 14px;
+    font-weight: 500;
+    height: 40px;
+    line-height: 20px;
+    list-style: none;
+    margin: 0;
+    outline: none;
+    padding: 10px 16px;
+    position: absolute;
+    text-align: center;
+    text-decoration: none;
+    transition: color 100ms;
+    vertical-align: baseline;
+    user-select: none;
+    -webkit-user-select: none;
+    touch-action: manipulation;
+}
+
 .delete-button {
     background-color: #00b8eb;
     border-radius: 8px;
@@ -168,6 +238,11 @@ td, th {
 
 .delete-button:hover,
 .delete-button:focus {
+    background-color: #00b8eb;
+}
+
+.add-button:hover,
+.add-button:focus {
     background-color: #00b8eb;
 }
 
