@@ -62,30 +62,32 @@
 <div class="content-container">
     <div class="addRessourceContainer">
         <h1>Ressource hinzufügen</h1><br><br>
-        <form>
-            <div class="form-group">
-                <label for="id">ID:</label>
-                <input type="text" class="form-control" id="id" name="id" required>
-            </div>
+        <form th:object="${newRessource}" th:action="@{/web/addRessource}" method="post"> <!--zuerst objekt holen, mapping wohin, übertragungsmethode-->
             <div class="form-group">
                 <label for="name">Name:</label>
                 <input type="text" class="form-control" id="name" name="name" required>
             </div>
             <div class="form-group">
-                <label for="kategorie">Kategorie:</label>
-                <input type="text" class="form-control" id="kategorie" name="kategorie" required>
+                <label for="ressourcetype">Kategorie:</label>
+                <select th:field="*{ressourcetype}" name="ressourcetype" id="ressourcetype" class="form-control">
+                    <option>---Bitte Auswählen---</option>
+                    <option th:each="type : ${T(com.itkolleg.bookingsystem.domains.Ressourcetype).values()}"
+                            th:value="${type}" th:text="${type}">
+                    </option>
+                    <!-- Testung muss noch durchgeführt werden-->
+                </select>
             </div>
             <div class="form-group">
-                <label for="beschreibung">Beschreibung:</label>
-                <textarea class="form-control" id="beschreibung" name="beschreibung" required></textarea>
+                <label for="description">Beschreibung:</label>
+                <textarea class="form-control" id="description" th:field="*{description}" name="description"></textarea>
             </div>
             <div class="form-group">
                 <label for="info">Info:</label>
-                <input type="text" class="form-control" id="info" name="info" required>
+                <input type="text" class="form-control" id="info" th:field="*{info}" name="info">
             </div>
             <div class="form-group">
-                <label for="seriennummer">Seriennummer:</label>
-                <input type="text" class="form-control" id="seriennummer" name="seriennummer" required>
+                <label for="serialnumber">Seriennummer:</label>
+                <input type="text" class="form-control" id="serialnumber" th:field="*{serialnumber}" name="serialnumber" required>
             </div>
             <button type="submit" class="btn btn-primary">Senden</button>
         </form>
