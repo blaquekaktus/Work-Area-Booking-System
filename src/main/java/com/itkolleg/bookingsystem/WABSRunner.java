@@ -16,6 +16,7 @@ import org.springframework.context.annotation.ComponentScan;
 import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
 
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.time.LocalTime;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -188,25 +189,25 @@ public class WABSRunner implements ApplicationRunner {
         Desk savedDesk10 = deskDBAccess.getDeskById(desk10.getId());
 
         //Create 10 new DeskBookings
-        DeskBooking deskBooking = new DeskBooking(admin, savedDesk3,date , bookingTime1[0], bookingTime1[1], LocalTime.now());
+        DeskBooking deskBooking = new DeskBooking(admin, savedDesk3,date , bookingTime1[0], bookingTime1[1], LocalDateTime.now());
         noOfDeskBookings++;
-        DeskBooking deskBooking1 = new DeskBooking(sonlech,savedDesk4 ,date1, bookingTime2[0], bookingTime2[1], LocalTime.now());
+        DeskBooking deskBooking1 = new DeskBooking(sonlech,savedDesk4 ,date1, bookingTime2[0], bookingTime2[1], LocalDateTime.now());
         noOfDeskBookings ++;
-        DeskBooking deskBooking2 = new DeskBooking(jaslech,savedDesk3, date4,bookingTime3[0], bookingTime3[1], LocalTime.now());
+        DeskBooking deskBooking2 = new DeskBooking(jaslech,savedDesk3, date4,bookingTime3[0], bookingTime3[1], LocalDateTime.now());
         noOfDeskBookings ++;
-        DeskBooking deskBooking3 = new DeskBooking(jaslech,savedDesk4, date3, bookingTime3[0], bookingTime3[1], LocalTime.now());
+        DeskBooking deskBooking3 = new DeskBooking(jaslech,savedDesk4, date3, bookingTime3[0], bookingTime3[1], LocalDateTime.now());
         noOfDeskBookings ++;
-        DeskBooking deskBooking4 = new DeskBooking(camlech,savedDesk2, date4, bookingTime2[0], bookingTime2[1], LocalTime.now());
+        DeskBooking deskBooking4 = new DeskBooking(camlech,savedDesk2, date4, bookingTime2[0], bookingTime2[1], LocalDateTime.now());
         noOfDeskBookings++;
-        DeskBooking deskBooking5 = new DeskBooking(joslech,savedDesk1, date, bookingTime3[0], bookingTime3[1], LocalTime.now());
+        DeskBooking deskBooking5 = new DeskBooking(joslech,savedDesk1, date, bookingTime3[0], bookingTime3[1], LocalDateTime.now());
         noOfDeskBookings++;
-        DeskBooking deskBooking6 = new DeskBooking(joslech,savedDesk1, date1, bookingTime3[0], bookingTime3[1], LocalTime.now());
+        DeskBooking deskBooking6 = new DeskBooking(joslech,savedDesk1, date1, bookingTime3[0], bookingTime3[1], LocalDateTime.now());
         noOfDeskBookings++;
-        DeskBooking deskBooking7 = new DeskBooking(joslech,savedDesk1, date2, bookingTime3[0], bookingTime3[1], LocalTime.now());
+        DeskBooking deskBooking7 = new DeskBooking(joslech,savedDesk1, date2, bookingTime3[0], bookingTime3[1], LocalDateTime.now());
         noOfDeskBookings++;
-        DeskBooking deskBooking8 = new DeskBooking(sonlech,savedDesk1, date3, bookingTime3[0], bookingTime3[1], LocalTime.now());
+        DeskBooking deskBooking8 = new DeskBooking(sonlech,savedDesk1, date3, bookingTime3[0], bookingTime3[1], LocalDateTime.now());
         noOfDeskBookings++;
-        DeskBooking deskBooking9 = new DeskBooking(sonlech,savedDesk1, date4,  bookingTime3[0], bookingTime3[1], LocalTime.now());
+        DeskBooking deskBooking9 = new DeskBooking(sonlech,savedDesk1, date4,  bookingTime3[0], bookingTime3[1], LocalDateTime.now());
         noOfDeskBookings++;
         System.out.println("\n" + noOfDeskBookings + " Desk Bookings successfully created! \n");
 
@@ -232,6 +233,7 @@ public class WABSRunner implements ApplicationRunner {
         }
 
     }
+
     private LocalTime[] getBookingTimes(int option) {
         LocalTime[] bookingTimes = new LocalTime[2];
 
@@ -260,6 +262,7 @@ public class WABSRunner implements ApplicationRunner {
 
         return bookingTimes;
     }
+
 
 }
 
