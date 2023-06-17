@@ -41,7 +41,7 @@ public class EmployeeDBAccess_JPAH2 implements EmployeeDBAccess {
         if(optEmployee.isPresent()){
             return optEmployee.get();
         } else {
-            throw new EmployeeNotFoundException();
+            throw new EmployeeNotFoundException("The Employee with the ID: " + employeeJPARepo.findById(id) + " was not found!");
         }
     }
 
@@ -87,7 +87,7 @@ public class EmployeeDBAccess_JPAH2 implements EmployeeDBAccess {
             employee.setRole(updatedEmployee.getRole());
             return this.employeeJPARepo.save(employee);
         } else {
-            throw new EmployeeNotFoundException();
+            throw new EmployeeNotFoundException("The Employee with the ID: " + employeeJPARepo.findById(id) + " was not found!");
         }
     }
 

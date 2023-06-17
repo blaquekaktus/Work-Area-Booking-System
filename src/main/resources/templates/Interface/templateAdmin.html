@@ -1,22 +1,22 @@
 <!DOCTYPE html>
-<html>
+<html xmlns:th="http://www.thymeleaf.org">
 <head>
   <title>Meine Webseite</title>
   <meta charset="UTF-8">
   <link href="https://fonts.googleapis.com/css?family=Roboto+Condensed&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="../css/WABS.css">
+  <link rel="stylesheet" href="/static/css/WABS.css">
 
   <!-- jQuery -->
   <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
 
   <!-- Font Awesome 4-->
   <link href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet">
-  <link rel="stylesheet" href="../css/sidebar-accordionAdmin.css">
-  <script src="../javaScript/sidebar-accordion.js"></script>
-  <script src="../javaScript/DropDown.js"></script>
+  <link rel="stylesheet" href="/static/css/sidebar-accordionAdmin.css">
+  <script src="/static/js/sidebar-accordion.js"></script>
+  <script src="/static/js/DropDown.js"></script>
   <style>
     body {
-      background-image: url("../pic/background.jpg");
+      background-image: url("/static/img/background.jpg");
       background-size: cover;
       background-repeat: no-repeat;
     }
@@ -25,7 +25,7 @@
 <body>
 <!-- Top Bar -->
 <div class="top-barAdmin">
-  <img src="../pic/LogoWhite.png" alt="Logo" class="logo">
+  <img src="../static/img/LogoWhite.png" alt="Logo" class="logo">
   <a href="#" class="logout-link">Abmelden</a>
   <div class="top-bar-header">
     <h1>W.A.B.S.</h1>

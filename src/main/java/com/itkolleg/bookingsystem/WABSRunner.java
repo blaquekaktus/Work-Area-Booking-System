@@ -197,6 +197,7 @@ public class WABSRunner implements ApplicationRunner {
         Desk savedDesk10 = deskRepo.getDeskById(desk10.getId());
 
         //Create 10 new DeskBookings
+
         DeskBooking deskBooking = new DeskBooking(admin, savedDesk3, date, bookingTime1[0], bookingTime1[1]);
         noOfDeskBookings++;
         DeskBooking deskBooking1 = new DeskBooking(sonlech, savedDesk4, date1, bookingTime2[0], bookingTime2[1]);
@@ -297,6 +298,7 @@ public class WABSRunner implements ApplicationRunner {
         }
         return bookingTimes;
     }
+
 
 }
 

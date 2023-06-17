@@ -26,7 +26,7 @@
 <!-- Top Bar -->
 <div class="top-bar">
     <img src="/static/img/LogoWhite.png" alt="Logo" class="logo">
-    <a href="../Interface/start.html" target="_self" class="logout-link">Abmelden</a>
+    <a href="../Interface/start.html" target= "_self" class="logout-link">Abmelden</a>
     <div class="top-bar-header">
         <h1>W.A.B.S.</h1>
     </div>
@@ -60,33 +60,37 @@
 </div>
 <!-- Content -->
 <div class="content-container">
-    <div class="allRessourceContainer">
-        <h1>Ressourcenliste</h1><br><br>
-        <table>
-            <thead>
-            <tr>
-                <th>ID</th>
-                <th>Name</th>
-                <th>Kategorie</th>
-                <th>Beschreibung</th>
-                <th>Info</th>
-                <th>Seriennummer</th>
-            </tr>
-            </thead>
-            <tbody>
-            <th:block th:each="ressource : ${ressources}">
-                <tr>
-                    <td th:text="${ressource.id}"></td>
-                    <td th:text="${ressource.name}"></td>
-                    <td th:text="${ressource.ressourcetype}"></td>
-                    <td th:text="${ressource.description}"></td>
-                    <td th:text="${ressource.info}"></td>
-                    <td th:text="${ressource.serialnumber}"></td>
-                </tr>
-            </th:block>
-            </tbody>
-        </table>
-        <a href="manageRessource.html" class="action-button">Ressourcen Verwalten</a>
+    <div class="addRessourceContainer">
+        <h1>Ressource hinzufügen</h1><br><br>
+        <form th:object="${newRessource}" th:action="@{/web/addRessource}" method="post"> <!--zuerst objekt holen, mapping wohin, übertragungsmethode-->
+            <div class="form-group">
+                <label for="name">Name:</label>
+                <input type="text" class="form-control" id="name" name="name" required>
+            </div>
+            <div class="form-group">
+                <label for="ressourcetype">Kategorie:</label>
+                <select th:field="*{ressourcetype}" name="ressourcetype" id="ressourcetype" class="form-control">
+                    <option>---Bitte Auswählen---</option>
+                    <option th:each="type : ${T(com.itkolleg.bookingsystem.domains.Ressourcetype).values()}"
+                            th:value="${type}" th:text="${type}">
+                    </option>
+                    <!-- Testung muss noch durchgeführt werden-->
+                </select>
+            </div>
+            <div class="form-group">
+                <label for="description">Beschreibung:</label>
+                <textarea class="form-control" id="description" th:field="*{description}" name="description"></textarea>
+            </div>
+            <div class="form-group">
+                <label for="info">Info:</label>
+                <input type="text" class="form-control" id="info" th:field="*{info}" name="info">
+            </div>
+            <div class="form-group">
+                <label for="serialnumber">Seriennummer:</label>
+                <input type="text" class="form-control" id="serialnumber" th:field="*{serialnumber}" name="serialnumber" required>
+            </div>
+            <button type="submit" class="btn btn-primary">Senden</button>
+        </form>
     </div>
 </div>
 <div class="filler"></div>

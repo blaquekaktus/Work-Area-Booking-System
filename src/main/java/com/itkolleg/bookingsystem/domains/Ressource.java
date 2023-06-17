@@ -17,9 +17,7 @@ public class Ressource {
     @Id
     @GeneratedValue(strategy= GenerationType.SEQUENCE)
     private Long id;
-
     private Ressourcetype ressourcetype;
-
     private String name;
     private String description;
     private String info;
