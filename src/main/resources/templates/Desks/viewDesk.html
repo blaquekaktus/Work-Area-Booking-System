@@ -2,7 +2,7 @@
 <html lang="en" xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
-    <title>View Desk</title>
+    <title>Work-Area Details</title>
     <link th:href="@{/webjars/bootstrap/4.0.0-2/css/bootstrap.min.css} " th:rel="stylesheet"/>
 </head>
 <body style="background-image: url('/img/Desks.jpg');background-repeat:no-repeat;background-size:cover;">
@@ -17,7 +17,7 @@
 <br>
 <br>
 <div>
-    <h1 class="text-center text-dark">DESKS DETAILS</h1>
+    <h1 class="text-center text-dark">Work-Area Details</h1>
 </div>
 <div class="container">
     <div class="row justify-content-center">
@@ -25,16 +25,16 @@
             <br>
             <form method="get" th:action="@{/web/desks/view/{id}}" th:object="${myDesk}">
                 <div class="mb-3">
-                    <label class="form-label" for="deskNr">DESK NR</label>
+                    <label class="form-label" for="deskNr">Work-Area Number</label>
                     <input class="form-control" id="deskNr" name="deskNr" readonly th:field="*{deskNr}" type="text">
                 </div>
                 <div class="mb-3">
-                    <label class="form-label" for="nrOfMonitors">NR OF MONITORS</label>
+                    <label class="form-label" for="nrOfMonitors">Monitors</label>
                     <input class="form-control" id="nrOfMonitors" name="nrOfMonitors" readonly
                            th:field="*{nrOfMonitors}" type="text">
                 </div>
                 <div class="mb-3">
-                    <label class="form-label" for="ports">PORTS</label>
+                    <label class="form-label" for="ports">Ports</label>
                     <textarea class="form-control" id="ports" name="ports" readonly>
                         <th:block th:each="port : ${desk.ports}">
                             <span th:text="${port}+'\n'"></span>

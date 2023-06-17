@@ -42,6 +42,12 @@ public class Desk {
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE)
     private Long id;
+    /**
+     * The room the desk is in.
+     */
+    @ManyToOne
+    @JoinColumn(name = "roomId")
+    private Room room;
 
     /**
      * The desk number.
@@ -58,6 +64,12 @@ public class Desk {
     private int nrOfMonitors;
 
     /**
+     * The booking Status of the desk.
+     */
+    @NotNull
+    private String bookingStatus = "NONE";
+
+    /**
      * Default constructor that initializes the list of ports.
      */
     public Desk() {
@@ -65,7 +77,7 @@ public class Desk {
     }
 
     /**
-     * Constructor for creating a Desk with a specific desk number, number of monitors, and a list of ports.
+     * Constructor for creating a Desk with a specific desk number, number of monitors, a list of ports, and booking Status.
      */
     public Desk(@NonNull String deskNr, int nrOfMonitors, List<Port> ports) {
         this.deskNr = deskNr;

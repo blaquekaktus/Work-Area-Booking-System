@@ -17,7 +17,7 @@
 <br>
 <br>
 <div>
-    <h1 class="text-center text-dark">ADD DESK</h1>
+    <h1 class="text-center text-dark">Create New Work-Area</h1>
 </div>
 <br>
 <br>
@@ -25,27 +25,26 @@
     <div class="row justify-content-center">
         <div class="col-md-6">
             <div style="display:flex;justify-content:flex-end;align-items:center;">
-                <a class="btn btn-dark" role="button" style="margin-right: 50px" th:href="@{/web/desks}">VIEW ALL
-                    DESKS</a>
+                <a class="btn btn-dark" role="button" style="margin-right: 50px" th:href="@{/web/desks}">View All Work-Areas</a>
             </div>
             <br>
             <br>
             <form method="post" th:action="@{/web/desks/add}" th:object="${desk}">
                 <div class="mb-3">
-                    <label class="form-label" for="deskNr">DESK NR</label>
+                    <label class="form-label" for="deskNr">Work-Area Nr</label>
                     <input class="form-control" id="deskNr" name="deskNr" th:field="*{deskNr}" type="text">
                     <div class="form-text" th:errorclass="errors" th:errors="*{deskNr}"
                          th:if="${#fields.hasErrors('deskNr')}"></div>
                 </div>
                 <div class="mb-3">
-                    <label class="form-label" for="nrOfMonitors">NR OF MONITORS</label>
+                    <label class="form-label" for="nrOfMonitors">Monitors</label>
                     <input class="form-control" id="nrOfMonitors" name="nrOfMonitors" th:field="*{nrOfMonitors}"
                            type="text">
                     <div class="form-text" th:errorclass="errors" th:errors="*{nrOfMonitors}"
                          th:if="${#fields.hasErrors('nrOfMonitors')}"></div>
                 </div>
                 <div class="mb-3">
-                    <label class="form-label" for="ports">PORTS</label>
+                    <label class="form-label" for="ports">Interface Types Available</label>
                     <input class="form-control" id="ports" name="ports" th:field="*{ports}" type="text">
                     <div class="form-text" th:errorclass="errors" th:errors="*{ports}"
                          th:if="${#fields.hasErrors('ports')}"></div>
@@ -53,8 +52,8 @@
                 <br>
                 <br>
                 <div class="d-flex justify-content-center">
-                    <button class="btn btn-info my-2 my-sm-0 mr-3" type="submit">SAVE</button>
-                    <a class="btn btn-dark my-2 my-sm-0" th:href="@{/web/desks}">CANCEL</a>
+                    <button class="btn btn-info my-2 my-sm-0 mr-3" type="submit">Save</button>
+                    <a class="btn btn-dark my-2 my-sm-0" th:href="@{/web/desks}">Cancel</a>
                 </div>
             </form>
         </div>
@@ -64,4 +63,4 @@
 <script th:src="@{/webjars/popper.js/1.12.9-1/umd/popper.min.js}"></script>
 <script th:src="@{/webjars/bootstrap/4.0.0-2/js/bootstrap.min.js}"></script>
 </body>
-</html>l>
+</html>

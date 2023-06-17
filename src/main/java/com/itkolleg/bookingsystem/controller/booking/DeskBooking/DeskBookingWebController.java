@@ -36,6 +36,11 @@ public class DeskBookingWebController {
     private final EmployeeService employeeService;
     private final TimeSlotService timeSlotService;
     private static final Logger logger = LoggerFactory.getLogger(DeskBookingWebController.class);
+    private DeskBooking booking;
+    private BindingResult bindingResult;
+    private Long id;
+    private Long deskId;
+    private Long employeeId;
 
 
     public DeskBookingWebController(DeskBookingService deskBookingService, DeskService deskService, EmployeeService employeeService, TimeSlotService timeSlotService) {
@@ -48,7 +53,7 @@ public class DeskBookingWebController {
     @GetMapping
     public String getAllDeskBookings(Model model) {
         model.addAttribute("viewAllDeskBookings", deskBookingService.getAllBookings());
-        return "DeskBookings/allDeskBookings";
+        return "DeskBookings/Admin/allDeskBookings";
     }
 
     @GetMapping("/add")
@@ -74,23 +79,23 @@ public class DeskBookingWebController {
         model.addAttribute("desks", deskList);
         model.addAttribute("startTimes", uniqueStartTimes);
         model.addAttribute("endTimes", uniqueEndTimes);
-        return "DeskBookings/addDeskBooking";
+        return "DeskBookings/Admin/addDeskBooking";
     }
 
     @PostMapping("/add")
     public String addDeskBooking(@ModelAttribute("deskBooking") @Valid DeskBooking booking, BindingResult bindingResult, @RequestParam("employee.id") Long employeeId, @RequestParam("desk.id") Long deskId, Model model) throws ExecutionException, InterruptedException {
-
-    try {
+        //String deskID = deskBookingService.getBookingB("deskId");
+        try {
             if (bindingResult.hasErrors()) {
                 System.out.println("Errors: " + bindingResult.getAllErrors());
-                return "DeskBookings/addDeskBooking";
+                return "DeskBookings/Admin/addDeskBooking";
             } else {
                 Desk desk = deskService.getDeskById(deskId);
                 Employee employee = employeeService.getEmployeeById(employeeId);
 
                 booking.setDesk(desk);
                 booking.setEmployee(employee);
-                booking.setCreatedOn(LocalDateTime.now());
+                //booking.setCreatedOn(LocalDateTime.now());
 
                 this.deskBookingService.addDeskBooking(booking);
                 return "redirect:/web/deskBookings";
@@ -99,20 +104,19 @@ public class DeskBookingWebController {
             logger.error("Desk is not available for booking: " + e.getMessage(), e);
             model.addAttribute("errorMessage", "Desk is not available for booking.");
             addAttributesToModel(model);
-            return "DeskBookings/addDeskBooking";
+            return "DeskBookings/Admin/addDeskBooking";
         } catch (ExecutionException | InterruptedException | EmployeeNotFoundException | ResourceNotFoundException e) {
             logger.error("Error occurred while booking the desk: " + e.getMessage(), e);
             model.addAttribute("errorMessage", "Error occurred while booking the desk.");
             addAttributesToModel(model);
-            return "DeskBookings/addDeskBooking";
+            return "DeskBookings/Admin/addDeskBooking";
         } catch (IllegalArgumentException e) {
             logger.error("Cannot create booking for a past date: " + e.getMessage(), e);
             model.addAttribute("errorMessage", "Cannot create booking for a past date.");
             addAttributesToModel(model);
-            return "DeskBookings/addDeskBooking";
+            return "DeskBookings/Admin/addDeskBooking";
         }
     }
-
 
     private void addAttributesToModel(Model model) throws ExecutionException, InterruptedException {
         List<Desk> deskList = deskService.getAllDesks();
@@ -178,16 +182,21 @@ public class DeskBookingWebController {
         model.addAttribute("uniqueStartTimes", uniqueStartTimes);
         model.addAttribute("uniqueEndTimes", uniqueEndTimes);
 
-        return "DeskBookings/updateDeskBooking";
+        return "DeskBookings/Admin/updateDeskBooking";
     }
 
 
 
     @PostMapping("/update")
-    public String updateDeskBooking(@Valid DeskBooking booking, BindingResult bindingResult, @RequestParam("id") Long id, @RequestParam("desk.id") Long deskId, @RequestParam("employee.id") Long employeeId) throws ResourceNotFoundException, DeskNotAvailableException, ExecutionException, InterruptedException, EmployeeNotFoundException {
+    public String updateDeskBooking(@Valid DeskBooking booking, BindingResult bindingResult, @RequestParam("id") Long id, @RequestParam("deskId") Long deskId, @RequestParam("employee.id") Long employeeId) throws ResourceNotFoundException, DeskNotAvailableException, ExecutionException, InterruptedException, EmployeeNotFoundException {
+        this.booking = booking;
+        this.bindingResult = bindingResult;
+        this.id= booking.getId();
+        this.deskId = deskId;
+        this.employeeId = employeeId;
         if (bindingResult.hasErrors()) {
             System.out.println("Errors: " + bindingResult.getAllErrors());
-            return "DeskBookings/updateDeskBooking";
+            return "DeskBookings/Admin/updateDeskBooking";
         } else {
             Desk desk = deskService.getDeskById(deskId);
                 if(desk == null) {
@@ -209,19 +218,10 @@ public class DeskBookingWebController {
 
     @GetMapping("/cancel/{id}")
     public String cancelDeskBooking(@PathVariable Long id, Model model) throws ResourceDeletionFailureException, ResourceNotFoundException {
-        try {
-            DeskBooking booking = this.deskBookingService.getBookingById(id);
-            model.addAttribute("booking", booking);
-            this.deskBookingService.deleteBooking(id);
-            return "redirect:/web/deskBookings";
-        } catch(ResourceDeletionFailureException e) {
-            // Log the error
-            logger.error("Failed to cancel booking", e);
-
-            // Handle the exception here. This could be logging the error, showing an error message, etc.
-            model.addAttribute("errorMessage", "Failed to cancel booking due to: " + e.getMessage());
-            return "error"; // return to an error page
-        }
+        DeskBooking booking = this.deskBookingService.getBookingById(id);
+        model.addAttribute("booking", booking);
+        this.deskBookingService.deleteBooking(id);
+        return "redirect:/web/deskBookings";
     }
 
 

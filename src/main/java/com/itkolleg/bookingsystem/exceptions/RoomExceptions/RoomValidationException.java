@@ -2,17 +2,19 @@ package com.itkolleg.bookingsystem.exceptions.RoomExceptions;
 
 import com.itkolleg.bookingsystem.exceptions.FormValidationExceptionDTO;
 
-public class RoomValidationException extends Exception{
+public class RoomValidationException extends Exception {
 
     private FormValidationExceptionDTO errors;
-    public RoomValidationException(String message){
+
+    public RoomValidationException(String message) {
         super("Eingegebene Raumdaten sind inkorrekt: " + message);
     }
 
-    public RoomValidationException(FormValidationExceptionDTO errors){
+    public RoomValidationException(FormValidationExceptionDTO errors) {
         this.errors = errors;
     }
-    public FormValidationExceptionDTO getErrorMap(){
+
+    public FormValidationExceptionDTO getErrorMap() {
         return errors;
     }
 

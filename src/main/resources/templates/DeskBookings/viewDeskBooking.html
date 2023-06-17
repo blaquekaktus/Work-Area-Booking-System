@@ -17,9 +17,9 @@
 </nav>
 <br>
 <br>
-<div content=""
+<div content=""></div>
 <div>
-    <h1 class="text-center text-dark">DESK BOOKING DETAILS</h1>
+    <h1 class="text-center text-dark">Work-Area Booking Details</h1>
 </div>
 <br>
 <br>
@@ -27,27 +27,27 @@
     <div class="row justify-content-center">
         <form class="col-md-6" method="get" th:action="@{/web/deskbookings/view/{id}}" th:object="${myDeskBooking}">
             <div class="mb-3">
-                <label class="form-label" for="employee">EMPLOYEE</label>
+                <label class="form-label" for="employee">Employee</label>
                 <input class="form-control" id="employee" name="employee" readonly
                        th:value="${myDeskBooking.employee.fname} + ' '+ ${myDeskBooking.employee.lname}" type="text">
             </div>
             <div class="mb-3">
-                <label class="form-label" for="deskNr">DESK NUMBER</label>
+                <label class="form-label" for="deskNr">Work-Area Number</label>
                 <input class="form-control" id="deskNr" name="deskNr" readonly
                        th:field="${myDeskBooking.desk.deskNr}" type="text">
             </div>
             <div class="mb-3">
-                <label class="form-label" for="date">DATE</label>
+                <label class="form-label" for="date">Date</label>
                 <input class="form-control" id="date" name="date" readonly th:value="${#temporals.format(myDeskBooking.date, 'dd-MM-YYYY')}" type="text">
             </div>
             <div class="mb-3">
-                <label class="form-label" for="start">START</label>
+                <label class="form-label" for="start">Start</label>
                 <!--          <--Use field value directly -->
                 <input class="form-control" id="start" name="start" readonly th:field="${myDeskBooking.start}"
                        type="text">
             </div>
             <div class="mb-3">
-                <label class="form-label" for="end">END</label>
+                <label class="form-label" for="end">End</label>
                 <input class="form-control" id="end" name="end" readonly th:field="${myDeskBooking.endTime}"
                        type="text">
             </div>

@@ -5,7 +5,7 @@
     <title>Edit Booking</title>
     <link th:href="@{/webjars/bootstrap/4.0.0-2/css/bootstrap.min.css} " th:rel="stylesheet"/>
 </head>
-<body style="background-image: url('../../static/img/background2.jpg');background-repeat:no-repeat;background-size:cover;">
+<body style="background-image: url('../../../static/img/background2.jpg');background-repeat:no-repeat;background-size:cover;">
 <nav class="navbar navbar-expand-lg navbar-light"
      style="background-color: #96C01E;height: 200px;display:flex;align-items:center;">
     <!-- Navigation content -->
@@ -16,7 +16,7 @@
     </div>
 </nav>
 <div class="container">
-    <h1 class="text-center">UPDATE MY DESK BOOKING</h1>
+    <h1 class="text-center">Change My Work-Area Booking</h1>
     <form method="post" th:action="@{/web/deskBookings/update}" th:object="${booking}">
        <!-- <form method="post" th:action="@{/web/deskBookings/update/{id}(id=${booking.id})}" th:object="${booking}">-->
         <div class="form-group">
@@ -25,7 +25,7 @@
                    type="hidden">
         </div>
         <div class="mb-3 form-group">
-            <label class="form-label" for="employee.name">EMPLOYEE</label>
+            <label class="form-label" for="employee.name">Employee</label>
             <input class="form-control" id="employee.name" name="employee.name"
                    th:value="${employee.fname} + ' ' + ${employee.lname}" readonly>
             <input type="hidden" id="employee.id" name="employee.id" th:value="${employee.id}">
@@ -34,7 +34,7 @@
         <div class="mb-3 form-group">
             <label class="form-label" for="deskNr">Desk</label>
             <select class="form-control" id="deskNr" name="desk.id" th:field="*{desk.id}">
-                <option selected="selected" value="">--Select Desk--</option>
+                <option selected="selected" value="">--Select Work-Area--</option>
                 <option th:each="desk : ${desks}" th:text="${desk.deskNr}" th:value="${desk.id}"></option>
             </select>
             <div class="form-text"  th:errors="*{desk.id}"

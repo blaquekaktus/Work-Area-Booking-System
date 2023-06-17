@@ -17,7 +17,6 @@ import org.springframework.data.jpa.repository.config.EnableJpaAuditing;
 import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
 
 import java.time.LocalDate;
-import java.time.LocalDateTime;
 import java.time.LocalTime;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -242,7 +241,7 @@ public class WABSRunner implements ApplicationRunner {
         }
         //Creat Holidays
         //PublicHoliday whitMonday = new PublicHoliday(LocalDate.of(2023, 5, 29), "Whit Monday", false);
-        PublicHoliday corpusChristie = new PublicHoliday(LocalDate.of(2023, 6, 8),"Corpus Christie", false);
+        //PublicHoliday corpusChristie = new PublicHoliday(LocalDate.of(2023, 6, 8),"Corpus Christie", false);
         PublicHoliday assumptionOfMary = new PublicHoliday(LocalDate.of(2023,6,15)," Assumption of Mary",false);
         PublicHoliday nationalDay = new PublicHoliday(LocalDate.of(2023, 10, 26), "National Day", true);
         PublicHoliday immaculateConception = new PublicHoliday(LocalDate.of(2023, 12,8), "Immaculate Conception", true);
@@ -252,7 +251,7 @@ public class WABSRunner implements ApplicationRunner {
         //Add to Database
         try{
             //this.holidayRepo.addHoliday(whitMonday);
-            this.holidayRepo.addHoliday(corpusChristie);
+            //this.holidayRepo.addHoliday(corpusChristie);
             this.holidayRepo.addHoliday(assumptionOfMary);
             this.holidayRepo.addHoliday(nationalDay);
             this.holidayRepo.addHoliday(immaculateConception);
