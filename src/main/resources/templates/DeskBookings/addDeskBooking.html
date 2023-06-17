@@ -5,15 +5,15 @@
     <title>Book Desk</title>
     <link th:href="@{/webjars/bootstrap/4.0.0-2/css/bootstrap.min.css} " th:rel="stylesheet"/>
 </head>
-<body style="background-image: url('/images/bgbild.jpg');background-repeat:no-repeat;background-size:cover;">
+<body style="background-image: url('../../static/img/background2.jpg');background-repeat:no-repeat;background-size:cover;">
 <nav class="navbar navbar-expand-lg navbar-light"
      style="background-color: #96C01E;height: 200px;display:flex;align-items:center;">
     <!-- Navigation content -->
     <div class=" row d-flex justify-content-evenly align-items-center" style="width:100%">
-        <div class="col-4"><img alt="KlimaBuendnis Green Logo" height="180px" src="/images/GreenLogo.png"></div>
-        <div class="col-6"><img alt="WABS" height="190px" src="/images/wabs.png"></div>
-        <div class="col-2"><img alt="Badge" height="160px" src="/images/kb_badge.png"></div>
-    </div>
+        <!--  <div class="col-4"><img alt="KlimaBuendnis Green Logo" src="../../static/img/LogoWhite.png"></div>
+         <div class="col-6"><img alt="WABS" src="../../static/img/W.A.B.S_green.jpg"></div>
+         <div class="col-2"><img alt="Badge" src="../../static/img/Kb_Badge.png"></div>
+     --></div>
 </nav>
 <br>
 <br>
@@ -34,57 +34,64 @@
             <br>
             <br>
             <form method="post" th:action="@{/web/deskBookings/add}" th:object="${deskBooking}">
-
+                <div th:if="${errorMessage}" class="alert alert-danger">
+                    <p th:text="${errorMessage}"></p>
+                </div>
                 <div class="mb-3 form-group">
                     <label class="form-label" for="employee.id">EMPLOYEE</label>
                     <select class="form-control" id="employee.id" name="employee.id" th:field="*{employee.id}">
-                        <option th:each="employee : ${employeeList}"
-                                th:text="${employee.fname} + ' '+ ${employee.lname}"
+                        <option th:each="employee : ${employees}"
+                                th:text="${employee.getFname()} + ' '+ ${employee.lname}"
                                 th:value="${employee.id}"></option>
                     </select>
                     <div class="form-text" th:errorclass="errors" th:errors="*{employee}"
                          th:if="${#fields.hasErrors('employee.id')}"></div>
-
                 </div>
 
                 <div class="mb-3 form-group">
                     <label class="form-label" for="deskNr">DESK</label>
                     <select class="form-control" id="deskNr" name="deskId" th:field="*{desk.id}">
-                        <option th:each="desk : ${deskList}" th:text="${desk.deskNr}" th:value="${desk.id}"></option>
+                        <option th:each="desk : ${desks}"
+                                th:text="${desk.deskNr}"
+                                th:value="${desk.id}"></option>
                     </select>
-                    <div class="form-text" th:errorclass="errors" th:errors="*{desk.id}"
+                    <div class="form-text"
+                         th:errors="*{desk.id}"
                          th:if="${#fields.hasErrors('desk.id')}"></div>
                 </div>
 
                 <div class="mb-3 form-group">
                     <label class="form-label" for="date">DATE</label>
-                    <input class="form-control" id="date" name="bookingStart" th:field="*{date}"
+                    <input class="form-control" id="date" name="bookingStart"
+                           th:field="*{date}"
                            th:value="${#dates.format(#dates.createNow(), 'yyyy-MM-dd')}" type="date"/>
-                    <div class="form-text" th:errorclass="errors"
-                         th:errors="*{date}" th:if="${#fields.hasErrors('date')}"></div>
+                    <div class="form-text"
+                         th:errors="*{date}"
+                         th:if="${#fields.hasErrors('date')}"></div>
                 </div>
                 <div class="mb-3">
                     <label class="form-label" for="start">START TIME</label>
                     <select class="form-select" id="start" name="start" th:field="*{start}">
-                        <option selected="selected" value="">--Select Start Time--</option>
-                        <option th:each="timeSlot : ${timeSlotList}"
-                                th:text="${timeSlot.getStartTimeAsString()}"
-                                th:value="${timeSlot.getStartTimeAsString()}"></option>
+                        <option value="">--Select Start Time--</option>
+                        <option th:each="time : ${startTimes}"
+                                th:text="${time}"
+                                th:value="${time}"></option>
                     </select>
-                    <div class="form-text" th:errorclass="errors" th:errors="*{start}"
+                    <div class="form-text"
+                         th:errors="*{start}"
                          th:if="${#fields.hasErrors('start')}"></div>
                 </div>
 
                 <div class="mb-3">
-                    <label class="form-label" for="endTime">END TIME</label>
-                    <select class="form-select" id="endTime" name="endTime" th:field="*{endTime}">
-                        <option selected="selected" value="">--Select End Time--</option>
-                        <option th:each="timeSlot : ${timeSlotList}"
-                                th:text="${timeSlot.getEndTimeAsString()}"
-                                th:value="${timeSlot.getEndTimeAsString()}">
-                        </option>
+                    <label class="form-label" for="end">END TIME</label>
+                    <select class="form-select" id="end" name="end" th:field="*{endTime}">
+                        <option value="">--Select End Time--</option>
+                        <option th:each="time : ${endTimes}"
+                                th:text="${time}"
+                                th:value="${time}"></option>
                     </select>
-                    <div class="form-text" th:errorclass="errors" th:errors="*{endTime}"
+                    <div class="form-text"
+                         th:errors="*{endTime}"
                          th:if="${#fields.hasErrors('endTime')}"></div>
                 </div>
                 <br>

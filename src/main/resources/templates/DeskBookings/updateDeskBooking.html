@@ -5,69 +5,69 @@
     <title>Edit Booking</title>
     <link th:href="@{/webjars/bootstrap/4.0.0-2/css/bootstrap.min.css} " th:rel="stylesheet"/>
 </head>
-<body>
+<body style="background-image: url('../../static/img/background2.jpg');background-repeat:no-repeat;background-size:cover;">
 <nav class="navbar navbar-expand-lg navbar-light"
      style="background-color: #96C01E;height: 200px;display:flex;align-items:center;">
     <!-- Navigation content -->
     <div class="row d-flex justify-content-evenly align-items-center" style="width:100%">
-        <div class="col-4"><img alt="KlimaBuendnis Green Logo" height="180px" src="/images/GreenLogo.png"></div>
-        <div class="col-6"><img alt="WABS" height="190px" src="/images/wabs.png"></div>
-        <div class="col-2"><img alt="Badge" height="160px" src="/images/kb_badge.png"></div>
+        <div class="col-4"><img alt="KlimaBuendnis Green Logo" height="180px" src="/img/GreenLogo.png"></div>
+        <div class="col-6"><img alt="WABS" height="190px" src="/img/wabs.png"></div>
+        <div class="col-2"><img alt="Badge" height="160px" src="/img/kb_badge2.png"></div>
     </div>
 </nav>
 <div class="container">
     <h1 class="text-center">UPDATE MY DESK BOOKING</h1>
-    <form method="post" th:action="@{/web/deskBookings/update/{id}(id=${booking.id})}" th:object="${booking}">
-
-
-    <div class="form-group" th:object="${employee}">
-            <label for="employee">Employee</label>
-            <input class="form-control" id="employee" name="employee" readonly
-                   th:value="${#strings.concat(employee.fname, ' ', employee.lname)}" type="text">
-
-        </div>
+    <form method="post" th:action="@{/web/deskBookings/update}" th:object="${booking}">
+       <!-- <form method="post" th:action="@{/web/deskBookings/update/{id}(id=${booking.id})}" th:object="${booking}">-->
         <div class="form-group">
+            <label for="id" hidden="hidden"></label>
+            <input class="form-control" id="id" name="id" required th:field="*{id}"
+                   type="hidden">
+        </div>
+        <div class="mb-3 form-group">
+            <label class="form-label" for="employee.name">EMPLOYEE</label>
+            <input class="form-control" id="employee.name" name="employee.name"
+                   th:value="${employee.fname} + ' ' + ${employee.lname}" readonly>
+            <input type="hidden" id="employee.id" name="employee.id" th:value="${employee.id}">
+        </div>
+
+        <div class="mb-3 form-group">
             <label class="form-label" for="deskNr">Desk</label>
-            <select class="form-control" id="deskNr" name="deskNr" th:field="*{desk.deskNr}">
+            <select class="form-control" id="deskNr" name="desk.id" th:field="*{desk.id}">
                 <option selected="selected" value="">--Select Desk--</option>
-                <option th:each="desk : ${desks}" th:text="*{desk.deskNr}" th:value="*{desk.deskNr}"></option>
+                <option th:each="desk : ${desks}" th:text="${desk.deskNr}" th:value="${desk.id}"></option>
             </select>
-            <div class="form-text" th:errorclass="errors" th:errors="*{desk.deskNr}"
-                 th:if="${#fields.hasErrors('desk.deskNr')}"></div>
+            <div class="form-text"  th:errors="*{desk.id}"
+                 th:if="${#fields.hasErrors('desk.id')}"></div>
         </div>
-        <div class="form-group">
+        <div class="mb-3form-group">
             <label for="date">Date</label>
             <input class="form-control" id="date" name="date" required th:default="${booking.getDate()}"
                    th:field="${booking.date}" type="date">
-            <div class="form-text" th:errorclass="errors" th:errors="*{date}"
+            <div class="form-text" th:errors="*{date}"
                  th:if="${#fields.hasErrors('date')}"></div>
         </div>
-        <div class="form-group">
+        <div class="mb-3form-group">
             <label class="form-label" for="start">Start Time</label>
             <select class="form-select" id="start" name="start" th:field="*{start}">
-                <option selected="selected" value="">--Select Start Time--</option>
+                <option value="">--Select Start Time--</option>
                 <option th:each="time : ${uniqueStartTimes}"
                         th:text="${time}"
                         th:value="${time}"></option>
             </select>
-            <div class="form-text" th:errorclass="errors" th:errors="*{start}"
+            <div class="form-text" th:errors="*{start}"
                  th:if="${#fields.hasErrors('start')}"></div>
         </div>
-        <div class="form-group">
-            <label for="end">End</label>
-            <select class="form-select" id="end" name="end" th:field="*{endTime}">
-                <option selected="selected" value="">--Select End Time--</option>
+        <div class="mb-3form-group">
+            <label for="endTime">End Time</label>
+            <select class="form-select" id="endTime" name="endTime" th:field="*{endTime}">
+                <option value="">--Select End Time--</option>
                 <option th:each="time : ${uniqueEndTimes}"
                         th:text="${time}"
                         th:value="${time}"></option>
             </select>
-            <div class="form-text" th:errorclass="errors" th:errors="*{endTime}"
+            <div class="form-text" th:errors="*{endTime}"
                  th:if="${#fields.hasErrors('endTime')}"></div>
-        </div>
-        <div class="form-group">
-            <label for="timestamp" hidden="hidden"></label>
-            <input class="form-control" id="timestamp" name="timestamp" required th:field="${booking.timeStamp}"
-                   type="hidden">
         </div>
         <button class="btn btn-primary" type="submit">Save</button>
         <a class="btn btn-secondary" th:href="@{/web/deskBookings}">Cancel</a>
