@@ -34,6 +34,8 @@ public class RessourceWebController {
         return new ModelAndView("ressource/allressources", "ressources", allRessources);
     }
 
+
+
     @GetMapping("/web/addRessource")
     public String addRessource(Model model) {
         model.addAttribute("newRessource", new Ressource());
@@ -43,7 +45,7 @@ public class RessourceWebController {
         ressourceTypes.add(String.valueOf(Ressourcetype.BEAMER));
         ressourceTypes.add(String.valueOf(Ressourcetype.CAMERA));
         ressourceTypes.add(String.valueOf(Ressourcetype.WHITEBOARD));
-        model.addAttribute("resourceTypes", ressourceTypes);
+        model.addAttribute("ressourcetype", ressourceTypes);
         return "ressource/addRessource";
     }
 
@@ -57,8 +59,24 @@ public class RessourceWebController {
         }
     }
 
+    @PostMapping("/web/allresources/{id}")
+    public String deleteRessourceWithId(@PathVariable Long id, Model model)
+    {
+      try
+      {
+          this.ressourceService.deleteRessourceById(id);
+          return "redirect:/web/allressources";
+      } catch (RessourceDeletionNotPossibleException e)
+        {
+            model.addAttribute("errortitle", "Ressource-Löschen fehlgeschlagen!");
+            model.addAttribute("errormessage", e.getMessage());
+            return "errorPage";
+        }
 
-    @GetMapping("/web/deleteRessource/{id}")
+    }
+
+
+    /*@GetMapping("/web/manageRessource/{id}")
     public String deleteRessourceWithId(@PathVariable Long id, Model model) {
         try {
             this.ressourceService.deleteRessourceById(id);
@@ -68,6 +86,6 @@ public class RessourceWebController {
             model.addAttribute("errormessage", e.getMessage());
             return "errorPage";
         }
-    }
+    }*/
 
 }

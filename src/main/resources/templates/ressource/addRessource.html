@@ -66,8 +66,10 @@
                 <label for="ressourcetype">Kategorie:</label>
                 <select th:field="*{ressourcetype}" name="ressourcetype" id="ressourcetype" class="form-control">
                     <option>---Bitte Auswählen---</option>
-                    <option th:each="type : ${T(com.itkolleg.bookingsystem.domains.Ressourcetype).values()}"
-                            th:value="${type}" th:text="${type}">
+                    <option th:each="ressource : ${newRessource.ressourcetype}"
+                            th:value="${ressource}" th:text="${ressource}">
+                    <!--<option th:each="type : ${T(com.itkolleg.bookingsystem.domains.Ressourcetype).values()}"
+                            th:value="${type}" th:text="${type}">-->
                     </option>
                     <!-- Testung muss noch durchgeführt werden-->
                 </select>
