@@ -1,12 +1,14 @@
 package com.itkolleg.bookingsystem.controller.ressource;
 
 
+
 import com.itkolleg.bookingsystem.domains.Ressourcetype;
 import com.itkolleg.bookingsystem.exceptions.RessourceExceptions.RessourceAlreadyExistsException;
-import com.itkolleg.bookingsystem.service.Ressource.RessourceService;
+
 import com.itkolleg.bookingsystem.domains.Ressource;
 import com.itkolleg.bookingsystem.exceptions.EmployeeExceptions.EmployeeAlreadyExistsException;
 import com.itkolleg.bookingsystem.exceptions.RessourceExceptions.RessourceDeletionNotPossibleException;
+import com.itkolleg.bookingsystem.service.Ressource.RessourceService;
 import jakarta.validation.Valid;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -28,10 +30,28 @@ public class RessourceWebController {
         this.ressourceService = ressourceService;
     }
 
+    /**
+     * Dient dazu eine Übersicht aller Ressourcen für den/die Admin zu liefern.
+     * @return Model of Ressources
+     * @throws ExecutionException
+     * @throws InterruptedException
+     */
     @GetMapping("/web/allRessources")
     public ModelAndView allressources() throws ExecutionException, InterruptedException {
         List<Ressource> allRessources = ressourceService.getAllRessource();
         return new ModelAndView("ressource/allressources", "ressources", allRessources);
+    }
+
+    /**
+     * Dient dazu eine Übersicht aller Ressourcen für den/die Mitarbeiter:inn zu liefern
+     * @return Model of Ressources
+     * @throws ExecutionException
+     * @throws InterruptedException
+     */
+    @GetMapping("/web/allRessourcesEmployee")
+    public ModelAndView allressourcesEmployee() throws ExecutionException, InterruptedException {
+        List<Ressource> allRessourcesEmployee = ressourceService.getAllRessource();
+        return new ModelAndView("ressource/allressourcesEmployee", "ressourcesEmployee", allRessourcesEmployee);
     }
 
 
@@ -74,6 +94,7 @@ public class RessourceWebController {
         }
 
     }
+
 
 
     /*@GetMapping("/web/manageRessource/{id}")

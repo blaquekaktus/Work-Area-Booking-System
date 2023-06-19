@@ -30,7 +30,7 @@ public class Ressource {
     private String serialnumber;
 
 
-    public Ressource(Long id, Ressourcetype ressourcetype, String name, String description, String info, String serialnumber, int amount) {
+    public Ressource(Long id, Ressourcetype ressourcetype, String name, String description, String info, String serialnumber) {
         this.id = id;
         this.ressourcetype = ressourcetype;
         this.description = description;
