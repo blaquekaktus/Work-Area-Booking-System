@@ -24,6 +24,8 @@
             <input class="form-control" id="id" name="id" required th:field="*{id}"
                    type="hidden">
         </div>
+       <!-- <input type="hidden" id="deskId" name="deskId" th:value="${booking.desk.id}">-->
+
         <div class="mb-3 form-group">
             <label class="form-label" for="employee.name">Employee</label>
             <input class="form-control" id="employee.name" name="employee.name"
@@ -32,8 +34,8 @@
         </div>
 
         <div class="mb-3 form-group">
-            <label class="form-label" for="deskNr">Desk</label>
-            <select class="form-control" id="deskNr" name="desk.id" th:field="*{desk.id}">
+            <label class="form-label" for="deskId">Desk</label>
+            <select class="form-control" id="deskId" name="desk.id" th:field="*{desk.id}">
                 <option selected="selected" value="">--Select Work-Area--</option>
                 <option th:each="desk : ${desks}" th:text="${desk.deskNr}" th:value="${desk.id}"></option>
             </select>
