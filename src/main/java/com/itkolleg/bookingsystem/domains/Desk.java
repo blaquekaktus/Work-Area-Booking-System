@@ -42,12 +42,14 @@ public class Desk {
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE)
     private Long id;
-    /**
-     * The room the desk is in.
-     */
+
+        /**
+         * The room the desk is in.
+         */
+        /*
     @ManyToOne
     @JoinColumn(name = "roomId")
-    private Room room;
+    private Room room;*/
 
     /**
      * The desk number.
