@@ -1,9 +1,15 @@
 package com.itkolleg.bookingsystem.domains;
 
-import jakarta.persistence.*;
+import jakarta.persistence.Entity;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
+import jakarta.persistence.Id;
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.Size;
-import lombok.*;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
+import lombok.ToString;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
@@ -44,13 +50,13 @@ public class Employee implements UserDetails {
 
     private Role role;
 
-    public Employee(String fname, String lname, String nick, String email, String password, Role role){
-        this.fname=fname;
-        this.lname=lname;
-        this.nick=nick;
-        this.email=email;
-        this.password=password;
-        this.role=role;
+    public Employee(String fname, String lname, String nick, String email, String password, Role role) {
+        this.fname = fname;
+        this.lname = lname;
+        this.nick = nick;
+        this.email = email;
+        this.password = password;
+        this.role = role;
     }
 
 
@@ -63,7 +69,6 @@ public class Employee implements UserDetails {
     public String getUsername() {
         return this.getNick();
     }
-
 
 
     @Override

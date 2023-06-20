@@ -1,30 +1,30 @@
 package com.itkolleg.bookingsystem;
 
-import com.itkolleg.bookingsystem.domains.*;
 import com.itkolleg.bookingsystem.domains.Booking.DeskBooking;
-import com.itkolleg.bookingsystem.exceptions.DeskExceptions.DeskNotAvailableException;
-import com.itkolleg.bookingsystem.repos.Desk.DeskDBAccess;
-import com.itkolleg.bookingsystem.repos.DeskBooking.DeskBookingDBAccess;
+import com.itkolleg.bookingsystem.domains.*;
+import com.itkolleg.bookingsystem.exceptions.DeskNotAvailableException;
+import com.itkolleg.bookingsystem.repos.Desk.DeskRepo;
+import com.itkolleg.bookingsystem.repos.DeskBooking.DeskBookingRepo;
 import com.itkolleg.bookingsystem.repos.Employee.EmployeeDBAccess;
-import com.itkolleg.bookingsystem.repos.TimeSlot.TimeSlotDBAccess;
+import com.itkolleg.bookingsystem.repos.Holiday.HolidayRepo;
+import com.itkolleg.bookingsystem.repos.TimeSlot.TimeSlotRepo;
 import org.springframework.boot.ApplicationArguments;
 import org.springframework.boot.ApplicationRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.autoconfigure.domain.EntityScan;
-import org.springframework.context.annotation.ComponentScan;
+import org.springframework.data.jpa.repository.config.EnableJpaAuditing;
 import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
 
 import java.time.LocalDate;
-import java.time.LocalDateTime;
 import java.time.LocalTime;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
-
+@EnableJpaAuditing
 @SpringBootApplication
-@EnableJpaRepositories (basePackages = "com.itkolleg.bookingsystem.*")
+@EnableJpaRepositories(basePackages = "com.itkolleg.bookingsystem.*")
 //@ComponentScan("com.itkolleg.bookingsystem")//to scan repository files
 @EntityScan("com.itkolleg.bookingsystem.*")
 public class WABSRunner implements ApplicationRunner {
@@ -32,19 +32,23 @@ public class WABSRunner implements ApplicationRunner {
     //
 
     EmployeeDBAccess employeeDBAccess;
-    DeskDBAccess deskDBAccess;
-    DeskBookingDBAccess deskBookingDBAccess;
-    TimeSlotDBAccess timeSlotDBAccess;
+    DeskRepo deskRepo;
+    DeskBookingRepo deskBookingRepo;
+    TimeSlotRepo timeSlotRepo;
+    HolidayRepo holidayRepo;
 
-    public WABSRunner(EmployeeDBAccess employeeDBAccess, DeskDBAccess deskDBAccess, DeskBookingDBAccess deskBookingDBAccess, TimeSlotDBAccess timeSlotDBAccess) {
+    public WABSRunner(EmployeeDBAccess employeeDBAccess, DeskRepo deskRepo, DeskBookingRepo deskBookingRepo, TimeSlotRepo timeSlotRepo, HolidayRepo holidayRepo) {
         this.employeeDBAccess = employeeDBAccess;
-        this.deskDBAccess = deskDBAccess;
-        this.deskBookingDBAccess = deskBookingDBAccess;
-        this.timeSlotDBAccess = timeSlotDBAccess;
+        this.deskRepo = deskRepo;
+        this.deskBookingRepo = deskBookingRepo;
+        this.timeSlotRepo = timeSlotRepo;
+        this.holidayRepo = holidayRepo;
     }
+
     public static void main(String[] args) {
         SpringApplication.run(WABSRunner.class, args);
     }
+
     @Override
     public void run(ApplicationArguments args) throws Exception {
         System.out.println("\n\nSystem is up and running!\n");
@@ -79,7 +83,7 @@ public class WABSRunner implements ApplicationRunner {
         d1.add(hdmi);
         d1.add(io);
         d1.add(display);
-        portList ++;
+        portList++;
 
         List<Port> d2 = new ArrayList<>();
         d2.add(usba);
@@ -87,7 +91,7 @@ public class WABSRunner implements ApplicationRunner {
         d2.add(io);
         d2.add(display);
         d2.add(micro);
-        portList ++;
+        portList++;
 
         List<Port> d3 = new ArrayList<>();
         d3.add(rj45);
@@ -96,7 +100,7 @@ public class WABSRunner implements ApplicationRunner {
         d3.add(display);
         d3.add(audio);
         d3.add(mini);
-        portList ++;
+        portList++;
 
         List<Port> d4 = new ArrayList<>();
         d4.add(sd);
@@ -104,57 +108,60 @@ public class WABSRunner implements ApplicationRunner {
         d4.add(dvi);
         d4.add(vga);
         d4.add(thunderbolt);
-        portList ++;
+        portList++;
 
         System.out.println("\n" + portList + " Lists of Ports created\n");
 
         int noOfDesks = 0;
-        Desk desk1= new Desk("D1-1", 2, d3);
-        deskDBAccess.addDesk(desk1);
-        noOfDesks ++;
+        Desk desk1 = new Desk("D1-1", 2, d3);
+        deskRepo.addDesk(desk1);
+        noOfDesks++;
         Desk desk2 = new Desk("D1-2", 2, d2);
-        deskDBAccess.addDesk(desk2);
-        noOfDesks ++;
+        deskRepo.addDesk(desk2);
+        noOfDesks++;
         Desk desk3 = new Desk("D2-3", 2, d1);
-        deskDBAccess.addDesk(desk3);
-        noOfDesks ++;
+        deskRepo.addDesk(desk3);
+        noOfDesks++;
         Desk desk4 = new Desk("D1-3", 2, d1);
-        deskDBAccess.addDesk(desk4);
-        noOfDesks ++;
+        deskRepo.addDesk(desk4);
+        noOfDesks++;
         Desk desk5 = new Desk("D1-4", 2, d1);
-        deskDBAccess.addDesk(desk5);
-        noOfDesks ++;
+        deskRepo.addDesk(desk5);
+        noOfDesks++;
         Desk desk6 = new Desk("D2-1", 3, d1);
-        deskDBAccess.addDesk(desk6);
-        noOfDesks ++;
+        deskRepo.addDesk(desk6);
+        noOfDesks++;
         Desk desk7 = new Desk("D2-4", 2, d3);
-        deskDBAccess.addDesk(desk7);
-        noOfDesks ++;
+        deskRepo.addDesk(desk7);
+        noOfDesks++;
         Desk desk8 = new Desk("D3-3", 2, d3);
-        deskDBAccess.addDesk(desk8);
-        noOfDesks ++;
+        deskRepo.addDesk(desk8);
+        noOfDesks++;
         Desk desk9 = new Desk("D3-1", 2, d4);
-        deskDBAccess.addDesk(desk9);
-        noOfDesks ++;
+        deskRepo.addDesk(desk9);
+        noOfDesks++;
         Desk desk10 = new Desk("D3-2", 3, d4);
-        deskDBAccess.addDesk(desk10);
-        noOfDesks ++;
+        deskRepo.addDesk(desk10);
+        noOfDesks++;
 
-        System.out.println("\n" + noOfDesks + " Desks successfully added to the database!\n");
-
+        if (deskRepo.getAllDesks () != null) {
+            System.out.println("\nDesks successfully added to the Database\n");
+        } else {
+            System.out.println("Error: Desks  were not added to the Database.");
+        }
 
 
         int noOfDeskBookings = 0;
-        List<Desk> allDesks = deskDBAccess.getAllDesks();
+        List<Desk> allDesks = deskRepo.getAllDesks();
         //Booking Times - (Morning, Afternoon, All Day)
-   /* int bookingOption1 = 1;
-    int bookingOption2 = 2;
-    int bookingOption3 = 3;*/
+        /* int bookingOption1 = 1;
+        int bookingOption2 = 2;
+        int bookingOption3 = 3;*/
 
 
         //set the booking date (Mon -Fri)
         LocalDate date = LocalDate.now().plusDays(0);
-        LocalDate date1 = LocalDate.now().plusDays(1); // Example booking date
+        LocalDate date1 = LocalDate.now().plusDays(1);
         LocalDate date2 = LocalDate.now().plusDays(2);
         LocalDate date3 = LocalDate.now().plusDays(3);
         LocalDate date4 = LocalDate.now().plusDays(4);
@@ -171,65 +178,94 @@ public class WABSRunner implements ApplicationRunner {
 
         int dbTimeSLot = 0;
         for (TimeSlot timeSlot : Arrays.asList(amSlot, pmSlot, all_daySlot)) {
-            this.timeSlotDBAccess.addTimeSlot(timeSlot);
+            this.timeSlotRepo.addTimeSlot(timeSlot);
             dbTimeSLot++;
         }
         System.out.println("\n" + dbTimeSLot + " TIme Slots successfully added to DataBase! \n");
 
         //get the desks from the database
-        Desk savedDesk1 = deskDBAccess.getDeskById(desk1.getId());
-        Desk savedDesk2 = deskDBAccess.getDeskById(desk2.getId());
-        Desk savedDesk3 = deskDBAccess.getDeskById(desk3.getId());
-        Desk savedDesk4 = deskDBAccess.getDeskById(desk4.getId());
-        Desk savedDesk5 = deskDBAccess.getDeskById(desk5.getId());
-        Desk savedDesk6 = deskDBAccess.getDeskById(desk6.getId());
-        Desk savedDesk7 = deskDBAccess.getDeskById(desk7.getId());
-        Desk savedDesk8 = deskDBAccess.getDeskById(desk8.getId());
-        Desk savedDesk9 = deskDBAccess.getDeskById(desk9.getId());
-        Desk savedDesk10 = deskDBAccess.getDeskById(desk10.getId());
+        Desk savedDesk1 = deskRepo.getDeskById(desk1.getId());
+        Desk savedDesk2 = deskRepo.getDeskById(desk2.getId());
+        Desk savedDesk3 = deskRepo.getDeskById(desk3.getId());
+        Desk savedDesk4 = deskRepo.getDeskById(desk4.getId());
+        Desk savedDesk5 = deskRepo.getDeskById(desk5.getId());
+        Desk savedDesk6 = deskRepo.getDeskById(desk6.getId());
+        Desk savedDesk7 = deskRepo.getDeskById(desk7.getId());
+        Desk savedDesk8 = deskRepo.getDeskById(desk8.getId());
+        Desk savedDesk9 = deskRepo.getDeskById(desk9.getId());
+        Desk savedDesk10 = deskRepo.getDeskById(desk10.getId());
 
         //Create 10 new DeskBookings
-        DeskBooking deskBooking = new DeskBooking(admin, savedDesk3,date , bookingTime1[0], bookingTime1[1], LocalDateTime.now());
+
+        DeskBooking deskBooking = new DeskBooking(admin, savedDesk3, date, bookingTime1[0], bookingTime1[1]);
         noOfDeskBookings++;
-        DeskBooking deskBooking1 = new DeskBooking(sonlech,savedDesk4 ,date1, bookingTime2[0], bookingTime2[1], LocalDateTime.now());
-        noOfDeskBookings ++;
-        DeskBooking deskBooking2 = new DeskBooking(jaslech,savedDesk3, date4,bookingTime3[0], bookingTime3[1], LocalDateTime.now());
-        noOfDeskBookings ++;
-        DeskBooking deskBooking3 = new DeskBooking(jaslech,savedDesk4, date3, bookingTime3[0], bookingTime3[1], LocalDateTime.now());
-        noOfDeskBookings ++;
-        DeskBooking deskBooking4 = new DeskBooking(camlech,savedDesk2, date4, bookingTime2[0], bookingTime2[1], LocalDateTime.now());
+        DeskBooking deskBooking1 = new DeskBooking(sonlech, savedDesk4, date1, bookingTime2[0], bookingTime2[1]);
         noOfDeskBookings++;
-        DeskBooking deskBooking5 = new DeskBooking(joslech,savedDesk1, date, bookingTime3[0], bookingTime3[1], LocalDateTime.now());
+        DeskBooking deskBooking2 = new DeskBooking(jaslech, savedDesk3, date4, bookingTime3[0], bookingTime3[1]);
         noOfDeskBookings++;
-        DeskBooking deskBooking6 = new DeskBooking(joslech,savedDesk1, date1, bookingTime3[0], bookingTime3[1], LocalDateTime.now());
+        DeskBooking deskBooking3 = new DeskBooking(jaslech, savedDesk4, date3, bookingTime3[0], bookingTime3[1]);
         noOfDeskBookings++;
-        DeskBooking deskBooking7 = new DeskBooking(joslech,savedDesk1, date2, bookingTime3[0], bookingTime3[1], LocalDateTime.now());
+        DeskBooking deskBooking4 = new DeskBooking(camlech, savedDesk2, date4, bookingTime2[0], bookingTime2[1]);
         noOfDeskBookings++;
-        DeskBooking deskBooking8 = new DeskBooking(sonlech,savedDesk1, date3, bookingTime3[0], bookingTime3[1], LocalDateTime.now());
+        DeskBooking deskBooking5 = new DeskBooking(joslech, savedDesk1, date, bookingTime3[0], bookingTime3[1]);
         noOfDeskBookings++;
-        DeskBooking deskBooking9 = new DeskBooking(sonlech,savedDesk1, date4,  bookingTime3[0], bookingTime3[1], LocalDateTime.now());
+        DeskBooking deskBooking6 = new DeskBooking(joslech, savedDesk1, date1, bookingTime3[0], bookingTime3[1]);
+        noOfDeskBookings++;
+        DeskBooking deskBooking7 = new DeskBooking(joslech, savedDesk1, date2, bookingTime3[0], bookingTime3[1]);
+        noOfDeskBookings++;
+        DeskBooking deskBooking8 = new DeskBooking(sonlech, savedDesk1, date3, bookingTime3[0], bookingTime3[1]);
+        noOfDeskBookings++;
+        DeskBooking deskBooking9 = new DeskBooking(sonlech, savedDesk1, date4, bookingTime3[0], bookingTime3[1]);
         noOfDeskBookings++;
         System.out.println("\n" + noOfDeskBookings + " Desk Bookings successfully created! \n");
 
         try {
-            this.deskBookingDBAccess.addBooking(deskBooking);
-            this.deskBookingDBAccess.addBooking(deskBooking1);
-            this.deskBookingDBAccess.addBooking(deskBooking2);
-            this.deskBookingDBAccess.addBooking(deskBooking3);
-            this.deskBookingDBAccess.addBooking(deskBooking4);
-            this.deskBookingDBAccess.addBooking(deskBooking5);
-            this.deskBookingDBAccess.addBooking(deskBooking6);
-            this.deskBookingDBAccess.addBooking(deskBooking7);
-            this.deskBookingDBAccess.addBooking(deskBooking8);
-            this.deskBookingDBAccess.addBooking(deskBooking9);
+            this.deskBookingRepo.addBooking(deskBooking);
+            this.deskBookingRepo.addBooking(deskBooking1);
+            this.deskBookingRepo.addBooking(deskBooking2);
+            this.deskBookingRepo.addBooking(deskBooking3);
+            this.deskBookingRepo.addBooking(deskBooking4);
+            this.deskBookingRepo.addBooking(deskBooking5);
+            this.deskBookingRepo.addBooking(deskBooking6);
+            this.deskBookingRepo.addBooking(deskBooking7);
+            this.deskBookingRepo.addBooking(deskBooking8);
+            this.deskBookingRepo.addBooking(deskBooking9);
         } catch (DeskNotAvailableException e) {
             throw new RuntimeException(e);
         }
 
-        if(deskBookingDBAccess.getAllBookings()!=null){
+        if (deskBookingRepo.getAllBookings() != null) {
             System.out.println("\nDesk Bookings successfully added to the Database\n");
-        }else{
+        } else {
             System.out.println("Error: Desk Bookings were not added to the Database.");
+        }
+        //Creat Holidays
+        //PublicHoliday whitMonday = new PublicHoliday(LocalDate.of(2023, 5, 29), "Whit Monday", false);
+        //PublicHoliday corpusChristie = new PublicHoliday(LocalDate.of(2023, 6, 8),"Corpus Christie", false);
+        PublicHoliday assumptionOfMary = new PublicHoliday(LocalDate.of(2023,6,15)," Assumption of Mary",false);
+        PublicHoliday nationalDay = new PublicHoliday(LocalDate.of(2023, 10, 26), "National Day", true);
+        PublicHoliday immaculateConception = new PublicHoliday(LocalDate.of(2023, 12,8), "Immaculate Conception", true);
+        PublicHoliday christmasDay = new PublicHoliday(LocalDate.of(2023,12,25),"Christmas Day", false);
+        PublicHoliday boxingDay = new PublicHoliday(LocalDate.of(2023,12,26), "Boxing Day (St. Stephen's Day)",false);
+
+        //Add to Database
+        try{
+            //this.holidayRepo.addHoliday(whitMonday);
+            //this.holidayRepo.addHoliday(corpusChristie);
+            this.holidayRepo.addHoliday(assumptionOfMary);
+            this.holidayRepo.addHoliday(nationalDay);
+            this.holidayRepo.addHoliday(immaculateConception);
+            this.holidayRepo.addHoliday(christmasDay);
+            this.holidayRepo.addHoliday(boxingDay);
+
+        }catch(RuntimeException e){
+            throw new RuntimeException(e);
+        }
+
+        if (holidayRepo.getAllHolidays() != null) {
+            System.out.println("\nHolidays successfully added to the Database\n");
+        } else {
+            System.out.println("Error: Holidays were not added to the Database.");
         }
 
     }
@@ -246,8 +282,8 @@ public class WABSRunner implements ApplicationRunner {
             break;
             case 2: {
                 // Option 2: 13:00 to 17:00
-                bookingTimes[0] = LocalTime.of(13, 0);
-                bookingTimes[1] = LocalTime.of(17, 0);
+                bookingTimes[0] = LocalTime.of(12, 30);
+                bookingTimes[1] = LocalTime.of(17, 00);
             }
             break;
             case 3: {
@@ -259,7 +295,6 @@ public class WABSRunner implements ApplicationRunner {
             default:
                 throw new IllegalArgumentException("Invalid booking option.");
         }
-
         return bookingTimes;
     }
 

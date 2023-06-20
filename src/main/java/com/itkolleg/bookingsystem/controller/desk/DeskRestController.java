@@ -1,11 +1,10 @@
 package com.itkolleg.bookingsystem.controller.desk;
 
+import com.itkolleg.bookingsystem.exceptions.ResourceDeletionFailureException;
+import com.itkolleg.bookingsystem.exceptions.ResourceNotFoundException;
 import com.itkolleg.bookingsystem.service.Desk.DeskService;
 import com.itkolleg.bookingsystem.domains.Desk;
-import com.itkolleg.bookingsystem.exceptions.DeskExceptions.DeskDeletionFailureException;
-import com.itkolleg.bookingsystem.exceptions.DeskExceptions.DeskNotFoundException;
-import com.itkolleg.bookingsystem.exceptions.DeskExceptions.DeskValidationFailureException;
-import com.itkolleg.bookingsystem.exceptions.FormValidationExceptionDTO;
+import com.itkolleg.bookingsystem.exceptions.ValidationFailureException;
 import jakarta.validation.Valid;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -24,7 +23,7 @@ import java.util.concurrent.ExecutionException;
 @RestController
 
 public class DeskRestController {
-    private static final Logger LOGGER = LoggerFactory.getLogger(DeskRestController.class);
+    private static final Logger logger = LoggerFactory.getLogger(DeskRestController.class);
     private final DeskService deskService;
 
     public DeskRestController(DeskService deskService) {
@@ -32,15 +31,18 @@ public class DeskRestController {
     }
 
     @PostMapping("api/v1/desk/")
-    public ResponseEntity<Desk> addDesk(@Valid @RequestBody Desk desk, BindingResult bindingResult) throws DeskValidationFailureException, ExecutionException, InterruptedException {
-        FormValidationExceptionDTO formValidationErrors = new FormValidationExceptionDTO("9000");
-        String errors = "";
+    public ResponseEntity<Desk> addDesk(@Valid @RequestBody Desk desk, BindingResult bindingResult) throws ValidationFailureException, ExecutionException, InterruptedException {
+        StringBuilder errors = new StringBuilder();
         if (bindingResult.hasErrors()) {
             for (ObjectError error : bindingResult.getAllErrors()) {
-                errors += "\nValidation failure for " + error.getObjectName() + " in the following field: "
-                        + ((FieldError) error).getField() + "with the following problem: " + error.getDefaultMessage();
+                errors.append("\nValidation failure for ")
+                        .append(error.getObjectName())
+                        .append(" in the following field: ")
+                        .append(((FieldError) error).getField())
+                        .append(" with the following problem: ")
+                        .append(error.getDefaultMessage());
             }
-            throw new DeskValidationFailureException(errors);
+            throw new ValidationFailureException(errors.toString());
         } else {
             return ResponseEntity.ok(this.deskService.addDesk(desk));
         }
@@ -57,31 +59,33 @@ public class DeskRestController {
     }
 
     @GetMapping("api/v1/desk/{id}/")
-    public ResponseEntity<Desk> getDeskById(@PathVariable Long id) throws DeskNotFoundException {
+    public ResponseEntity<Desk> getDeskById(@PathVariable Long id) throws ResourceNotFoundException {
         return ResponseEntity.ok(this.deskService.getDeskById(id));
     }
 
     @PutMapping("api/v1/desk/{id}/")
-    public ResponseEntity<Desk> updateDeskById(@PathVariable Long id, @Valid @RequestBody Desk desk, BindingResult bindingResult) throws DeskNotFoundException, DeskValidationFailureException {
+    public ResponseEntity<Desk> updateDeskById(@PathVariable Long id, @Valid @RequestBody Desk desk, BindingResult bindingResult) throws ResourceNotFoundException, ValidationFailureException {
         StringBuilder errors = new StringBuilder();
+        String objectName = "";
         if (bindingResult.hasErrors()) {
             for (ObjectError error : bindingResult.getAllErrors()) {
-                errors.append("\nValidation failure for ").append(error.getObjectName()).append(" in the following field: ").append(((FieldError) error).getField()).append("with the following problem: ").append(error.getDefaultMessage());
+                objectName = error.getObjectName();
+                errors.append("\nValidation failure for ").append(objectName).append(" in the following field: ").append(((FieldError) error).getField()).append(" with the following problem: ").append(error.getDefaultMessage());
             }
-            throw new DeskValidationFailureException(errors.toString());
+            throw new ValidationFailureException(objectName, errors.toString());
         } else {
             return ResponseEntity.ok(this.deskService.updateDeskById(id, desk));
         }
     }
 
     @DeleteMapping("api/v1/desk/{id}/")
-    public ResponseEntity<List<Desk>> deleteDeskById(@PathVariable Long id) throws DeskNotFoundException, DeskDeletionFailureException {
+    public ResponseEntity<List<Desk>> deleteDeskById(@PathVariable Long id) throws ResourceNotFoundException, ResourceDeletionFailureException {
         try {
             this.deskService.deleteDeskById(id);
             return ResponseEntity.ok(this.deskService.getAllDesks());
         } catch (Exception e) {
             System.out.println(e.getCause() + e.getClass().getName());
-            throw new DeskDeletionFailureException("desk could not be deleted!");
+            throw new ResourceDeletionFailureException("desk could not be deleted!");
         }
     }
 

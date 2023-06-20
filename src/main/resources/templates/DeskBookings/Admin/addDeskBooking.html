@@ -1,0 +1,152 @@
+<!DOCTYPE html>
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Create Work-Area Booking</title>
+    <link th:href="@{/webjars/bootstrap/4.0.0-2/css/bootstrap.min.css} " th:rel="stylesheet"/>
+    <link rel="stylesheet" href="../../../static/css/WABS.css">
+    <link rel="stylesheet" href="../../../static/css/sidebar-accordionAdmin.css">
+    <link href="https://fonts.googleapis.com/css?family=Roboto+Condensed&display=swap" rel="stylesheet">
+    <link href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet">
+
+
+</head>
+<body style="background-image: url('../../../static/img/background2.jpg');background-repeat:no-repeat;background-size:cover;">
+<!--<nav class="navbar navbar-expand-lg navbar-light"
+     style="background-color: #96C01E;height: 200px;display:flex;align-items:center;">
+    --><!--<div class=" row d-flex justify-content-evenly align-items-center" style="width:100%">
+         <div class="col-4"><img alt="KlimaBuendnis Green Logo" src="../../static/img/LogoWhite.png"></div>
+         <div class="col-6"><img alt="WABS" src="../../static/img/W.A.B.S_green.jpg"></div>
+         <div class="col-2"><img alt="Add New Work-Area Booking Badge" src="../../static/img/NewDeskBooking.jpg" height = "200"></div>
+     </div>-->
+    <!-- Top Bar -->
+    <div class="top-bar">
+        <img src="/img/LogoWhite.png" alt="Klimabündnis White Logo" class="logo">
+        <a href="#" class="logout-link">Abmelden</a>
+        <div class="top-bar-header">
+            <h1>W.A.B.S.</h1>
+        </div>
+        <div class="top-bar-sub-header">
+            <h2>Working-Area Booking System</h2>
+        </div>
+    </div>
+<!-- Side Navbar -->
+<div class="contented-menu">
+    <!-- <a href="" class="btnMenu">Menu <i class="fa fa-bars"></i></a> -->
+
+    <ul class="menu">
+        <li><a href="#">Home</a></li>
+        <li><a href="#">Bookings <i class="fa fa-chevron-down"></i></a>
+            <ul>
+                <li><a href="#">Work-Areas</a></li>
+                <li><a href="#">Equipment</a></li>
+                <li><a href="#">Rooms</a></li>
+            </ul>
+        </li>
+        <li><a href="#">My Bookings <i class="fa fa-chevron-down"></i></a>
+            <ul>
+                <li><a href="#">Work-Areas</a></li>
+                <li><a href="#">Equipment</a></li>
+                <li><a href="#">Rooms</a></li>
+                <li><a href="#">History</a></li>
+            </ul>
+        </li>
+        <li><a href="#">Back</a></li>
+    </ul>
+</div>
+<div class="content">
+<div>
+    <h1 class="text-center text-dark">Create New Work-Area Booking</h1>
+</div>
+<br>
+<br>
+<div class="container">
+    <div class="row justify-content-center">
+        <div class="col-md-6">
+            <div style="display:flex;justify-content:flex-end;align-items:center;">
+                <a class="btn btn-dark" role="button" style="margin-right: 50px" th:href="@{/web/desks}">View All Work-Areas</a>
+                <a class="btn btn-dark" role="button" style="margin-right: 50px" th:href="@{/web/deskBookings}">View My Work-Area Bookings</a>
+            </div>
+            <br>
+            <br>
+            <form method="post" th:action="@{/web/deskBookings/add}" th:object="${deskBooking}">
+                <div th:if="${errorMessage}" class="alert alert-danger">
+                    <p th:text="${errorMessage}"></p>
+                </div>
+                <div class="mb-3 form-group">
+                    <label class="form-label" for="employee.id">Employee</label>
+                    <select class="form-control" id="employee.id" name="employee.id" th:field="*{employee.id}">
+                        <option th:each="employee : ${employees}"
+                                th:text="${employee.getFname()} + ' '+ ${employee.lname}"
+                                th:value="${employee.id}"></option>
+                    </select>
+                    <div class="form-text" th:errorclass="errors" th:errors="*{employee}"
+                         th:if="${#fields.hasErrors('employee.id')}"></div>
+                </div>
+
+                <div class="mb-3 form-group">
+                    <label class="form-label" for="deskNr">Work-Area</label>
+                    <select class="form-control" id="deskNr" name="deskId" th:field="*{desk.deskNr}">
+                        <option th:each="desk : ${desks}"
+                                th:text="${desk.deskNr}"
+                                th:value="${desk.deskNr}"></option>
+                    </select>
+                    <div class="form-text"
+                         th:errors="*{desk.deskNr}"
+                         th:if="${#fields.hasErrors('desk.deskNr')}"></div>
+                </div>
+
+                <div class="mb-3 form-group">
+                    <label class="form-label" for="date">Date</label>
+                    <input class="form-control" id="date" name="bookingStart"
+                           th:field="*{date}"
+                           th:value="${#dates.format(#dates.createNow(), 'yyyy-MM-dd')}" type="date"/>
+                    <div class="form-text"
+                         th:errors="*{date}"
+                         th:if="${#fields.hasErrors('date')}"></div>
+                </div>
+                <div class="mb-3">
+                    <label class="form-label" for="start">Start Time</label>
+                    <select class="form-select" id="start" name="start" th:field="*{start}">
+                        <option value="">--Select Start Time--</option>
+                        <option th:each="time : ${startTimes}"
+                                th:text="${time}"
+                                th:value="${time}"></option>
+                    </select>
+                    <div class="form-text"
+                         th:errors="*{start}"
+                         th:if="${#fields.hasErrors('start')}"></div>
+                </div>
+
+                <div class="mb-3">
+                    <label class="form-label" for="end">End Time</label>
+                    <select class="form-select" id="end" name="end" th:field="*{endTime}">
+                        <option value="">--Select End Time--</option>
+                        <option th:each="time : ${endTimes}"
+                                th:text="${time}"
+                                th:value="${time}"></option>
+                    </select>
+                    <div class="form-text"
+                         th:errors="*{endTime}"
+                         th:if="${#fields.hasErrors('endTime')}"></div>
+                </div>
+                <br>
+                <br>
+                <div class="d-flex justify-content-center">
+                    <button class="btn btn-info my-2 my-sm-0 mr-3" type="submit">Book</button>
+                    <a class="btn btn-dark my-2 my-sm-0" th:href="@{/web/deskBookings}">Cancel</a>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+</div>
+<script th:src="@{/webjars/jquery/3.0.0/jquery.min.js}"></script>
+<script th:src="@{/webjars/popper.js/1.12.9-1/umd/popper.min.js}"></script>
+<script th:src="@{/webjars/bootstrap/4.0.0-2/js/bootstrap.min.js}"></script>
+<script src="/static/js/DropDown.js"></script>
+<script src="/static/js/sidebar-accordion.js"></script>
+<script th:src="@{https://code.jquery.com/jquery-3.4.1.min.js}"></script>
+
+</body>
+</html>

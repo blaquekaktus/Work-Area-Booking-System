@@ -3,9 +3,9 @@ package com.itkolleg.bookingsystem.service.DeskBooking;
 import com.itkolleg.bookingsystem.domains.Booking.DeskBooking;
 import com.itkolleg.bookingsystem.domains.Desk;
 import com.itkolleg.bookingsystem.domains.Employee;
-import com.itkolleg.bookingsystem.exceptions.BookingExceptions.BookingNotFoundException;
-import com.itkolleg.bookingsystem.exceptions.DeskExceptions.DeskNotAvailableException;
-import com.itkolleg.bookingsystem.exceptions.DeskExceptions.DeskNotFoundException;
+import com.itkolleg.bookingsystem.exceptions.ResourceDeletionFailureException;
+import com.itkolleg.bookingsystem.exceptions.ResourceNotFoundException;
+import com.itkolleg.bookingsystem.exceptions.DeskNotAvailableException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -18,7 +18,7 @@ public interface DeskBookingService {
 
     Logger logger = LoggerFactory.getLogger(DeskBookingService.class);
 
-    DeskBooking addDeskBooking(DeskBooking deskBooking) throws DeskNotAvailableException, DeskNotFoundException;
+    DeskBooking addDeskBooking(DeskBooking deskBooking) throws DeskNotAvailableException, ResourceNotFoundException;
 
     List<DeskBooking> getAllBookings();
 
@@ -32,25 +32,25 @@ public interface DeskBookingService {
 
     List<DeskBooking> getBookingsByDate(LocalDate date);
 
-    DeskBooking getBookingById(Long bookingId) throws BookingNotFoundException;
+    DeskBooking getBookingById(Long bookingId) throws ResourceNotFoundException;
 
-    DeskBooking updateBookingById(Long bookingId, DeskBooking updatedBooking) throws BookingNotFoundException, DeskNotAvailableException;
+    DeskBooking updateBookingById(Long bookingId, DeskBooking updatedBooking) throws ResourceNotFoundException, DeskNotAvailableException;
 
-    DeskBooking updateBooking(DeskBooking booking) throws BookingNotFoundException, DeskNotAvailableException, DeskNotFoundException;
+    DeskBooking updateBooking(DeskBooking booking) throws ResourceNotFoundException, DeskNotAvailableException;
 
-    List<DeskBooking> findByDeskAndBookingEndAfterAndBookingStartBefore(Desk desk, LocalDateTime startDateTime, LocalDateTime endDateTime);
+    List<DeskBooking> findByDeskAndBookingEndAfterAndBookingStartBefore(Desk desk, LocalDate date, LocalTime start, LocalTime endTime);
 
-    void deleteBookingById(Long bookingID) throws BookingNotFoundException;
+    void deleteBookingById(Long bookingID) throws ResourceNotFoundException, ResourceDeletionFailureException;
 
-    List<Desk> getAvailableDesks(LocalDateTime startDateTime, LocalDateTime endDateTime);
+    List<Desk> getAvailableDesks(LocalDate date, LocalTime start, LocalTime endTime);
 
     boolean isDeskAvailable(Desk desk, LocalDateTime startDateTime, LocalDateTime endDateTime);
 
-    List<Desk> getAvailableDesks(LocalDate date, LocalTime bookingStart, LocalTime bookingEnd);
-
     boolean isDeskAvailable(Desk desk, LocalDate date, LocalTime startDateTime, LocalTime endDateTime);
 
-    void deleteBooking(Long id) throws BookingNotFoundException;
+    void deleteBooking(Long id) throws ResourceNotFoundException, ResourceDeletionFailureException;
 
     List<DeskBooking> getMyBookingHistory(Long employeeId);
+
+    DeskBooking save(DeskBooking booking);
 }

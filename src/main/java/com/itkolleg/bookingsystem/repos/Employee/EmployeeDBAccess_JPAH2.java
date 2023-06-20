@@ -21,13 +21,32 @@ public class EmployeeDBAccess_JPAH2 implements EmployeeDBAccess {
         this.employeeJPARepo = employeeJPARepo;
     }
 
-    @Override
+    /*@Override
     public Employee saveEmployee(Employee employee) throws EmployeeAlreadyExistsException {
         try{
             return this.employeeJPARepo.save(employee);
         } catch(Exception e){
-            throw new EmployeeAlreadyExistsException("Mitarbeiter exisitiert bereits!");
+            throw new EmployeeAlreadyExistsException("Mitarbeiter existiert bereits!");
         }
+    }
+*/
+    @Override
+    public Employee saveEmployee(Employee employee) throws EmployeeAlreadyExistsException {
+        String email = employee.getEmail();
+        String nick = employee.getNick();
+
+        Employee existingEmployeeByEmail = employeeJPARepo.getEmployeeByEmail(email);
+        Employee existingEmployeeByNick = employeeJPARepo.getEmployeeByNick(nick);
+
+        if (existingEmployeeByEmail != null) {
+            throw new EmployeeAlreadyExistsException("Employee with email already exists");
+        }
+
+        if (existingEmployeeByNick != null) {
+            throw new EmployeeAlreadyExistsException("Employee with nick already exists");
+        }
+
+        return employeeJPARepo.save(employee);
     }
 
     @Override
@@ -38,7 +57,7 @@ public class EmployeeDBAccess_JPAH2 implements EmployeeDBAccess {
     @Override
     public Employee getEmployeeById(Long id) throws EmployeeNotFoundException {
         Optional<Employee> optEmployee = this.employeeJPARepo.findById(id);
-        if(optEmployee.isPresent()){
+        if (optEmployee.isPresent()) {
             return optEmployee.get();
         } else {
             throw new EmployeeNotFoundException("The Employee with the ID: " + employeeJPARepo.findById(id) + " was not found!");
@@ -47,9 +66,9 @@ public class EmployeeDBAccess_JPAH2 implements EmployeeDBAccess {
 
     @Override
     public void deleteEmployeeById(Long id) throws EmployeeDeletionNotPossibleException {
-        try{
+        try {
             this.employeeJPARepo.deleteById(id);
-        }catch(Exception e){
+        } catch (Exception e) {
             throw new EmployeeDeletionNotPossibleException("Mitarbeiter mit der ID " + id + " konnte nicht gelöscht werden!");
         }
     }

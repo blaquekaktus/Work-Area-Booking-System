@@ -89,7 +89,4 @@ public class RessourceServiceImplementation implements RessourceService {
     public Ressource findRessourceBySerialnumber(String Serialnumber) throws RessourceNotFoundException, ExecutionException, InterruptedException {
         return this.dbAccessRessource.getRessourceBySerialnumber(Serialnumber);
     }
-
-    //TO DO: Code durchlesen und anpassen.
-    //Firebase Tabel erstellen für Ressourcen
 }

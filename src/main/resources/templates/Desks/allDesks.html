@@ -4,20 +4,29 @@
     <meta charset="UTF-8">
     <title>Add Desk</title>
     <link th:href="@{/webjars/bootstrap/4.0.0-2/css/bootstrap.min.css} " th:rel="stylesheet"/>
+    <script src="../../static/js/Desks.js"></script>
+    <link rel="stylesheet" href="../../static/css/desks.css">
+    <link rel="stylesheet" href="../../static/css/WABS.css">
+    <link rel="stylesheet" href="../../static/css/sidebar-accordion.css">
 </head>
-<body style="background-image: url('/images/bgbild.jpg');background-repeat:no-repeat;background-size:cover;">
+<body style="background-image: url('../../static/img/background2.jpg');background-repeat:no-repeat;background-size:cover;">
 <nav class="navbar navbar-expand-lg navbar-light"
      style="background-color: #96C01E;height: 200px;display:flex;align-items:center;">
-    <div class=" row d-flex justify-content-evenly align-items-center" style="width:100%">
-        <div class="col-4"><img alt="KlimaBuendnis Green Logo" height="180px" src="/images/GreenLogo.png"></div>
-        <div class="col-6"><img alt="WABS" height="190px" src="/images/wabs.png"></div>
-        <div class="col-2"><img alt="Badge" height="160px" src="/images/kb_badge.png"></div>
+    <div class="top-bar">
+        <img src="/static/img/LogoWhite.png" alt="Logo" class="logo">
+        <a href="#" class="logout-link">Abmelden</a>
+        <div class="top-bar-header">
+            <h1>W.A.B.S.</h1>
+        </div>
+        <div class="top-bar-sub-header">
+            <h2>Working-Area Booking System</h2>
+        </div>
     </div>
 </nav>
 <br>
 <br>
 <div>
-    <h1 class="text-center text-dark">ALL DESKS</h1>
+    <h1 class="text-center text-dark">All Work-Areas</h1>
 </div>
 <br>
 <br>
@@ -25,22 +34,26 @@
     <div class="row justify-content-center">
         <div class="col-md-6">
             <div style="display:flex;justify-content:flex-end;align-items:center;">
-                <a class="btn btn-dark" role="button" style="margin-right: 50px" th:href="@{/web/desks/add}">ADD A
-                    DESK</a>
+                <a class="btn btn-dark" role="button" style="margin-right: 50px" th:href="@{/web/desks/add}">Create New Work-Area</a>
             </div>
             <br>
             <br>
+            <div class="room">
+                <!-- The desks will be added here by JavaScript -->
+            </div>
+            <div th:each="desk: ${viewAllDesks}" class="desk-data" th:id="${'desk' + desk.id}" th:data-status="${desk.bookingStatus}" style="display: none;"></div>
+
             <div class="row-cols-sm-6 d-flex justify-content-center align-items-center flex-column flex-lg-row w-60 w-m-75 w-lg-90">
                 <table class="table" id="bookingTable">
                     <thead>
                     <tr>
-                        <td>DESK ID</td>
-                        <td>DESK NUMBER</td>
-                        <td>QTY OF MONITORS</td>
-                        <td>PORTS</td>
-                        <td>VIEW</td>
-                        <td>EDIT</td>
-                        <td>DELETE</td>
+                        <td>Work-Area Id</td>
+                        <td>Work-Area Number</td>
+                        <td>Monitors</td>
+                        <td>Ports</td>
+                        <td>View</td>
+                        <td>Edit</td>
+                        <td>Delete</td>
                     </tr>
                     </thead>
                     <tbody>
@@ -48,7 +61,11 @@
                         <td th:text="${desk.id}"></td>
                         <td th:text="${desk.deskNr}"></td>
                         <td th:text="${desk.nrOfMonitors}"></td>
-                        <td th:text="${desk.ports}"></td>
+                        <td>
+                            <ul>
+                                <li th:each="port : ${desk.ports}" th:text="${port.name}"></li>
+                            </ul>
+                        </td>
                         <td><a class="btn btn-info" role="button"
                                th:href="@{/web/desks/view/{id}(id=${desk.id})}">View</a></td>
                         <td><a class="btn btn-warning" role="button" th:href="@{/web/desks/update/{id}(id=${desk.id})}">Edit</a>
@@ -58,7 +75,7 @@
                     </tr>
                     </tbody>
                 </table>
-                </form>
+
             </div>
         </div>
     </div>

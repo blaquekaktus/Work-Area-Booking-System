@@ -2,8 +2,8 @@ package com.itkolleg.bookingsystem.service.Desk;
 
 import com.itkolleg.bookingsystem.domains.Desk;
 import com.itkolleg.bookingsystem.domains.Port;
-import com.itkolleg.bookingsystem.exceptions.DeskExceptions.DeskDeletionFailureException;
-import com.itkolleg.bookingsystem.exceptions.DeskExceptions.DeskNotFoundException;
+import com.itkolleg.bookingsystem.exceptions.ResourceDeletionFailureException;
+import com.itkolleg.bookingsystem.exceptions.ResourceNotFoundException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.data.domain.Page;
@@ -56,9 +56,9 @@ public interface DeskService {
      *
      * @param id The ID of the desk.
      * @return The desk with the specified ID.
-     * @throws DeskNotFoundException if the desk is not found.
+     * @throws ResourceNotFoundException if the desk is not found.
      */
-    Desk getDeskById(Long id) throws DeskNotFoundException;
+    Desk getDeskById(Long id) throws ResourceNotFoundException;
 
     /**
      * Updates a desk with the specified ID.
@@ -66,27 +66,27 @@ public interface DeskService {
      * @param id   The ID of the desk to be updated.
      * @param desk The updated desk object.
      * @return The updated desk.
-     * @throws DeskNotFoundException if the desk is not found.
+     * @throws ResourceNotFoundException if the desk is not found.
      */
-    Desk updateDeskById(Long id, Desk desk) throws DeskNotFoundException;
+    Desk updateDeskById(Long id, Desk desk) throws ResourceNotFoundException;
 
     /**
      * Updates a desk.
      *
      * @param desk The updated desk object.
      * @return The updated desk.
-     * @throws DeskNotFoundException if the desk is not found.
+     * @throws ResourceNotFoundException if the desk is not found.
      */
-    Desk updateDesk(Desk desk) throws DeskNotFoundException;
+    Desk updateDesk(Desk desk) throws ResourceNotFoundException;
 
     /**
      * Deletes a desk with the specified ID.
      *
      * @param id The ID of the desk to be deleted.
      * @return A list of desks after the deletion.
-     * @throws DeskDeletionFailureException if the desk deletion fails.
+     * @throws ResourceDeletionFailureException if the desk deletion fails.
      */
-    List<Desk> deleteDeskById(Long id) throws DeskDeletionFailureException;
+    List<Desk> deleteDeskById(Long id) throws ResourceDeletionFailureException;
 
     /**
      * Creates a new port for a desk.

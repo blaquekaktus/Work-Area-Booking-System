@@ -1,8 +1,14 @@
 package com.itkolleg.bookingsystem.domains;
 
 
-import jakarta.persistence.*;
-import lombok.*;
+import jakarta.persistence.Entity;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
+import jakarta.persistence.Id;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
+import lombok.ToString;
 
 
 /**
@@ -15,7 +21,7 @@ import lombok.*;
 @ToString
 public class Ressource {
     @Id
-    @GeneratedValue(strategy= GenerationType.SEQUENCE)
+    @GeneratedValue(strategy = GenerationType.SEQUENCE)
     private Long id;
     private Ressourcetype ressourcetype;
     private String name;
@@ -24,12 +30,12 @@ public class Ressource {
     private String serialnumber;
 
 
-    public Ressource(Long id, Ressourcetype ressourcetype,String name, String description, String info, String serialnumber, int amount) {
+    public Ressource(Long id, Ressourcetype ressourcetype, String name, String description, String info, String serialnumber) {
         this.id = id;
         this.ressourcetype = ressourcetype;
         this.description = description;
         this.info = info;
-        this.name= name;
+        this.name = name;
         this.serialnumber = serialnumber;
     }
 
