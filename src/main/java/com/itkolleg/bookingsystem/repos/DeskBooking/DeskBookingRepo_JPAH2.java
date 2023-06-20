@@ -25,6 +25,7 @@ import java.util.Optional;
 @ComponentScan({"com.itkolleg.repos"})
 public class DeskBookingRepo_JPAH2 implements DeskBookingRepo {
     private static final Logger logger = LoggerFactory.getLogger(DeskBookingRepo_JPAH2.class);
+
     private final DeskBookingJPARepo deskBookingJPARepo;
     private final DeskJPARepo deskJPARepo;
     private final EmployeeJPARepo employeeJPARepo;
@@ -75,8 +76,8 @@ public class DeskBookingRepo_JPAH2 implements DeskBookingRepo {
         booking.setEndTime(deskBooking.getEndTime());
 
         // Set created and updated timestamps
-        booking.setCreatedOn(LocalDateTime.now());
-        booking.setUpdatedOn(LocalDateTime.now());
+        /*booking.setCreatedOn(LocalDateTime.now());
+        booking.setUpdatedOn(LocalDateTime.now());*/
 
         // Save the booking
         try {
