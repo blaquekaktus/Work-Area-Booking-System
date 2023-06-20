@@ -72,11 +72,15 @@ public abstract class Booking {
      * The timestamp of when the booking was made.
      * It must be a present or past date/time.
      */
+
     @CreatedDate
+    @Column(updatable = false)
     @PastOrPresent(message = "The date created must not be in the future")
     protected LocalDateTime createdOn;
 
+
     @LastModifiedDate
+    @Column(insertable = false)
     protected LocalDateTime updatedOn;
 
     /**
