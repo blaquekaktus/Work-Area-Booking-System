@@ -242,7 +242,7 @@ public class WABSRunner implements ApplicationRunner {
         //Creat Holidays
         //PublicHoliday whitMonday = new PublicHoliday(LocalDate.of(2023, 5, 29), "Whit Monday", false);
         //PublicHoliday corpusChristie = new PublicHoliday(LocalDate.of(2023, 6, 8),"Corpus Christie", false);
-        PublicHoliday assumptionOfMary = new PublicHoliday(LocalDate.of(2023,6,15)," Assumption of Mary",false);
+        //PublicHoliday assumptionOfMary = new PublicHoliday(LocalDate.of(2023,6,15)," Assumption of Mary",false);
         PublicHoliday nationalDay = new PublicHoliday(LocalDate.of(2023, 10, 26), "National Day", true);
         PublicHoliday immaculateConception = new PublicHoliday(LocalDate.of(2023, 12,8), "Immaculate Conception", true);
         PublicHoliday christmasDay = new PublicHoliday(LocalDate.of(2023,12,25),"Christmas Day", false);
@@ -252,7 +252,7 @@ public class WABSRunner implements ApplicationRunner {
         try{
             //this.holidayRepo.addHoliday(whitMonday);
             //this.holidayRepo.addHoliday(corpusChristie);
-            this.holidayRepo.addHoliday(assumptionOfMary);
+            //this.holidayRepo.addHoliday(assumptionOfMary);
             this.holidayRepo.addHoliday(nationalDay);
             this.holidayRepo.addHoliday(immaculateConception);
             this.holidayRepo.addHoliday(christmasDay);
