@@ -15,7 +15,7 @@ public interface DBAccessRessource {
 
     Ressource getRessourceById(Long id) throws RessourceNotFoundException, ExecutionException, InterruptedException;
 
-    Ressource updateRessourceById(Ressource updatedRessource) throws RessourceNotFoundException, ExecutionException, InterruptedException;
+    Ressource updateRessource(Ressource ressource) throws RessourceNotFoundException, ExecutionException, InterruptedException;
 
     void deleteRessourceById(Long id) throws RessourceDeletionNotPossibleException;
 

@@ -14,7 +14,7 @@ public interface RessourceService {
 
     Ressource getRessourceById(Long id) throws RessourceNotFoundException, ExecutionException, InterruptedException;
 
-    Ressource updateRessourceById(Ressource ressource) throws RessourceNotFoundException, ExecutionException, InterruptedException;
+    Ressource updateRessource(Ressource ressource) throws RessourceNotFoundException, ExecutionException, InterruptedException;
 
     void deleteRessourceById(Long id) throws RessourceDeletionNotPossibleException;
 

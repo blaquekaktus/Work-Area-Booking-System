@@ -7,6 +7,7 @@ import com.itkolleg.bookingsystem.repos.Desk.DeskRepo;
 import com.itkolleg.bookingsystem.repos.DeskBooking.DeskBookingRepo;
 import com.itkolleg.bookingsystem.repos.Employee.EmployeeDBAccess;
 import com.itkolleg.bookingsystem.repos.Holiday.HolidayRepo;
+import com.itkolleg.bookingsystem.repos.Ressource.DBAccessRessource;
 import com.itkolleg.bookingsystem.repos.TimeSlot.TimeSlotRepo;
 import org.springframework.boot.ApplicationArguments;
 import org.springframework.boot.ApplicationRunner;
@@ -37,12 +38,15 @@ public class WABSRunner implements ApplicationRunner {
     TimeSlotRepo timeSlotRepo;
     HolidayRepo holidayRepo;
 
-    public WABSRunner(EmployeeDBAccess employeeDBAccess, DeskRepo deskRepo, DeskBookingRepo deskBookingRepo, TimeSlotRepo timeSlotRepo, HolidayRepo holidayRepo) {
+    DBAccessRessource dbAccessRessource;
+
+    public WABSRunner(EmployeeDBAccess employeeDBAccess, DeskRepo deskRepo, DeskBookingRepo deskBookingRepo, TimeSlotRepo timeSlotRepo, HolidayRepo holidayRepo, DBAccessRessource dbAccessRessource) {
         this.employeeDBAccess = employeeDBAccess;
         this.deskRepo = deskRepo;
         this.deskBookingRepo = deskBookingRepo;
         this.timeSlotRepo = timeSlotRepo;
         this.holidayRepo = holidayRepo;
+        this.dbAccessRessource = dbAccessRessource;
     }
 
     public static void main(String[] args) {
@@ -52,6 +56,12 @@ public class WABSRunner implements ApplicationRunner {
     @Override
     public void run(ApplicationArguments args) throws Exception {
         System.out.println("\n\nSystem is up and running!\n");
+
+        Ressource test1 = this.dbAccessRessource.addRessource(new Ressource(1L, Ressourcetype.BEAMER, "Test1", "TestBeamer", "InfoBeamer", "BeamerSN"));
+        Ressource test2 = this.dbAccessRessource.addRessource(new Ressource(2L, Ressourcetype.BEAMER, "Test2", "TestBeamer", "InfoBeamer", "BeamerSN"));
+        Ressource test3 = this.dbAccessRessource.addRessource(new Ressource(3L, Ressourcetype.BEAMER, "Test3", "TestBeamer", "InfoBeamer", "BeamerSN"));
+        Ressource test4 = this.dbAccessRessource.addRessource(new Ressource(4L, Ressourcetype.BEAMER, "Test4", "TestBeamer", "InfoBeamer", "BeamerSN"));
+
         Employee admin = this.employeeDBAccess.saveEmployee(new Employee("Marcel", "Schranz", "admin", "marcel-schranz@hotmail.com", "password", Role.ADMIN));
         Employee sonlech = this.employeeDBAccess.saveEmployee(new Employee("Sonja", "Lechner", "sonlech", "sonja52@gmail.com", "password", Role.ADMIN));
         Employee jaslech = this.employeeDBAccess.saveEmployee(new Employee("Jason", "Lechner", "jaslech", "jason_lechner@gmail.com", "password", Role.P_EMPLOYEE));

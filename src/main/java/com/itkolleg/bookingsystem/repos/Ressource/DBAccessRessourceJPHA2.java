@@ -1,12 +1,15 @@
 package com.itkolleg.bookingsystem.repos.Ressource;
 
+import com.itkolleg.bookingsystem.domains.Desk;
 import com.itkolleg.bookingsystem.domains.Ressource;
+import com.itkolleg.bookingsystem.exceptions.ResourceNotFoundException;
 import com.itkolleg.bookingsystem.exceptions.RessourceExceptions.RessourceDeletionNotPossibleException;
 import com.itkolleg.bookingsystem.exceptions.RessourceExceptions.RessourceIsOccupied;
 import com.itkolleg.bookingsystem.exceptions.RessourceExceptions.RessourceNotFoundException;
 import org.springframework.stereotype.Component;
 
 import java.util.List;
+import java.util.Optional;
 import java.util.concurrent.ExecutionException;
 
 @Component
@@ -46,12 +49,17 @@ public class DBAccessRessourceJPHA2 implements DBAccessRessource {
 
     @Override
     public Ressource getRessourceById(Long id) throws RessourceNotFoundException, ExecutionException, InterruptedException {
-        return null;
+        Optional<Ressource> ressourceOptional = this.ressourceBookingJPARepo.findById(id);
+        if (ressourceOptional.isPresent()) {
+            return ressourceOptional.get();
+        } else {
+            throw new RessourceNotFoundException();
+        }
     }
 
     @Override
-    public Ressource updateRessourceById(Ressource updatedRessource) throws RessourceNotFoundException, ExecutionException, InterruptedException {
-        return null;
+    public Ressource updateRessource(Ressource ressource) throws RessourceNotFoundException, ExecutionException, InterruptedException {
+        return this.ressourceBookingJPARepo.save(ressource);
     }
 
     @Override

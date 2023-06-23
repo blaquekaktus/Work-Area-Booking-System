@@ -1,13 +1,11 @@
 package com.itkolleg.bookingsystem.controller.ressource;
 
-import com.itkolleg.bookingsystem.domains.Desk;
 import com.itkolleg.bookingsystem.domains.Ressource;
 import com.itkolleg.bookingsystem.exceptions.FormValidationExceptionDTO;
 import com.itkolleg.bookingsystem.exceptions.RessourceExceptions.RessourceAlreadyExistsException;
 import com.itkolleg.bookingsystem.exceptions.RessourceExceptions.RessourceDeletionNotPossibleException;
 import com.itkolleg.bookingsystem.exceptions.RessourceExceptions.RessourceNotFoundException;
 import com.itkolleg.bookingsystem.exceptions.RessourceExceptions.RessourceValidationException;
-import com.itkolleg.bookingsystem.exceptions.ValidationFailureException;
 import com.itkolleg.bookingsystem.service.Ressource.RessourceService;
 import jakarta.validation.Valid;
 import org.springframework.http.ResponseEntity;
@@ -78,7 +76,7 @@ public class RessourceRestController {
 
     @PutMapping("/update")
     public ResponseEntity<Ressource> updateRessourceById(@Valid @RequestBody Ressource ressource) throws ExecutionException, InterruptedException, RessourceNotFoundException {
-        Ressource updated = this.ressourceService.updateRessourceById(ressource);
+        Ressource updated = this.ressourceService.updateRessource(ressource);
         return ResponseEntity.ok(updated);
         //return ressourceService.updateRessourceById(ressource);
     }

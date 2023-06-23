@@ -63,8 +63,8 @@ public class RessourceServiceImplementation implements RessourceService {
      * @throws RessourceNotFoundException
      */
     @Override
-    public Ressource updateRessourceById(Ressource ressource) throws RessourceNotFoundException, ExecutionException, InterruptedException {
-        return this.dbAccessRessource.updateRessourceById(ressource);
+    public Ressource updateRessource(Ressource ressource) throws RessourceNotFoundException, ExecutionException, InterruptedException {
+        return this.dbAccessRessource.updateRessource(ressource);
     }
 
     /**

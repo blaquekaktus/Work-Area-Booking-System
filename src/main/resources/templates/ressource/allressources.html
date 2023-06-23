@@ -79,15 +79,15 @@
                     <td th:text="${ressource.info}"></td>
                     <td th:text="${ressource.serialnumber}"></td>
                     <td>
-                        <a href="" class="button" role="button">Edit</a>
-                        <a th:href="@{/web/ressource/deleteRessource/{id}(id=${ressource.id})}" class="delete-button" role="button">Delete</a>
+<!--                        <a th:href="@{/web/ressource/updateRessource/{id}(id=${ressource.id})}" class="button" role="button">Edit</a>-->
+                        <a th:href="@{'/web/ressource/updateRessource/' + ${ressource.id}}" class="button" role="button">Edit</a>
+                        <a th:href="@{'/web/ressource/deleteRessource/' + ${ressource.id}}" class="delete-button" role="button">Delete</a>
                     </td>
                 </tr>
             </th:block>
             </tbody>
         </table>
         <a th:href="@{addRessource}" class="add-button" role="button">New Ressource</a>
-        <!--<a href="addRessource.html" class="add-button" role="button">New Ressource</a>-->
     </div>
 </div>
 <div class="filler"></div>

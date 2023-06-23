@@ -5,6 +5,7 @@ import com.itkolleg.bookingsystem.exceptions.ResourceDeletionFailureException;
 import com.itkolleg.bookingsystem.exceptions.RessourceExceptions.RessourceAlreadyExistsException;
 import com.itkolleg.bookingsystem.domains.Ressource;
 import com.itkolleg.bookingsystem.exceptions.RessourceExceptions.RessourceDeletionNotPossibleException;
+import com.itkolleg.bookingsystem.exceptions.RessourceExceptions.RessourceNotFoundException;
 import com.itkolleg.bookingsystem.service.Ressource.RessourceService;
 import jakarta.validation.Valid;
 import org.springframework.stereotype.Controller;
@@ -57,9 +58,8 @@ public class RessourceWebController {
     public ModelAndView addRessource( Model model) {
 
         model.addAttribute("newRessource", new Ressource());
-        return new ModelAndView("ressource/addRessource", "newRessource", model);
+        return new ModelAndView("ressource/addRessource", "Ressource", model);
     }
-
 
     @PostMapping("/addRessource")
     public String addRessource(@Valid Ressource ressource, BindingResult bindingResult) throws RessourceAlreadyExistsException, ExecutionException, InterruptedException {
@@ -70,6 +70,25 @@ public class RessourceWebController {
             return "redirect:/web/ressource/allRessources";
         }
     }
+
+    @GetMapping("/updateRessource/{id}")
+    public ModelAndView updateRessource(@PathVariable Long id, Model model) throws RessourceNotFoundException, ExecutionException, InterruptedException {
+
+        Ressource ressource = this.ressourceService.getRessourceById(id);
+        model.addAttribute("updateRessource", ressource);
+        return new ModelAndView("ressource/editRessource", "Ressource", model);
+    }
+
+    @PostMapping("/updateRessource")
+    public String updateRessource(@Valid Ressource ressource, BindingResult bindingResult) throws RessourceAlreadyExistsException, ExecutionException, InterruptedException, RessourceNotFoundException {
+        if (bindingResult.hasErrors()) {
+            return "/ressource/editRessource";
+        } else {
+            this.ressourceService.updateRessource(ressource);
+            return "redirect:/web/ressource/allRessources";
+        }
+    }
+
 /*
     @PostMapping("/deleteRessource/{id}")
     public String deleteRessource(@Valid Long id, BindingResult bindingResult) throws RessourceDeletionNotPossibleException {
@@ -77,7 +96,7 @@ public class RessourceWebController {
         return "redirect:/web/ressource/allRessources";
     }
 */
-    @GetMapping("/delete/{id}")
+    @GetMapping("/deleteRessource/{id}")
     public String deleteRessource(@PathVariable Long id) {
         try {
             this.ressourceService.deleteRessourceById(id);
