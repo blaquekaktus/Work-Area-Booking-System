@@ -1,6 +1,7 @@
 package com.itkolleg.bookingsystem.controller.ressource;
 
 import com.itkolleg.bookingsystem.domains.Ressourcetype;
+import com.itkolleg.bookingsystem.exceptions.ResourceDeletionFailureException;
 import com.itkolleg.bookingsystem.exceptions.RessourceExceptions.RessourceAlreadyExistsException;
 import com.itkolleg.bookingsystem.domains.Ressource;
 import com.itkolleg.bookingsystem.exceptions.RessourceExceptions.RessourceDeletionNotPossibleException;
@@ -26,13 +27,14 @@ public class RessourceWebController {
         this.ressourceService = ressourceService;
     }
 
+
     /**
      * Dient dazu eine Übersicht aller Ressourcen für den/die Admin zu liefern.
      * @return Model of Ressources
      * @throws ExecutionException
      * @throws InterruptedException
      */
-    @GetMapping("/web/allRessources")
+    @GetMapping("/allRessources")
     public ModelAndView allressources() throws ExecutionException, InterruptedException {
         List<Ressource> allRessources = ressourceService.getAllRessource();
         return new ModelAndView("ressource/allressources", "ressources", allRessources);
@@ -44,65 +46,45 @@ public class RessourceWebController {
      * @throws ExecutionException
      * @throws InterruptedException
      */
-    @GetMapping("/web/allRessourcesEmployee")
+    @GetMapping("/allRessourcesEmployee")
     public ModelAndView allressourcesEmployee() throws ExecutionException, InterruptedException {
         List<Ressource> allRessourcesEmployee = ressourceService.getAllRessource();
         return new ModelAndView("ressource/allressourcesEmployee", "ressourcesEmployee", allRessourcesEmployee);
     }
 
 
+    @GetMapping("/addRessource")
+    public ModelAndView addRessource( Model model) {
 
-    @GetMapping("/web/addRessource")
-    public String addRessource(Model model) {
         model.addAttribute("newRessource", new Ressource());
-        List<String> ressourceTypes = new ArrayList<>();
-        ressourceTypes.add(String.valueOf(Ressourcetype.BICYCLE));
-        ressourceTypes.add(String.valueOf(Ressourcetype.TRIPOD));
-        ressourceTypes.add(String.valueOf(Ressourcetype.BEAMER));
-        ressourceTypes.add(String.valueOf(Ressourcetype.CAMERA));
-        ressourceTypes.add(String.valueOf(Ressourcetype.WHITEBOARD));
-        model.addAttribute("ressourcetype", ressourceTypes);
-        return "ressource/addRessource";
+        return new ModelAndView("ressource/addRessource", "newRessource", model);
     }
 
-    @PostMapping("/web/addRessource")
+
+    @PostMapping("/addRessource")
     public String addRessource(@Valid Ressource ressource, BindingResult bindingResult) throws RessourceAlreadyExistsException, ExecutionException, InterruptedException {
         if (bindingResult.hasErrors()) {
-            return "ressource/addRessource";
+            return "/ressource/addRessource";
         } else {
             this.ressourceService.addRessource(ressource);
-            return "redirect:/web/allRessources";
+            return "redirect:/web/ressource/allRessources";
         }
     }
-
-    @PostMapping("/web/allresources/{id}")
-    public String deleteRessourceWithId(@PathVariable Long id, Model model)
-    {
-      try
-      {
-          this.ressourceService.deleteRessourceById(id);
-          return "redirect:/web/allressources";
-      } catch (RessourceDeletionNotPossibleException e)
-        {
-            model.addAttribute("errortitle", "Ressource-Löschen fehlgeschlagen!");
-            model.addAttribute("errormessage", e.getMessage());
-            return "errorPage";
-        }
-
+/*
+    @PostMapping("/deleteRessource/{id}")
+    public String deleteRessource(@Valid Long id, BindingResult bindingResult) throws RessourceDeletionNotPossibleException {
+        this.ressourceService.deleteRessourceById(id);
+        return "redirect:/web/ressource/allRessources";
     }
-
-
-
-    /*@GetMapping("/web/manageRessource/{id}")
-    public String deleteRessourceWithId(@PathVariable Long id, Model model) {
+*/
+    @GetMapping("/delete/{id}")
+    public String deleteRessource(@PathVariable Long id) {
         try {
             this.ressourceService.deleteRessourceById(id);
-            return "redirect:/web/allressources";
+            return "redirect:/web/ressource/allRessources";
         } catch (RessourceDeletionNotPossibleException e) {
-            model.addAttribute("errortitle", "Ressource-Löschen fehlgeschlagen!");
-            model.addAttribute("errormessage", e.getMessage());
-            return "errorPage";
+            return "redirect:/web/ressource/allRessources";
         }
-    }*/
+    }
 
 }

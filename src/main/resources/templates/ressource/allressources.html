@@ -48,7 +48,7 @@
             </ul>
         </li>
         <li><a href="#">Mitarbeiter</a></li>
-        <li><a href="./manageRessource.html">Ressourcen</a></li>
+        <li><a th:href="@{allRessources}">Ressourcen</a></li>
         <li><a href="#">Räume</a></li>
         <li><a href="#">Zurück</a></li>
     </ul>
@@ -80,13 +80,14 @@
                     <td th:text="${ressource.serialnumber}"></td>
                     <td>
                         <a href="" class="button" role="button">Edit</a>
-                        <a href="" class="delete-button" role="button">Delete</a>
+                        <a th:href="@{/web/ressource/deleteRessource/{id}(id=${ressource.id})}" class="delete-button" role="button">Delete</a>
                     </td>
                 </tr>
             </th:block>
             </tbody>
         </table>
-        <a href="addRessource.html" class="add-button" role="button">New Ressource</a>
+        <a th:href="@{addRessource}" class="add-button" role="button">New Ressource</a>
+        <!--<a href="addRessource.html" class="add-button" role="button">New Ressource</a>-->
     </div>
 </div>
 <div class="filler"></div>

@@ -1,16 +1,17 @@
 package com.itkolleg.bookingsystem.controller.ressource;
 
-
-
+import com.itkolleg.bookingsystem.domains.Desk;
 import com.itkolleg.bookingsystem.domains.Ressource;
 import com.itkolleg.bookingsystem.exceptions.FormValidationExceptionDTO;
 import com.itkolleg.bookingsystem.exceptions.RessourceExceptions.RessourceAlreadyExistsException;
 import com.itkolleg.bookingsystem.exceptions.RessourceExceptions.RessourceDeletionNotPossibleException;
 import com.itkolleg.bookingsystem.exceptions.RessourceExceptions.RessourceNotFoundException;
 import com.itkolleg.bookingsystem.exceptions.RessourceExceptions.RessourceValidationException;
+import com.itkolleg.bookingsystem.exceptions.ValidationFailureException;
 import com.itkolleg.bookingsystem.service.Ressource.RessourceService;
 import jakarta.validation.Valid;
 import org.springframework.http.ResponseEntity;
+import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.FieldError;
 import org.springframework.validation.ObjectError;
@@ -52,6 +53,13 @@ public class RessourceRestController {
         }
     }
 
+    @GetMapping("/addRessource")
+    public String addRessource(Model model)
+    {
+        Ressource ressource = new Ressource();
+        model.addAttribute("newRessource", ressource );
+        return "ressource/addRessource";
+    }
 
     // Definiert den GET-Endpunkt für die Room-Ressource, der auf eine spezifische ID zugreift
     @GetMapping("/{id}")

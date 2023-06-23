@@ -40,7 +40,8 @@ public class DBAccessRessourceJPHA2 implements DBAccessRessource {
 
     @Override
     public List<Ressource> getAllRessource() throws ExecutionException, InterruptedException {
-        return null;
+        return this.ressourceBookingJPARepo.findAll();
+
     }
 
     @Override
@@ -55,7 +56,7 @@ public class DBAccessRessourceJPHA2 implements DBAccessRessource {
 
     @Override
     public void deleteRessourceById(Long id) throws RessourceDeletionNotPossibleException {
-
+        this.ressourceBookingJPARepo.deleteById(id);
     }
 
     @Override
