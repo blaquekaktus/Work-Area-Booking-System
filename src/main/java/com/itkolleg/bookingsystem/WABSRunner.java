@@ -2,12 +2,14 @@ package com.itkolleg.bookingsystem;
 
 import com.itkolleg.bookingsystem.domains.Booking.DeskBooking;
 import com.itkolleg.bookingsystem.domains.*;
+import com.itkolleg.bookingsystem.domains.Booking.RessourceBooking;
 import com.itkolleg.bookingsystem.exceptions.DeskNotAvailableException;
 import com.itkolleg.bookingsystem.repos.Desk.DeskRepo;
 import com.itkolleg.bookingsystem.repos.DeskBooking.DeskBookingRepo;
 import com.itkolleg.bookingsystem.repos.Employee.EmployeeDBAccess;
 import com.itkolleg.bookingsystem.repos.Holiday.HolidayRepo;
 import com.itkolleg.bookingsystem.repos.Ressource.DBAccessRessource;
+import com.itkolleg.bookingsystem.repos.RessourceBooking.RessourceBookingRepo;
 import com.itkolleg.bookingsystem.repos.TimeSlot.TimeSlotRepo;
 import org.springframework.boot.ApplicationArguments;
 import org.springframework.boot.ApplicationRunner;
@@ -18,6 +20,7 @@ import org.springframework.data.jpa.repository.config.EnableJpaAuditing;
 import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
 
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.time.LocalTime;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -37,16 +40,17 @@ public class WABSRunner implements ApplicationRunner {
     DeskBookingRepo deskBookingRepo;
     TimeSlotRepo timeSlotRepo;
     HolidayRepo holidayRepo;
-
     DBAccessRessource dbAccessRessource;
+    RessourceBookingRepo ressourceBookingRepo;
 
-    public WABSRunner(EmployeeDBAccess employeeDBAccess, DeskRepo deskRepo, DeskBookingRepo deskBookingRepo, TimeSlotRepo timeSlotRepo, HolidayRepo holidayRepo, DBAccessRessource dbAccessRessource) {
+    public WABSRunner(EmployeeDBAccess employeeDBAccess, DeskRepo deskRepo, DeskBookingRepo deskBookingRepo, TimeSlotRepo timeSlotRepo, HolidayRepo holidayRepo, DBAccessRessource dbAccessRessource, RessourceBookingRepo ressourceBookingRepo) {
         this.employeeDBAccess = employeeDBAccess;
         this.deskRepo = deskRepo;
         this.deskBookingRepo = deskBookingRepo;
         this.timeSlotRepo = timeSlotRepo;
         this.holidayRepo = holidayRepo;
         this.dbAccessRessource = dbAccessRessource;
+        this.ressourceBookingRepo = ressourceBookingRepo;
     }
 
     public static void main(String[] args) {
@@ -68,6 +72,23 @@ public class WABSRunner implements ApplicationRunner {
         Employee joslech = this.employeeDBAccess.saveEmployee(new Employee("Josan", "Lechner", "joslech", "josan_strobie@gmail.com", "password", Role.N_EMPLOYEE));
         Employee camlech = this.employeeDBAccess.saveEmployee(new Employee("Camil", "Lechner", "camlech", "camil@gmail.com", "password", Role.OPERATOR));
         Employee operator = this.employeeDBAccess.saveEmployee(new Employee("Patrick", "Bayr", "operator", "bayr@hotmail.com", "password", Role.OPERATOR));
+
+        LocalDate rdate = LocalDate.now();
+        LocalTime rtime1 = LocalTime.of(8,0, 0, 0);
+        LocalTime rtime2 = LocalTime.of(10,0, 0, 0);
+        RessourceBooking rBooking1 = this.ressourceBookingRepo.addBooking(new RessourceBooking(admin, test1, rdate, rtime1, rtime2));
+        rdate = LocalDate.of(2023, 6, 30);
+        rtime1 = LocalTime.of(12,0, 0, 0);
+        rtime2 = LocalTime.of(20,0, 0, 0);
+        RessourceBooking rBooking2 = this.ressourceBookingRepo.addBooking(new RessourceBooking(admin, test3, rdate, rtime1, rtime2));
+        rdate = LocalDate.of(2023, 6, 25);
+        rtime1 = LocalTime.of(10,0, 0, 0);
+        rtime2 = LocalTime.of(11,0, 0, 0);
+        RessourceBooking rBooking3 = this.ressourceBookingRepo.addBooking(new RessourceBooking(admin, test4, rdate, rtime1, rtime2));
+        rdate = LocalDate.of(2023, 7, 20);
+        rtime1 = LocalTime.of(12,0, 0, 0);
+        rtime2 = LocalTime.of(15,0, 0, 0);
+        RessourceBooking rBooking4 = this.ressourceBookingRepo.addBooking(new RessourceBooking(admin, test1, rdate, rtime1, rtime2));
 
         Port hdmi = new Port("HDMI");
         Port usba = new Port("USB-A");

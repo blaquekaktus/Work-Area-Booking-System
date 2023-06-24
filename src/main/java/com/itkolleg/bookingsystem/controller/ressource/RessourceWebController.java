@@ -41,18 +41,11 @@ public class RessourceWebController {
         return new ModelAndView("ressource/allressources", "ressources", allRessources);
     }
 
-    /**
-     * Dient dazu eine Übersicht aller Ressourcen für den/die Mitarbeiter:inn zu liefern
-     * @return Model of Ressources
-     * @throws ExecutionException
-     * @throws InterruptedException
-     */
     @GetMapping("/allRessourcesEmployee")
-    public ModelAndView allressourcesEmployee() throws ExecutionException, InterruptedException {
-        List<Ressource> allRessourcesEmployee = ressourceService.getAllRessource();
-        return new ModelAndView("ressource/allressourcesEmployee", "ressourcesEmployee", allRessourcesEmployee);
+    public ModelAndView allRessourcesEmployee() throws ExecutionException, InterruptedException {
+        List<Ressource> allRessources = ressourceService.getAllRessource();
+        return new ModelAndView("ressource/allressourcesEmployee", "ressourcesEmployee", allRessources);
     }
-
 
     @GetMapping("/addRessource")
     public ModelAndView addRessource( Model model) {
