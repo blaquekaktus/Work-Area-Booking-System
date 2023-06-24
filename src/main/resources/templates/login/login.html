@@ -161,8 +161,8 @@
 </div>
 <div class="container">
     <div class="form-container">
-        <!-- <h1>Login</h1> -->
-        <form method="post" th:action="@{/web/login}" th:error="${#fields.errors()}">
+        <div style="background-color: lightgray">
+            <form method="post" th:action="@{/web/login}" th:error="${#fields.errors()}">
             <h3>Benutzername</h3>
             <label for="username"></label>
             <input type="text" name="username" id="username" placeholder="username" required>
@@ -172,8 +172,6 @@
             <div th:if="${error}" class="alert alert-danger" role="alert">
                 <span th:text="${error}"></span>
             </div>
-
-
             <div class="button-container">
                 <button class="login-box" type="submit">Login</button>
                 <!-- <a href="https://example.com/login" class="login-box">Login</a> -->
@@ -181,6 +179,7 @@
             </div>
         </form>
         <!-- <a href="/register" class="btn btn-secondary btn-block my-3">Create account</a> -->
+        </div>
     </div>
 </div>
 <script>

@@ -61,13 +61,10 @@ public class EmployeeWebController {
         return "employee/employeeswithnick";
     }
 
-    @GetMapping("/web/insertemployeeform")
-    public ModelAndView insertemployeeform(){
-        return new ModelAndView("employee/insertemployeeform", "myemployee", new Employee());
-    }
+
 
     @GetMapping("/web/deleteemployee/{id}")
-    public String deleteStudentWithId(@PathVariable Long id, Model model) {
+    public String deleteemployeewithid(@PathVariable Long id, Model model) {
         try {
             this.employeeService.deleteEmployeeById(id);
             return "redirect:/web/allemployees";
@@ -79,9 +76,15 @@ public class EmployeeWebController {
         }
     }
 
+    @GetMapping("/web/insertemployeeform")
+    public ModelAndView insertemployeeform(){
+        return new ModelAndView("employee/insertemployeeform", "myemployee", new Employee());
+    }
+
     @PostMapping("/web/insertemployee")
-    public String insertEmployee(@Valid @ModelAttribute("myemployee") Employee employee,Model model, BindingResult bindingResult) throws ExecutionException, InterruptedException {
+    public String insertEmployee(@Valid @ModelAttribute("myemployee") Employee employee, Model model, BindingResult bindingResult) throws ExecutionException, InterruptedException {
         if (bindingResult.hasErrors()) {
+            model.addAttribute("bindingResult", bindingResult);
             return "employee/insertemployeeform";
         } else {
             try {
@@ -94,4 +97,37 @@ public class EmployeeWebController {
             }
         }
     }
+
+
+    @GetMapping("/web/editemployee/{id}")
+    public String editEmployeeForm(@PathVariable Long id, Model model) throws EmployeeNotFoundException, ExecutionException, InterruptedException {
+        Employee employee = employeeService.getEmployeeById(id);
+        if (employee != null) {
+
+            model.addAttribute("employee", employee);
+
+            return "employee/editemployeeform";
+        } else {
+            throw new EmployeeNotFoundException();
+        }
+    }
+    @PostMapping("/web/editemployee")
+    public String editEmployee(@Valid @ModelAttribute("employee") Employee updatedEmployee, Model model, BindingResult bindingResult) throws EmployeeNotFoundException {
+        if (bindingResult.hasErrors()) {
+            return "employee/editemployeeform";
+        } else {
+            try {
+                this.employeeService.updateEmployeeById(updatedEmployee);
+                return "redirect:/web/allemployees";
+            } catch (Exception e) {
+                model.addAttribute("errortitle", "Mitarbeiter bearbeiten fehlgeschlagen!");
+                model.addAttribute("errormessage", e.getMessage());
+                return "myerrorspage";
+            }
+        }
+    }
+
+
+
+
 }
