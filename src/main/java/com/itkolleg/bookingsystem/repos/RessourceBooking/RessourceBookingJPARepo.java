@@ -14,7 +14,7 @@ import java.util.Optional;
 @Repository
 public interface RessourceBookingJPARepo extends JpaRepository<RessourceBooking, Long> {
 
-    Optional<RessourceBooking> getBookingByBookingId(Long id);
+    //Optional<RessourceBooking> getBookingByBookingId(Long id);
 
     List<RessourceBooking> getBookingsByRessource(Ressource ressource);
 

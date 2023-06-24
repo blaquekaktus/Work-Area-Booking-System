@@ -77,7 +77,7 @@ public class RessourceBookingRepo_JPAH2 implements RessourceBookingRepo {
     }
 
     public Optional<RessourceBooking> getBookingsByBookingId(Long id) throws ResourceNotFoundException {
-        return this.ressourceBookingJPARepo.getBookingByBookingId(id);
+        return this.ressourceBookingJPARepo.findById(id);
     }
 
     @Override
@@ -92,7 +92,7 @@ public class RessourceBookingRepo_JPAH2 implements RessourceBookingRepo {
 
     @Override
     public Optional<RessourceBooking> getBookingByBookingId(Long id) {
-        return this.ressourceBookingJPARepo.getBookingByBookingId(id);
+        return this.ressourceBookingJPARepo.findById(id);
     }
 
     @Override
