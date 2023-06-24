@@ -19,7 +19,7 @@ public interface RessourceBookingRepo {
 
     List<RessourceBooking> getAllBookings();
 
-    Optional<RessourceBooking> getBookingByBookingId(Long bookingId) throws ResourceNotFoundException;
+    Optional<RessourceBooking> getBookingByBookingId(Long id);
 
     List<RessourceBooking> getBookingsByEmployeeId(Long employeeId);
 
@@ -33,11 +33,11 @@ public interface RessourceBookingRepo {
 
     List<RessourceBooking> getBookingByDate(LocalDate date);
 
-    RessourceBooking updateBookingById(Long bookingId, RessourceBooking updatedBooking) throws ResourceNotFoundException;
+    RessourceBooking updateBookingById(Long id, RessourceBooking updatedBooking) throws ResourceNotFoundException;
 
     RessourceBooking updateBooking(RessourceBooking updatedBooking) throws ResourceNotFoundException;
 
-    void deleteBookingById(Long bookingId) throws ResourceDeletionFailureException;
+    void deleteBookingById(Long id) throws ResourceDeletionFailureException;
 
     List<Ressource> getAvailableRessources(LocalDate date, LocalTime start, LocalTime end);
 

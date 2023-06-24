@@ -76,8 +76,8 @@ public class RessourceBookingRepo_JPAH2 implements RessourceBookingRepo {
         return this.ressourceBookingJPARepo.findAll();
     }
 
-    public Optional<RessourceBooking> getBookingsByBookingId(Long bookingId) throws ResourceNotFoundException {
-        return this.ressourceBookingJPARepo.getBookingByBookingId(bookingId);
+    public Optional<RessourceBooking> getBookingsByBookingId(Long id) throws ResourceNotFoundException {
+        return this.ressourceBookingJPARepo.getBookingByBookingId(id);
     }
 
     @Override
@@ -91,8 +91,8 @@ public class RessourceBookingRepo_JPAH2 implements RessourceBookingRepo {
     }
 
     @Override
-    public Optional<RessourceBooking> getBookingByBookingId(Long bookingId) {
-        return this.ressourceBookingJPARepo.getBookingByBookingId(bookingId);
+    public Optional<RessourceBooking> getBookingByBookingId(Long id) {
+        return this.ressourceBookingJPARepo.getBookingByBookingId(id);
     }
 
     @Override
@@ -159,12 +159,12 @@ public class RessourceBookingRepo_JPAH2 implements RessourceBookingRepo {
     }
 
     @Override
-    public void deleteBookingById(Long bookingId) throws ResourceDeletionFailureException {
-        Optional<RessourceBooking> bookingOptional = this.ressourceBookingJPARepo.findById(bookingId);
+    public void deleteBookingById(Long id) throws ResourceDeletionFailureException {
+        Optional<RessourceBooking> bookingOptional = this.ressourceBookingJPARepo.findById(id);
         if (bookingOptional.isPresent()) {
-            this.ressourceBookingJPARepo.deleteById(bookingId);
+            this.ressourceBookingJPARepo.deleteById(id);
         } else {
-            throw new ResourceDeletionFailureException("The Ressource Booking with the ID: " + bookingId + " was not found!");
+            throw new ResourceDeletionFailureException("The Ressource Booking with the ID: " + id + " was not found!");
         }
     }
 
