@@ -1,6 +1,5 @@
 package com.itkolleg.bookingsystem.repos.Ressource;
 
-import com.itkolleg.bookingsystem.domains.Desk;
 import com.itkolleg.bookingsystem.domains.Ressource;
 import com.itkolleg.bookingsystem.exceptions.RessourceExceptions.RessourceDeletionNotPossibleException;
 import com.itkolleg.bookingsystem.exceptions.RessourceExceptions.RessourceNotFoundException;
@@ -13,14 +12,14 @@ import java.util.concurrent.ExecutionException;
 @Component
 public class DBAccessRessourceJPHA2 implements DBAccessRessource {
 
-    private final RessourceBookingJPARepo ressourceBookingJPARepo;
+    private final RessourceJPARepo ressourceJPARepo;
 
     /**
      * Konstruktor
-     * @param ressourceBookingJPARepo
+     * @param ressourceJPARepo
      */
-    public DBAccessRessourceJPHA2(RessourceBookingJPARepo ressourceBookingJPARepo) {
-        this.ressourceBookingJPARepo = ressourceBookingJPARepo;
+    public DBAccessRessourceJPHA2(RessourceJPARepo ressourceJPARepo) {
+        this.ressourceJPARepo = ressourceJPARepo;
     }
 
 
@@ -36,18 +35,18 @@ public class DBAccessRessourceJPHA2 implements DBAccessRessource {
         }
 
 */
-        return this.ressourceBookingJPARepo.save(ressource); //.save added und updatet.
+        return this.ressourceJPARepo.save(ressource); //.save added und updatet.
     }
 
     @Override
     public List<Ressource> getAllRessource() throws ExecutionException, InterruptedException {
-        return this.ressourceBookingJPARepo.findAll();
+        return this.ressourceJPARepo.findAll();
 
     }
 
     @Override
     public Ressource getRessourceById(Long id) throws RessourceNotFoundException, ExecutionException, InterruptedException {
-        Optional<Ressource> ressourceOptional = this.ressourceBookingJPARepo.findById(id);
+        Optional<Ressource> ressourceOptional = this.ressourceJPARepo.findById(id);
         if (ressourceOptional.isPresent()) {
             return ressourceOptional.get();
         } else {
@@ -57,12 +56,12 @@ public class DBAccessRessourceJPHA2 implements DBAccessRessource {
 
     @Override
     public Ressource updateRessource(Ressource ressource) throws RessourceNotFoundException, ExecutionException, InterruptedException {
-        return this.ressourceBookingJPARepo.save(ressource);
+        return this.ressourceJPARepo.save(ressource);
     }
 
     @Override
     public void deleteRessourceById(Long id) throws RessourceDeletionNotPossibleException {
-        this.ressourceBookingJPARepo.deleteById(id);
+        this.ressourceJPARepo.deleteById(id);
     }
 
     @Override

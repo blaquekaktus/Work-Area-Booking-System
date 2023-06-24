@@ -1,7 +1,6 @@
 package com.itkolleg.bookingsystem.repos.RessourceBooking;
 
 import com.itkolleg.bookingsystem.domains.Booking.RessourceBooking;
-import com.itkolleg.bookingsystem.domains.Desk;
 import com.itkolleg.bookingsystem.domains.Employee;
 import com.itkolleg.bookingsystem.domains.Ressource;
 import org.springframework.data.jpa.repository.JpaRepository;
@@ -15,9 +14,9 @@ import java.util.Optional;
 @Repository
 public interface RessourceBookingJPARepo extends JpaRepository<RessourceBooking, Long> {
 
-    Optional<RessourceBooking> getBookingById(Long bookingId);
+    Optional<RessourceBooking> getBookingByBookingId(Long bookingId);
 
-    List<RessourceBooking> getBookingByRessource(Optional<Ressource> ressource);
+    List<RessourceBooking> getBookingsByRessource(Ressource ressource);
 
     List<RessourceBooking> getBookingsByDate(LocalDate date);
 
@@ -25,11 +24,11 @@ public interface RessourceBookingJPARepo extends JpaRepository<RessourceBooking,
 
     List<RessourceBooking> getBookingsByEmployeeId(Long employeeId);
 
-    List<RessourceBooking>getBookingsByRessourceAndDate(Optional<Ressource> ressource, LocalDate date);
+    List<RessourceBooking>getBookingsByRessourceAndDate(Ressource ressource, LocalDate date);
 
     List<RessourceBooking> getBookingByRessourceAndEmployee(Ressource ressource, Employee employee);
 
-    List<RessourceBooking> getBookingsByEmployeeAndDate(Optional<Employee> employee, LocalDate date);
+    List<RessourceBooking> getBookingsByEmployeeAndDate(Employee employee, LocalDate date);
 
     List<RessourceBooking> getBookingsByEmployeeAndDateAndRessource(Employee employee, LocalDate date, Ressource ressource);
 
@@ -39,5 +38,5 @@ public interface RessourceBookingJPARepo extends JpaRepository<RessourceBooking,
 
     List<RessourceBooking> getBookingsByEmployeeIdAndDateAndRessourceId(Long employeeId, LocalDate date, Long ressourceId);
 
-    Ressource getBookingByRessourceId(Long id);
+    List<RessourceBooking> getBookingsByRessourceId(Long ressourceId);
 }

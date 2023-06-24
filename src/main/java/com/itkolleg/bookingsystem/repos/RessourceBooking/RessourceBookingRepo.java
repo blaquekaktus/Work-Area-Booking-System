@@ -6,6 +6,7 @@ import com.itkolleg.bookingsystem.domains.Employee;
 import com.itkolleg.bookingsystem.domains.Ressource;
 import com.itkolleg.bookingsystem.exceptions.ResourceDeletionFailureException;
 import com.itkolleg.bookingsystem.exceptions.ResourceNotFoundException;
+import com.itkolleg.bookingsystem.exceptions.RessourceExceptions.RessourceNotAvailableException;
 
 import java.time.LocalDate;
 import java.time.LocalTime;
@@ -14,23 +15,21 @@ import java.util.Optional;
 
 
 public interface RessourceBookingRepo {
-    RessourceBooking addBooking(RessourceBooking booking) throws ResourceNotFoundException;
+    RessourceBooking addBooking(RessourceBooking booking) throws RessourceNotAvailableException, ResourceNotFoundException;
 
     List<RessourceBooking> getAllBookings();
 
-    Optional<RessourceBooking> getBookingByRessourceId(Long RessourceId) throws ResourceNotFoundException;
+    Optional<RessourceBooking> getBookingByBookingId(Long bookingId) throws ResourceNotFoundException;
 
     List<RessourceBooking> getBookingsByEmployeeId(Long employeeId);
 
-    List<RessourceBooking> getBookingByRessource(Ressource ressource);
+    List<RessourceBooking> getBookingsByRessource(Ressource ressource);
 
     List<RessourceBooking> getBookingsByEmployee(Employee employee);
 
     List<RessourceBooking> getBookingsByEmployeeAndDate(Employee employee, LocalDate date);
 
-    List<RessourceBooking> searchBookings(Long employeeId, Long RessourceId, LocalDate date);
-
-    List<RessourceBooking> getByRessourceAndDate(Ressource ressource, LocalDate date);
+    List<RessourceBooking> getBookingsByRessourceAndDate(Ressource ressource, LocalDate date);
 
     List<RessourceBooking> getBookingByDate(LocalDate date);
 
