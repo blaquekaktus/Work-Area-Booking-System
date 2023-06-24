@@ -24,7 +24,7 @@ import java.util.List;
 @Getter
 @Setter
 @ToString
-public class Desk {
+public class Ressource {
 
     private static final Logger logger = LoggerFactory.getLogger(Desk.class);
 

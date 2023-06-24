@@ -71,6 +71,7 @@
                 <th>Beschreibung</th>
                 <th>Info</th>
                 <th>Seriennummer</th>
+                <th>Aktion</th>
             </tr>
             </thead>
             <tbody>
@@ -82,6 +83,7 @@
                     <td th:text="${ressource.description}"></td>
                     <td th:text="${ressource.info}"></td>
                     <td th:text="${ressource.serialnumber}"></td>
+                    <td th:href="@{'/web/RessourceBooking/createBooking' + ${ressource.id}}" class="button" role="button">Buchen</td>
                 </tr>
             </th:block>
             </tbody>

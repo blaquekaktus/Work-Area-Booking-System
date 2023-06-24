@@ -315,7 +315,19 @@ tr:nth-child(even) {
     .top-bar-sub-header h2 {
         font-size: 14px;
     }
+
+    label {
+        display: block;
+        font: 1rem 'Fira Sans', sans-serif;
+    }
+
+    input,
+    label {
+        margin: 0.4rem 0;
+    }
+
 }
+
 
 /* Medium devices (tablets, 768px and up) */
 @media only screen and (min-width: 768px) {

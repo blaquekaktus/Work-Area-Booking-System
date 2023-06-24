@@ -2,9 +2,7 @@ package com.itkolleg.bookingsystem.repos.Ressource;
 
 import com.itkolleg.bookingsystem.domains.Desk;
 import com.itkolleg.bookingsystem.domains.Ressource;
-import com.itkolleg.bookingsystem.exceptions.ResourceNotFoundException;
 import com.itkolleg.bookingsystem.exceptions.RessourceExceptions.RessourceDeletionNotPossibleException;
-import com.itkolleg.bookingsystem.exceptions.RessourceExceptions.RessourceIsOccupied;
 import com.itkolleg.bookingsystem.exceptions.RessourceExceptions.RessourceNotFoundException;
 import org.springframework.stereotype.Component;
 
