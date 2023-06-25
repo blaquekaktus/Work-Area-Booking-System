@@ -5,29 +5,36 @@ document.querySelectorAll('.desk').forEach(function(desk) {
     });
 });
 
-    function bookDesk(deskId) {
-        fetch('/DeskBooking/add', {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json',
-            },
-            body: JSON.stringify({
-                deskId: deskId,
-            }),
+function bookDesk(deskId) {
+    fetch('/DeskBooking/add', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+            deskId: deskId,
+        }),
+    })
+        .then(response => response.json())
+        .then(data => {
+            if (data.success) {
+                // If the booking was successful, change the color of the desk.
+                document.querySelector(`[data-desk-id="${deskId}"]`).style.backgroundColor = 'green';
+            } else {
+                // If the booking was not successful, display an error message to the user.
+                alert(data.errorMessage);
+            }
         })
-            .then(response => response.json())
-            .then(data => {
-                if (data.success) {
-                    // If the booking was successful, change the color of the desk.
-                    document.querySelector(`[data-desk-id="${deskId}"]`).style.backgroundColor = 'green';
-                } else {
-                    // If the booking was not successful, display an error message to the user.
-                    alert(data.errorMessage);
-                }
-            })
 
-            .catch((error) => {
-                console.error('Error:', error);
-                alert('An error occurred while booking the desk. Please try again.');
-            });
-    }
+        .catch((error) => {
+            console.error('Error:', error);
+            alert('An error occurred while booking the desk. Please try again.');
+        });
+}
+
+function updateDeskId() {
+    var selectElement = document.getElementById('deskNr');
+    var selectedOption = selectElement.options[selectElement.selectedIndex];
+    var selectedDeskId = selectedOption.value;  // get the deskId value from the selected option
+    document.getElementById('desk.id').value = selectedDeskId;  // set the hidden input's value to the deskId
+}

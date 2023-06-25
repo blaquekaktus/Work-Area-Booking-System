@@ -2,6 +2,7 @@ package com.itkolleg.bookingsystem.repos.Ressource;
 
 import com.itkolleg.bookingsystem.domains.Booking.RessourceBooking;
 import com.itkolleg.bookingsystem.domains.Ressource;
+import com.itkolleg.bookingsystem.exceptions.DeskNotAvailableException;
 import com.itkolleg.bookingsystem.exceptions.RessourceExceptions.RessourceDeletionNotPossibleException;
 import com.itkolleg.bookingsystem.exceptions.RessourceExceptions.RessourceNotFoundException;
 import com.itkolleg.bookingsystem.repos.RessourceBooking.RessourceBookingRepo;

@@ -41,7 +41,7 @@
             <div class="room">
                 <!-- The desks will be added here by JavaScript -->
             </div>
-            <div th:each="desk: ${viewAllDesks}" class="desk-data" th:id="${'desk' + desk.id}" th:data-status="${desk.bookingStatus}" style="display: none;"></div>
+            <div th:each="desk: ${viewAllDesks}" class="desk-data" th:id="${'desk' + id}" th:data-status="${desk.bookingStatus}" style="display: none;"></div>
 
             <div class="row-cols-sm-6 d-flex justify-content-center align-items-center flex-column flex-lg-row w-60 w-m-75 w-lg-90">
                 <table class="table" id="bookingTable">
@@ -66,8 +66,7 @@
                                 <li th:each="port : ${desk.ports}" th:text="${port.name}"></li>
                             </ul>
                         </td>
-                        <td><a class="btn btn-info" role="button"
-                               th:href="@{/web/desks/view/{id}(id=${desk.id})}">View</a></td>
+                        <td><a class="btn btn-info" role="button" th:href="@{/web/desks/view/{id}(id=${desk.id})}">View</a></td>
                         <td><a class="btn btn-warning" role="button" th:href="@{/web/desks/update/{id}(id=${desk.id})}">Edit</a>
                         </td>
                         <td><a class="btn btn-danger" role="button" th:href="@{/web/desks/delete/{id}(id=${desk.id})}">Delete</a>
@@ -75,7 +74,8 @@
                     </tr>
                     </tbody>
                 </table>
-
+                <div class="alert alert-danger" role="alert" th:if="${errorMessage}" th:text="${errorMessage}">
+                </div>
             </div>
         </div>
     </div>

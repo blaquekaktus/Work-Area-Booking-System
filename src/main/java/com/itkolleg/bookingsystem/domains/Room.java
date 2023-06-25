@@ -5,6 +5,8 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -17,6 +19,8 @@ import java.util.List;
 @Setter
 public class Room {
 
+    private static final Logger logger = LoggerFactory.getLogger(Room.class);
+
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE)
     private Long roomId;
@@ -28,8 +32,8 @@ public class Room {
 
     private String info;
 
-    @OneToMany(mappedBy = "room")
-    private List<Desk> desks;
+    /*@OneToMany(mappedBy = "room")
+    private List<Desk> desks;*/
 
     public Room(List<Point> vertices, String floor, String info) {
 

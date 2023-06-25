@@ -74,8 +74,15 @@ public class LoginWebController {
             return "redirect:/web/hello";
         } catch (AuthenticationException e) {
             model.addAttribute("error", "Benutzername oder Passwort ungültig");
-            return "login/login-error";
+            return "redirect:/web/login-error";
         }
+    }
+
+    @GetMapping("/web/logout")
+    public String logout(HttpServletRequest request) {
+        request.getSession().invalidate();
+        SecurityContextHolder.clearContext();
+        return "login/logout";
     }
 
 

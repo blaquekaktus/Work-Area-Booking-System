@@ -79,16 +79,16 @@ public class DeskBookingWebController {
         model.addAttribute("desks", deskList);
         model.addAttribute("startTimes", uniqueStartTimes);
         model.addAttribute("endTimes", uniqueEndTimes);
-        return "DeskBookings/Admin/addDeskBooking";
+        return "DeskBookings/addDeskBooking";
     }
 
     @PostMapping("/add")
     public String addDeskBooking(@ModelAttribute("deskBooking") @Valid DeskBooking booking, BindingResult bindingResult, @RequestParam("employee.id") Long employeeId, @RequestParam("desk.id") Long deskId, Model model) throws ExecutionException, InterruptedException {
-        //String deskID = deskBookingService.getBookingB("deskId");
+        //String deskID = booking.getId("deskId");
         try {
             if (bindingResult.hasErrors()) {
                 System.out.println("Errors: " + bindingResult.getAllErrors());
-                return "DeskBookings/Admin/addDeskBooking";
+                return "DeskBookings/addDeskBooking";
             } else {
                 Desk desk = deskService.getDeskById(deskId);
                 Employee employee = employeeService.getEmployeeById(employeeId);
@@ -104,17 +104,17 @@ public class DeskBookingWebController {
             logger.error("Desk is not available for booking: " + e.getMessage(), e);
             model.addAttribute("errorMessage", "Desk is not available for booking.");
             addAttributesToModel(model);
-            return "DeskBookings/Admin/addDeskBooking";
+            return "DeskBookings/addDeskBooking";
         } catch (ExecutionException | InterruptedException | EmployeeNotFoundException | ResourceNotFoundException e) {
             logger.error("Error occurred while booking the desk: " + e.getMessage(), e);
             model.addAttribute("errorMessage", "Error occurred while booking the desk.");
             addAttributesToModel(model);
-            return "DeskBookings/Admin/addDeskBooking";
+            return "DeskBookings/addDeskBooking";
         } catch (IllegalArgumentException e) {
             logger.error("Cannot create booking for a past date: " + e.getMessage(), e);
             model.addAttribute("errorMessage", "Cannot create booking for a past date.");
             addAttributesToModel(model);
-            return "DeskBookings/Admin/addDeskBooking";
+            return "DeskBookings/addDeskBooking";
         }
     }
 
@@ -181,18 +181,17 @@ public class DeskBookingWebController {
         model.addAttribute("desks", desks);
         model.addAttribute("uniqueStartTimes", uniqueStartTimes);
         model.addAttribute("uniqueEndTimes", uniqueEndTimes);
-
         return "DeskBookings/Admin/updateDeskBooking";
     }
 
 
 
     @PostMapping("/update")
-    public String updateDeskBooking(@Valid DeskBooking booking, BindingResult bindingResult, @RequestParam("id") Long id, @RequestParam("deskId") Long deskId, @RequestParam("employee.id") Long employeeId) throws ResourceNotFoundException, DeskNotAvailableException, ExecutionException, InterruptedException, EmployeeNotFoundException {
+    public String updateDeskBooking(@Valid DeskBooking booking, BindingResult bindingResult, @RequestParam("id") Long id, @RequestParam("desk.id") Long deskId, @RequestParam("employee.id") Long employeeId) throws ResourceNotFoundException, DeskNotAvailableException, ExecutionException, InterruptedException, EmployeeNotFoundException {
         this.booking = booking;
         this.bindingResult = bindingResult;
         this.id= booking.getId();
-        this.deskId = deskId;
+        this.deskId = booking.getDesk().getId();
         this.employeeId = employeeId;
         if (bindingResult.hasErrors()) {
             System.out.println("Errors: " + bindingResult.getAllErrors());
@@ -209,7 +208,7 @@ public class DeskBookingWebController {
             booking.setDesk(desk);
             booking.setEmployee(employee);
             booking.setId(id);
-            booking.setCreatedOn(LocalDateTime.now());
+
 
             this.deskBookingService.updateBookingById(booking.getId(), booking);
             return "redirect:/web/deskBookings";

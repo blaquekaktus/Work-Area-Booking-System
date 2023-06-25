@@ -35,11 +35,10 @@
                 </div>
                 <div class="mb-3">
                     <label class="form-label" for="ports">Ports</label>
-                    <textarea class="form-control" id="ports" name="ports" readonly>
-                        <th:block th:each="port : ${desk.ports}">
-                            <span th:text="${port}+'\n'"></span>
-                        </th:block>
-                    </textarea>
+                    <div th:each="port : ${myDesk.ports}" id="ports">
+                        <span th:text="${port}"></span>
+                        <br>
+                    </div>
                 </div>
                 <br>
                 <div style="display:flex;justify-content:flex-end;align-items:center;">

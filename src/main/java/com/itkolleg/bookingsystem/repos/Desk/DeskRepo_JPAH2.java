@@ -1,9 +1,13 @@
 package com.itkolleg.bookingsystem.repos.Desk;
 
+import com.itkolleg.bookingsystem.domains.Booking.DeskBooking;
 import com.itkolleg.bookingsystem.domains.Desk;
 import com.itkolleg.bookingsystem.domains.Port;
 import com.itkolleg.bookingsystem.exceptions.ResourceNotFoundException;
 import com.itkolleg.bookingsystem.exceptions.ResourceDeletionFailureException;
+import com.itkolleg.bookingsystem.repos.DeskBooking.DeskBookingJPARepo;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Component;
@@ -13,11 +17,14 @@ import java.util.Optional;
 
 @Component
 public class DeskRepo_JPAH2 implements DeskRepo {
+    private static final Logger logger = LoggerFactory.getLogger(DeskRepo_JPAH2.class);
 
     DeskJPARepo deskJPARepo;
+    DeskBookingJPARepo deskBookingJPARepo;
 
-    public DeskRepo_JPAH2(DeskJPARepo deskJPARepo) {
+    public DeskRepo_JPAH2(DeskJPARepo deskJPARepo, DeskBookingJPARepo deskBookingJPARepo) {
         this.deskJPARepo = deskJPARepo;
+        this.deskBookingJPARepo = deskBookingJPARepo;
     }
 
     @Override
@@ -85,12 +92,17 @@ public class DeskRepo_JPAH2 implements DeskRepo {
 
     @Override
     public List<Desk> deleteDeskById(Long id) throws ResourceDeletionFailureException {
+        List<DeskBooking> bookings = this.deskBookingJPARepo.getBookingByDesk(Optional.of(deskJPARepo.getById(id)));
+        if (!bookings.isEmpty()) {
+            throw new ResourceDeletionFailureException("Desk with the ID: " + id + " cannot be deleted as it is part of a booking.");
+        }
+
         Optional<Desk> deskOptional = this.deskJPARepo.findById(id);
         if (deskOptional.isPresent()) {
             this.deskJPARepo.deleteById(id);
             return this.deskJPARepo.findAll();
         } else {
-            throw new ResourceDeletionFailureException("The Desk with the ID: " + id + " was not possible!");
+            throw new ResourceDeletionFailureException("Deletion of the Desk with the ID: " + id + " was not possible!");
         }
     }
 

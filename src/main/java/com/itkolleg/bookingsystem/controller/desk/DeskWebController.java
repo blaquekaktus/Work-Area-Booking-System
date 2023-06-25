@@ -115,13 +115,14 @@ public class DeskWebController {
     }*/
 
     @GetMapping("/delete/{id}")
-    public String deleteDesk(@PathVariable Long id) {
+    public String deleteDesk(@PathVariable Long id, Model model) {
         try {
             this.deskService.deleteDeskById(id);
-            return "redirect:/web/desks";
         } catch (ResourceDeletionFailureException e) {
-            return "redirect:web/desks";
+            model.addAttribute("errorMessage", e.getMessage());
+            return "redirect:/web/desks";
         }
+        return "redirect:/web/desks";
     }
 
 
