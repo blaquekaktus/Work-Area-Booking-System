@@ -1,17 +1,15 @@
 <!DOCTYPE html>
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
-    <title>Mitarbeiterliste</title>
+    <title>Admin-Startseite</title>
     <meta charset="UTF-8">
     <link href="https://fonts.googleapis.com/css?family=Roboto+Condensed&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="/../static/css/WABS.css">
-
     <!-- jQuery -->
     <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
-
     <!-- Font Awesome 4-->
     <link href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet">
-    <link rel="stylesheet" href="/static/css/sidebar-accordionAdmin.css">
+    <link rel="stylesheet" href="/../static/css/sidebar-accordionAdmin.css">
     <script src="/../static/js/sidebar-accordion.js"></script>
     <script src="/../static/js/DropDown.js"></script>
     <style>
@@ -25,8 +23,8 @@
 <body>
 <!-- Top Bar -->
 <div class="top-barAdmin">
-    <img src="/static/img/LogoWhite.png" alt="Logo" class="logo">
-    <a href="../Interface/start.html" target="_self" class="logout-link">Abmelden</a>
+    <img src="/../static/img/LogoWhite.png" alt="Logo" class="logo">
+    <a th:href="@{/logout}" class="logout-link">Abmelden</a>
     <div class="top-bar-header">
         <h1>W.A.B.S.</h1>
     </div>
@@ -37,7 +35,6 @@
 <!-- Side Navbar -->
 <div class="contenedor-menu">
     <!-- <a href="" class="btnMenu">Menu <i class="fa fa-bars"></i></a> -->
-
     <ul class="menu">
         <li><a href="/../web/admin-start">Home</a></li>
         <li><a href="#">Bookings <i class="fa fa-chevron-down"></i></a>
@@ -59,36 +56,10 @@
     </ul>
 </div>
 <!-- Content -->
-<div class="content-container"> <!-- Da hättesch den Content-Container ausn WABS.css nehmen sollen. -->
-    <div class="allEmployee-Container"> <!-- I hab an Extra Container inline erstellt, damit die saklierung passt -->
-        <!-- Hier kommt der Inhalt der Webseite hin -->
-        <h1>Mitarbeiterverzeichnis</h1>
-        <table>
-            <thead>
-            <tr>
-                <th>ID</th>
-                <th>Vorname</th>
-                <th>Nachname</th>
-                <th>Alias</th>
-                <th>Rolle</th>
-                <th>Aktion</th>
-            </tr>
-            </thead>
-            <th:block th:each="employee : ${employees}">
-                <tr>
-                    <td th:text="${employee.id}">...</td>
-                    <td th:text="${employee.fname}">...</td>
-                    <td th:text="${employee.lname}">...</td>
-                    <td th:text="${employee.nick}">...</td>
-                    <td th:text="${employee.role}">...</td>
-                    <td>
-                        <a th:href="@{/web/editemployee/{id}(id=${employee.id})}" class="btn btn-primary" role="button">Bearbeiten</a>
-                        <a th:href="@{/web/deleteemployee/{id}(id=${employee.id})}" class="delete-button" role="button">Löschen</a>
-                    </td>
-                </tr>
-            </th:block>
-        </table>
-    </div>
+<div id="content" class="content">
+    <!-- Hier kommt der Inhalt der Webseite hin -->
+
+
 </div>
 <div class="filler"></div>
 </body>
