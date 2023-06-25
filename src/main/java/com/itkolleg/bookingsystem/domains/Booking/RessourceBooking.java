@@ -4,6 +4,7 @@ package com.itkolleg.bookingsystem.domains.Booking;
 import com.itkolleg.bookingsystem.domains.Employee;
 import com.itkolleg.bookingsystem.domains.Ressource;
 import jakarta.persistence.Entity;
+import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -28,6 +29,7 @@ import java.time.LocalTime;
 @Setter
 public class RessourceBooking extends Booking {
     @ManyToOne
+    //@JoinColumn(name = "ressource_id")
     private Ressource ressource;
 
     /**

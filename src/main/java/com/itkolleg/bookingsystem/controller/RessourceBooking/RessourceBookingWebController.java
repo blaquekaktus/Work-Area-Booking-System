@@ -104,9 +104,10 @@ public class RessourceBookingWebController {
         RessourceBooking booking = new RessourceBooking();
 
         Ressource ressource = this.ressourceService.getRessourceById(id);
-        booking.setRessource(ressource);
 
+        booking.setRessource(ressource);
         booking.setEmployee(employee);
+
         model.addAttribute("newBooking", booking);
         return new ModelAndView("ressourceBooking/createRessourceBookingEmployee", "Booking", model);
     }
@@ -157,7 +158,7 @@ public class RessourceBookingWebController {
     }
 
     @GetMapping("/updateBooking/{id}")
-    public ModelAndView updateBooking(@PathVariable Long id, Model model) throws RessourceNotFoundException, ExecutionException, InterruptedException, ResourceNotFoundException {
+    public ModelAndView updateBooking(@PathVariable Long id, Model model) throws RessourceNotFoundException, ExecutionException, InterruptedException, ResourceNotFoundException, EmployeeNotFoundException {
 
         RessourceBooking booking = this.ressourceBookingService.getBookingById(id);
         model.addAttribute("updateBooking", booking);
@@ -165,7 +166,8 @@ public class RessourceBookingWebController {
     }
 
     @PostMapping("/updateBooking")
-    public String updateBooking(@Valid RessourceBooking booking, BindingResult bindingResult) throws RessourceAlreadyExistsException, ExecutionException, InterruptedException, RessourceNotFoundException, RessourceNotAvailableException, ResourceNotFoundException {
+    public String updateBooking(@Valid RessourceBooking booking, BindingResult bindingResult) throws RessourceAlreadyExistsException, ExecutionException, InterruptedException, RessourceNotFoundException, RessourceNotAvailableException, ResourceNotFoundException, EmployeeNotFoundException {
+
         if (bindingResult.hasErrors()) {
             return "/ressourceBooking/editRessourceBooking";
         } else {
