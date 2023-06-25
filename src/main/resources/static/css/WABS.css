@@ -132,7 +132,9 @@ body {
     transform: translate(-50%, -50%);
     width: 80%; /* Anpassen der Breite des Content-Containers */
     min-width: 300px; /* Mindestbreite des Content-Containers */
+
     height: 90vh; /* Höhe des Content-Containers */
+
     display: flex;
     justify-content: center;
     align-items: center;
@@ -315,7 +317,19 @@ tr:nth-child(even) {
     .top-bar-sub-header h2 {
         font-size: 14px;
     }
+
+    label {
+        display: block;
+        font: 1rem 'Fira Sans', sans-serif;
+    }
+
+    input,
+    label {
+        margin: 0.4rem 0;
+    }
+
 }
+
 
 /* Medium devices (tablets, 768px and up) */
 @media only screen and (min-width: 768px) {
@@ -406,4 +420,3 @@ tr:nth-child(even) {
         font-size: 20px;
     }
 }
-

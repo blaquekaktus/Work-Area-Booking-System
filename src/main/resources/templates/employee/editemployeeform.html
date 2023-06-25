@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+  <title>Mitarbeiter bearbeiten</title>
+  <meta charset="UTF-8">
+  <link href="https://fonts.googleapis.com/css?family=Roboto+Condensed&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="/../static/css/WABS.css">
+
+  <!-- jQuery -->
+  <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
+
+  <!-- Font Awesome 4-->
+  <link href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet">
+  <link rel="stylesheet" href="/../static/css/sidebar-accordionAdmin.css">
+  <script src="/../static/js/sidebar-accordion.js"></script>
+  <script src="/../static/js/DropDown.js"></script>
+  <style>
+    body {
+      background-image: url("/../static/img/background.jpg");
+      background-size: cover;
+      background-repeat: no-repeat;
+    }
+  </style>
+</head>
+<body>
+
+<!-- Top Bar -->
+<div class="top-barAdmin">
+  <img src="/../static/img/LogoWhite.png" alt="Logo" class="logo">
+  <a href="/../Interface/start.html" target="_self" class="logout-link">Abmelden</a>
+  <div class="top-bar-header">
+    <h1>W.A.B.S.</h1>
+  </div>
+  <div class="top-bar-sub-header">
+    <h2>Working-Area Booking System</h2>
+  </div>
+</div>
+<!-- Side Navbar -->
+<div class="contenedor-menu">
+  <!-- <a href="" class="btnMenu">Menu <i class="fa fa-bars"></i></a> -->
+  <ul class="menu">
+    <li><a href="/../web/admin-start">Home</a></li>
+    <li><a href="#">Bookings <i class="fa fa-chevron-down"></i></a>
+      <ul>
+        <li><a href="#">Work-Area</a></li>
+        <li><a href="#">Ressourcen</a></li>
+        <li><a href="#">Räume</a></li>
+      </ul>
+    </li>
+    <li><a href="#">Mitarbeiter<i class="fa fa-chevron-down"></i></a>
+      <ul>
+        <li><a href="/../web/allemployees">Mitarbeiterliste</a></li>
+        <li><a href="/../web/insertemployeeform">Mitarbeiter hinzufügen</a></li>
+      </ul>
+    </li>
+    <li><a href="#">Ressourcen</a></li>
+    <li><a href="#">Räume</a></li>
+    <li><a href="#">Zurück</a></li>
+  </ul>
+</div>
+<!-- Content -->
+<div class="content-container"> <!-- Da hättesch den Content-Container ausn WABS.css nehmen sollen. -->
+  <div class="allEmployee-Container"> <!-- I hab an Extra Container inline erstellt, damit die saklierung passt -->
+    <!-- Hier kommt der Inhalt der Webseite hin -->
+    <h1>Mitarbeiter bearbeiten</h1>
+    <div style="background-color: white">
+      <form th:action="@{/web/editemployee}" method="post" th:object="${employee}">
+
+        <input type="hidden" th:field="*{id}"/>
+
+        <div class="form-group">
+          <label for="fname">Vorname</label>
+          <input type="text" id="fname" th:field="*{fname}"/>
+          <p th:if="${#fields.hasErrors('fname')}" th:errorclass="error" th:errors="*{fname}"></p>
+        </div>
+        <div class="form-group">
+          <label for="lname">Nachname</label>
+          <input type="text" id="lname" th:field="*{lname}"/>
+          <p th:if="${#fields.hasErrors('lname')}" th:errorclass="error" th:errors="*{lname}"></p>
+        </div>
+        <div class="form-group">
+          <label for="nick">Nick</label>
+          <input type="text" id="nick" th:field="*{nick}"/>
+          <p th:if="${#fields.hasErrors('nick')}" th:errorclass="error" th:errors="*{nick}"></p>
+        </div>
+        <div class="form-group">
+          <label for="email">Email</label>
+          <input type="text" id="email" th:field="*{email}"/>
+          <p th:if="${#fields.hasErrors('email')}" th:errorclass="error" th:errors="*{email}"></p>
+        </div>
+        <div class="form-group">
+          <label for="password">Passwort</label>
+          <input type="text" id="password" th:field="*{password}"/>
+          <p th:if="${#fields.hasErrors('password')}" th:errorclass="error" th:errors="*{password}"></p>
+        </div>
+        <div class="form-group">
+          <label for="role">Rolle:</label>
+          <select class="form-control" name="role" id="role">
+            <option>---Bitte Auswählen---</option>
+            <option th:each="role : ${T(com.itkolleg.bookingsystem.domains.Role).values()}"
+                    th:value="${role}" th:text="${role}" th:selected="${role == employee.role}">
+            </option>
+          </select>
+        </div>
+        <div>
+          <button class="btn btn-primary" type="submit" name="action" value="save">Speichern</button>
+          <a class="btn delete-button" href="/../web/allemployees">Zurück</a>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>
+<div class="filler"></div>
+</body>
+</html>

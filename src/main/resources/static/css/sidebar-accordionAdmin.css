@@ -70,7 +70,8 @@ a { text-decoration: none; }
     color: #fff;
 }
 
-/* F�lle leeren Bereich unter Sidebar */
+
+/* Fülle leeren Bereich unter Sidebar */
 .filler {
     position: fixed;
     top: 0;
