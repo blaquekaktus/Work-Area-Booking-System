@@ -11,9 +11,16 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import java.time.LocalDate;
-import java.time.LocalDateTime;
 import java.time.LocalTime;
 
+/**
+ * Die Klasse RessourceBooking repräsentiert eine Buchung für eine Ressource in einem Buchungssystem.
+ * Sie erweitert die Klasse Booking und enthält zusätzliche Informationen spezifisch für Ressourcenbuchungen.
+ *
+ * @author Manuel Payer
+ * @version 1.0
+ * @since 25.06.2023
+ */
 @Entity
 @AllArgsConstructor
 @NoArgsConstructor
@@ -23,6 +30,14 @@ public class RessourceBooking extends Booking {
     @ManyToOne
     private Ressource ressource;
 
+    /**
+     * Konstruktor der Klasse Ressource Booking. Er nimmt folgende Parameter entgegen:
+     * @param employee vom Typ Employee
+     * @param ressource vom Typ Ressource
+     * @param date vom Typ LocalDate
+     * @param startTime vom Typ LocalTime
+     * @param endTime vom Typ LocalTime
+     */
     public RessourceBooking(Employee employee, Ressource ressource, LocalDate date, LocalTime startTime, LocalTime endTime) {
         super(employee, date, startTime, endTime);
         this.ressource = ressource;

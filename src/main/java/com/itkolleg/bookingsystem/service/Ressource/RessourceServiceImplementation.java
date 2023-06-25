@@ -1,15 +1,9 @@
 package com.itkolleg.bookingsystem.service.Ressource;
-
-import com.itkolleg.bookingsystem.domains.Booking.RessourceBooking;
 import com.itkolleg.bookingsystem.domains.Ressource;
 import com.itkolleg.bookingsystem.exceptions.RessourceExceptions.RessourceDeletionNotPossibleException;
-import com.itkolleg.bookingsystem.exceptions.RessourceExceptions.RessourceNotAvailableException;
 import com.itkolleg.bookingsystem.exceptions.RessourceExceptions.RessourceNotFoundException;
 import com.itkolleg.bookingsystem.repos.Ressource.DBAccessRessource;
-import com.itkolleg.bookingsystem.repos.RessourceBooking.RessourceBookingRepo;
 import org.springframework.stereotype.Service;
-
-import java.time.LocalDate;
 import java.util.List;
 import java.util.concurrent.ExecutionException;
 
@@ -17,16 +11,14 @@ import java.util.concurrent.ExecutionException;
 public class RessourceServiceImplementation implements RessourceService {
 
     private final DBAccessRessource dbAccessRessource;
-    private final RessourceBookingRepo ressourceBookingRepo;
 
     /**
      * Sets the DBAccess Object into the global Datafield
      *
      * @param dbAccessRessource
      */
-    public RessourceServiceImplementation(DBAccessRessource dbAccessRessource, RessourceBookingRepo ressourceBookingRepo) {
+    public RessourceServiceImplementation(DBAccessRessource dbAccessRessource) {
         this.dbAccessRessource = dbAccessRessource;
-        this.ressourceBookingRepo = ressourceBookingRepo;
     }
 
     /**

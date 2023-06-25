@@ -12,7 +12,12 @@ import lombok.ToString;
 
 
 /**
- * This Class Represents the Domain Class for Ressources and helds all important Datafields and a Constructor
+ * Die Klasse Ressource repräsentiert eine Ressource in einem Buchungssystem.
+ * Sie enthält Informationen über die Ressource, wie ihren Namen, ihre Beschreibung, zusätzliche Informationen und Seriennummer.
+ *
+ * @author Manuel Payer
+ * @version 1.0
+ * @since 25.06.2023
  */
 @Entity
 @NoArgsConstructor
@@ -29,7 +34,15 @@ public class Ressource {
     private String info;
     private String serialnumber;
 
-
+    /**
+     * Konstruktor der Klasse Ressource. Er nimmt folgende Parameter entgegen:
+     * @param id vom Typ Long
+     * @param ressourcetype vom Typ Ressourcetype
+     * @param name vom Typ String
+     * @param description vom Typ String
+     * @param info vom Typ String
+     * @param serialnumber von Typ String
+     */
     public Ressource(Long id, Ressourcetype ressourcetype, String name, String description, String info, String serialnumber) {
         this.id = id;
         this.ressourcetype = ressourcetype;
