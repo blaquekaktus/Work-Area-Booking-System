@@ -6,14 +6,15 @@ public class RessourceValidationException extends Throwable {
 
     private FormValidationExceptionDTO errors;
 
-    public RessourceValidationException(String message){
+    public RessourceValidationException(String message) {
         super("Invalid Ressource data entered: " + message);
     }
 
-    public RessourceValidationException(FormValidationExceptionDTO errors){
+    public RessourceValidationException(FormValidationExceptionDTO errors) {
         this.errors = errors;
     }
-    public FormValidationExceptionDTO getErrorMap(){
+
+    public FormValidationExceptionDTO getErrorMap() {
         return errors;
     }
 

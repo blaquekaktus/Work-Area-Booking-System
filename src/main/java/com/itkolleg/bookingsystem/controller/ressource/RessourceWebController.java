@@ -1,7 +1,9 @@
 package com.itkolleg.bookingsystem.controller.ressource;
 
 
-import com.itkolleg.bookingsystem.Service.Ressource.RessourceService;
+import com.itkolleg.bookingsystem.domains.Ressourcetype;
+import com.itkolleg.bookingsystem.exceptions.RessourceExceptions.RessourceAlreadyExistsException;
+import com.itkolleg.bookingsystem.service.Ressource.RessourceService;
 import com.itkolleg.bookingsystem.domains.Ressource;
 import com.itkolleg.bookingsystem.exceptions.EmployeeExceptions.EmployeeAlreadyExistsException;
 import com.itkolleg.bookingsystem.exceptions.RessourceExceptions.RessourceDeletionNotPossibleException;
@@ -9,16 +11,15 @@ import jakarta.validation.Valid;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.ExecutionException;
 
 @Controller
+@RequestMapping("/web/ressource")
 public class RessourceWebController {
 
     RessourceService ressourceService;
@@ -27,38 +28,46 @@ public class RessourceWebController {
         this.ressourceService = ressourceService;
     }
 
-    @GetMapping("/web/allressources")
+    @GetMapping("/web/allRessources")
     public ModelAndView allressources() throws ExecutionException, InterruptedException {
         List<Ressource> allRessources = ressourceService.getAllRessource();
         return new ModelAndView("ressource/allressources", "ressources", allRessources);
     }
 
-    @GetMapping("/web/insertressourceform")
-    public ModelAndView insertressourceform() {
-        return new ModelAndView("ressource/insertressourceform", "myressource", new Ressource());
+    @GetMapping("/web/addRessource")
+    public String addRessource(Model model) {
+        model.addAttribute("newRessource", new Ressource());
+        List<String> ressourceTypes = new ArrayList<>();
+        ressourceTypes.add(String.valueOf(Ressourcetype.BICYCLE));
+        ressourceTypes.add(String.valueOf(Ressourcetype.TRIPOD));
+        ressourceTypes.add(String.valueOf(Ressourcetype.BEAMER));
+        ressourceTypes.add(String.valueOf(Ressourcetype.CAMERA));
+        ressourceTypes.add(String.valueOf(Ressourcetype.WHITEBOARD));
+        model.addAttribute("resourceTypes", ressourceTypes);
+        return "ressource/addRessource";
     }
 
-    @GetMapping("/web/deleteressource/{id}")
+    @PostMapping("/web/addRessource")
+    public String addRessource(@Valid Ressource ressource, BindingResult bindingResult) throws RessourceAlreadyExistsException, ExecutionException, InterruptedException {
+        if (bindingResult.hasErrors()) {
+            return "ressource/addRessource";
+        } else {
+            this.ressourceService.addRessource(ressource);
+            return "redirect:/web/allRessources";
+        }
+    }
+
+
+    @GetMapping("/web/deleteRessource/{id}")
     public String deleteRessourceWithId(@PathVariable Long id, Model model) {
         try {
             this.ressourceService.deleteRessourceById(id);
             return "redirect:/web/allressources";
-        } catch (RessourceDeletionNotPossibleException e)
-        {
-            model.addAttribute("errortitle", "Ressource-Löschen schlägt fehl!");
+        } catch (RessourceDeletionNotPossibleException e) {
+            model.addAttribute("errortitle", "Ressource-Löschen fehlgeschlagen!");
             model.addAttribute("errormessage", e.getMessage());
-            return "myerrorspage";
+            return "errorPage";
         }
     }
 
-    @PostMapping("/web/insertressource")
-    public String insertRoom(@Valid @ModelAttribute("myroom") Ressource ressource, BindingResult bindingResult) throws EmployeeAlreadyExistsException, ExecutionException, InterruptedException {
-        if (bindingResult.hasErrors()) {
-            return "ressource/insertressourceform";
-        } else {
-
-            this.ressourceService.addRessource(ressource);
-            return "redirect:/web/allressources";
-        }
-    }
 }

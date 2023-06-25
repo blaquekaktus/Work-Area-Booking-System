@@ -3,7 +3,6 @@ package com.itkolleg.bookingsystem.domains.Booking;
 
 import com.itkolleg.bookingsystem.domains.Employee;
 import com.itkolleg.bookingsystem.domains.Ressource;
-
 import jakarta.persistence.Entity;
 import jakarta.persistence.ManyToOne;
 import lombok.AllArgsConstructor;
@@ -11,7 +10,7 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
-import java.time.LocalDate;
+import java.time.LocalDateTime;
 /*
 @Entity
 @AllArgsConstructor
@@ -29,5 +28,4 @@ public class RessourceBooking extends Booking {
     }
 
 
-}
- */
+}*/

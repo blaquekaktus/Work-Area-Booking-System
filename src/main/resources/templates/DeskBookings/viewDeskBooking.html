@@ -1,53 +1,61 @@
 <!DOCTYPE html>
 <html lang="en" xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
 <head>
-  <meta charset="UTF-8">
-  <title>Booking Detail</title>
-  <link th:rel="stylesheet" th:href="@{/webjars/bootstrap/4.0.0-2/css/bootstrap.min.css} "/>
+    <meta charset="UTF-8">
+    <title>Booking Detail</title>
+    <link th:href="@{/webjars/bootstrap/4.0.0-2/css/bootstrap.min.css} " th:rel="stylesheet"/>
 </head>
-<body style="background-image: url('/images/bgbild.jpg');background-repeat:no-repeat;background-size:cover;">
-<nav class="navbar navbar-expand-lg navbar-light" style="background-color: #96C01E;height: 200px;display:flex;align-items:center;">
-  <!-- Navigation content -->
-  <div class=" row d-flex justify-content-evenly align-items-center" style="width:100%">
-    <div class="col-4"><img src="/images/GreenLogo.png" alt="KlimaBuendnis Green Logo" height="180px"></div>
-    <div class="col-6"><img src="/images/wabs.png" alt="WABS" height="190px" ></div>
-    <div class="col-2"><img src="/images/kb_badge.png" alt="Badge" height="160px"></div>
-  </div>
+<body style="background-image: url('../../static/img/background2.jpg');background-repeat:no-repeat;background-size:cover;">
+<nav class="navbar navbar-expand-lg navbar-light"
+     style="background-color: #96C01E;height: 200px;display:flex;align-items:center;">
+    <!-- Navigation content -->
+    <div class=" row d-flex justify-content-evenly align-items-center" style="width:100%">
+        <div class="col-4"><img alt="KlimaBuendnis Green Logo" height="180px" src="/img/GreenLogo.png"></div>
+        <div class="col-6"><img alt="WABS" height="190px" src="/img/wabs.png"></div>
+        <div class="col-2"><img alt="Badge" height="160px" src="/img/kb_badge2.png"></div>
+    </div>
 </nav>
 <br>
 <br>
+<div content=""></div>
 <div>
-  <h1 class="text-center text-dark">DESK BOOKING DETAIL</h1>
+    <h1 class="text-center text-dark">Work-Area Booking Details</h1>
 </div>
 <br>
 <br>
 <div class="container">
-  <div class="row justify-content-center">
-    <div class="col-md-6">
-      <dl class="row">
-        <dt class="col-sm-4">Booking ID:</dt>
-        <dd class="col-sm-8" th:text="${booking.id}"></dd>
-
-        <dt class="col-sm-4">Desk ID:</dt>
-        <dd class="col-sm-8" th:text="${booking.desk.deskNr}"></dd>
-
-        <dt class="col-sm-4">Employee ID:</dt>
-        <dd class="col-sm-8" th:text="${booking.employee.name}"></dd>
-
-        <dt class="col-sm-4">Date:</dt>
-        <dd class="col-sm-8" th:text="${booking.date}"></dd>
-
-        <dt class="col-sm-4">Start Time:</dt>
-        <dd class="col-sm-8" th:text="${booking.start}"></dd>
-
-        <dt class="col-sm-4">End Time:</dt>
-        <dd class="col-sm-8" th:text="${booking.endTime}"></dd>
-      </dl>
-      <div class="d-flex justify-content-center">
-        <a th:href="@{/web/v1/deskBookings}" class="btn btn-dark my-2 my-sm-0">Back to My Bookings</a>
-      </div>
+    <div class="row justify-content-center">
+        <form class="col-md-6" method="get" th:action="@{/web/deskbookings/view/{id}}" th:object="${myDeskBooking}">
+            <div class="mb-3">
+                <label class="form-label" for="employee">Employee</label>
+                <input class="form-control" id="employee" name="employee" readonly
+                       th:value="${myDeskBooking.employee.fname} + ' '+ ${myDeskBooking.employee.lname}" type="text">
+            </div>
+            <div class="mb-3">
+                <label class="form-label" for="deskNr">Work-Area Number</label>
+                <input class="form-control" id="deskNr" name="deskNr" readonly
+                       th:field="${myDeskBooking.desk.deskNr}" type="text">
+            </div>
+            <div class="mb-3">
+                <label class="form-label" for="date">Date</label>
+                <input class="form-control" id="date" name="date" readonly th:value="${#temporals.format(myDeskBooking.date, 'dd-MM-YYYY')}" type="text">
+            </div>
+            <div class="mb-3">
+                <label class="form-label" for="start">Start</label>
+                <!--          <--Use field value directly -->
+                <input class="form-control" id="start" name="start" readonly th:field="${myDeskBooking.start}"
+                       type="text">
+            </div>
+            <div class="mb-3">
+                <label class="form-label" for="end">End</label>
+                <input class="form-control" id="end" name="end" readonly th:field="${myDeskBooking.endTime}"
+                       type="text">
+            </div>
+            <div class="d-flex justify-content-center">
+                <a class="btn btn-dark my-2 my-sm-0" th:href="@{/web/deskBookings}">Back to My Bookings</a>
+            </div>
+        </form>
     </div>
-  </div>
 </div>
 <script th:src="@{/webjars/jquery/3.0.0/jquery.min.js}"></script>
 <script th:src="@{/webjars/popper.js/1.12.9-1/umd/popper.min.js}"></script>

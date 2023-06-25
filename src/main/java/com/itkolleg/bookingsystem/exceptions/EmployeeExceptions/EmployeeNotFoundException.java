@@ -1,8 +1,8 @@
 package com.itkolleg.bookingsystem.exceptions.EmployeeExceptions;
 
-public class EmployeeNotFoundException extends Exception{
+public class EmployeeNotFoundException extends Exception {
 
-    public EmployeeNotFoundException(){
+    public EmployeeNotFoundException(String s){
         super("Mitarbeiter nicht gefunden!");
     }
 }

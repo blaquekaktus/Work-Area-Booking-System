@@ -6,6 +6,9 @@ import com.itkolleg.bookingsystem.exceptions.EmployeeExceptions.EmployeeAlreadyE
 import com.itkolleg.bookingsystem.exceptions.EmployeeExceptions.EmployeeDeletionNotPossibleException;
 import com.itkolleg.bookingsystem.exceptions.EmployeeExceptions.EmployeeNotFoundException;
 import jakarta.validation.Valid;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -32,6 +35,7 @@ public class EmployeeWebController {
 
     @GetMapping("/web/allemployees")
     public ModelAndView allemployees() throws ExecutionException, InterruptedException {
+
         List<Employee> allEmployees = employeeService.getAllEmployees();
         ModelAndView modelAndView = new ModelAndView();
         modelAndView.setViewName("employee/allemployees");
