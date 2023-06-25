@@ -1,11 +1,9 @@
 package com.itkolleg.bookingsystem.service.Ressource;
-
 import com.itkolleg.bookingsystem.domains.Ressource;
 import com.itkolleg.bookingsystem.exceptions.RessourceExceptions.RessourceDeletionNotPossibleException;
 import com.itkolleg.bookingsystem.exceptions.RessourceExceptions.RessourceNotFoundException;
 import com.itkolleg.bookingsystem.repos.Ressource.DBAccessRessource;
 import org.springframework.stereotype.Service;
-
 import java.util.List;
 import java.util.concurrent.ExecutionException;
 
@@ -63,8 +61,8 @@ public class RessourceServiceImplementation implements RessourceService {
      * @throws RessourceNotFoundException
      */
     @Override
-    public Ressource updateRessourceById(Ressource ressource) throws RessourceNotFoundException, ExecutionException, InterruptedException {
-        return this.dbAccessRessource.updateRessourceById(ressource);
+    public Ressource updateRessource(Ressource ressource) throws RessourceNotFoundException, ExecutionException, InterruptedException {
+        return this.dbAccessRessource.updateRessource(ressource);
     }
 
     /**
@@ -79,7 +77,7 @@ public class RessourceServiceImplementation implements RessourceService {
     }
 
     /**
-     * Method, that returns the Ressource according to its Serialnubmer (String)
+     * Method, that returns the Ressource according to its Serialnumber (String)
      *
      * @param Serialnumber String
      * @return Ressource found by Serialnumber
@@ -89,7 +87,4 @@ public class RessourceServiceImplementation implements RessourceService {
     public Ressource findRessourceBySerialnumber(String Serialnumber) throws RessourceNotFoundException, ExecutionException, InterruptedException {
         return this.dbAccessRessource.getRessourceBySerialnumber(Serialnumber);
     }
-
-    //TO DO: Code durchlesen und anpassen.
-    //Firebase Tabel erstellen für Ressourcen
 }

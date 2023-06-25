@@ -1,72 +1,151 @@
 package com.itkolleg.bookingsystem.controller.ressource;
-
-
-import com.itkolleg.bookingsystem.domains.Ressourcetype;
 import com.itkolleg.bookingsystem.exceptions.RessourceExceptions.RessourceAlreadyExistsException;
-import com.itkolleg.bookingsystem.service.Ressource.RessourceService;
 import com.itkolleg.bookingsystem.domains.Ressource;
-import com.itkolleg.bookingsystem.exceptions.EmployeeExceptions.EmployeeAlreadyExistsException;
 import com.itkolleg.bookingsystem.exceptions.RessourceExceptions.RessourceDeletionNotPossibleException;
+import com.itkolleg.bookingsystem.exceptions.RessourceExceptions.RessourceNotFoundException;
+import com.itkolleg.bookingsystem.service.Ressource.RessourceService;
 import jakarta.validation.Valid;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
-
-import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.ExecutionException;
 
+
+/**
+ * Diese Klasse repräsentiert einen Web Controller für das Modul Ressourcen. Der Controller ermöglicht die Interaktion mit Ressourcen über HTTP-Anfragen und -Antworten
+ * @author Manuel Payer
+ * @version 1.0
+ * @since 25.06.2023
+ */
 @Controller
 @RequestMapping("/web/ressource")
 public class RessourceWebController {
 
     RessourceService ressourceService;
 
+    /**
+     * Konstruktor der Klsse RessourceWebController. Sie nimmt eine Variable (ressourceService) vom Typ RessourceService entgegen und weißt den Wert
+     * dem globalen Datenfeld hinzu
+     * @param ressourceService
+     */
     public RessourceWebController(RessourceService ressourceService) {
         this.ressourceService = ressourceService;
     }
 
-    @GetMapping("/web/allRessources")
+
+    /**
+     * Dient dazu eine Übersicht aller Ressourcen für den/die Admin zu liefern.
+     * @return modelAndView
+     * @throws ExecutionException
+     * @throws InterruptedException
+     */
+    @GetMapping("/allRessources")
     public ModelAndView allressources() throws ExecutionException, InterruptedException {
         List<Ressource> allRessources = ressourceService.getAllRessource();
         return new ModelAndView("ressource/allressources", "ressources", allRessources);
     }
 
-    @GetMapping("/web/addRessource")
-    public String addRessource(Model model) {
-        model.addAttribute("newRessource", new Ressource());
-        List<String> ressourceTypes = new ArrayList<>();
-        ressourceTypes.add(String.valueOf(Ressourcetype.BICYCLE));
-        ressourceTypes.add(String.valueOf(Ressourcetype.TRIPOD));
-        ressourceTypes.add(String.valueOf(Ressourcetype.BEAMER));
-        ressourceTypes.add(String.valueOf(Ressourcetype.CAMERA));
-        ressourceTypes.add(String.valueOf(Ressourcetype.WHITEBOARD));
-        model.addAttribute("resourceTypes", ressourceTypes);
-        return "ressource/addRessource";
+    /**
+     * Dient dazu eine Übersicht aller Ressourcen für den/die Mitarbeiter:inn zu liefern.
+     * @return modelAndView
+     * @throws ExecutionException
+     * @throws InterruptedException
+     */
+    @GetMapping("/allRessourcesEmployee")
+    public ModelAndView allRessourcesEmployee() throws ExecutionException, InterruptedException {
+        List<Ressource> allRessources = ressourceService.getAllRessource();
+        return new ModelAndView("ressource/allressourcesEmployee", "ressourcesEmployee", allRessources);
     }
 
-    @PostMapping("/web/addRessource")
-    public String addRessource(@Valid Ressource ressource, BindingResult bindingResult) throws RessourceAlreadyExistsException, ExecutionException, InterruptedException {
+    /**
+     * Diese Methode ermöglicht dem/der Admin das hinzufügen einer Ressource in die Datenbank. Es ist mit @GetMapping annotiert, da es die HTTP-Anfrage verarbeiten und darstellen muss
+     * @param model
+     * @return modelAndView
+     */
+    @GetMapping("/addRessource")
+    public ModelAndView addRessource( Model model) {
+
+        model.addAttribute("newRessource", new Ressource());
+        return new ModelAndView("ressource/addRessource", "Ressource", model);
+    }
+
+    /**
+     * Diese Methode ermöglicht dem/der Admin das hinzufügen einer Ressource in die Datenbank. Es ist mit @PostMapping annotiert, da es die HTTP-Anfrage übergeben muss.
+     * Beim Durchführen wird der/die Benutzer:inn wieder an die HTML-Seite allRessources weitergeleitet.
+     * Wird ein Fehler geworfen, dann bleibt der/die Benutzer:inn auf der selben Seite mit einer entsprechenden Fehlermeldung
+     * @param ressource
+     * @param bindingResult
+     * @return
+     * @throws ExecutionException
+     * @throws InterruptedException
+     */
+    @PostMapping("/addRessource")
+    public String addRessource(@Valid Ressource ressource, BindingResult bindingResult) throws ExecutionException, InterruptedException {
         if (bindingResult.hasErrors()) {
-            return "ressource/addRessource";
+            return "/ressource/addRessource";
         } else {
             this.ressourceService.addRessource(ressource);
-            return "redirect:/web/allRessources";
+            return "redirect:/web/ressource/allRessources";
         }
     }
 
+    /**
+     * Diese Methode updated eine Ressource, welche aus seinem Listenelement (nicht in dieser Methode) mit der dazugehörigen id geholt wird.
+     * Die Methode ist mit @GetMapping annotiert, da sie eine HTTP Anfrage verarbeiten und auf das entsprechende HTML Dokument verweisen muss.
+     * @param id
+     * @param model
+     * @return ModelAndView
+     * @throws RessourceNotFoundException
+     * @throws ExecutionException
+     * @throws InterruptedException
+     */
+    @GetMapping("/updateRessource/{id}")
+    public ModelAndView updateRessource(@PathVariable Long id, Model model) throws RessourceNotFoundException, ExecutionException, InterruptedException {
 
-    @GetMapping("/web/deleteRessource/{id}")
-    public String deleteRessourceWithId(@PathVariable Long id, Model model) {
+        Ressource ressource = this.ressourceService.getRessourceById(id);
+        model.addAttribute("updateRessource", ressource);
+        return new ModelAndView("ressource/editRessource", "Ressource", model);
+    }
+
+    /**
+     * Diese Methode updated eine Ressource, welche aus seinem Listenelement (nicht in dieser Methode) mit der dazugehörigen id geholt wird.
+     * Die Methode ist mit @PostMapping annotiert, da sie eine HTTP Anfrage verarbeiten und auf das entsprechende HTML Dokument verweisen muss.
+     * @param ressource
+     * @param bindingResult
+     * @return
+     * @throws ExecutionException
+     * @throws InterruptedException
+     * @throws RessourceNotFoundException
+     */
+    @PostMapping("/updateRessource")
+    public String updateRessource(@Valid Ressource ressource, BindingResult bindingResult) throws ExecutionException, InterruptedException, RessourceNotFoundException {
+        if (bindingResult.hasErrors()) {
+            return "/ressource/editRessource";
+        } else {
+            this.ressourceService.updateRessource(ressource);
+            return "redirect:/web/ressource/allRessources";
+        }
+    }
+
+    /**
+     * Diese Methode löscht eine bestimmte Ressource aus einer Liste, und nimmt die ID der Ressource entgegen.
+     * Die Methode ist NUR mit @GetMapping annotiert, da die Aktion auf der selben Seite durchgeführt werden soll.
+     *
+     * Es ist anzumerken, dass eine Ressource nicht gelöscht werden kann, wenn sie von einer aktiven Buchung verwendet wird.
+     *
+     * @param id vom Typ Long
+     * @return
+     */
+    @GetMapping("/deleteRessource/{id}")
+    public String deleteRessource(@PathVariable Long id) {
         try {
             this.ressourceService.deleteRessourceById(id);
-            return "redirect:/web/allressources";
+            return "redirect:/web/ressource/allRessources";
         } catch (RessourceDeletionNotPossibleException e) {
-            model.addAttribute("errortitle", "Ressource-Löschen fehlgeschlagen!");
-            model.addAttribute("errormessage", e.getMessage());
-            return "errorPage";
+            return "redirect:/web/ressource/allRessources";
         }
     }
 
