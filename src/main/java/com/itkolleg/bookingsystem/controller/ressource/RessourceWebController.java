@@ -82,13 +82,6 @@ public class RessourceWebController {
         }
     }
 
-/*
-    @PostMapping("/deleteRessource/{id}")
-    public String deleteRessource(@Valid Long id, BindingResult bindingResult) throws RessourceDeletionNotPossibleException {
-        this.ressourceService.deleteRessourceById(id);
-        return "redirect:/web/ressource/allRessources";
-    }
-*/
     @GetMapping("/deleteRessource/{id}")
     public String deleteRessource(@PathVariable Long id) {
         try {

@@ -89,6 +89,10 @@ public class WABSRunner implements ApplicationRunner {
         rtime1 = LocalTime.of(12,0, 0, 0);
         rtime2 = LocalTime.of(15,0, 0, 0);
         RessourceBooking rBooking4 = this.ressourceBookingRepo.addBooking(new RessourceBooking(admin, test1, rdate, rtime1, rtime2));
+        rdate = LocalDate.of(2023, 7, 20);
+        rtime1 = LocalTime.of(12,0, 0, 0);
+        rtime2 = LocalTime.of(15,0, 0, 0);
+        RessourceBooking rBooking5 = this.ressourceBookingRepo.addBooking(new RessourceBooking(jaslech, test2, rdate, rtime1, rtime2));
 
         Port hdmi = new Port("HDMI");
         Port usba = new Port("USB-A");

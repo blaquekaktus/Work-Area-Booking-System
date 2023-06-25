@@ -61,7 +61,6 @@ public class RessourceBookingServiceImplementation implements RessourceBookingSe
         if (booking.getDate().isBefore(currentDate)) {
             throw new IllegalArgumentException("Cannot create booking for a past date");
         }
-
         return this.ressourceBookingRepo.addBooking(booking);
     }
 

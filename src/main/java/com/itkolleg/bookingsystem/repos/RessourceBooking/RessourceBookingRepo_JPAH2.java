@@ -90,6 +90,10 @@ public class RessourceBookingRepo_JPAH2 implements RessourceBookingRepo {
         return this.ressourceBookingJPARepo.getBookingsByRessource(ressource);
     }
 
+    public List<RessourceBooking> getBookingsByRessourceId(Long id) {
+        return this.ressourceBookingJPARepo.getBookingsByRessourceId(id);
+    }
+
     @Override
     public Optional<RessourceBooking> getBookingByBookingId(Long id) {
         return this.ressourceBookingJPARepo.findById(id);

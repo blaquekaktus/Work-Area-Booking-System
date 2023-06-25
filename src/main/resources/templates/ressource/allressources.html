@@ -2,7 +2,7 @@
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
 <html>
 <head>
-    <title>Ressourcen</title>
+    <title>Ressource hinzufügen</title>
     <meta charset="UTF-8">
     <link href="https://fonts.googleapis.com/css?family=Roboto+Condensed&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="/static/css/WABS.css">
@@ -26,7 +26,7 @@
 <!-- Top Bar -->
 <div class="top-barAdmin">
     <img src="/static/img/LogoWhite.png" alt="Logo" class="logo">
-    <a href="../Interface/start.html" target="_self" class="logout-link">Abmelden</a>
+    <a href="../Interface/start.html" class="logout-link">Abmelden</a>
     <div class="top-bar-header">
         <h1>W.A.B.S.</h1>
     </div>
@@ -43,12 +43,12 @@
         <li><a href="#">Bookings <i class="fa fa-chevron-down"></i></a>
             <ul>
                 <li><a href="#">Work-Area</a></li>
-                <li><a href="#">Ressourcen</a></li>
+                <li><a th:href="@{/web/ressourceBooking/allBookings}">Ressourcen</a></li>
                 <li><a href="#">Räume</a></li>
             </ul>
         </li>
         <li><a href="#">Mitarbeiter</a></li>
-        <li><a th:href="@{allRessources}">Ressourcen</a></li>
+        <li><a th:href="@{/web/ressource/allRessources}">Ressourcen</a></li>
         <li><a href="#">Räume</a></li>
         <li><a href="#">Zurück</a></li>
     </ul>
@@ -79,15 +79,15 @@
                     <td th:text="${ressource.info}"></td>
                     <td th:text="${ressource.serialnumber}"></td>
                     <td>
-<!--                        <a th:href="@{/web/ressource/updateRessource/{id}(id=${ressource.id})}" class="button" role="button">Edit</a>-->
-                        <a th:href="@{'/web/ressource/updateRessource/' + ${ressource.id}}" class="button" role="button">Edit</a>
-                        <a th:href="@{'/web/ressource/deleteRessource/' + ${ressource.id}}" class="delete-button" role="button">Delete</a>
+                        <a th:href="@{'/web/ressourceBooking/createBooking/' + ${ressource.id}}" class="button" role="button">Buchen</a>
+                        <a th:href="@{'/web/ressource/updateRessource/' + ${ressource.id}}" class="button" role="button">Bearbeiten</a>
+                        <a th:href="@{'/web/ressource/deleteRessource/' + ${ressource.id}}" class="delete-button" role="button">Löschen</a>
                     </td>
                 </tr>
             </th:block>
             </tbody>
         </table>
-        <a th:href="@{addRessource}" class="add-button" role="button">New Ressource</a>
+        <a th:href="@{addRessource}" class="add-button" role="button">Neue Ressource</a>
     </div>
 </div>
 <div class="filler"></div>

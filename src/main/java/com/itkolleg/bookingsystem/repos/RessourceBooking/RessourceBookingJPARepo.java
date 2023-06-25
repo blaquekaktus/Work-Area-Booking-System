@@ -18,6 +18,8 @@ public interface RessourceBookingJPARepo extends JpaRepository<RessourceBooking,
 
     List<RessourceBooking> getBookingsByRessource(Ressource ressource);
 
+    List<RessourceBooking> getBookingsByRessourceId(Long ressourceId);
+
     List<RessourceBooking> getBookingsByDate(LocalDate date);
 
     List<RessourceBooking> getBookingsByEmployee(Employee employee);
@@ -38,5 +40,5 @@ public interface RessourceBookingJPARepo extends JpaRepository<RessourceBooking,
 
     List<RessourceBooking> getBookingsByEmployeeIdAndDateAndRessourceId(Long employeeId, LocalDate date, Long ressourceId);
 
-    List<RessourceBooking> getBookingsByRessourceId(Long ressourceId);
+
 }

@@ -1,11 +1,15 @@
 package com.itkolleg.bookingsystem.service.Ressource;
 
+import com.itkolleg.bookingsystem.domains.Booking.RessourceBooking;
 import com.itkolleg.bookingsystem.domains.Ressource;
 import com.itkolleg.bookingsystem.exceptions.RessourceExceptions.RessourceDeletionNotPossibleException;
+import com.itkolleg.bookingsystem.exceptions.RessourceExceptions.RessourceNotAvailableException;
 import com.itkolleg.bookingsystem.exceptions.RessourceExceptions.RessourceNotFoundException;
 import com.itkolleg.bookingsystem.repos.Ressource.DBAccessRessource;
+import com.itkolleg.bookingsystem.repos.RessourceBooking.RessourceBookingRepo;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDate;
 import java.util.List;
 import java.util.concurrent.ExecutionException;
 
@@ -13,14 +17,16 @@ import java.util.concurrent.ExecutionException;
 public class RessourceServiceImplementation implements RessourceService {
 
     private final DBAccessRessource dbAccessRessource;
+    private final RessourceBookingRepo ressourceBookingRepo;
 
     /**
      * Sets the DBAccess Object into the global Datafield
      *
      * @param dbAccessRessource
      */
-    public RessourceServiceImplementation(DBAccessRessource dbAccessRessource) {
+    public RessourceServiceImplementation(DBAccessRessource dbAccessRessource, RessourceBookingRepo ressourceBookingRepo) {
         this.dbAccessRessource = dbAccessRessource;
+        this.ressourceBookingRepo = ressourceBookingRepo;
     }
 
     /**
@@ -79,7 +85,7 @@ public class RessourceServiceImplementation implements RessourceService {
     }
 
     /**
-     * Method, that returns the Ressource according to its Serialnubmer (String)
+     * Method, that returns the Ressource according to its Serialnumber (String)
      *
      * @param Serialnumber String
      * @return Ressource found by Serialnumber

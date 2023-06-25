@@ -50,7 +50,7 @@
         <li><a href="#">Meine Buchungen <i class="fa fa-chevron-down"></i></a>
             <ul>
                 <li><a href="#">Work-Area</a></li>
-                <li><a href="#">Ressourcen</a></li>
+                <li><a th:href="@{/web/ressourceBooking/allBookingsEmployee}">Ressourcen</a></li>
                 <li><a href="#">Räume</a></li>
                 <li><a href="#">Vergangene Buchungen</a></li>
             </ul>
@@ -84,7 +84,7 @@
                     <td th:text="${ressource.info}"></td>
                     <td th:text="${ressource.serialnumber}"></td>
                     <td>
-                        <a th:href="@{'/web/ressourceBooking/createBooking/' + ${ressource.id}}" class="button" role="button">Buchen</a>
+                        <a th:href="@{'/web/ressourceBooking/createBookingEmployee/' + ${ressource.id}}" class="button" role="button">Buchen</a>
                     </td>
                 </tr>
             </th:block>

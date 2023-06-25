@@ -25,6 +25,8 @@ public interface RessourceBookingRepo {
 
     List<RessourceBooking> getBookingsByRessource(Ressource ressource);
 
+    List<RessourceBooking> getBookingsByRessourceId(Long id);
+
     List<RessourceBooking> getBookingsByEmployee(Employee employee);
 
     List<RessourceBooking> getBookingsByEmployeeAndDate(Employee employee, LocalDate date);

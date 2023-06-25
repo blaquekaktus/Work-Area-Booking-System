@@ -2,7 +2,7 @@
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
 <html>
 <head>
-    <title>Ressource bearbeiten</title>
+    <title>Ressource hinzufügen</title>
     <meta charset="UTF-8">
     <link href="https://fonts.googleapis.com/css?family=Roboto+Condensed&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="/static/css/WABS.css">
@@ -43,7 +43,7 @@
         <li><a href="#">Bookings <i class="fa fa-chevron-down"></i></a>
             <ul>
                 <li><a href="#">Work-Area</a></li>
-                <li><a href="#">Ressourcen</a></li>
+                <li><a th:href="@{/web/ressourceBooking/allBookings}">Ressourcen</a></li>
                 <li><a href="#">Räume</a></li>
             </ul>
         </li>
@@ -56,7 +56,7 @@
 <!-- Content -->
 <div class="content-container">
     <div class="addRessourceContainer">
-        <p th:text="${updateRessource.employee}"
+        <h1>Ressource bearbeiten</h1><br><br>
         <form th:object="${updateRessource}" th:action="@{/web/ressource/updateRessource}" method="post"> <!--zuerst objekt holen, mapping wohin, übertragungsmethode-->
             <div class="form-group">
                 <label for="id">ID:</label>

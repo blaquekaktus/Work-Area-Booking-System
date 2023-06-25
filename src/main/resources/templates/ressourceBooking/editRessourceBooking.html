@@ -57,7 +57,7 @@
 <div class="content-container">
     <div class="addRessourceContainer">
         <h1>Buchung für Ressource:</h1><br><br>
-        <form th:object="${newBooking}" th:action="@{/web/ressourceBooking/createBooking}" method="post">
+        <form th:object="${updateBooking}" th:action="@{/web/ressourceBooking/updateBooking}" method="post">
             <table>
                 <thead>
                 <tr>
@@ -68,9 +68,9 @@
                 </thead>
                 <tbody>
                 <tr>
-                    <td th:text="${newBooking.ressource.id}"></td>
-                    <td th:text="${newBooking.ressource.name}"></td>
-                    <td th:text="${newBooking.ressource.ressourcetype}"></td>
+                    <td th:text="${updateBooking.ressource.id}"></td>
+                    <td th:text="${updateBooking.ressource.name}"></td>
+                    <td th:text="${updateBooking.ressource.ressourcetype}"></td>
                 </tr>
                 </tbody>
             </table>

@@ -1,8 +1,10 @@
 package com.itkolleg.bookingsystem.repos.Ressource;
 
+import com.itkolleg.bookingsystem.domains.Booking.RessourceBooking;
 import com.itkolleg.bookingsystem.domains.Ressource;
 import com.itkolleg.bookingsystem.exceptions.RessourceExceptions.RessourceDeletionNotPossibleException;
 import com.itkolleg.bookingsystem.exceptions.RessourceExceptions.RessourceNotFoundException;
+import com.itkolleg.bookingsystem.repos.RessourceBooking.RessourceBookingRepo;
 import org.springframework.stereotype.Component;
 
 import java.util.List;
@@ -13,13 +15,15 @@ import java.util.concurrent.ExecutionException;
 public class DBAccessRessourceJPHA2 implements DBAccessRessource {
 
     private final RessourceJPARepo ressourceJPARepo;
+    private final RessourceBookingRepo ressourceBookingRepo;
 
     /**
      * Konstruktor
      * @param ressourceJPARepo
      */
-    public DBAccessRessourceJPHA2(RessourceJPARepo ressourceJPARepo) {
+    public DBAccessRessourceJPHA2(RessourceJPARepo ressourceJPARepo, RessourceBookingRepo ressourceBookingRepo) {
         this.ressourceJPARepo = ressourceJPARepo;
+        this.ressourceBookingRepo = ressourceBookingRepo;
     }
 
 
@@ -61,6 +65,11 @@ public class DBAccessRessourceJPHA2 implements DBAccessRessource {
 
     @Override
     public void deleteRessourceById(Long id) throws RessourceDeletionNotPossibleException {
+        List<RessourceBooking> bookings = this.ressourceBookingRepo.getBookingsByRessourceId(id);
+
+        if (!bookings.isEmpty()) {
+            throw new RessourceDeletionNotPossibleException("Ressource already booked");
+        }
         this.ressourceJPARepo.deleteById(id);
     }
 
