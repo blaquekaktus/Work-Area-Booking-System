@@ -67,13 +67,11 @@ public class WABSRunner implements ApplicationRunner {
         Ressource test3 = this.dbAccessRessource.addRessource(new Ressource(3L, Ressourcetype.BEAMER, "Test3", "TestBeamer", "InfoBeamer", "BeamerSN"));
         Ressource test4 = this.dbAccessRessource.addRessource(new Ressource(4L, Ressourcetype.BEAMER, "Test4", "TestBeamer", "InfoBeamer", "BeamerSN"));
 
-
       
         Employee operator = this.employeeDBAccess.saveEmployee(new Employee("Patrick", "Bayr", "operator", "bayr2@hotmail.com", "password", Role.ROLE_OPERATOR));
         Employee pemployee = this.employeeDBAccess.saveEmployee(new Employee("Manuel", "Payr", "nemployee", "bayr@hotmail.com", "password", Role.ROLE_N_EMPLOYEE));
         Employee nemployee = this.employeeDBAccess.saveEmployee(new Employee("Sonja", "Lechner", "pemployee", "bayr1@hotmail.com", "password", Role.ROLE_P_EMPLOYEE));
 
-        
 
         Employee admin = this.employeeDBAccess.saveEmployee(new Employee("Marcel", "Schranz", "admin", "marcel-schranz@hotmail.com", "password", Role.ROLE_ADMIN));
         Employee sonlech = this.employeeDBAccess.saveEmployee(new Employee("Sonja", "Lechner", "sonlech", "sonja52@gmail.com", "password", Role.ROLE_ADMIN));
