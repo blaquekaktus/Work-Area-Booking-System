@@ -1,10 +1,11 @@
 package com.itkolleg.bookingsystem.controller.employee;
 
-import com.itkolleg.bookingsystem.Service.Employee.EmployeeService;
+//import com.itkolleg.bookingsystem.Service.Employee.EmployeeService;
 import com.itkolleg.bookingsystem.domains.Employee;
 import com.itkolleg.bookingsystem.exceptions.EmployeeExceptions.EmployeeAlreadyExistsException;
 import com.itkolleg.bookingsystem.exceptions.EmployeeExceptions.EmployeeDeletionNotPossibleException;
 import com.itkolleg.bookingsystem.exceptions.EmployeeExceptions.EmployeeNotFoundException;
+import com.itkolleg.bookingsystem.service.Employee.EmployeeService;
 import jakarta.validation.Valid;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -112,7 +113,7 @@ public class EmployeeWebController {
 
             return "employee/editemployeeform";
         } else {
-            throw new EmployeeNotFoundException();
+            throw new EmployeeNotFoundException("Mitarbeiter nicht gefunden");
         }
     }
     @PostMapping("/web/editemployee")

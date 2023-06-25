@@ -69,18 +69,18 @@ public class WABSRunner implements ApplicationRunner {
 
 
       
-        Employee operator = this.employeeDBAccess.saveEmployee(new Employee("Patrick", "Bayr", "operator", "bayr@hotmail.com", "password", Role.ROLE_OPERATOR));
+        Employee operator = this.employeeDBAccess.saveEmployee(new Employee("Patrick", "Bayr", "operator", "bayr2@hotmail.com", "password", Role.ROLE_OPERATOR));
         Employee pemployee = this.employeeDBAccess.saveEmployee(new Employee("Manuel", "Payr", "nemployee", "bayr@hotmail.com", "password", Role.ROLE_N_EMPLOYEE));
-        Employee nemployee = this.employeeDBAccess.saveEmployee(new Employee("Sonja", "Lechner", "pemployee", "bayr@hotmail.com", "password", Role.ROLE_P_EMPLOYEE));
+        Employee nemployee = this.employeeDBAccess.saveEmployee(new Employee("Sonja", "Lechner", "pemployee", "bayr1@hotmail.com", "password", Role.ROLE_P_EMPLOYEE));
 
         
 
-        Employee admin = this.employeeDBAccess.saveEmployee(new Employee("Marcel", "Schranz", "admin", "marcel-schranz@hotmail.com", "password", Role.ADMIN));
-        Employee sonlech = this.employeeDBAccess.saveEmployee(new Employee("Sonja", "Lechner", "sonlech", "sonja52@gmail.com", "password", Role.ADMIN));
-        Employee jaslech = this.employeeDBAccess.saveEmployee(new Employee("Jason", "Lechner", "jaslech", "jason_lechner@gmail.com", "password", Role.P_EMPLOYEE));
-        Employee joslech = this.employeeDBAccess.saveEmployee(new Employee("Josan", "Lechner", "joslech", "josan_strobie@gmail.com", "password", Role.N_EMPLOYEE));
-        Employee camlech = this.employeeDBAccess.saveEmployee(new Employee("Camil", "Lechner", "camlech", "camil@gmail.com", "password", Role.OPERATOR));
-        Employee operator = this.employeeDBAccess.saveEmployee(new Employee("Patrick", "Bayr", "operator", "bayr@hotmail.com", "password", Role.OPERATOR));
+        Employee admin = this.employeeDBAccess.saveEmployee(new Employee("Marcel", "Schranz", "admin", "marcel-schranz@hotmail.com", "password", Role.ROLE_ADMIN));
+        Employee sonlech = this.employeeDBAccess.saveEmployee(new Employee("Sonja", "Lechner", "sonlech", "sonja52@gmail.com", "password", Role.ROLE_ADMIN));
+        Employee jaslech = this.employeeDBAccess.saveEmployee(new Employee("Jason", "Lechner", "jaslech", "jason_lechner@gmail.com", "password", Role.ROLE_P_EMPLOYEE));
+        Employee joslech = this.employeeDBAccess.saveEmployee(new Employee("Josan", "Lechner", "joslech", "josan_strobie@gmail.com", "password", Role.ROLE_N_EMPLOYEE));
+        Employee camlech = this.employeeDBAccess.saveEmployee(new Employee("Camil", "Lechner", "camlech", "camil@gmail.com", "password", Role.ROLE_OPERATOR));
+
 
         LocalDate rdate = LocalDate.now();
         LocalTime rtime1 = LocalTime.of(8,0, 0, 0);
