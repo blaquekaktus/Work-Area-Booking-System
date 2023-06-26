@@ -1,6 +1,5 @@
 <!DOCTYPE html>
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
-<html>
 <head>
     <title>Ressource hinzufügen</title>
     <meta charset="UTF-8">
@@ -77,6 +76,7 @@
             <div>
                 <input type="hidden" id="employee" name="employee" th:value="${updateBooking.employee.id}">
                 <input type="hidden" id="ressource" name="ressource" th:value="${updateBooking.ressource.id}">
+                <input type="hidden" id="id" name="id" th:value="${updateBooking.id}">
             </div>
             <div class="form-group">
                 <label for="date">Datum:</label>

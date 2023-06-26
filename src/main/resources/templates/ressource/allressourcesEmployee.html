@@ -35,29 +35,7 @@
     </div>
 </div>
 <!-- Side Navbar -->
-<div class="contenedor-menu">
-    <!-- <a href="" class="btnMenu">Menu <i class="fa fa-bars"></i></a> -->
-
-    <ul class="menu">
-        <li><a href="#">Home</a></li>
-        <li><a href="#">Bookings <i class="fa fa-chevron-down"></i></a>
-            <ul>
-                <li><a href="#">Work-Area</a></li>
-                <li><a href="#">Ressourcen</a></li>
-                <li><a href="#">Räume</a></li>
-            </ul>
-        </li>
-        <li><a href="#">Meine Buchungen <i class="fa fa-chevron-down"></i></a>
-            <ul>
-                <li><a href="#">Work-Area</a></li>
-                <li><a th:href="@{/web/ressourceBooking/allBookingsEmployee}">Ressourcen</a></li>
-                <li><a href="#">Räume</a></li>
-                <li><a href="#">Vergangene Buchungen</a></li>
-            </ul>
-        </li>
-        <li><a href="#">Zurück</a></li>
-    </ul>
-</div>
+<div th:insert="navbarEmployee :: navbarEmployee">  </div>
 <!-- Content -->
 <div class="content-container">
     <div class="allRessourceContainer">

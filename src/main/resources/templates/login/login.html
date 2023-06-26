@@ -31,17 +31,17 @@
     <div class="addRessourceContainer">
         <h1>W.A.B.S.</h1>
         <h2>Work-Area Booking System</h2><br><br>
-        <form method="post" th:action="@{/web/login}" >
+            <form method="post" th:action="@{/web/login}" th:error="${#fields.errors()}">
             <h3>Benutzername</h3>
-            <div class="form-group">
-                <label for="username"></label>
-                <input type="text" class="form-control" name="username" id="username"  placeholder="username" required>
-            </div>
-            <h3>Passwort</h3>
-            <div class="form-group">
-                <label for="password"></label>
-                <input type="password" class="form-control" name="password" id="password"  placeholder="Passwort" required>
-            </div>
+                <div class="form-group">
+                    <label for="username"></label>
+                    <input type="text" class="form-control" name="username" id="username"  placeholder="username" required>
+                </div>
+                <h3>Passwort</h3>
+                <div class="form-group">
+                    <label for="password"></label>
+                    <input type="password" class="form-control" name="password" id="password"  placeholder="Passwort" required>
+                </div>
             <div th:if="${error}" class="alert alert-danger" role="alert">
                 <span th:text="${error}"></span>
             </div>
