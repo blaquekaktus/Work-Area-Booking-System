@@ -1,5 +1,6 @@
 package com.itkolleg.bookingsystem.service.Employee;
 
+import com.itkolleg.bookingsystem.domains.CustomEmployeeDetails;
 import com.itkolleg.bookingsystem.domains.Employee;
 import com.itkolleg.bookingsystem.exceptions.EmployeeExceptions.EmployeeAlreadyExistsException;
 import com.itkolleg.bookingsystem.exceptions.EmployeeExceptions.EmployeeDeletionNotPossibleException;
@@ -85,6 +86,19 @@ public class EmployeeServiceImplementation implements EmployeeService {
     }
 
     @Override
+    public Employee findByNick(String username) {
+        return this.employeeDBAccess.getEmployeeByNick(username);
+    }
+
+    public UserDetails loadEmployeeByUsername(String username) throws UsernameNotFoundException {
+        Employee employee = employeeDBAccess.getEmployeeByNick(username);
+        if (employee == null) {
+            throw new UsernameNotFoundException(username);
+        }
+        return new CustomEmployeeDetails(employee);
+    }
+
+    @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
         Employee employee = this.employeeDBAccess.getEmployeeByNick(username);
         if (employee == null) {
@@ -96,4 +110,6 @@ public class EmployeeServiceImplementation implements EmployeeService {
                 .roles(employee.getRole().toString())
                 .build();
     }
+
+
 }

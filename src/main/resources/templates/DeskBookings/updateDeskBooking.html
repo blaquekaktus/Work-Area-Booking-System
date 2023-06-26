@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Edit Booking</title>
+    <link th:href="@{/webjars/bootstrap/4.0.0-2/css/bootstrap.min.css} " th:rel="stylesheet"/>
+</head>
+<body style="background-image: url('../../../static/img/background2.jpg');background-repeat:no-repeat;background-size:cover;">
+<nav class="navbar navbar-expand-lg navbar-light"
+     style="background-color: #96C01E;height: 200px;display:flex;align-items:center;">
+    <!-- Navigation content -->
+    <div class="row d-flex justify-content-evenly align-items-center" style="width:100%">
+        <div class="col-4"><img alt="KlimaBuendnis Green Logo" height="180px" src="/img/GreenLogo.png"></div>
+        <div class="col-6"><img alt="WABS" height="190px" src="/img/wabs.png"></div>
+        <div class="col-2"><img alt="Badge" height="160px" src="/img/kb_badge2.png"></div>
+    </div>
+</nav>
+<div class="container">
+    <h1 class="text-center">Change My Work-Area Booking</h1>
+    <form method="post" th:action="@{/web/deskBookings/update}" th:object="${booking}">
+       <!-- <form method="post" th:action="@{/web/deskBookings/update/{id}(id=${booking.id})}" th:object="${booking}">-->
+        <div class="form-group">
+            <label for="id" hidden="hidden"></label>
+            <input class="form-control" id="id" name="id" required th:field="*{id}"
+                   type="hidden">
+        </div>
+       <!-- <input type="hidden" id="deskId" name="deskId" th:value="${booking.desk.id}">-->
+
+        <div class="mb-3 form-group">
+            <label class="form-label" for="employee.name">Employee</label>
+            <input class="form-control" id="employee.name" name="employee.name"
+                   th:value="${employee.fname} + ' ' + ${employee.lname}" readonly>
+            <input type="hidden" id="employee.id" name="employee.id" th:value="${employee.id}">
+        </div>
+
+        <div class="mb-3 form-group">
+            <label class="form-label" for="deskId">Desk</label>
+            <select class="form-control" id="deskId" name="desk.id" th:field="*{desk.id}">
+                <option selected="selected" value="">--Select Work-Area--</option>
+                <option th:each="desk : ${desks}" th:text="${desk.deskNr}" th:value="${desk.id}"></option>
+            </select>
+            <div class="form-text"  th:errors="*{desk.id}"
+                 th:if="${#fields.hasErrors('desk.id')}"></div>
+        </div>
+        <div class="mb-3form-group">
+            <label for="date">Date</label>
+            <input class="form-control" id="date" name="date" required th:default="${booking.getDate()}"
+                   th:field="${booking.date}" type="date">
+            <div class="form-text" th:errors="*{date}"
+                 th:if="${#fields.hasErrors('date')}"></div>
+        </div>
+        <div class="mb-3form-group">
+            <label class="form-label" for="start">Start Time</label>
+            <select class="form-select" id="start" name="start" th:field="*{start}">
+                <option value="">--Select Start Time--</option>
+                <option th:each="time : ${uniqueStartTimes}"
+                        th:text="${time}"
+                        th:value="${time}"></option>
+            </select>
+            <div class="form-text" th:errors="*{start}"
+                 th:if="${#fields.hasErrors('start')}"></div>
+        </div>
+        <div class="mb-3form-group">
+            <label for="endTime">End Time</label>
+            <select class="form-select" id="endTime" name="endTime" th:field="*{endTime}">
+                <option value="">--Select End Time--</option>
+                <option th:each="time : ${uniqueEndTimes}"
+                        th:text="${time}"
+                        th:value="${time}"></option>
+            </select>
+            <div class="form-text" th:errors="*{endTime}"
+                 th:if="${#fields.hasErrors('endTime')}"></div>
+        </div>
+        <button class="btn btn-primary" type="submit">Save</button>
+        <a class="btn btn-secondary" th:href="@{/web/deskBookings}">Cancel</a>
+    </form>
+</div>
+<script th:src="@{/webjars/jquery/3.0.0/jquery.min.js}"></script>
+<script th:src="@{/webjars/popper.js/1.12.9-1/umd/popper.min.js}"></script>
+<script th:src="@{/webjars/bootstrap/4.0.0-2/js/bootstrap.min.js}"></script>
+</body>
+</html>

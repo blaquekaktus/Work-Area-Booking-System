@@ -4,6 +4,7 @@
     <meta charset="UTF-8">
     <title>Booking Detail</title>
     <link th:href="@{/webjars/bootstrap/4.0.0-2/css/bootstrap.min.css} " th:rel="stylesheet"/>
+    <script src="/static/js/DeskBooking.js"></script>
 </head>
 <body style="background-image: url('../../static/img/background2.jpg');background-repeat:no-repeat;background-size:cover;">
 <nav class="navbar navbar-expand-lg navbar-light"
@@ -52,7 +53,7 @@
                        type="text">
             </div>
             <div class="d-flex justify-content-center">
-                <a class="btn btn-dark my-2 my-sm-0" th:href="@{/web/deskBookings}">Back to My Bookings</a>
+                <button class="btn btn-dark my-2 my-sm-0" onclick="goBack()">Back to My Bookings</button>
             </div>
         </form>
     </div>

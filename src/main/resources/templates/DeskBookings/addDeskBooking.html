@@ -4,32 +4,32 @@
     <title>Ressource hinzufügen</title>
     <meta charset="UTF-8">
     <link href="https://fonts.googleapis.com/css?family=Roboto+Condensed&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="/static/css/WABS.css">
+    <link rel="stylesheet" href="/css/WABS.css">
     <!-- jQuery -->
     <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
 
     <!-- Font Awesome 4-->
     <link href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet">
-    <link rel="stylesheet" href="/static/css/sidebar-accordionAdmin.css">
-    <script src="/static/js/sidebar-accordion.js"></script>
-    <script src="/static/js/DropDown.js"></script>
-    <script th:src="@{/webjars/jquery/3.0.0/jquery.min.js}"></script>
-    <script th:src="@{/webjars/popper.js/1.12.9-1/umd/popper.min.js}"></script>
-    <script th:src="@{/webjars/bootstrap/4.0.0-2/js/bootstrap.min.js}"></script>
+    <link rel="stylesheet" href="/css/sidebar-accordionAdmin.css">
+    <script src="/js/sidebar-accordion.js"></script>
+    <script src="/js/DropDown.js"></script>
     <script src="/js/DropDown.js"></script>
     <script src="/js/sidebar-accordion.js"></script>
     <style>
         body {
-            background-image: url("/static/img/background.jpg");
+            background-image: url("/img/background.jpg");
             background-size: cover;
             background-repeat: no-repeat;
+        }
+        .error-message {
+            color: red;
         }
     </style>
 </head>
 <body>
 <!-- Top Bar -->
 <div class="top-barAdmin">
-    <img src="/static/img/LogoWhite.png" alt="Logo" class="logo">
+    <img src="/img/LogoWhite.png" alt="Logo" class="logo">
     <a th:href="@{/web/logout}" class="logout-link">Abmelden</a>
     <div class="top-bar-header">
         <h1>W.A.B.S.</h1>
@@ -68,11 +68,11 @@
         <br>
         <br>
         <a class="button" role="button" style="margin-right: 50px" th:href="@{/web/desks}">View All Work-Areas</a>
-        <a class="button" role="button" style="margin-right: 50px" th:href="@{/web/deskBookings}">View My Work-Area Bookings</a>
+        <a class="button" role="button" style="margin-right: 50px" th:href="@{/web/deskBookings}">View All Work-Area Bookings</a>
         <br>
         <br>
-        <form method="post" th:action="@{/web/deskBookings/add}" th:object="${deskBooking}">
-            <div th:if="${errorMessage}" class="alert alert-danger">
+        <form method="post" th:action="@{/web/deskbookings/admin/add}" th:object="${deskBooking}">
+            <div th:if="${errorMessage}" class="alert alert-danger error-message">
                 <p th:text="${errorMessage}"></p>
             </div>
             <div class="mb-3 form-group"s>
