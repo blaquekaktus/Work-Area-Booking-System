@@ -4,6 +4,11 @@ Allgemein:<br>
 * Exception-/Fehlermeldungs-Handling<br>
 * Bei Mitarbeiter "Bookings" in Nav-Bar rausnehmen, da nur für Admin relevant?
 
+
+
+
+Modul Ressource-Buchung:<br>
+
 Modul Ressource:<br>
 
 
