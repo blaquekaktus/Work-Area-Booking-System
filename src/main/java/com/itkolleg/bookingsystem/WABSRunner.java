@@ -82,19 +82,20 @@ public class WABSRunner implements ApplicationRunner {
         LocalTime rtime1 = LocalTime.of(8,0, 0, 0);
         LocalTime rtime2 = LocalTime.of(10,0, 0, 0);
         RessourceBooking rBooking1 = this.ressourceBookingRepo.addBooking(new RessourceBooking(admin, test1, rdate, rtime1, rtime2));
-        rdate = LocalDate.of(2023, 6, 30);
+        rdate = LocalDate.of(2023, 10, 30);
         rtime1 = LocalTime.of(12,0, 0, 0);
         rtime2 = LocalTime.of(20,0, 0, 0);
         RessourceBooking rBooking2 = this.ressourceBookingRepo.addBooking(new RessourceBooking(admin, test3, rdate, rtime1, rtime2));
-        rdate = LocalDate.of(2023, 6, 26);
+
+        rdate = LocalDate.of(2023, 6, 30);
         rtime1 = LocalTime.of(10,0, 0, 0);
         rtime2 = LocalTime.of(11,0, 0, 0);
         RessourceBooking rBooking3 = this.ressourceBookingRepo.addBooking(new RessourceBooking(admin, test4, rdate, rtime1, rtime2));
-        rdate = LocalDate.of(2023, 7, 20);
+        rdate = LocalDate.of(2023, 10, 20);
         rtime1 = LocalTime.of(12,0, 0, 0);
         rtime2 = LocalTime.of(15,0, 0, 0);
         RessourceBooking rBooking4 = this.ressourceBookingRepo.addBooking(new RessourceBooking(admin, test1, rdate, rtime1, rtime2));
-        rdate = LocalDate.of(2023, 7, 20);
+        rdate = LocalDate.of(2023, 10, 20);
         rtime1 = LocalTime.of(12,0, 0, 0);
         rtime2 = LocalTime.of(15,0, 0, 0);
         RessourceBooking rBooking5 = this.ressourceBookingRepo.addBooking(new RessourceBooking(jaslech, test2, rdate, rtime1, rtime2));
