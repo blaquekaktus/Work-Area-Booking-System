@@ -61,19 +61,15 @@ public class WABSRunner implements ApplicationRunner {
     public void run(ApplicationArguments args) throws Exception {
         System.out.println("\n\nSystem is up and running!\n");
 
-
         Ressource test1 = this.dbAccessRessource.addRessource(new Ressource(1L, Ressourcetype.BEAMER, "Test1", "TestBeamer", "InfoBeamer", "BeamerSN"));
         Ressource test2 = this.dbAccessRessource.addRessource(new Ressource(2L, Ressourcetype.BEAMER, "Test2", "TestBeamer", "InfoBeamer", "BeamerSN"));
         Ressource test3 = this.dbAccessRessource.addRessource(new Ressource(3L, Ressourcetype.BEAMER, "Test3", "TestBeamer", "InfoBeamer", "BeamerSN"));
         Ressource test4 = this.dbAccessRessource.addRessource(new Ressource(4L, Ressourcetype.BEAMER, "Test4", "TestBeamer", "InfoBeamer", "BeamerSN"));
 
-
       
         Employee operator = this.employeeDBAccess.saveEmployee(new Employee("Patrick", "Bayr", "operator", "bayr2@hotmail.com", "password", Role.ROLE_OPERATOR));
         Employee pemployee = this.employeeDBAccess.saveEmployee(new Employee("Manuel", "Payr", "nemployee", "bayr@hotmail.com", "password", Role.ROLE_N_EMPLOYEE));
         Employee nemployee = this.employeeDBAccess.saveEmployee(new Employee("Sonja", "Lechner", "pemployee", "bayr1@hotmail.com", "password", Role.ROLE_P_EMPLOYEE));
-
-        
 
         Employee admin = this.employeeDBAccess.saveEmployee(new Employee("Marcel", "Schranz", "admin", "marcel-schranz@hotmail.com", "password", Role.ROLE_ADMIN));
         Employee sonlech = this.employeeDBAccess.saveEmployee(new Employee("Sonja", "Lechner", "sonlech", "sonja52@gmail.com", "password", Role.ROLE_ADMIN));
@@ -90,7 +86,7 @@ public class WABSRunner implements ApplicationRunner {
         rtime1 = LocalTime.of(12,0, 0, 0);
         rtime2 = LocalTime.of(20,0, 0, 0);
         RessourceBooking rBooking2 = this.ressourceBookingRepo.addBooking(new RessourceBooking(admin, test3, rdate, rtime1, rtime2));
-        rdate = LocalDate.of(2023, 6, 25);
+        rdate = LocalDate.of(2023, 7, 29);
         rtime1 = LocalTime.of(10,0, 0, 0);
         rtime2 = LocalTime.of(11,0, 0, 0);
         RessourceBooking rBooking3 = this.ressourceBookingRepo.addBooking(new RessourceBooking(admin, test4, rdate, rtime1, rtime2));

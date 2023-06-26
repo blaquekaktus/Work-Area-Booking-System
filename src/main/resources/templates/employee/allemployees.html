@@ -1,6 +1,4 @@
 <!DOCTYPE html>
-<html lang="en" xmlns:th="http://www.thymeleaf.org">
-<!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
     <title>Mitarbeiterliste</title>
@@ -54,8 +52,8 @@
         </li>
         <li><a href="#">Mitarbeiter<i class="fa fa-chevron-down"></i></a>
             <ul>
-                <li><a href="/../web/allemployees">Mitarbeiterliste</a></li>
-                <li><a href="/../web/insertemployeeform">Mitarbeiter Hinzufügen</a></li>
+                <li><a href="/../web/employees/allemployees">Mitarbeiterliste</a></li>
+                <li><a href="/../web/employees/insertemployeeform">Mitarbeiter Hinzufügen</a></li>
             </ul>
         </li>
         <li><a href="#">Ressourcen</a></li>
@@ -87,8 +85,8 @@
                     <td th:text="${employee.nick}">...</td>
                     <td th:text="${employee.role}">...</td>
                     <td>
-                        <a th:href="@{/web/editemployee/{id}(id=${employee.id})}" class="btn btn-primary" role="button">Bearbeiten</a>
-                        <a th:href="@{/web/deleteemployee/{id}(id=${employee.id})}" class="delete-button" role="button">Löschen</a>
+                        <a th:href="@{/web/employees/editemployee/{id}(id=${employee.id})}" class="btn btn-primary" role="button">Bearbeiten</a>
+                        <a th:href="@{/web/employees/deleteemployee/{id}(id=${employee.id})}" class="delete-button" role="button">Löschen</a>
                     </td>
                 </tr>
             </th:block>

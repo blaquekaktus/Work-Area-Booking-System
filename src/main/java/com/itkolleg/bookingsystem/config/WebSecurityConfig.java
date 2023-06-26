@@ -79,8 +79,12 @@ public class WebSecurityConfig {
                  .and() */
                 .authorizeHttpRequests(authConfig -> {
                     authConfig.requestMatchers(HttpMethod.GET, "/web/hello","/web/login", "/error", "/web/login-error", "/web/logout", "/static/**", "/templates/**").permitAll();
-                    authConfig.requestMatchers(HttpMethod.POST, "/web/**", "/web/login").permitAll();
-                    authConfig.requestMatchers(HttpMethod.GET, "/web/allemployees", "/web/insertemployeeform", "/web/insertemployee", "/web/admin-start", "/web/editemployee/**", "/web/deleteemployee/**").hasRole("ADMIN");
+                    authConfig.requestMatchers(HttpMethod.POST, "/web/login").permitAll();
+                    authConfig.requestMatchers(HttpMethod.GET, "/web/**").hasRole("ADMIN");
+                    authConfig.requestMatchers(HttpMethod.POST, "/web/**").hasRole("ADMIN");
+
+
+
                     /*authConfig.requestMatchers(HttpMethod.GET, "/web").hasRole("ADMIN");
                     authConfig.requestMatchers(HttpMethod.GET, "/operator").hasRole("OPERATOR");
                     authConfig.requestMatchers(HttpMethod.GET, "/users").hasAnyRole("Admin", "DEVELOPER");
@@ -92,7 +96,7 @@ public class WebSecurityConfig {
                             .successHandler((request, response, authentication) -> {
                                 Set<String> roles = AuthorityUtils.authorityListToSet(authentication.getAuthorities());
                                 if (roles.contains("ROLE_ADMIN")) {
-                                    response.sendRedirect("/web/admin-start");
+                                    response.sendRedirect("/web/employees/admin-start");
                                 } else if (roles.contains("ROLE_OPERATOR")) {
                                     response.sendRedirect("/web/hello");
                                 } else if (roles.contains("ROLE_N_EMPLOYEE")) {
@@ -107,7 +111,7 @@ public class WebSecurityConfig {
                 })
 
                 .logout(logout -> {
-                    logout.logoutRequestMatcher(new AntPathRequestMatcher("/logout"));
+                    logout.logoutRequestMatcher(new AntPathRequestMatcher("/web/logout"));
                     logout.logoutSuccessUrl("/web/logout");
                     logout.deleteCookies("JSESSIONID");
                     logout.invalidateHttpSession(true);
