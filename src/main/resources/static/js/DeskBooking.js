@@ -38,3 +38,7 @@ function updateDeskId() {
     var selectedDeskId = selectedOption.value;  // get the deskId value from the selected option
     document.getElementById('desk.id').value = selectedDeskId;  // set the hidden input's value to the deskId
 }
+
+function goBack() {
+    window.history.back();
+}
