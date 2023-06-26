@@ -1,3 +1,6 @@
+$(document).ready(function() {
+    $("#navbarContainer").load("/static/css/navbarEmployee.html");
+});
 //alert("JavaScript-Code wird ausgef�hrt!");
 
 // Adjust dropdown width when expanded
