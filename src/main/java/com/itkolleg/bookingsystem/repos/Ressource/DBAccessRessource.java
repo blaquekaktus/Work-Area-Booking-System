@@ -9,10 +9,15 @@ import java.util.List;
 import java.util.concurrent.ExecutionException;
 
 public interface DBAccessRessource {
-    public Ressource addRessource(Ressource ressource) throws ExecutionException, InterruptedException;
-    public List<Ressource> getAllRessource() throws ExecutionException, InterruptedException;
-    public Ressource getRessourceById(Long id) throws RessourceNotFoundException, ExecutionException, InterruptedException;
-    public Ressource updateRessourceById(Ressource updatedRessource) throws RessourceNotFoundException, ExecutionException, InterruptedException;
-    public void deleteRessourceById(Long id) throws RessourceDeletionNotPossibleException;
-    public Ressource getRessourceBySerialnumber (String serialnumber) throws RessourceNotFoundException, ExecutionException, InterruptedException;
+    Ressource addRessource(Ressource ressource) throws ExecutionException, InterruptedException;
+
+    List<Ressource> getAllRessource() throws ExecutionException, InterruptedException;
+
+    Ressource getRessourceById(Long id) throws RessourceNotFoundException, ExecutionException, InterruptedException;
+
+    Ressource updateRessource(Ressource ressource) throws RessourceNotFoundException, ExecutionException, InterruptedException;
+
+    void deleteRessourceById(Long id) throws RessourceDeletionNotPossibleException;
+
+    Ressource getRessourceBySerialnumber(String serialnumber) throws RessourceNotFoundException, ExecutionException, InterruptedException;
 }

@@ -1,10 +1,8 @@
 package com.itkolleg.bookingsystem.controller.room;
 
-import com.itkolleg.bookingsystem.Service.Room.RoomBookingService;
-import com.itkolleg.bookingsystem.Service.Room.RoomService;
 import com.itkolleg.bookingsystem.domains.Room;
 import com.itkolleg.bookingsystem.exceptions.RoomExceptions.RoomDeletionNotPossibleException;
-import com.itkolleg.bookingsystem.exceptions.RoomExceptions.RoomNotFoundException;
+import com.itkolleg.bookingsystem.service.Room.RoomService;
 import jakarta.validation.Valid;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;

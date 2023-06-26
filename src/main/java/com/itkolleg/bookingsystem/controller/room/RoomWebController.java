@@ -1,7 +1,7 @@
 package com.itkolleg.bookingsystem.controller.room;
 
 
-import com.itkolleg.bookingsystem.Service.Room.RoomService;
+import com.itkolleg.bookingsystem.service.Room.RoomService;
 import com.itkolleg.bookingsystem.domains.Room;
 import com.itkolleg.bookingsystem.exceptions.EmployeeExceptions.EmployeeAlreadyExistsException;
 import com.itkolleg.bookingsystem.exceptions.RoomExceptions.RoomDeletionNotPossibleException;
@@ -43,11 +43,10 @@ public class RoomWebController {
         try {
             this.roomService.deleteRoomById(id);
             return "redirect:/web/allrooms";
-        } catch (RoomDeletionNotPossibleException e)
-        {
+        } catch (RoomDeletionNotPossibleException e) {
             model.addAttribute("errortitle", "Raum-Löschen schlägt fehl!");
             model.addAttribute("errormessage", e.getMessage());
-            return "myerrorspage";
+            return "errorPage";
         }
     }
 

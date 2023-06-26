@@ -1,12 +1,23 @@
 package com.itkolleg.bookingsystem.domains;
 
 
-import jakarta.persistence.*;
-import lombok.*;
+import jakarta.persistence.Entity;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
+import jakarta.persistence.Id;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
+import lombok.ToString;
 
 
 /**
- * This Class Represents the Domain Class for Ressources and helds all important Datafields and a Constructor
+ * Die Klasse Ressource repräsentiert eine Ressource in einem Buchungssystem.
+ * Sie enthält Informationen über die Ressource, wie ihren Namen, ihre Beschreibung, zusätzliche Informationen und Seriennummer.
+ *
+ * @author Manuel Payer
+ * @version 1.0
+ * @since 25.06.2023
  */
 @Entity
 @NoArgsConstructor
@@ -15,23 +26,29 @@ import lombok.*;
 @ToString
 public class Ressource {
     @Id
-    @GeneratedValue(strategy= GenerationType.SEQUENCE)
+    @GeneratedValue(strategy = GenerationType.SEQUENCE)
     private Long id;
-
     private Ressourcetype ressourcetype;
-
     private String name;
     private String description;
     private String info;
     private String serialnumber;
 
-
-    public Ressource(Long id, Ressourcetype ressourcetype,String name, String description, String info, String serialnumber, int amount) {
+    /**
+     * Konstruktor der Klasse Ressource. Er nimmt folgende Parameter entgegen:
+     * @param id vom Typ Long
+     * @param ressourcetype vom Typ Ressourcetype
+     * @param name vom Typ String
+     * @param description vom Typ String
+     * @param info vom Typ String
+     * @param serialnumber von Typ String
+     */
+    public Ressource(Long id, Ressourcetype ressourcetype, String name, String description, String info, String serialnumber) {
         this.id = id;
         this.ressourcetype = ressourcetype;
         this.description = description;
         this.info = info;
-        this.name= name;
+        this.name = name;
         this.serialnumber = serialnumber;
     }
 

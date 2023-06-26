@@ -1,8 +1,5 @@
 package com.itkolleg.bookingsystem.exceptions;
 
-import com.itkolleg.bookingsystem.exceptions.DeskExeceptions.DeskDeletionFailureException;
-import com.itkolleg.bookingsystem.exceptions.DeskExeceptions.DeskNotFoundException;
-import com.itkolleg.bookingsystem.exceptions.DeskExeceptions.DeskValidationFailureException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.http.HttpHeaders;
@@ -17,19 +14,19 @@ import org.springframework.web.servlet.mvc.method.annotation.ResponseEntityExcep
 @ControllerAdvice
 public class CustomExceptionHandler extends ResponseEntityExceptionHandler {
 
-    private static final Logger LOGGER = LoggerFactory.getLogger(CustomExceptionHandler.class);
+    private static final Logger logger = LoggerFactory.getLogger(CustomExceptionHandler.class);
 
-    @ExceptionHandler(value = {DeskNotFoundException.class})
+    @ExceptionHandler(value = {ResourceNotFoundException.class})
     @ResponseStatus(HttpStatus.NOT_FOUND)
-    protected ResponseEntity<Object> handleDeskNotFoundException(DeskNotFoundException ex, WebRequest request) {
-        LOGGER.error("Desk not found exception: ", ex);
+    protected ResponseEntity<Object> handleResourceNotFoundException(ResourceNotFoundException ex, WebRequest request) {
+        logger.error("Desk not found exception: ", ex);
         return handleExceptionInternal(ex, ex.getMessage(), new HttpHeaders(), HttpStatus.NOT_FOUND, request);
     }
 
-    @ExceptionHandler(value = {DeskDeletionFailureException.class, DeskValidationFailureException.class})
+    @ExceptionHandler(value = {ResourceDeletionFailureException.class, ValidationFailureException.class})
     @ResponseStatus(HttpStatus.BAD_REQUEST)
     protected ResponseEntity<Object> handleDeskDeletionFailureException(RuntimeException ex, WebRequest request) {
-        LOGGER.error("Desk deletion/validation failure exception: ", ex);
+        logger.error("Desk deletion/validation failure exception: ", ex);
         return handleExceptionInternal(ex, ex.getMessage(), new HttpHeaders(), HttpStatus.BAD_REQUEST, request);
     }
 
@@ -38,7 +35,7 @@ public class CustomExceptionHandler extends ResponseEntityExceptionHandler {
     @ExceptionHandler(value = {Exception.class})
     @ResponseStatus(HttpStatus.INTERNAL_SERVER_ERROR)
     protected ResponseEntity<Object> handleUnknownException(Exception ex, WebRequest request) {
-        LOGGER.error("Unknown exception: ", ex);
+        logger.error("Unknown exception: ", ex);
         return handleExceptionInternal(ex, "An unexpected error occurred.", new HttpHeaders(), HttpStatus.INTERNAL_SERVER_ERROR, request);
     }
 }

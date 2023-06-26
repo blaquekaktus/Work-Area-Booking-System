@@ -12,7 +12,8 @@ import java.util.concurrent.ExecutionException;
 
 public interface EmployeeDBAccess {
     Employee saveEmployee(Employee employee) throws ExecutionException, InterruptedException, EmployeeAlreadyExistsException;
-    List<Employee>getAllEmployees() throws ExecutionException, InterruptedException;
+
+    List<Employee> getAllEmployees() throws ExecutionException, InterruptedException;
 
     Employee getEmployeeById(Long id) throws EmployeeNotFoundException, ExecutionException, InterruptedException;
 
@@ -23,8 +24,11 @@ public interface EmployeeDBAccess {
     Employee getEmployeeByEmail(String email);
 
     Employee getEmployeeByNick(String nick);
+
     Page<Employee> getAllEmployeesByPage(Pageable pageable);
+
     Employee updateEmployeeById(Long id, Employee employee) throws EmployeeNotFoundException;
+
     Employee updateEmployee(Employee employee) throws EmployeeNotFoundException;
 
 

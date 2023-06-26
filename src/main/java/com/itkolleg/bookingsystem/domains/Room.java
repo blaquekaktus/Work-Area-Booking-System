@@ -1,7 +1,13 @@
 package com.itkolleg.bookingsystem.domains;
 
 import jakarta.persistence.*;
-import lombok.*;
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -11,23 +17,29 @@ import java.util.List;
 @NoArgsConstructor
 @Getter
 @Setter
-@ToString
 public class Room {
+
+    private static final Logger logger = LoggerFactory.getLogger(Room.class);
+
     @Id
-    @GeneratedValue(strategy= GenerationType.SEQUENCE)
+    @GeneratedValue(strategy = GenerationType.SEQUENCE)
     private Long id;
 
     @ElementCollection
-    private List<String> vertices = new ArrayList<>();
+    private List<Point> vertices = new ArrayList<>();
 
     private String floor;
 
     private String info;
 
-    public Room(List<String> vertices, String floor, String info){
-        this.vertices=vertices;
-        this.floor=floor;
-        this.info=info;
+    /*@OneToMany(mappedBy = "room")
+    private List<Desk> desks;*/
+
+    public Room(List<Point> vertices, String floor, String info) {
+
+        this.vertices = vertices;
+        this.floor = floor;
+        this.info = info;
     }
 
     /*
@@ -42,5 +54,15 @@ public class Room {
                 vertices.add(new Point((int) x, (int) y));
             }
         } */
+
+    @Override
+    public String toString() {
+        return getClass().getSimpleName() + "(" +
+                "roomId = " + id + ", " +
+                "vertices = " + vertices + ", " +
+                "floor = " + floor + ", " +
+                "info = " + info + ")";
+    }
+
 
 }
