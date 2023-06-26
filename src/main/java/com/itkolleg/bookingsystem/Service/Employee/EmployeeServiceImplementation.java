@@ -49,7 +49,7 @@ public class EmployeeServiceImplementation implements EmployeeService {
     public Employee updateEmployeeById(Employee employee) throws ExecutionException, InterruptedException, EmployeeNotFoundException, EmployeeAlreadyExistsException {
         Employee employeeFromDb = this.employeeDBAccess.getEmployeeById(employee.getId());
         if (employeeFromDb == null) {
-            throw new EmployeeNotFoundException();
+            throw new EmployeeNotFoundException("The Employee with the ID: " + updatedBooking.getEmployee().getId() + " was not found!");
         }
         employeeFromDb.setFname(employee.getFname());
         employeeFromDb.setLname(employee.getLname());

@@ -7,6 +7,7 @@
   <link rel="stylesheet" th:href="@{/static/css/WABS.css}">
   <!-- jQuery -->
   <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
+  <script src="/static/js/jquery.rwdImageMaps.min.js"></script>
 
   <!-- Font Awesome 4-->
   <link href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet">
@@ -19,17 +20,6 @@
       background-size: cover;
       background-repeat: no-repeat;
     }
-
-    .content {
-      position: absolute; /* Ändere die Position auf absolut */
-      top: 70%; /* Setze den oberen Abstand auf 50% */
-      left: 50%; /* Setze den linken Abstand auf 50% */
-      transform: translate(-50%, -40%); /* Zentriere den Inhalt horizontal und vertikal */
-      max-width: 1588px; /* Breite des SVG-Elements */
-      height: 1123px; /* Höhe des SVG-Elements */
-      z-index: 0;
-    }
-
 
   </style>
 
@@ -74,55 +64,76 @@
     <li><a href="#">Zurück</a></li>
   </ul>
 </div>
-<div class="content">
+<div class="content-container">
+ <div class="imgmapContainer">
   <h1>Stockwerk 1</h1>
   <!-- Hier wird deine Grundriss.svg eingebunden -->
-  <object data="/static/img/Grundriss.svg" type="image/svg+xml" id="svgContainer" style="width: 100%;"></object>
- <!-- <div id="roomInfo" style="position: absolute; display: none;"></div> -->
-</div>
+  <img src="/static/img/MULLER7_2014_03_1OG-KBT_Buro.png"  alt="Stockwerk 1" id="image"usemap="#image-map" style="width: 100%">
 
+   <map name="image-map" id="image-map">
+     <area target="" alt="" title="" href="" coords="9,1235,1257,1178,1305,1809,61,1879" shape="poly" onclick="myFunction1()">
+     <area target="" alt="" title="" href="" coords="57,1980,1358,1910,1375,3097,131,3123" shape="poly" onclick="myFunction2()">
+     <area target="" alt="" title="" href="" coords="1445,1909,2479,1887,2479,3114,1463,3096" shape="poly" onclick="myFunction3()">
+     <area target="" alt="" title="" href="" coords="2536,1900,3543,1891,3530,3117,2545,3104" shape="poly" onclick="myFunction4()">
+     <area target="" alt="" title="" href="" coords="4165,191,4853,204,4848,1724,4161,1720" shape="poly" onclick="myFunction5()">
+     <area target="" alt="" title="" href="" coords="3600,1885,4844,1877,4844,3121,3596,3121" shape="poly" onclick="myFunction6()">
+   </map>
+ </div>
+</div>
 <script>
-  // Funktion zum Behandeln des Klickereignisses auf einen Raum
-  function roomClickHandler(roomId) {
-    // Hier kannst du die gewünschte Logik zum Buchen des Raums implementieren
-    console.log("Raum " + roomId + " wurde geklickt!");
+
+
+    function scaleImageMap() {
+    var image = document.getElementById('image');
+    var map = document.querySelector('map[name="image-map"]');
+    var areas = map.getElementsByTagName('area');
+
+    var widthRatio = image.clientWidth / image.naturalWidth;
+    var heightRatio = image.clientHeight / image.naturalHeight;
+
+    for (var i = 0; i < areas.length; i++) {
+    var coords = areas[i].getAttribute('coords').split(',');
+    var scaledCoords = [];
+
+    for (var j = 0; j < coords.length; j++) {
+    if (j % 2 === 0) {
+    // X coordinate
+    scaledCoords.push(Math.round(coords[j] * widthRatio));
+  } else {
+    // Y coordinate
+    scaledCoords.push(Math.round(coords[j] * heightRatio));
+  }
   }
 
-  // Warte, bis das DOM geladen ist
-  document.addEventListener("DOMContentLoaded", function(event) {
-    // Hole das SVG-Element aus dem DOM
-    var svgObject = document.getElementById("svgContainer");
+    areas[i].setAttribute('coords', scaledCoords.join(','));
+  }
+  }
 
-    // Warte, bis das SVG-Dokument geladen ist
-    svgObject.addEventListener("load", function() {
-      // Zugriff auf das SVG-Dokument
-      var svgDoc = svgObject.contentDocument;
+    // Skalierung der Image Map beim Laden der Seite und bei Größenänderungen des Fensters ausführen
+    window.addEventListener('load', scaleImageMap);
+    window.addEventListener('resize', scaleImageMap);
 
-      // Pfade für die Räume
-      var roomPaths = [
-        "M 6.6298705,394.93204 407.42054,373.98479 422.78185,585.31923 18.73272,606.26648 Z",
-        "m 16.452035,631.67585 418.013945,-20.94724 5.12044,390.54979 -399.859667,-0.931 z",
-        "m 462.86113,611.1941 330.9665,-3.72395 2.79296,392.87725 -328.63902,-0.4655 z",
-        "m 1551.633,603.01053 -400.9098,3.29155 -1.3166,395.64342 h 403.543 z",
-        "m 811.03601,608.277 323.22949,-2.63323 1.9749,394.98503 -323.88778,-0.65827 z",
-        "m 1330.4414,554.95402 223.1665,-0.65831 0.6583,-487.806557 -223.8248,-2.633234 z"
-      ];
+  //$('img[usemap]').rwdImageMaps();
 
-      // Erstelle Pfade für die Räume und füge Klickereignis hinzu
-      for (var i = 0; i < roomPaths.length; i++) {
-        var roomId = "room" + i;
-        var room = svgDoc.createElementNS("http://www.w3.org/2000/svg", "path");
-        room.setAttribute("d", roomPaths[i]);
-        room.setAttribute("fill", "#ffffff");
-        room.setAttribute("id", roomId);
-        room.addEventListener("click", function(event) {
-          // Rufe den Klickereignis-Handler auf und übergebe die Raum-ID
-          roomClickHandler(event.target.id);
-        });
-        svgDoc.getElementById("svgContainer").appendChild(room);
-      }
-    });
-  });
+  function myFunction1() {
+    alert("You clicked room1!");
+  }
+  function myFunction2() {
+    alert("You clicked room2!");
+  }
+  function myFunction3() {
+    alert("You clicked room3!");
+  }
+  function myFunction4() {
+    alert("You clicked room4!");
+  }
+  function myFunction5() {
+    alert("You clicked room5!");
+  }
+  function myFunction6() {
+    alert("You clicked room6!");
+  }
 </script>
+
 </body>
 </html>

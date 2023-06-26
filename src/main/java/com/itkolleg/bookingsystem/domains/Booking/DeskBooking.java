@@ -10,7 +10,6 @@ import jakarta.persistence.ManyToOne;
 import lombok.*;
 
 import java.time.LocalDate;
-import java.time.LocalDateTime;
 import java.time.LocalTime;
 
 @Entity
@@ -26,7 +25,7 @@ public class DeskBooking extends Booking {
     private Desk desk;
 
     public DeskBooking(Employee employee, Desk desk, LocalDate date, LocalTime bookingStart, LocalTime bookingEnd, LocalTime timeStamp) {
-        super(employee, date, bookingStart, bookingEnd, timeStamp);
+        super(employee, date, bookingStart, bookingEnd);
         this.desk = desk;
     }
 

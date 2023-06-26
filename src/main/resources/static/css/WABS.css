@@ -1,6 +1,50 @@
-/* CSS */
+
 body {
     font-family: 'Roboto Condensed', sans-serif;
+}
+
+.addRessourceContainer {
+    background-color: #fff;
+    padding: 20px;
+    border-radius: 5px; /*Abrundung der Box*/
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.3);
+    max-width: 500px;
+    margin-top: 100px;
+}
+
+.addRessourceContainer h1 {
+    text-align: center;
+}
+
+.form-group {
+    margin-bottom: 20px;
+}
+
+.form-group label {
+    display: block;
+    font-weight: bold;
+}
+
+.form-group input,
+.form-group textarea {
+    width: 100%;
+    padding: 8px;
+    font-size: 16px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+}
+
+.btn-primary {
+    background-color: #4CAF50;
+    color: white;
+    padding: 10px 20px;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+}
+
+.btn-primary:hover {
+    background-color: #45a049;
 }
 
 /* Top Bar */
@@ -81,11 +125,149 @@ body {
     color: white;
 }
 
+.content-container {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 80%; /* Anpassen der Breite des Content-Containers */
+    min-width: 300px; /* Mindestbreite des Content-Containers */
+    height: 90vh; /* Höhe des Content-Containers */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+
+table {
+    font-family: arial, sans-serif;
+    border-collapse: collapse;
+    width: 100%;
+    background-color: white;
+}
+
+td, th {
+    border: 1px solid #dddddd;
+    text-align: center;
+    padding: 8px;
+}
+
+
+.button {
+    background-color: #96c01e;
+    border-radius: 8px;
+    border-style: none;
+    box-sizing: border-box;
+    color: #FFFFFF;
+    cursor: pointer;
+    display: inline-block;
+    font-size: 14px;
+    font-weight: 500;
+    height: 40px;
+    line-height: 20px;
+    list-style: none;
+    margin: 0;
+    outline: none;
+    padding: 10px 16px;
+    position: relative;
+    text-align: center;
+    text-decoration: none;
+    transition: color 100ms;
+    vertical-align: baseline;
+    user-select: none;
+    -webkit-user-select: none;
+    touch-action: manipulation;
+}
+
+.add-button {
+    background-color: #96c01e;
+    border-radius: 8px;
+    border-style: none;
+    box-sizing: border-box;
+    color: #FFFFFF;
+    cursor: pointer;
+    display: inline-block;
+    font-size: 14px;
+    font-weight: 500;
+    height: 40px;
+    line-height: 20px;
+    list-style: none;
+    margin: 0;
+    outline: none;
+    padding: 10px 16px;
+    position: absolute;
+    text-align: center;
+    text-decoration: none;
+    transition: color 100ms;
+    vertical-align: baseline;
+    user-select: none;
+    -webkit-user-select: none;
+    touch-action: manipulation;
+}
+
+.delete-button {
+    background-color: #00b8eb;
+    border-radius: 8px;
+    border-style: none;
+    box-sizing: border-box;
+    color: #FFFFFF;
+    cursor: pointer;
+    display: inline-block;
+    font-size: 14px;
+    font-weight: 500;
+    height: 40px;
+    line-height: 20px;
+    list-style: none;
+    margin: 0;
+    outline: none;
+    padding: 10px 16px;
+    position: relative;
+    text-align: center;
+    text-decoration: none;
+    transition: color 100ms;
+    vertical-align: baseline;
+    user-select: none;
+    -webkit-user-select: none;
+    touch-action: manipulation;
+}
+
+.button:hover,
+.button:focus {
+    background-color: #00b8eb;
+}
+
+.delete-button:hover,
+.delete-button:focus {
+    background-color: #00b8eb;
+}
+
+.add-button:hover,
+.add-button:focus {
+    background-color: #00b8eb;
+}
+
+tr:nth-child(even) {
+    background-color: #dddddd;
+}
+
+.background {
+    background-image: url("/static/img/background.jpg");
+    background-size: cover;
+    background-repeat: no-repeat;
+}
+
 
 /* Extra small devices (phones, 600px and down) */
 @media only screen and (max-width: 600px) {
     .logo {
         width: 150px;
+    }
+
+    .content-container {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        height: 10vh;
     }
 
     .top-bar-header {
@@ -111,6 +293,13 @@ body {
         width: 180px;
     }
 
+    .content-container {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        height: 10vh;
+    }
+
     .top-bar-header {
         top: 35%;
     }
@@ -126,12 +315,31 @@ body {
     .top-bar-sub-header h2 {
         font-size: 14px;
     }
+
+    label {
+        display: block;
+        font: 1rem 'Fira Sans', sans-serif;
+    }
+
+    input,
+    label {
+        margin: 0.4rem 0;
+    }
+
 }
+
 
 /* Medium devices (tablets, 768px and up) */
 @media only screen and (min-width: 768px) {
     .logo {
         width: 200px;
+    }
+
+    .content-container {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        height: 10vh;
     }
 
     .top-bar-header {
@@ -155,6 +363,13 @@ body {
 @media only screen and (min-width: 992px) {
     .logo {
         width: 200px;
+    }
+
+    .content-container {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        height: 10vh;
     }
 
     .top-bar-header {
@@ -182,6 +397,13 @@ body {
 
     .top-bar-header {
         top: 50%;
+    }
+
+    .content-container {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        height: 10vh;
     }
 
     .top-bar-header h1 {
