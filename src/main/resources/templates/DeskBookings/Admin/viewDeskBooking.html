@@ -6,7 +6,7 @@
     <link th:href="@{/webjars/bootstrap/4.0.0-2/css/bootstrap.min.css} " th:rel="stylesheet"/>
     <script src="/static/js/DeskBooking.js"></script>
 </head>
-<body style="background-image: url('../../static/img/background2.jpg');background-repeat:no-repeat;background-size:cover;">
+<body style="background-image: url('/static/img/background2.jpg');background-repeat:no-repeat;background-size:cover;">
 <nav class="navbar navbar-expand-lg navbar-light"
      style="background-color: #96C01E;height: 200px;display:flex;align-items:center;">
     <!-- Navigation content -->
@@ -26,40 +26,37 @@
 <br>
 <div class="container">
     <div class="row justify-content-center">
-        <form class="col-md-6" method="get" th:action="@{/web/deskbookings/view/{id}}" th:object="${myDeskBooking}">
+        <form class="col-md-6" method="get" th:action="@{/web/deskbookings/admin/view/{id}}" th:object="${deskBooking}">
             <div class="mb-3">
                 <label class="form-label" for="employee">Employee</label>
                 <input class="form-control" id="employee" name="employee" readonly
-                       th:value="${myDeskBooking.employee.fname} + ' '+ ${myDeskBooking.employee.lname}" type="text">
+                       th:value="${deskBooking.employee.fname} + ' '+ ${deskBooking.employee.lname}" type="text">
             </div>
             <div class="mb-3">
                 <label class="form-label" for="deskNr">Work-Area Number</label>
                 <input class="form-control" id="deskNr" name="deskNr" readonly
-                       th:field="${myDeskBooking.desk.deskNr}" type="text">
+                       th:field="${deskBooking.desk.deskNr}" type="text">
             </div>
             <div class="mb-3">
                 <label class="form-label" for="date">Date</label>
-                <input class="form-control" id="date" name="date" readonly th:value="${#temporals.format(myDeskBooking.date, 'dd-MM-YYYY')}" type="text">
+                <input class="form-control" id="date" name="date" readonly th:value="${#temporals.format(deskBooking.date, 'dd-MM-YYYY')}" type="text">
             </div>
             <div class="mb-3">
                 <label class="form-label" for="start">Start</label>
                 <!--          <--Use field value directly -->
-                <input class="form-control" id="start" name="start" readonly th:field="${myDeskBooking.start}"
+                <input class="form-control" id="start" name="start" readonly th:field="${deskBooking.start}"
                        type="text">
             </div>
             <div class="mb-3">
                 <label class="form-label" for="end">End</label>
-                <input class="form-control" id="end" name="end" readonly th:field="${myDeskBooking.endTime}"
+                <input class="form-control" id="end" name="end" readonly th:field="${deskBooking.endTime}"
                        type="text">
             </div>
             <div class="d-flex justify-content-center">
-                <button class="btn btn-dark my-2 my-sm-0" onclick="goBack()">Back to My Bookings</button>
+                <a role="button" class="btn btn-dark my-2 my-sm-0" th:href="@{/web/deskbookings/admin}">Back</a>
             </div>
         </form>
     </div>
 </div>
-<script th:src="@{/webjars/jquery/3.0.0/jquery.min.js}"></script>
-<script th:src="@{/webjars/popper.js/1.12.9-1/umd/popper.min.js}"></script>
-<script th:src="@{/webjars/bootstrap/4.0.0-2/js/bootstrap.min.js}"></script>
 </body>
 </html>

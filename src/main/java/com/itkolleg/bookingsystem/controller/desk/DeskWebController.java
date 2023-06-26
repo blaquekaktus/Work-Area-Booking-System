@@ -1,6 +1,7 @@
 package com.itkolleg.bookingsystem.controller.desk;
 
 
+import com.itkolleg.bookingsystem.domains.ErrorDetails;
 import com.itkolleg.bookingsystem.exceptions.ResourceDeletionFailureException;
 import com.itkolleg.bookingsystem.exceptions.ResourceNotFoundException;
 import com.itkolleg.bookingsystem.service.Desk.DeskService;
@@ -29,12 +30,6 @@ public class DeskWebController {
         model.addAttribute("viewAllDesks", this.deskService.getAllDesks());
         return "Desks/allDesks";
     }
-
-    /*@GetMapping("/testAllDesksTemplate")
-    public String getAllDesks(Model model){
-        model.addAttribute("testAllDesks", this.deskService.getAllDesks());
-        return "Desks/deskstrial";
-    }*/
 
     @GetMapping("/add")
     public String addDeskForm(Model model) {
@@ -89,7 +84,7 @@ public class DeskWebController {
         }
     }
 
-/*    @GetMapping("/cancel/{id}")
+    /*@GetMapping("/cancel/{id}")
     public String CancellationConfirmation(@PathVariable Long id, Model model) {
         try {
             Desk desk = this.deskService.getDeskById(id);
@@ -107,13 +102,15 @@ public class DeskWebController {
         try {
             this.deskService.deleteDeskById(id);
             return "redirect:/web/desks";
-        } catch (DeskDeletionFailureException deskDeletionFailureException) {
+        } catch (deletion deskDeletionFailureException) {
             ErrorDetails errorDetails = new ErrorDetails("Desk Deletion Failure", deskDeletionFailureException.getMessage());
             model.addAttribute("errorDetails", errorDetails);
             return "errorPage";
+        } catch (ResourceDeletionFailureException e) {
+            throw new RuntimeException(e);
         }
-    }*/
-
+    }
+*/
     @GetMapping("/delete/{id}")
     public String deleteDesk(@PathVariable Long id, Model model) {
         try {
