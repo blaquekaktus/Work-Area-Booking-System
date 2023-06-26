@@ -1,4 +1,4 @@
-package com.itkolleg.bookingsystem.Service.Room;
+package com.itkolleg.bookingsystem.service.RoomBooking;
 
 import com.itkolleg.bookingsystem.domains.Booking.RoomBooking;
 import com.itkolleg.bookingsystem.domains.Employee;

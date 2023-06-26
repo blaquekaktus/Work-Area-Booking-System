@@ -20,7 +20,7 @@ public interface RoomBookingJPARepo extends JpaRepository<RoomBooking,Long> {
     List<RoomBooking> getBookingsByRoomAndDate(Room room, LocalDate date);
     List<RoomBooking> getBookingsByRoomAndEmployee(Room room, Employee employee);
     List<RoomBooking> getBookingsByEmployeeAndDate(Employee employee,LocalDate date);
-    List<RoomBooking> getBookingsByEmployeesAndDateAndRoom(Employee employee,LocalDate date,Room room);
+    List<RoomBooking> getBookingsByEmployeeAndDateAndRoom(Employee employee,LocalDate date,Room room);
     List<RoomBooking> getBookingsByDateAndStartBetween(LocalDate date, LocalTime start, LocalTime endTime);
     List<RoomBooking> getBookingsByRoomAndDateAndStartBetween(Room room,LocalDate date, LocalTime start, LocalTime endTime);
     List<RoomBooking> getBookingsByEmployeeIdAndDateAndRoomId(Long employeeId, LocalDate date, Long roomId);

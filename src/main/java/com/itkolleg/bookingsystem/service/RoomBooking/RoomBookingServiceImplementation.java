@@ -1,4 +1,4 @@
-package com.itkolleg.bookingsystem.Service.Room;
+package com.itkolleg.bookingsystem.service.RoomBooking;
 
 import com.itkolleg.bookingsystem.domains.Booking.RoomBooking;
 import com.itkolleg.bookingsystem.domains.Employee;
@@ -134,9 +134,9 @@ public class RoomBookingServiceImplementation implements RoomBookingService {
        }
     }
 
-    @Override
-    public List<RoomBooking> findByRoomAndBookingEndAfterAndBookingStartBefore(Room room, LocalDate date, LocalTime start, LocalTime endTime) {
-        return this.findByRoomAndBookingEndAfterAndBookingStartBefore(room,date,start,endTime);
+
+   public List<RoomBooking> findByRoomAndBookingEndAfterAndBookingStartBefore(Room room, LocalDate date, LocalTime start, LocalTime endTime) {
+        return this.roomBookingRepo.getBookingsByRoomAndDateAndBookingTimeBetween(room,date,start,endTime);
     }
 
     @Override
