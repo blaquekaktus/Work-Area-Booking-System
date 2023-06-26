@@ -10,8 +10,8 @@
 
     <!-- Font Awesome 4-->
     <link href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet">
-    <link rel="stylesheet" href="/css/sidebar-accordionAdmin.css">
-    <link rel="stylesheet" href="/static/css/sidebar-accordionAdmin.css">
+    <link rel="stylesheet" href="/css/sidebar-accordion.css">
+    <link rel="stylesheet" href="/static/css/sidebar-accordion.css">
     <script src="/static/js/sidebar-accordion.js"></script>
     <script src="/static/js/DropDown.js"></script>
     <style>
@@ -27,7 +27,7 @@
 </head>
 <body>
 <!-- Top Bar -->
-<div class="top-barAdmin">
+<div class="top-bar">
     <img src="/static/img/LogoWhite.png" alt="Logo" class="logo">
     <a th:href="@{/web/logout}" class="logout-link">Abmelden</a>
     <div class="top-bar-header">
@@ -38,29 +38,7 @@
     </div>
 </div>
 <!-- Side Navbar -->
-<div class="contenedor-menu">
-    <!-- <a href="" class="btnMenu">Menu <i class="fa fa-bars"></i></a> -->
-
-    <ul class="menu">
-        <li><a href="#">Home</a></li>
-        <li><a href="#">Bookings <i class="fa fa-chevron-down"></i></a>
-            <ul>
-                <li><a href="#">Work-Areas</a></li>
-                <li><a href="#">Equipment</a></li>
-                <li><a href="#">Rooms</a></li>
-            </ul>
-        </li>
-        <li><a href="#">My Bookings <i class="fa fa-chevron-down"></i></a>
-            <ul>
-                <li><a href="#">Work-Areas</a></li>
-                <li><a href="#">Equipment</a></li>
-                <li><a href="#">Rooms</a></li>
-                <li><a href="#">History</a></li>
-            </ul>
-        </li>
-        <li><a href="#">Back</a></li>
-    </ul>
-</div>
+<div th:insert="navbarEmployee :: navbarEmployee">  </div>
 <div class="content-container">
     <div class="addRessourceContainer">
         <h1 class="text-center text-dark">Create New Work-Area Booking</h1>
