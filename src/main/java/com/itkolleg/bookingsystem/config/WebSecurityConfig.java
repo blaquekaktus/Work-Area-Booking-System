@@ -78,8 +78,8 @@ public class WebSecurityConfig {
                  .disable()
                  .and() */
                 .authorizeHttpRequests(authConfig -> {
-                    authConfig.requestMatchers(HttpMethod.GET, "/web/hello","/web/login", "/error", "/web/login-error", "/web/logout", "/static/**", "/templates/**").permitAll();
-                    authConfig.requestMatchers(HttpMethod.POST, "/web/login").permitAll();
+                    authConfig.requestMatchers(HttpMethod.GET, "/web/**","/web/login", "/error", "/web/login-error", "/web/logout", "/static/**", "/templates/**").permitAll();
+                    authConfig.requestMatchers(HttpMethod.POST, "/web/login", "web/**").permitAll();
                     authConfig.requestMatchers(HttpMethod.GET, "/web/**").hasRole("ADMIN");
                     authConfig.requestMatchers(HttpMethod.POST, "/web/**").hasRole("ADMIN");
                 })
@@ -90,11 +90,11 @@ public class WebSecurityConfig {
                                 if (roles.contains("ROLE_ADMIN")) {
                                     response.sendRedirect("/web/employees/admin-start");
                                 } else if (roles.contains("ROLE_OPERATOR")) {
-                                    response.sendRedirect("/web/hello");
+                                    response.sendRedirect("/web/employees/start");
                                 } else if (roles.contains("ROLE_N_EMPLOYEE")) {
-                                    response.sendRedirect("/web/hello");
+                                    response.sendRedirect("/web/employees/start");
                                 } else if (roles.contains("ROLE_P_EMPLOYEE")) {
-                                    response.sendRedirect("/web/hello");
+                                    response.sendRedirect("/web/employees/start");
                                 } else {
                                     response.sendRedirect("/web/login-error");
                                 }

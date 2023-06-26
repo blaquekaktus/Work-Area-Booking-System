@@ -95,7 +95,7 @@
           <select class="form-control" name="role" id="role">
             <option>---Bitte Auswählen---</option>
             <option th:each="role : ${T(com.itkolleg.bookingsystem.domains.Role).values()}"
-                    th:value="${role}" th:text="${role}" th:selected="${role == employee.role}">
+                    th:value="${role}" th:text="${#strings.substringAfter(role, '_')}" th:selected="${role == employee.role}">
             </option>
           </select>
         </div>
