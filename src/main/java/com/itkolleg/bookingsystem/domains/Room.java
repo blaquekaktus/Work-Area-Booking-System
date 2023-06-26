@@ -23,7 +23,7 @@ public class Room {
 
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE)
-    private Long roomId;
+    private Long id;
 
     @ElementCollection
     private List<Point> vertices = new ArrayList<>();
@@ -58,9 +58,11 @@ public class Room {
     @Override
     public String toString() {
         return getClass().getSimpleName() + "(" +
-                "roomId = " + roomId + ", " +
+                "roomId = " + id + ", " +
                 "vertices = " + vertices + ", " +
                 "floor = " + floor + ", " +
                 "info = " + info + ")";
     }
+
+
 }
