@@ -82,13 +82,9 @@ public class WebSecurityConfig {
                     authConfig.requestMatchers(HttpMethod.GET, "/web/login", "/error", "/web/login-error", "/web/logout", "/static/**", "/templates/**").permitAll();
                     authConfig.requestMatchers(HttpMethod.POST, "/web/login", "web/**").permitAll();
                     authConfig.requestMatchers(HttpMethod.GET, "/web/**").hasRole("ADMIN");
+                    authConfig.requestMatchers(HttpMethod.GET,  "/web/**").hasAnyRole("OPERATOR", "N_EMPLOYEE", "P_EMPLOYEE");
                     authConfig.requestMatchers(HttpMethod.POST, "/web/**").hasRole("ADMIN");
-                    authConfig.requestMatchers(HttpMethod.GET, "/web/**").hasRole("OPERATOR");
-                    authConfig.requestMatchers(HttpMethod.POST, "/web/**").hasRole("OPERATOR");
-                    authConfig.requestMatchers(HttpMethod.GET, "/web/**").hasRole("P_EMPLOYEE");
-                    authConfig.requestMatchers(HttpMethod.POST, "/web/**").hasRole("P_EMPLOYEE");
-                    authConfig.requestMatchers(HttpMethod.GET, "/web/**").hasRole("N_EMPLOYEE");
-                    authConfig.requestMatchers(HttpMethod.POST, "/web/**").hasRole("N_EMPLOYEE");
+                    authConfig.requestMatchers(HttpMethod.POST, "/web/**").hasAnyRole("OPERATOR", "N_EMPLOYEE", "P_EMPLOYEE");
 
                 })
                 .formLogin(login -> {
