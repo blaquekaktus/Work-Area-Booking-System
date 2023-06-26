@@ -73,6 +73,7 @@ public class WebSecurityConfig {
     @Bean
     SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         http
+
                 /* .headers()
                  .contentTypeOptions()
                  .disable()
