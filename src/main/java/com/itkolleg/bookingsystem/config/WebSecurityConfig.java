@@ -79,10 +79,17 @@ public class WebSecurityConfig {
                  .disable()
                  .and() */
                 .authorizeHttpRequests(authConfig -> {
-                    authConfig.requestMatchers(HttpMethod.GET, "/web/**","/web/login", "/error", "/web/login-error", "/web/logout", "/static/**", "/templates/**").permitAll();
+                    authConfig.requestMatchers(HttpMethod.GET, "/web/login", "/error", "/web/login-error", "/web/logout", "/static/**", "/templates/**").permitAll();
                     authConfig.requestMatchers(HttpMethod.POST, "/web/login", "web/**").permitAll();
                     authConfig.requestMatchers(HttpMethod.GET, "/web/**").hasRole("ADMIN");
                     authConfig.requestMatchers(HttpMethod.POST, "/web/**").hasRole("ADMIN");
+                    authConfig.requestMatchers(HttpMethod.GET, "/web/**").hasRole("OPERATOR");
+                    authConfig.requestMatchers(HttpMethod.POST, "/web/**").hasRole("OPERATOR");
+                    authConfig.requestMatchers(HttpMethod.GET, "/web/**").hasRole("P_EMPLOYEE");
+                    authConfig.requestMatchers(HttpMethod.POST, "/web/**").hasRole("P_EMPLOYEE");
+                    authConfig.requestMatchers(HttpMethod.GET, "/web/**").hasRole("N_EMPLOYEE");
+                    authConfig.requestMatchers(HttpMethod.POST, "/web/**").hasRole("N_EMPLOYEE");
+
                 })
                 .formLogin(login -> {
                     login.loginPage("/web/login")
