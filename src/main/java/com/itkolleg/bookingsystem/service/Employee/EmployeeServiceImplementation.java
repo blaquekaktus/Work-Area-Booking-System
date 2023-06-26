@@ -16,6 +16,8 @@ import org.springframework.stereotype.Service;
 import java.util.List;
 import java.util.concurrent.ExecutionException;
 
+
+
 @Service
 public class EmployeeServiceImplementation implements EmployeeService {
 
@@ -28,6 +30,20 @@ public class EmployeeServiceImplementation implements EmployeeService {
 
     @Override
     public Employee addEmployee(Employee employee) throws EmployeeAlreadyExistsException, ExecutionException, InterruptedException {
+        String email = employee.getEmail();
+        String nick = employee.getNick();
+
+        Employee existingEmployeeByEmail = employeeDBAccess.getEmployeeByEmail(email);
+        Employee existingEmployeeByNick = employeeDBAccess.getEmployeeByNick(nick);
+
+        if (existingEmployeeByEmail != null) {
+            throw new EmployeeAlreadyExistsException("Employee with email already exists");
+        }
+
+        if (existingEmployeeByNick != null) {
+            throw new EmployeeAlreadyExistsException("Employee with nick already exists");
+        }
+
         return this.employeeDBAccess.saveEmployee(employee);
     }
 

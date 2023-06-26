@@ -46,7 +46,7 @@ public class RoomWebController {
         } catch (RoomDeletionNotPossibleException e) {
             model.addAttribute("errortitle", "Raum-Löschen schlägt fehl!");
             model.addAttribute("errormessage", e.getMessage());
-            return "errorPage";
+            return "error";
         }
     }
 

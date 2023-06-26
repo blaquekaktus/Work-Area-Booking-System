@@ -3,210 +3,54 @@
 <head>
     <meta charset="UTF-8">
     <title>Login Page</title>
+    <meta charset="UTF-8">
+    <link href="https://fonts.googleapis.com/css?family=Roboto+Condensed&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="/static/css/WABS.css">
+    <!-- jQuery -->
+    <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
+
+    <!-- Font Awesome 4-->
+    <link href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="/static/css/sidebar-accordion.css">
+    <script src="/static/js/sidebar-accordion.js"></script>
+    <script src="/static/js/DropDown.js"></script>
     <link href="https://fonts.googleapis.com/css?family=Roboto+Condensed&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="/../static/css/WABS.css">
     <style>
         body {
-            background-image: url('/../static/img/background.jpg');
-            background-size: 100% 100%;
-            margin: 0;
-            padding: 0;
-            font-family: 'Roboto Condensed', sans-serif;
-            overflow: hidden; /* Add this line to hide vertical scroll */
-        }
-
-        .back-container {
-            position: absolute;
-            top: 16%;
-            left: 2%;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-        }
-
-        @media screen and (max-width: 600px) {
-            .back-container {
-                top: 5%;
-                left: 2%;
-            }
-        }
-
-        .back-box {
-            width: 80px;
-            height: 40px;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            font-size: 16px;
-            font-weight: bold;
-            color: white;
-            cursor: pointer;
-            border-radius: 8px;
-            border: none;
-            background-color: #96c01e;
-        }
-
-        .back-box:hover {
-            background-color: #3b3b3b;
-        }
-
-        .header {
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
-            align-items: center;
-            margin-top: 30px;
-            text-align: center;
-        }
-
-        .header h1 {
-            font-size: 40px;
-            margin: 0;
-        }
-
-        .header h2 {
-            font-size: 20px;
-            margin: 0;
-        }
-
-        .container {
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
-            align-items: center;
-            /* min-height: 100vh; */
-            height: 100vh;
-            padding: 0 20px;
-            /* box-sizing: border-box; */
-        }
-
-
-
-
-
-        .logo {
-            position: absolute;
-            top: 10px;
-            left: 10px;
-            width: 200px;
-            height: auto;
-        }
-
-        .form-container {
-            width: 100%;
-            max-width: 400px;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            margin-bottom: 10px;
-        }
-
-        .form-container input {
-            width: 100%;
-            height: 40px;
-            margin-bottom: 10px;
-            font-size: 16px;
-            padding: 10px;
-            border-radius: 8px;
-            border: none;
-            box-sizing: border-box; /* Add this line */
-        }
-
-        .button-container {
-            width: 100%;
-            max-width: 400px;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            margin-top: 20px;
-        }
-
-        .login-box, .register-box {
-            width: 100%;
-            height: 40px;
-            margin: 10px 0;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            font-size: 16px;
-            font-weight: bold;
-            color: white;
-            cursor: pointer;
-            border-radius: 8px;
-            border: none;
-        }
-
-        .login-box {
-            background-color: #96c01e;
-        }
-
-        .register-box {
-            background-color: #00b8eb;
-        }
-
-        .login-box:hover {
-            background-color: #3b3b3b;
-        }
-
-        .register-box:hover {
-            background-color: #3b3b3b;
+            background-image: url("/static/img/background.jpg");
+            background-size: cover;
+            background-repeat: no-repeat;
         }
     </style>
+
 </head>
 <body>
-<img class="logo" src="/../static/img/LogoWhite.png">
-<div class="header">
-    <h1>W.A.B.S.</h1>
-    <h2>Work-Area Booking System</h2>
-</div>
-<div class="container">
-    <div class="form-container">
-        <div style="background-color: lightgray">
-            <form method="post" th:action="@{/web/login}" th:error="${#fields.errors()}">
+<img class="logo" src="/../static/img/LogoWhite.png" alt="">
+<div class="content-container">
+    <div class="addRessourceContainer">
+        <h1>W.A.B.S.</h1>
+        <h2>Work-Area Booking System</h2><br><br>
+        <form method="post" th:action="@{/web/login}" >
             <h3>Benutzername</h3>
-            <label for="username"></label>
-            <input type="text" name="username" id="username" placeholder="username" required>
-            <h4>Passwort</h4>
-            <label for="password"></label>
-            <input type="password" name="password" id="password" placeholder="password" required>
+            <div class="form-group">
+                <label for="username"></label>
+                <input type="text" class="form-control" name="username" id="username"  placeholder="username" required>
+            </div>
+            <h3>Passwort</h3>
+            <div class="form-group">
+                <label for="password"></label>
+                <input type="password" class="form-control" name="password" id="password"  placeholder="Passwort" required>
+            </div>
             <div th:if="${error}" class="alert alert-danger" role="alert">
                 <span th:text="${error}"></span>
             </div>
             <div class="button-container">
-                <button class="login-box" type="submit">Login</button>
-                <!-- <a href="https://example.com/login" class="login-box">Login</a> -->
-                <!-- <a href="https://example.com/register" class="register-box">Login As Admin</a> -->
+                <button class="button" type="submit">Login</button>
             </div>
         </form>
-        <!-- <a href="/register" class="btn btn-secondary btn-block my-3">Create account</a> -->
-        </div>
     </div>
 </div>
-<script>
-    // Responsive design: adjust layout based on screen size
-    function adjustLayout() {
-        if (window.innerWidth < 600) {
-            // Adjust the header text size and margin for small screens
-            document.querySelector('.header h1').style.fontSize = '50px';
-            document.querySelector('.header h2').style.fontSize = '30px';
-            document.querySelector('.header').style.marginTop = '50px';
 
-            // Adjust the form container width and button container margin for small screens
-            document.querySelector('.form-container').style.width = '80%';
-            document.querySelector('.button-container').style.marginTop = '20px';
-        } else {
-            // Revert to original styles for larger screens
-            document.querySelector('.header h1').style.fontSize = '80px';
-            document.querySelector('.header h2').style.fontSize = '40px';
-            document.querySelector('.header').style.marginTop = '10px';
-            document.querySelector('.form-container').style.width = '25%';
-            document.querySelector('.button-container').style.marginTop = '0';
-        }
-    }
-
-    // Call adjustLayout() initially and whenever the screen is resized
-    adjustLayout();
-    window.addEventListener('resize', adjustLayout);
-</script>
 </body>
 </html>
