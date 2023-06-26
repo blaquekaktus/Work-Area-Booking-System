@@ -128,6 +128,6 @@ public class DeskWebController {
 
     @GetMapping("/error")
     public String getError() {
-        return "errorPage";
+        return "error";
     }
 }

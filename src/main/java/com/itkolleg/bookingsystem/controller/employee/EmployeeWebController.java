@@ -78,7 +78,7 @@ public class EmployeeWebController {
     }
 
     @PostMapping("/insertemployee")
-    public String insertEmployee(@Valid @ModelAttribute("myemployee") Employee employee, Model model, BindingResult bindingResult) throws ExecutionException, InterruptedException {
+    public String insertEmployee(@Valid @ModelAttribute("myemployee") Employee employee, BindingResult bindingResult, Model model) throws ExecutionException, InterruptedException {
         if (bindingResult.hasErrors()) {
             model.addAttribute("bindingResult", bindingResult);
             return "employee/insertemployeeform";
@@ -107,7 +107,7 @@ public class EmployeeWebController {
     }
 
     @PostMapping("/editemployee")
-    public String editEmployee(@Valid @ModelAttribute("employee") Employee updatedEmployee, Model model, BindingResult bindingResult) throws EmployeeNotFoundException {
+    public String editEmployee(@Valid @ModelAttribute("employee") Employee updatedEmployee, BindingResult bindingResult, Model model) throws EmployeeNotFoundException {
         System.out.println("Validierung fehlgeschlagen: " + bindingResult.getAllErrors());
         if (bindingResult.hasErrors()) {
             System.out.println("Validierung fehlgeschlagen: " + bindingResult.getAllErrors());
@@ -120,7 +120,7 @@ public class EmployeeWebController {
                 System.out.println(e.getMessage());
                 model.addAttribute("errortitle", "Mitarbeiter bearbeiten fehlgeschlagen!");
                 model.addAttribute("errormessage", e.getMessage());
-                return "myerrorspage";
+                return "error";
             }
         }
     }

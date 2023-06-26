@@ -82,14 +82,6 @@ public class WebSecurityConfig {
                     authConfig.requestMatchers(HttpMethod.POST, "/web/login").permitAll();
                     authConfig.requestMatchers(HttpMethod.GET, "/web/**").hasRole("ADMIN");
                     authConfig.requestMatchers(HttpMethod.POST, "/web/**").hasRole("ADMIN");
-
-
-
-                    /*authConfig.requestMatchers(HttpMethod.GET, "/web").hasRole("ADMIN");
-                    authConfig.requestMatchers(HttpMethod.GET, "/operator").hasRole("OPERATOR");
-                    authConfig.requestMatchers(HttpMethod.GET, "/users").hasAnyRole("Admin", "DEVELOPER");
-                    authConfig.requestMatchers(HttpMethod.GET, "/authorities").hasAnyRole("DEVELOPER");
-                    authConfig.anyRequest().authenticated();*/
                 })
                 .formLogin(login -> {
                     login.loginPage("/web/login")
@@ -111,8 +103,8 @@ public class WebSecurityConfig {
                 })
 
                 .logout(logout -> {
-                    logout.logoutRequestMatcher(new AntPathRequestMatcher("/web/logout"));
-                    logout.logoutSuccessUrl("/web/logout");
+                    logout.logoutRequestMatcher(new AntPathRequestMatcher("/logout"));
+                    logout.logoutSuccessUrl("/web/login");
                     logout.deleteCookies("JSESSIONID");
                     logout.invalidateHttpSession(true);
                 });

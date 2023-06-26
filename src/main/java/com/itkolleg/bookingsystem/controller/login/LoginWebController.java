@@ -74,9 +74,10 @@ public class LoginWebController {
             Authentication authentication = authenticationManager.authenticate(token);
             SecurityContextHolder.getContext().setAuthentication(authentication);
             return "redirect:/web/hello";
-        } catch (AuthenticationException e) {
+        } catch (Exception e) {
+            System.out.println("Authentication Exception: " + e.getMessage());
             model.addAttribute("error", "Benutzername oder Passwort ungültig");
-            return "redirect:/web/login-error";
+            return "redirect:/web/login";
         }
     }
 
@@ -84,7 +85,7 @@ public class LoginWebController {
     public String logout(HttpServletRequest request) {
         request.getSession().invalidate();
         SecurityContextHolder.clearContext();
-        return "login/logout";
+        return "login/login";
     }
 
 
