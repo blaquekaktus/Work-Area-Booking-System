@@ -7,7 +7,7 @@ import com.itkolleg.bookingsystem.service.Booking.BookingService;
 import java.sql.Date;
 import java.util.List;
 
-// @service
+
 public class BookingServiceImplementation implements BookingService<Booking, Long> {
 
     @Override

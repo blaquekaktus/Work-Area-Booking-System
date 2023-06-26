@@ -6,6 +6,7 @@ import com.itkolleg.bookingsystem.exceptions.EmployeeExceptions.EmployeeDeletion
 import com.itkolleg.bookingsystem.exceptions.EmployeeExceptions.EmployeeNotFoundException;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 
 import java.util.List;
@@ -29,5 +30,9 @@ public interface EmployeeService extends UserDetailsService {
     Employee getEmployeeByEmail(String email) throws EmployeeNotFoundException;
 
     Employee getEmployeeByNick(String nick);
+
+    Employee findByNick(String username);
     //String getPasswordForEmployee(String username);
+
+    UserDetails loadEmployeeByUsername(String username);
 }

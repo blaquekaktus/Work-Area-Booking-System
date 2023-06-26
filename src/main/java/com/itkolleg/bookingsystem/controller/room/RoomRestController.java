@@ -1,4 +1,4 @@
-package com.itkolleg.bookingsystem.controller.room;
+/*package com.itkolleg.bookingsystem.controller.room;
 
 import com.itkolleg.bookingsystem.service.Room.RoomService;
 import com.itkolleg.bookingsystem.domains.Room;
@@ -85,3 +85,4 @@ public class RoomRestController {
     }
 
 }
+*/

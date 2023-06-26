@@ -19,37 +19,48 @@
     <br>
     <br>
     <div>
-        <h1 class="text-center text-dark">MY DESK BOOKINGS</h1>
+        <h1 class="text-center text-dark">My Work-Area Bookings</h1>
     </div>
     <br>
     <br>
     <div class="row-cols-sm-6 d-flex justify-content-center align-items-center flex-column flex-lg-row w-60 w-m-75 w-lg-90">
-        <table class="table" id="myBookingTable">
+        <table class="table table-hover">
             <thead>
             <tr>
-                <td>BOOKING ID</td>
-                <td>DESK NR</td>
-                <td>DATE</td>
-                <td>START</td>
-                <td>END DATE</td>
-                <td>VIEW</td>
-                <td>EDIT</td>
-                <td>CANCEL</td>
+                <th scope="col">Booking Id</th>
+                <!--<th scope="col">Employee</th>-->
+                <th scope="col">Work-Area</th>
+                <th scope="col">Date</th>
+                <th scope="col">Start</th>
+                <th scope="col">End</th>
+                <th scope="col">Created On</th>
+                <th scope="col">Last Edited On</th>
+                <th scope="col">View</th>
+                <th scope="col">Edit</th>
+                <th scope="col">Delete</th>
             </tr>
             </thead>
             <tbody>
-            <tr th:each="booking: ${myDeskBookings}">
-                <td readonly="True" th:text="${booking.id}"></td>
-                <td th:text="${booking.deskNr}"></td>
-                <td th:text="${booking.date}"></td>
-                <td th:text="${booking.start}"></td>
-                <td th:text="${booking.endTime}"></td>
-                <td><a class="btn btn-info" role="button" th:href="@{/web/v1/deskbookings/view/{id}(id=${booking.id})}">View</a>
+            <tr th:each="booking: ${myDeskBookings}"  th:id="'bookingRow-' + ${booking.id}">
+                <td th:text="${booking.id}"></td>
+<!--
+                <td th:text="${booking.employee.fname } + ' ' + ${booking.employee.lname}"></td>
+-->
+                <td th:text="${booking.desk.deskNr}"></td>
+                <td th:text="${#temporals.format(booking.date, 'MMMM d, yyyy')}"></td>
+                <td th:text="${#temporals.format(booking.start, 'hh:mm a')}"></td>
+                <td th:text="${#temporals.format(booking.endTime, 'hh:mm a')}"></td>
+                <td th:text="${#temporals.format(booking.getCreatedOn, 'MMMM d, yyyy, hh:mm a')}"></td>
+                <td th:text="${#temporals.format(booking.getUpdatedOn, 'MMMM d, yyyy, hh:mm a')}"></td>
+                <td>
+                    <a class="btn btn-info" role="button" th:href="@{/web/deskBookings/view/{id}(id=${booking.id})}">View</a>
                 </td>
-                <td><a class="btn btn-warning" role="button"
-                       th:href="@{/web/v1/deskbookings/update/{id}(id=${booking.id})}">Edit</a></td>
-                <td><a class="btn btn-danger" role="button"
-                       th:href="@{/web/v1/deskbookings/cancel/{id}(id=${booking.id})}">Cancel</a></td>
+                <td>
+                    <a class="btn btn-warning" role="button" th:href="@{/web/deskBookings/update/{id}(id=${booking.id})}">Edit</a>
+                </td>
+                <td>
+                    <a class="btn btn-danger" role="button" th:href="@{/web/deskBookings/cancel/{id}(id=${booking.id})}">Cancel</a>
+                </td>
             </tr>
             </tbody>
         </table>
