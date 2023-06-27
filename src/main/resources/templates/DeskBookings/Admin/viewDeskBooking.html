@@ -1,62 +1,45 @@
 <!DOCTYPE html>
 <html lang="en" xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
-<head>
-    <meta charset="UTF-8">
-    <title>Booking Detail</title>
-    <link th:href="@{/webjars/bootstrap/4.0.0-2/css/bootstrap.min.css} " th:rel="stylesheet"/>
-    <script src="/static/js/DeskBooking.js"></script>
-</head>
-<body style="background-image: url('/static/img/background2.jpg');background-repeat:no-repeat;background-size:cover;">
-<nav class="navbar navbar-expand-lg navbar-light"
-     style="background-color: #96C01E;height: 200px;display:flex;align-items:center;">
-    <!-- Navigation content -->
-    <div class=" row d-flex justify-content-evenly align-items-center" style="width:100%">
-        <div class="col-4"><img alt="KlimaBuendnis Green Logo" height="180px" src="/img/GreenLogo.png"></div>
-        <div class="col-6"><img alt="WABS" height="190px" src="/img/wabs.png"></div>
-        <div class="col-2"><img alt="Badge" height="160px" src="/img/kb_badge2.png"></div>
-    </div>
-</nav>
-<br>
-<br>
-<div content=""></div>
-<div>
-    <h1 class="text-center text-dark">Work-Area Booking Details</h1>
-</div>
-<br>
-<br>
-<div class="container">
-    <div class="row justify-content-center">
+<div th:insert="headerAdmin :: headerAdmin" th:with="title='Buchung-Details'"></div>
+<body>
+<!-- Top Bar -->
+<div th:insert="topbarAdmin :: topbarAdmin"></div>
+<!-- Side Navbar -->
+<div th:insert="navbarAdmin :: navbarAdmin"></div>
+<div class="content-container">
+    <div class="addRessourceContainer">
         <form class="col-md-6" method="get" th:action="@{/web/deskbookings/admin/view/{id}}" th:object="${deskBooking}">
-            <div class="mb-3">
-                <label class="form-label" for="employee">Employee</label>
+            <div class="form-group">
+                <label for="employee">Mitarbeiter</label>
                 <input class="form-control" id="employee" name="employee" readonly
                        th:value="${deskBooking.employee.fname} + ' '+ ${deskBooking.employee.lname}" type="text">
             </div>
-            <div class="mb-3">
-                <label class="form-label" for="deskNr">Work-Area Number</label>
+            <div class="form-group">
+                <label class="form-label" for="deskNr">Buchungsplatz-Nummer</label>
                 <input class="form-control" id="deskNr" name="deskNr" readonly
                        th:field="${deskBooking.desk.deskNr}" type="text">
             </div>
-            <div class="mb-3">
-                <label class="form-label" for="date">Date</label>
-                <input class="form-control" id="date" name="date" readonly th:value="${#temporals.format(deskBooking.date, 'dd-MM-YYYY')}" type="text">
+            <div class="form-group">
+                <label class="form-label" for="date">Datum</label>
+                <input class="form-control" id="date" name="date" readonly
+                       th:value="${#temporals.format(deskBooking.date, 'dd-MM-YYYY')}" type="text">
             </div>
-            <div class="mb-3">
-                <label class="form-label" for="start">Start</label>
+            <div class="form-group">
+                <label for="start">Startzeit</label>
                 <!--          <--Use field value directly -->
                 <input class="form-control" id="start" name="start" readonly th:field="${deskBooking.start}"
                        type="text">
             </div>
-            <div class="mb-3">
-                <label class="form-label" for="end">End</label>
+            <div class="form-group">
+                <label class="form-label" for="end">Endzeit</label>
                 <input class="form-control" id="end" name="end" readonly th:field="${deskBooking.endTime}"
                        type="text">
             </div>
-            <div class="d-flex justify-content-center">
-                <a role="button" class="btn btn-dark my-2 my-sm-0" th:href="@{/web/deskbookings/admin}">Back</a>
-            </div>
+
+            <a role="button" class="delete-button" th:href="@{/web/deskbookings/admin}">Back</a>
         </form>
     </div>
 </div>
+<div class="filler"></div>
 </body>
 </html>

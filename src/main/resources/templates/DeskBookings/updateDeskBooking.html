@@ -1,48 +1,15 @@
 <!DOCTYPE html>
 <html lang="en" xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
-<head>
-    <title>Edit Booking</title>
-    <meta charset="UTF-8">
-    <link th:href="@{/webjars/bootstrap/4.0.0-2/css/bootstrap.min.css} " th:rel="stylesheet"/>
-    <link href="https://fonts.googleapis.com/css?family=Roboto+Condensed&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="/static/css/WABS.css">
-    <!-- jQuery -->
-    <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
-
-    <!-- Font Awesome 4-->
-    <link href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet">
-    <link rel="stylesheet" href="/static/css/sidebar-accordion.css">
-    <script src="/static/js/sidebar-accordion.js"></script>
-    <script src="/static/js/DropDown.js"></script>
-    <script th:src="@{/webjars/jquery/3.0.0/jquery.min.js}"></script>
-    <script th:src="@{/webjars/popper.js/1.12.9-1/umd/popper.min.js}"></script>
-    <script th:src="@{/webjars/bootstrap/4.0.0-2/js/bootstrap.min.js}"></script>
-    <style>
-        body {
-            background-image: url("/static/img/background.jpg");
-            background-size: cover;
-            background-repeat: no-repeat;
-        }
-    </style>
-</head>
+<div th:insert="headerEmployee :: headerEmployee" th:with="title='Buchung bearbeiten'">  </div>
 <body>
 <!-- Top Bar -->
-<div class="top-bar">
-    <img src="/static/img/LogoWhite.png" alt="Logo" class="logo">
-    <a th:href="@{/web/logout}" class="logout-link">Abmelden</a>
-    <div class="top-bar-header">
-        <h1>W.A.B.S.</h1>
-    </div>
-    <div class="top-bar-sub-header">
-        <h2>Working-Area Booking System</h2>
-    </div>
-</div>
+<div th:insert="topbarEmployee :: topbarEmployee">  </div>
 <!-- Side Navbar -->
 <div th:insert="navbarEmployee :: navbarEmployee">  </div>
 <!-- Content -->
 <div class="content-container">
     <div class="addRessourceContainer">
-    <h1>Change My Work-Area Booking</h1>
+    <h1>Arbeitsplatz-Buchung bearbeiten</h1>
     <form method="post" th:action="@{/web/deskBookings/update}" th:object="${booking}">
        <!-- <form method="post" th:action="@{/web/deskBookings/update/{id}(id=${booking.id})}" th:object="${booking}">-->
         <div class="form-group">
@@ -53,25 +20,25 @@
        <!-- <input type="hidden" id="deskId" name="deskId" th:value="${booking.desk.id}">-->
 
         <div class="form-group">
-            <label for="employee.name">Employee</label>
+            <label for="employee.name">Mitarbeiter</label>
             <input class="form-control" id="employee.name" name="employee.name"
                    th:value="${employee.fname} + ' ' + ${employee.lname}" readonly>
             <input type="hidden" id="employee.id" name="employee.id" th:value="${employee.id}">
-            <label for="deskId">Desk</label>
+            <label for="deskId">Tisch</label>
             <select class="form-control" id="deskId" name="desk.id" th:field="*{desk.id}">
                 <option selected="selected" value="">--Select Work-Area--</option>
                 <option th:each="desk : ${desks}" th:text="${desk.deskNr}" th:value="${desk.id}"></option>
             </select>
             <div class="form-text"  th:errors="*{desk.id}"
                  th:if="${#fields.hasErrors('desk.id')}"></div>
-            <label for="date">Date</label>
+            <label for="date">Datum</label>
             <input class="form-control" id="date" name="date" required th:default="${booking.getDate()}"
                    th:field="${booking.date}" type="date">
             <div class="form-text" th:errors="*{date}"
                  th:if="${#fields.hasErrors('date')}"></div>
-            <label for="start">Start Time</label>
+            <label for="start">Startzeit</label>
             <select class="form-select" id="start" name="start" th:field="*{start}">
-                <option value="">--Select Start Time--</option>
+                <option value="">--Startzeit auswählen--</option>
                 <option th:each="time : ${uniqueStartTimes}"
                         th:text="${time}"
                         th:value="${time}"></option>
@@ -80,9 +47,9 @@
                  th:if="${#fields.hasErrors('start')}">
 
             </div>
-            <label for="endTime">End Time</label>
+            <label for="endTime">Endzeit</label>
             <select class="form-select" id="endTime" name="endTime" th:field="*{endTime}">
-                <option value="">--Select End Time--</option>
+                <option value="">--Endzeit auswählen--</option>
                 <option th:each="time : ${uniqueEndTimes}"
                         th:text="${time}"
                         th:value="${time}"></option>
@@ -90,8 +57,8 @@
             <div class="form-text" th:errors="*{endTime}"
                  th:if="${#fields.hasErrors('endTime')}"></div>
         </div>
-        <button class="button" type="submit">Save</button>
-        <a class="delete-button" th:href="@{/web/deskBookings}">Cancel</a>
+        <button class="button" type="submit">Speichern</button>
+        <a class="delete-button" th:href="@{/web/deskBookings}">Zurück</a>
     </form>
 </div>
 </div>
