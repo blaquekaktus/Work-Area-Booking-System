@@ -29,10 +29,8 @@
                     <div class="form-text" th:errorclass="errors" th:errors="*{ports}"
                          th:if="${#fields.hasErrors('ports')}"></div>
                 </div>
-                <div><button class="button" type="submit">Hinzufügen</button></div>
-
-                    <a class="delete-button" th:href="@{/web/desks}">Zurück</a>
-                    <a class="button" role="button" style="margin-right: 50px" th:href="@{/web/desks}">Alle Arbeitsplätze:</a>
+                <button class="button" type="submit">Hinzufügen</button>
+                <a class="delete-button" role="button" th:href="@{/web/desks}">Zurück</a>
             </form>
         </div>
     </div>

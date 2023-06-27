@@ -1,6 +1,6 @@
 <!DOCTYPE html>
 <html lang="en" xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
-<div th:insert="headerEmployee :: headerEmployee" th:with="title='Arbeitsplatzbuchungen:'">  </div>
+<div th:insert="headerEmployee :: headerEmployee" th:with="title='Arbeitsplatzbuchungen'">  </div>
 <body>
 <!-- Top Bar -->
 <div th:insert="topbarEmployee :: topbarEmployee">  </div>
@@ -10,7 +10,8 @@
 <!-- Content -->
 <div class="content-container">
     <div class="addRessourceContainer">
-        <form class="col-md-6" method="get" th:action="@{/web/deskbookings/view/{id}}" th:object="${myDeskBooking}">
+        <h1>Buchungs-Details</h1><br><br>
+        <form method="get" th:action="@{/web/deskbookings/view/{id}}" th:object="${myDeskBooking}">
             <div class="form-group">
                 <label for="employee">Mitarbeiter</label>
                 <input class="form-control" id="employee" name="employee" readonly
@@ -32,9 +33,7 @@
                 <input class="form-control" id="end" name="end" readonly th:field="${myDeskBooking.endTime}"
                        type="text">
             </div>
-            <div class="d-flex justify-content-center">
-                <button class="button" onclick="goBack()">Zurück zu meinen Buchungen</button>
-            </div>
+            <button class="button" onclick="goBack()">Zurück zu meinen Buchungen</button>
         </form>
     </div>
 </div>

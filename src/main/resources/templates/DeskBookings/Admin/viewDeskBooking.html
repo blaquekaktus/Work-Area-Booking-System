@@ -1,6 +1,6 @@
 <!DOCTYPE html>
 <html lang="en" xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
-<div th:insert="headerAdmin :: headerAdmin" th:with="title='Buchung-Details'"></div>
+<div th:insert="headerAdmin :: headerAdmin" th:with="title='Buchungs-Details'"></div>
 <body>
 <!-- Top Bar -->
 <div th:insert="topbarAdmin :: topbarAdmin"></div>
@@ -8,7 +8,8 @@
 <div th:insert="navbarAdmin :: navbarAdmin"></div>
 <div class="content-container">
     <div class="addRessourceContainer">
-        <form class="col-md-6" method="get" th:action="@{/web/deskbookings/admin/view/{id}}" th:object="${deskBooking}">
+        <h1>Buchungs-Details</h1><br><br>
+        <form class="form-group" method="get" th:action="@{/web/deskbookings/admin/view/{id}}" th:object="${deskBooking}">
             <div class="form-group">
                 <label for="employee">Mitarbeiter</label>
                 <input class="form-control" id="employee" name="employee" readonly
@@ -35,7 +36,6 @@
                 <input class="form-control" id="end" name="end" readonly th:field="${deskBooking.endTime}"
                        type="text">
             </div>
-
             <a role="button" class="delete-button" th:href="@{/web/deskbookings/admin}">Back</a>
         </form>
     </div>

@@ -36,9 +36,9 @@
                 <td th:text="${#temporals.format(booking.getCreatedOn, 'MMMM d, yyyy, hh:mm a')}"></td>
                 <td th:text="${#temporals.format(booking.getUpdatedOn, 'MMMM d, yyyy, hh:mm a')}"></td>
                 <td>
-                    <a class="button" role="button" th:href="@{/web/deskBookings/view/{id}(id=${booking.id})}">View</a>
-                    <a class="button" role="button" th:href="@{/web/deskBookings/update/{id}(id=${booking.id})}">Edit</a>
-                    <a class="delete-button" role="button" th:href="@{/web/deskBookings/cancel/{id}(id=${booking.id})}">Cancel</a>
+                    <a class="button" role="button" th:href="@{/web/deskBookings/view/{id}(id=${booking.id})}">Anzeigen</a>
+                    <a class="button" role="button" th:href="@{/web/deskBookings/update/{id}(id=${booking.id})}">Bearbeiten</a>
+                    <a class="delete-button" role="button" th:href="@{/web/deskBookings/cancel/{id}(id=${booking.id})}">Abbrechen</a>
                 </td>
             </tr>
             </tbody>

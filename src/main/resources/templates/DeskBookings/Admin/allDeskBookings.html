@@ -9,18 +9,18 @@
 <!-- Content -->
 <div class="content-container">
     <div class="subcontainer">
-        <h1>Work-Area Bookings</h1><br><br>
+        <h1>Arbeitsplatz-Buchungen</h1><br><br>
         <table>
             <thead>
             <tr>
-                <th>Booking Id</th>
-                <th>Employee</th>
-                <th>Work-Area</th>
-                <th>Date</th>
+                <th>ID</th>
+                <th>Mitarbeiter</th>
+                <th>Arbeitsplatz</th>
+                <th>Datum</th>
                 <th>Start</th>
-                <th>End</th>
-                <th>Created On</th>
-                <th>Last Edited On</th>
+                <th>Ende</th>
+                <th>Angelegt am</th>
+                <th>Bearbeitet am</th>
                 <th>Aktion</th>
             </tr>
             </thead>
@@ -35,10 +35,9 @@
                 <td th:text="${#temporals.format(booking.getCreatedOn, 'MMMM d, yyyy, hh:mm a')}"></td>
                 <td th:text="${#temporals.format(booking.getUpdatedOn, 'MMMM d, yyyy, hh:mm a')}"></td>
                 <td>
-                    <a class="button" role="button" th:href="@{/web/deskbookings/admin/view/{id}(id=${booking.id})}">View</a>
-                    <a class="button" role="button" th:href="@{/web/deskbookings/admin/update/{id}(id=${booking.id})}">Edit</a>
-                    <a class="delete-button" role="button"
-                       th:href="@{/web/deskbookings/admin/cancel/{id}(id=${booking.id})}">Cancel</a>
+                    <a class="button" role="button" th:href="@{/web/deskbookings/admin/view/{id}(id=${booking.id})}">Anzeigen</a>
+                    <a class="button" role="button" th:href="@{/web/deskbookings/admin/update/{id}(id=${booking.id})}">Bearbeiten</a>
+                    <a class="delete-button" role="button" th:href="@{/web/deskbookings/admin/cancel/{id}(id=${booking.id})}">Abbrechen</a>
                 </td>
             </tr>
             </tbody>
