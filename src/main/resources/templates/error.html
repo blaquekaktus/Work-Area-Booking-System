@@ -1,53 +1,26 @@
 <!DOCTYPE html>
 <html lang="en" xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
-<head>
-    <meta charset="UTF-8">
-    <title>Error</title>
-    <link th:href="@{/webjars/bootstrap/4.0.0-2/css/bootstrap.min.css} " th:rel="stylesheet"/>
-</head>
-<body style="background-image: url('/img/bgbild.jpg');background-repeat:no-repeat;background-size:cover;">
-<nav class="navbar navbar-expand-lg navbar-light"
-     style="background-color: #96C01E;height: 200px;display:flex;align-items:center;">
-    <div class=" row d-flex justify-content-evenly align-items-center" style="width:100%">
-        <div class="col-4"><img alt="KlimaBuendnis Green Logo" height="180px" src="/img/GreenLogo.png"></div>
-        <div class="col-6"><img alt="WABS" height="190px" src="/img/wabs.png"></div>
-        <div class="col-2"><img alt="Badge" height="160px" src="/img/kb_badge2.png"></div>
-    </div>
-</nav>
-<br>
-<br>
-<div>
-    <div class="container">
-        <div class="table-responsive">
-            <div class="table-wrapper">
-                <div class="table-title">
-                    <div style="width:100%" class="row">
-                        <div class="col-sm-6">
-                            <h2><b>Work-Area Booking System </b></h2>
-                        </div>
-                    </div>
-                </div>
-                <table class="table table-striped table-hover">
-                    <thead>
-                    <tr>
-                        <th style="width:100%">Oops... Something went wrong!</th>
-                    </tr>
-                    </thead>
-                    <tbody>
-                    <tr th:if="${errortitle}" class="error-message">
-                        <td style="width:100%" th:text="${errortitle}"></td>
-                    </tr>
-                    <tr th:if="${errormessage}" class="error-message">
-                        <td style="width:100%" th:text="${errormessage}"></td>
-                    </tr>
+<div th:insert="headerEmployee :: headerEmployee" th:with="title='Error'"></div>
+<body>
+<!-- Top Bar -->
+<div th:insert="topbarEmployee :: topbarEmployee"></div>
+<div class="content-container">
+    <table>
+        <thead>
+        <tr>
+            <th style="width:100%">Oops... Something went wrong!</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr th:if="${errortitle}" class="error-message">
+            <td style="width:100%" th:text="${errortitle}"></td>
+        </tr>
+        <tr th:if="${errormessage}" class="error-message">
+            <td style="width:100%" th:text="${errormessage}"></td>
+        </tr>
 
-                    </tbody>
-                </table>
-            </div>
-        </div>
-    </div>
+        </tbody>
+    </table>
 </div>
-<br>
-<br>
 </body>
 </html>

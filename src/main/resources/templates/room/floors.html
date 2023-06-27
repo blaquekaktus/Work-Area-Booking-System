@@ -1,138 +1,93 @@
 <!DOCTYPE html>
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
-<head>
-  <title>Stockwerke</title>
-  <meta charset="UTF-8">
-  <link href="https://fonts.googleapis.com/css?family=Roboto+Condensed&display=swap" rel="stylesheet">
-  <link rel="stylesheet" th:href="@{/static/css/WABS.css}">
-  <!-- jQuery -->
-  <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
-  <script src="/static/js/jquery.rwdImageMaps.min.js"></script>
-
-  <!-- Font Awesome 4-->
-  <link href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet">
-  <link rel="stylesheet" th:href="@{/static/css/sidebar-accordion.css}">
-  <script th:src="@{/static/js/sidebar-accordion.js}"></script>
-  <script th:src="@{/static/js/DropDown.js}"></script>
-  <style>
-    body {
-      background-image: url("/static/img/background.jpg");
-      background-size: cover;
-      background-repeat: no-repeat;
-    }
-
-  </style>
-
-    /* Hintergrundbild für den Content-Bereich */
-
-  </style>
-</head>
+<div th:insert="headerEmployee :: headerEmployee" th:with="title='Stockwerke'"></div>
 <body>
-
 <!-- Top Bar -->
-<div class="top-bar">
-  <img th:src="@{/static/img/LogoWhite.png}" alt="Logo" class="logo">
-  <a href="#" class="logout-link">Abmelden</a>
-  <div class="top-bar-header">
-    <h1>W.A.B.S.</h1>
-  </div>
-  <div class="top-bar-sub-header">
-    <h2>Working-Area Booking System</h2>
-  </div>
-</div>
+<div th:insert="topbarEmployee :: topbarEmployee"></div>
 <!-- Side Navbar -->
-<div class="contenedor-menu">
-  <!-- <a href="" class="btnMenu">Menu <i class="fa fa-bars"></i></a> -->
-
-  <ul class="menu">
-    <li><a href="#">Home</a></li>
-    <li><a href="#">Bookings <i class="fa fa-chevron-down"></i></a>
-      <ul>
-        <li><a href="#">Work-Area</a></li>
-        <li><a href="#">Ressourcen</a></li>
-        <li><a href="#">Räume</a></li>
-      </ul>
-    </li>
-    <li><a href="#">Meine Buchungen <i class="fa fa-chevron-down"></i></a>
-      <ul>
-        <li><a href="#">Work-Area</a></li>
-        <li><a href="#">Ressourcen</a></li>
-        <li><a href="#">Räume</a></li>
-        <li><a href="#">Vergangene Buchungen</a></li>
-      </ul>
-    </li>
-    <li><a href="#">Zurück</a></li>
-  </ul>
-</div>
+<div th:insert="navbarEmployee :: navbarEmployee"></div>
+<!-- Content -->
 <div class="content-container">
- <div class="imgmapContainer">
-  <h1>Stockwerk 1</h1>
-  <!-- Hier wird deine Grundriss.svg eingebunden -->
-  <img src="/static/img/MULLER7_2014_03_1OG-KBT_Buro.png"  alt="Stockwerk 1" id="image"usemap="#image-map" style="width: 100%">
+    <div class="imgmapContainer">
+        <h1>Stockwerk 1</h1>
+        <!-- Hier wird deine Grundriss.svg eingebunden -->
+        <img src="/static/img/MULLER7_2014_03_1OG-KBT_Buro.png" alt="Stockwerk 1" id="image" usemap="#image-map"
+             style="width: 100%">
 
-   <map name="image-map" id="image-map">
-     <area target="" alt="" title="" href="" coords="9,1235,1257,1178,1305,1809,61,1879" shape="poly" onclick="myFunction1()">
-     <area target="" alt="" title="" href="" coords="57,1980,1358,1910,1375,3097,131,3123" shape="poly" onclick="myFunction2()">
-     <area target="" alt="" title="" href="" coords="1445,1909,2479,1887,2479,3114,1463,3096" shape="poly" onclick="myFunction3()">
-     <area target="" alt="" title="" href="" coords="2536,1900,3543,1891,3530,3117,2545,3104" shape="poly" onclick="myFunction4()">
-     <area target="" alt="" title="" href="" coords="4165,191,4853,204,4848,1724,4161,1720" shape="poly" onclick="myFunction5()">
-     <area target="" alt="" title="" href="" coords="3600,1885,4844,1877,4844,3121,3596,3121" shape="poly" onclick="myFunction6()">
-   </map>
- </div>
+        <map name="image-map" id="image-map">
+            <area target="" alt="" title="" href="" coords="9,1235,1257,1178,1305,1809,61,1879" shape="poly"
+                  onclick="myFunction1()">
+            <area target="" alt="" title="" href="" coords="57,1980,1358,1910,1375,3097,131,3123" shape="poly"
+                  onclick="myFunction2()">
+            <area target="" alt="" title="" href="" coords="1445,1909,2479,1887,2479,3114,1463,3096" shape="poly"
+                  onclick="myFunction3()">
+            <area target="" alt="" title="" href="" coords="2536,1900,3543,1891,3530,3117,2545,3104" shape="poly"
+                  onclick="myFunction4()">
+            <area target="" alt="" title="" href="" coords="4165,191,4853,204,4848,1724,4161,1720" shape="poly"
+                  onclick="myFunction5()">
+            <area target="" alt="" title="" href="" coords="3600,1885,4844,1877,4844,3121,3596,3121" shape="poly"
+                  onclick="myFunction6()">
+        </map>
+    </div>
 </div>
 <script>
 
 
     function scaleImageMap() {
-    var image = document.getElementById('image');
-    var map = document.querySelector('map[name="image-map"]');
-    var areas = map.getElementsByTagName('area');
+        var image = document.getElementById('image');
+        var map = document.querySelector('map[name="image-map"]');
+        var areas = map.getElementsByTagName('area');
 
-    var widthRatio = image.clientWidth / image.naturalWidth;
-    var heightRatio = image.clientHeight / image.naturalHeight;
+        var widthRatio = image.clientWidth / image.naturalWidth;
+        var heightRatio = image.clientHeight / image.naturalHeight;
 
-    for (var i = 0; i < areas.length; i++) {
-    var coords = areas[i].getAttribute('coords').split(',');
-    var scaledCoords = [];
+        for (var i = 0; i < areas.length; i++) {
+            var coords = areas[i].getAttribute('coords').split(',');
+            var scaledCoords = [];
 
-    for (var j = 0; j < coords.length; j++) {
-    if (j % 2 === 0) {
-    // X coordinate
-    scaledCoords.push(Math.round(coords[j] * widthRatio));
-  } else {
-    // Y coordinate
-    scaledCoords.push(Math.round(coords[j] * heightRatio));
-  }
-  }
+            for (var j = 0; j < coords.length; j++) {
+                if (j % 2 === 0) {
+                    // X coordinate
+                    scaledCoords.push(Math.round(coords[j] * widthRatio));
+                } else {
+                    // Y coordinate
+                    scaledCoords.push(Math.round(coords[j] * heightRatio));
+                }
+            }
 
-    areas[i].setAttribute('coords', scaledCoords.join(','));
-  }
-  }
+            areas[i].setAttribute('coords', scaledCoords.join(','));
+        }
+    }
 
     // Skalierung der Image Map beim Laden der Seite und bei Größenänderungen des Fensters ausführen
     window.addEventListener('load', scaleImageMap);
     window.addEventListener('resize', scaleImageMap);
 
-  //$('img[usemap]').rwdImageMaps();
+    //$('img[usemap]').rwdImageMaps();
 
-  function myFunction1() {
-    alert("You clicked room1!");
-  }
-  function myFunction2() {
-    alert("You clicked room2!");
-  }
-  function myFunction3() {
-    alert("You clicked room3!");
-  }
-  function myFunction4() {
-    alert("You clicked room4!");
-  }
-  function myFunction5() {
-    alert("You clicked room5!");
-  }
-  function myFunction6() {
-    alert("You clicked room6!");
-  }
+    function myFunction1() {
+        alert("You clicked room1!");
+    }
+
+    function myFunction2() {
+        alert("You clicked room2!");
+    }
+
+    function myFunction3() {
+        alert("You clicked room3!");
+    }
+
+    function myFunction4() {
+        alert("You clicked room4!");
+    }
+
+    function myFunction5() {
+        alert("You clicked room5!");
+    }
+
+    function myFunction6() {
+        alert("You clicked room6!");
+    }
 </script>
 <div class="filler"></div>
 </body>
