@@ -1,68 +1,15 @@
 <!DOCTYPE html>
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
-<head>
-    <title>Mitarbeiter eintragen</title>
-    <meta charset="UTF-8">
-    <link href="https://fonts.googleapis.com/css?family=Roboto+Condensed&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="/../static/css/WABS.css">
-
-    <!-- jQuery -->
-    <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
-
-    <!-- Font Awesome 4-->
-    <link href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet">
-    <link rel="stylesheet" href="/static/css/sidebar-accordionAdmin.css">
-    <script src="/../static/js/sidebar-accordion.js"></script>
-    <script src="/../static/js/DropDown.js"></script>
-    <style>
-        body {
-            background-image: url("/../static/img/background.jpg");
-            background-size: cover;
-            background-repeat: no-repeat;
-        }
-    </style>
-</head>
+<div th:insert="headerAdmin :: headerAdmin" th:with="title='Mitarbeiter eintragen'">  </div>
 <body>
 <!-- Top Bar -->
-<div class="top-barAdmin">
-    <img src="/../static/img/LogoWhite.png" alt="Logo" class="logo">
-    <a th:href="@{/logout}" class="logout-link">Abmelden</a>
-    <div class="top-bar-header">
-        <h1>W.A.B.S.</h1>
-    </div>
-    <div class="top-bar-sub-header">
-        <h2>Working-Area Booking System</h2>
-    </div>
-</div>
+<div th:insert="topbarAdmin :: topbarAdmin">  </div>
 <!-- Side Navbar -->
-<div class="contenedor-menu">
-    <!-- <a href="" class="btnMenu">Menu <i class="fa fa-bars"></i></a> -->
-    <ul class="menu">
-        <li><a href="/../web/admin-start">Home</a></li>
-        <li><a href="#">Bookings <i class="fa fa-chevron-down"></i></a>
-            <ul>
-                <li><a href="#">Work-Area</a></li>
-                <li><a href="#">Ressourcen</a></li>
-                <li><a href="#">Räume</a></li>
-            </ul>
-        </li>
-        <li><a href="#">Mitarbeiter<i class="fa fa-chevron-down"></i></a>
-            <ul>
-                <li><a href="/../web/employees/allemployees">Mitarbeiterliste</a></li>
-                <li><a href="/../web/employees/insertemployeeform">Mitarbeiter Hinzufügen</a></li>
-            </ul>
-        </li>
-        <li><a href="#">Ressourcen</a></li>
-        <li><a href="#">Räume</a></li>
-        <li><a href="#">Zurück</a></li>
-    </ul>
-</div>
+<div th:insert="navbarAdmin :: navbarAdmin">  </div>
 <!-- Content -->
 <div class="content-container">
     <div class="addRessourceContainer">
-        <!-- Hier kommt der Inhalt der Webseite hin -->
-        <h1>Mitarbeiter eintragen</h1>
-        <div style="background-color: white">
+        <h1>Mitarbeiter eintragen</h1><br><br>
             <form th:action="@{/web/employees/insertemployee}" method="post" th:object="${myemployee}">
                 <div class="form-group">
                     <label for="fname">Vorname</label>
@@ -80,7 +27,7 @@
                     <p th:if="${#fields.hasErrors('nick')}" th:errorclass="error" th:errors="*{nick}"></p>
                 </div>
                 <div class="form-group">
-                    <label for="email">email</label>
+                    <label for="email">Email</label>
                     <input type="text" id="email" th:field="*{email}"/>
                     <p th:if="${#fields.hasErrors('email')}" th:errorclass="error" th:errors="*{email}"></p>
                 </div>
@@ -105,7 +52,6 @@
             </form>
         </div>
     </div>
-</div>
 <div class="filler"></div>
 </body>
 </html>
