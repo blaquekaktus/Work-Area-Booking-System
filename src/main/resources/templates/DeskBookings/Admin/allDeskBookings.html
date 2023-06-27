@@ -22,7 +22,7 @@
         }
     </style>
 </head>
-<div class="top-barAdmin">
+<div class="top-bar">
     <img src="/static/img/LogoWhite.png" alt="Logo" class="logo">
     <a th:href="@{/web/logout}" class="logout-link">Abmelden</a>
     <div class="top-bar-header">
@@ -33,13 +33,23 @@
     </div>
 </div>
 <!-- Side Navbar -->
-<div th:insert="navbarEmployee :: navbarEmployee"></div>
+<div th:insert="navbarEmployee :: navbarEmployee">  </div>
 <!-- Content -->
-<div class="content-container">
-    <div class="subcontainer">
-        <div>
-            <h1>Work-Area Bookings</h1>
-        </div>
+<div class="container-fluid">
+    <br>
+    <br>
+    <div>
+        <h1 class="text-center text-dark">Work-Area Bookings</h1>
+    </div>
+    <br>
+    <br>
+    <div style="display:flex;justify-content:flex-end;align-items:center;">
+        <a class="btn btn-dark" role="button" style="margin-right: 100px"
+           th:href="@{/web/deskbookings/admin/add}">Book a Work-Area</a>
+    </div>
+    <br>
+    <br>
+    <div class="row-cols-sm-6 d-flex justify-content-center align-items-center flex-column flex-lg-row w-60 w-m-75 w-lg-90">
         <table class="table table-hover">
             <thead>
             <tr>
@@ -49,36 +59,36 @@
                 <th scope="col">Date</th>
                 <th scope="col">Start</th>
                 <th scope="col">End</th>
-                <!--<th scope="col">Created On</th>-->
-                <!--<th scope="col">Last Edited On</th>-->
-                <th scope="col">Action</th>
+                <th scope="col">Created On</th>
+                <th scope="col">Last Edited On</th>
+                <th scope="col">View</th>
+                <th scope="col">Edit</th>
+                <th scope="col">Delete</th>
             </tr>
             </thead>
             <tbody>
-            <tr th:each="booking: ${viewAllDeskBookings}" th:id="'bookingRow-' + ${booking.id}">
+            <tr th:each="booking: ${viewAllDeskBookings}"  th:id="'bookingRow-' + ${booking.id}">
                 <td th:text="${booking.id}"></td>
                 <td th:text="${booking.employee.fname } + ' ' + ${booking.employee.lname}"></td>
                 <td th:text="${booking.desk.deskNr}"></td>
                 <td th:text="${#temporals.format(booking.date, 'MMMM d, yyyy')}"></td>
                 <td th:text="${#temporals.format(booking.start, 'hh:mm a')}"></td>
                 <td th:text="${#temporals.format(booking.endTime, 'hh:mm a')}"></td>
-                <!--<td th:text="${#temporals.format(booking.getCreatedOn, 'MMMM d, yyyy, hh:mm a')}"></td>
-                <td th:text="${#temporals.format(booking.getUpdatedOn, 'MMMM d, yyyy, hh:mm a')}"></td>-->
+                <td th:text="${#temporals.format(booking.getCreatedOn, 'MMMM d, yyyy, hh:mm a')}"></td>
+                <td th:text="${#temporals.format(booking.getUpdatedOn, 'MMMM d, yyyy, hh:mm a')}"></td>
                 <td>
-                    <a class="button" role="button" th:href="@{/web/deskbookings/admin/view/{id}(id=${booking.id})}">View</a>
-                    <a class="button" role="button" th:href="@{/web/deskbookings/admin/update/{id}(id=${booking.id})}">Edit</a>
-                    <a class="delete-button" role="button"
-                       th:href="@{/web/deskbookings/admin/cancel/{id}(id=${booking.id})}">Cancel</a>
+                    <a class="btn btn-info" role="button" th:href="@{/web/deskbookings/admin/view/{id}(id=${booking.id})}">View</a>
+                </td>
+                <td>
+                    <a class="btn btn-warning" role="button" th:href="@{/web/deskbookings/admin/update/{id}(id=${booking.id})}">Edit</a>
+                </td>
+                <td>
+                    <a class="btn btn-danger" role="button" th:href="@{/web/deskbookings/admin/cancel/{id}(id=${booking.id})}">Cancel</a>
                 </td>
             </tr>
             </tbody>
         </table>
-        <div>
-            <a class="add-button" role="button" th:href="@{/web/deskbookings/admin/add}">Book</a>
-        </div>
     </div>
 </div>
-</div>
-<div class="filler"></div>
 </body>
 </html>
