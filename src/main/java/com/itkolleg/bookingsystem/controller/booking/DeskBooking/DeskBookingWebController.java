@@ -16,6 +16,7 @@ import jakarta.validation.Valid;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -28,7 +29,7 @@ import java.util.concurrent.ExecutionException;
 import java.util.stream.Collectors;
 
 @Controller
-@RequestMapping("web/deskbookings")
+@RequestMapping("/web/deskbookings")
 public class DeskBookingWebController {
     private final DeskBookingService deskBookingService;
 
@@ -59,84 +60,56 @@ public class DeskBookingWebController {
 
     @GetMapping("/admin/add")
     public String addDeskBookingForm(Model model) throws ExecutionException, InterruptedException {
-        DeskBooking deskBooking = new DeskBooking();
-        List<Desk> deskList = deskService.getAllDesks();
-        List<Employee> employeeList = employeeService.getAllEmployees();
-        List<TimeSlot> times = timeSlotService.getAllTimeSlots();
-
-        // Creating list of unique start times
-        List<String> uniqueStartTimes = times.stream()
-                .map(TimeSlot::getStartTimeAsString)
-                .distinct()
-                .collect(Collectors.toList());
-        // Creating list of unique end times
-        List<String> uniqueEndTimes = times.stream()
-                .map(TimeSlot::getEndTimeAsString)
-                .distinct()
-                .collect(Collectors.toList());
-        //Add employees, desks, unique booking start and end times to the model
-        model.addAttribute("deskBooking", deskBooking);
-        model.addAttribute("employees", employeeList);
-        model.addAttribute("desks", deskList);
-        model.addAttribute("startTimes", uniqueStartTimes);
-        model.addAttribute("endTimes", uniqueEndTimes);
+        addAttributesToModel(model);
         return "DeskBookings/Admin/addDeskBooking";
     }
 
-    @PostMapping("/admin/add")
+    @GetMapping("/add")
+    public String addDeskBookingFormForEmployee(Model model) throws ExecutionException, InterruptedException {
+        addAttributesToModel(model);
+        return "DeskBookings/addDeskBooking";
+    }
+    @PostMapping("/add")
     public String addDeskBooking(@ModelAttribute("deskBooking") @Valid DeskBooking booking, BindingResult bindingResult, @RequestParam("employee.id") Long employeeId, @RequestParam("desk.id") Long deskId, Model model) throws ExecutionException, InterruptedException {
-        //String deskID = booking.getId("deskId");
         try {
             if (bindingResult.hasErrors()) {
-                System.out.println("Errors: " + bindingResult.getAllErrors());
+                logger.error("Validation errors: {}", bindingResult.getAllErrors());
                 return "DeskBookings/Admin/addDeskBooking";
-            } else {
-                Desk desk = deskService.getDeskById(deskId);
-                Employee employee = employeeService.getEmployeeById(employeeId);
-
-                booking.setDesk(desk);
-                booking.setEmployee(employee);
-                //booking.setCreatedOn(LocalDateTime.now());
-
-                this.deskBookingService.addDeskBooking(booking);
-                return "redirect:/web/deskbookings/admin";
             }
-        } catch (DeskNotAvailableException e) {
-            logger.error("Desk is not available for booking: " + e.getMessage(), e);
-            model.addAttribute("errorMessage", "Desk is not available for booking.");
-            addAttributesToModel(model);
-            return "DeskBookings/Admin/addDeskBooking";
-        } catch (ExecutionException | InterruptedException | EmployeeNotFoundException | ResourceNotFoundException e) {
-            logger.error("Error occurred while booking the desk: " + e.getMessage(), e);
-            model.addAttribute("errorMessage", "Error occurred while booking the desk.");
-            addAttributesToModel(model);
-            return "DeskBookings/Admin/addDeskBooking";
-        } catch (IllegalArgumentException e) {
-            logger.error("Cannot create booking for a past date: " + e.getMessage(), e);
-            model.addAttribute("errorMessage", "Cannot create booking for a past date.");
+
+            Desk desk = deskService.getDeskById(deskId);
+            Employee employee = employeeService.getEmployeeById(employeeId);
+
+            booking.setDesk(desk);
+            booking.setEmployee(employee);
+
+            this.deskBookingService.addDeskBooking(booking);
+            return "redirect:/web/deskbookings/admin";
+        } catch (Exception e) {
+            logger.error("Error occurred while booking the desk: {}", e.getMessage(), e);
+            model.addAttribute("errorMessage", e.getMessage());
             addAttributesToModel(model);
             return "DeskBookings/Admin/addDeskBooking";
         }
     }
 
     private void addAttributesToModel(Model model) throws ExecutionException, InterruptedException {
+        DeskBooking deskBooking = new DeskBooking();
         List<Desk> deskList = deskService.getAllDesks();
         List<Employee> employeeList = employeeService.getAllEmployees();
         List<TimeSlot> times = timeSlotService.getAllTimeSlots();
-        DeskBooking deskBooking = new DeskBooking(); // Added this line
 
-        // Creating list of unique start times
         List<String> uniqueStartTimes = times.stream()
                 .map(TimeSlot::getStartTimeAsString)
                 .distinct()
                 .collect(Collectors.toList());
-        // Creating list of unique end times
+
         List<String> uniqueEndTimes = times.stream()
                 .map(TimeSlot::getEndTimeAsString)
                 .distinct()
                 .collect(Collectors.toList());
-        //Add employees, desks, unique booking start and end times to the model
-        model.addAttribute("deskBooking", deskBooking); // And this line
+
+        model.addAttribute("deskBooking", deskBooking);
         model.addAttribute("employees", employeeList);
         model.addAttribute("desks", deskList);
         model.addAttribute("startTimes", uniqueStartTimes);
@@ -158,7 +131,7 @@ public class DeskBookingWebController {
         if (booking == null) {
             // Log an error message indicating that the booking was not found
             logger.error("Booking with ID {} not found.", id);
-            return "redirect:web/errorPage";
+            return "redirect:/error";
         }
 
         // Get the employee, Desks and TimesSlots after checking that the booking is not null
@@ -213,7 +186,6 @@ public class DeskBookingWebController {
     public String cancelDeskBookingForm(@PathVariable Long id, Model model) throws ResourceDeletionFailureException, ResourceNotFoundException {
         DeskBooking booking = this.deskBookingService.getBookingById(id);
         model.addAttribute("booking", booking);
-        this.deskBookingService.deleteBooking(id);
         return "DeskBookings/Admin/cancelDeskBooking";
     }
 
@@ -252,15 +224,15 @@ public class DeskBookingWebController {
         // add the bookings to the model
         model.addAttribute("myDeskBookings", myBookings);
 
-        return "DeskBookings/myDeskBookings"; // return the name of your Thymeleaf template
+        return "DeskBookings/myDeskBookings";
     }
 
-        @GetMapping("/mybookings/{id}")
+    /*    @GetMapping("/mybookings/{id}")
     public String getMyDeskBookings(Model model, @PathVariable Long id) {
         List<DeskBooking> myBookings = this.deskBookingService.getBookingsByEmployeeId(id);
         model.addAttribute("myBookings", myBookings);
         return "DeskBookings/myDeskBookings";
-    }
+    }*/
 
     @GetMapping("/bookinghistory/{id}")
     public String getMyDeskBookingHistory(Model model, @PathVariable Long id) {

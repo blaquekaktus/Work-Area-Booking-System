@@ -48,11 +48,14 @@
         <a class="button" role="button" style="margin-right: 50px" th:href="@{/web/deskBookings}">View All Work-Area Bookings</a>
         <br>
         <br>
-        <form method="post" th:action="@{/web/deskbookings/admin/add}" th:object="${myDeskBooking}">
+
+
+        <form method="post" th:action="@{/web/deskbookings/add}" th:object="${deskBooking}">
+
             <div th:if="${errorMessage}" class="alert alert-danger error-message">
                 <p th:text="${errorMessage}"></p>
             </div>
-            <div class="mb-3 form-group"s>
+            <!--<div class="mb-3 form-group"s>
                 <label class="form-label" for="employee.id">Employee</label>
                 <select class="form-control" id="employee.id" name="employee.id" th:field="*{employee.id}">
                     <option th:each="employee : ${employees}"
@@ -61,8 +64,15 @@
                 </select>
                 <div class="form-text" th:errorclass="errors" th:errors="*{employee}"
                      th:if="${#fields.hasErrors('employee.id')}"></div>
+            </div>-->
+            <div class="mb-3">
+                <label class="form-label" for="employee">Employee</label>
+                <input class="form-control" id="employee" name="employee" readonly
+                       th:value="${deskBooking.employee.fname} + ' '+ ${deskBooking.employee.lname}" type="text">
+                <div class="form-text"
+                     th:errors="*{employee}"
+                     th:if="${#fields.hasErrors('employee')}"></div>
             </div>
-
             <div class="mb-3 form-group">
                 <label class="form-label" for="deskNr">Work-Area</label>
                 <select class="form-control" id="deskNr" name="desk.id" th:field="*{desk.id}" onchange="updateDeskId()">

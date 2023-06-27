@@ -1,15 +1,40 @@
 <!DOCTYPE html>
 <html lang="en" xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
 <head>
-    <meta charset="UTF-8">
     <title>All Desk Bookings</title>
-    <!--<link href="https://stackpath.bootstrapcdn.com/bootstrap/5.0.0-beta1/css/bootstrap.min.css" rel="stylesheet">-->
+    <meta charset="UTF-8">
     <link rel="stylesheet" href="/static/css/bootstrap.min.css">
+    <link href="https://fonts.googleapis.com/css?family=Roboto+Condensed&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="/static/css/WABS.css">
+    <!-- jQuery -->
+    <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
+
+    <!-- Font Awesome 4-->
+    <link href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="/static/css/sidebar-accordionAdmin.css">
+    <script src="/static/js/sidebar-accordion.js"></script>
+    <script src="/static/js/DropDown.js"></script>
+    <style>
+        body {
+            background-image: url("/static/img/background.jpg");
+            background-size: cover;
+            background-repeat: no-repeat;
+        }
+    </style>
 </head>
-<body style="background-image: url('../../../static/img/background2.jpg');background-repeat:no-repeat;background-size:cover;">
-<nav class="navbar navbar-expand-lg navbar-light"
-     style="background-color: #96C01E;height: 200px;display:flex;align-items:center;">
-</nav>
+<div class="top-bar">
+    <img src="/static/img/LogoWhite.png" alt="Logo" class="logo">
+    <a th:href="@{/web/logout}" class="logout-link">Abmelden</a>
+    <div class="top-bar-header">
+        <h1>W.A.B.S.</h1>
+    </div>
+    <div class="top-bar-sub-header">
+        <h2>Working-Area Booking System</h2>
+    </div>
+</div>
+<!-- Side Navbar -->
+<div th:insert="navbarEmployee :: navbarEmployee">  </div>
+<!-- Content -->
 <div class="container-fluid">
     <br>
     <br>
