@@ -90,9 +90,9 @@
                 <label class="form-label" for="deskNr">Work-Area</label>
                 <select class="form-control" id="deskNr" name="desk.id" th:field="*{desk.id}" onchange="updateDeskId()">
                     <option th:each="desk : ${desks}"
-                            th:text="${desk.deskNr}"
-                            th:value="${desk.id}"
-                            th:data-deskNr="${desk.deskNr}"></option>
+                            th:text="*{desk.deskNr}"
+                            th:value="*{desk.id}"
+                            th:data-deskNr="*{desk.deskNr}"></option>
                 </select>
                 <div class="form-text"
                      th:errors="*{desk.deskNr}"
