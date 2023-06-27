@@ -123,7 +123,7 @@ public class RoomBookingRepo_JPAH2 implements RoomBookingRepo {
             Room fetchedRoom;
             try {
                 fetchedRoom = this.roomJPARepo.findById(updatedBooking.getRoom().getId())
-                        .orElseThrow(() -> new RoomNotFoundException("The Room with the ID: " + updatedBooking.getRoom().getId() + " was not found!"));
+                        .orElseThrow(() -> new RoomNotFoundException());
             } catch (RoomNotFoundException e) {
                 logger.error(e.getMessage());
                 throw new RuntimeException("Failed to update booking due to missing room. Original error: " + e.getMessage());
@@ -143,7 +143,7 @@ public class RoomBookingRepo_JPAH2 implements RoomBookingRepo {
             existingBooking.setEndTime(updatedBooking.getEndTime());
             existingBooking.setUpdatedOn(LocalDateTime.now());
             return existingBooking;
-        }).orElseThrow(() -> new RoomNotFoundException("The Room Booking with the ID: " + id + " was not found!"));
+        }).orElseThrow(() -> new RoomNotFoundException());
     }
 
 

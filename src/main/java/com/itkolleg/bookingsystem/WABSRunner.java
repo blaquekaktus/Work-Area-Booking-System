@@ -3,13 +3,17 @@ package com.itkolleg.bookingsystem;
 import com.itkolleg.bookingsystem.domains.Booking.DeskBooking;
 import com.itkolleg.bookingsystem.domains.*;
 import com.itkolleg.bookingsystem.domains.Booking.RessourceBooking;
+import com.itkolleg.bookingsystem.domains.Booking.RoomBooking;
 import com.itkolleg.bookingsystem.exceptions.DeskNotAvailableException;
+import com.itkolleg.bookingsystem.exceptions.RoomExceptions.RoomNotAvailableException;
 import com.itkolleg.bookingsystem.repos.Desk.DeskRepo;
 import com.itkolleg.bookingsystem.repos.DeskBooking.DeskBookingRepo;
 import com.itkolleg.bookingsystem.repos.Employee.EmployeeDBAccess;
 import com.itkolleg.bookingsystem.repos.Holiday.HolidayRepo;
 import com.itkolleg.bookingsystem.repos.Ressource.DBAccessRessource;
 import com.itkolleg.bookingsystem.repos.RessourceBooking.RessourceBookingRepo;
+import com.itkolleg.bookingsystem.repos.Room.DBAccessRoom;
+import com.itkolleg.bookingsystem.repos.RoomBooking.RoomBookingRepo;
 import com.itkolleg.bookingsystem.repos.TimeSlot.TimeSlotRepo;
 import org.springframework.boot.ApplicationArguments;
 import org.springframework.boot.ApplicationRunner;
@@ -42,8 +46,10 @@ public class WABSRunner implements ApplicationRunner {
     HolidayRepo holidayRepo;
     DBAccessRessource dbAccessRessource;
     RessourceBookingRepo ressourceBookingRepo;
+    DBAccessRoom dbAccessRoom;
+    RoomBookingRepo roombookingRepo;
 
-    public WABSRunner(EmployeeDBAccess employeeDBAccess, DeskRepo deskRepo, DeskBookingRepo deskBookingRepo, TimeSlotRepo timeSlotRepo, HolidayRepo holidayRepo, DBAccessRessource dbAccessRessource, RessourceBookingRepo ressourceBookingRepo) {
+    public WABSRunner(EmployeeDBAccess employeeDBAccess, DeskRepo deskRepo, DeskBookingRepo deskBookingRepo, TimeSlotRepo timeSlotRepo, HolidayRepo holidayRepo, DBAccessRessource dbAccessRessource, RessourceBookingRepo ressourceBookingRepo, DBAccessRoom dbAccessRoom, RoomBookingRepo roombookingRepo) {
         this.employeeDBAccess = employeeDBAccess;
         this.deskRepo = deskRepo;
         this.deskBookingRepo = deskBookingRepo;
@@ -51,6 +57,8 @@ public class WABSRunner implements ApplicationRunner {
         this.holidayRepo = holidayRepo;
         this.dbAccessRessource = dbAccessRessource;
         this.ressourceBookingRepo = ressourceBookingRepo;
+        this.dbAccessRoom=dbAccessRoom;
+        this.roombookingRepo=roombookingRepo;
     }
 
     public static void main(String[] args) {
@@ -60,6 +68,17 @@ public class WABSRunner implements ApplicationRunner {
     @Override
     public void run(ApplicationArguments args) throws Exception {
         System.out.println("\n\nSystem is up and running!\n");
+
+
+        Room room1=this.dbAccessRoom.addRoom(new Room(1L,"1"));
+
+        Room room2=this.dbAccessRoom.addRoom(new Room(2L,"1"));
+
+        Room room3=this.dbAccessRoom.addRoom(new Room(3l,"1"));
+
+        Room room4=this.dbAccessRoom.addRoom(new Room(4L,"1"));
+        Room room5=this.dbAccessRoom.addRoom(new Room(5L,"1"));
+        Room room6=this.dbAccessRoom.addRoom(new Room(6L,"1"));
 
 
         Ressource test1 = this.dbAccessRessource.addRessource(new Ressource(1L, Ressourcetype.BEAMER, "Test1", "TestBeamer", "InfoBeamer", "BeamerSN"));
@@ -84,6 +103,26 @@ public class WABSRunner implements ApplicationRunner {
         LocalTime rtime1 = LocalTime.of(8,0, 0, 0);
         LocalTime rtime2 = LocalTime.of(10,0, 0, 0);
         RessourceBooking rBooking1 = this.ressourceBookingRepo.addBooking(new RessourceBooking(admin, test1, rdate, rtime1, rtime2));
+        try {
+            RoomBooking roomBooking1=this.roombookingRepo.addBooking(new RoomBooking(admin,room1,rdate,rtime1,rtime2));
+        } catch (RoomNotAvailableException e) {
+            throw new RuntimeException(e);
+        }
+        try {
+            RoomBooking roomBooking2=this.roombookingRepo.addBooking((new RoomBooking(admin,room2,rdate,rtime1,rtime2)));
+        } catch (RoomNotAvailableException e) {
+            throw new RuntimeException(e);
+        }
+        try {
+            RoomBooking roomBooking3=this.roombookingRepo.addBooking((new RoomBooking(admin,room3,rdate,rtime1,rtime2)));
+        } catch (RoomNotAvailableException e) {
+            throw new RuntimeException(e);
+        }
+        try {
+            RoomBooking roomBooking4=this.roombookingRepo.addBooking((new RoomBooking(jaslech,room4,rdate,rtime1,rtime2)));
+        } catch (RoomNotAvailableException e) {
+            throw new RuntimeException(e);
+        }
         rdate = LocalDate.of(2023, 10, 30);
         rtime1 = LocalTime.of(12,0, 0, 0);
         rtime2 = LocalTime.of(20,0, 0, 0);

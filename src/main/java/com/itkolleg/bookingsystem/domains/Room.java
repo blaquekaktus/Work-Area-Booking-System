@@ -13,7 +13,6 @@ import java.util.List;
 
 
 @Entity
-@AllArgsConstructor
 @NoArgsConstructor
 @Getter
 @Setter
@@ -25,21 +24,15 @@ public class Room {
     @GeneratedValue(strategy = GenerationType.SEQUENCE)
     private Long id;
 
-    @ElementCollection
-    private List<Point> vertices = new ArrayList<>();
-
     private String floor;
 
-    private String info;
 
     /*@OneToMany(mappedBy = "room")
     private List<Desk> desks;*/
 
-    public Room(List<Point> vertices, String floor, String info) {
-
-        this.vertices = vertices;
+    public Room(Long id,String floor) {
+        this.id=id;
         this.floor = floor;
-        this.info = info;
     }
 
     /*
@@ -59,9 +52,8 @@ public class Room {
     public String toString() {
         return getClass().getSimpleName() + "(" +
                 "roomId = " + id + ", " +
-                "vertices = " + vertices + ", " +
-                "floor = " + floor + ", " +
-                "info = " + info + ")";
+
+                "floor = " + floor + ", ";
     }
 
 

@@ -1,4 +1,4 @@
-package com.itkolleg.bookingsystem.controller.room;
+/*package com.itkolleg.bookingsystem.controller.room;
 
 import com.itkolleg.bookingsystem.domains.Room;
 import com.itkolleg.bookingsystem.exceptions.RoomExceptions.RoomDeletionNotPossibleException;
@@ -31,7 +31,7 @@ public RoomBookingWebController(RoomService roomService){
      * @return modelAndView
      * @throws ExecutionException
      * @throws InterruptedException
-     */
+
     @GetMapping("/allRessourcesEmployee")
     public ModelAndView allRoomsEmployee() throws ExecutionException, InterruptedException {
         List<Room> allRooms = roomService.getAllRooms();
@@ -42,7 +42,7 @@ public RoomBookingWebController(RoomService roomService){
      * Diese Methode ermöglicht dem/der Admin das hinzufügen eines Raumes in die Datenbank. Es ist mit @GetMapping annotiert, da es die HTTP-Anfrage verarbeiten und darstellen muss
      * @param model
      * @return modelAndView
-     */
+
     @GetMapping("/addRoom")
     public ModelAndView addRoom( Model model) {
 
@@ -59,7 +59,7 @@ public RoomBookingWebController(RoomService roomService){
      * @return
      * @throws ExecutionException
      * @throws InterruptedException
-     */
+
     @PostMapping("/addRoom")
     public String addRoom(@Valid Room room, BindingResult bindingResult) throws ExecutionException, InterruptedException {
         if (bindingResult.hasErrors()) {
@@ -78,7 +78,7 @@ public RoomBookingWebController(RoomService roomService){
      *
      * @param id vom Typ Long
      * @return
-     */
+
     @GetMapping("/deleteRoom/{id}")
     public String deleteRoom(@PathVariable Long id) {
         try {
@@ -90,4 +90,4 @@ public RoomBookingWebController(RoomService roomService){
     }
 
 }
-
+*/

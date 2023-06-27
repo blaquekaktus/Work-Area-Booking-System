@@ -86,7 +86,7 @@ public class RoomBookingServiceImplementation implements RoomBookingService {
         if(bookingOptional.isPresent()){
             return bookingOptional.get();
         }else{
-            throw new RoomNotFoundException("Booking with ID " + bookingId + " not found.");
+            throw new RoomNotFoundException();
 
         }
     }
@@ -95,7 +95,7 @@ public class RoomBookingServiceImplementation implements RoomBookingService {
     public RoomBooking updateBookingById(Long bookingId, RoomBooking updatedBooking) throws RoomNotFoundException, RoomNotAvailableException {
         Optional<RoomBooking> booking=this.roomBookingRepo.getBookingByBookingId(bookingId);
         if(booking.isEmpty()){
-            throw new RoomNotFoundException("Booking with ID " + booking +" not found.");
+            throw new RoomNotFoundException();
         }
         Room room= booking.get().getRoom();
         LocalDate date= booking.get().getDate();
@@ -115,7 +115,7 @@ public class RoomBookingServiceImplementation implements RoomBookingService {
     public RoomBooking updateBooking(RoomBooking booking) throws RoomNotFoundException, RoomNotAvailableException {
        try{
            RoomBooking existingBooking =this.roomBookingRepo.getBookingByBookingId(booking.getId())
-                   .orElseThrow(() -> new RoomNotFoundException("Booking not found for Id: "+booking.getId()));
+                   .orElseThrow(() -> new RoomNotFoundException());
 
            List <RoomBooking> bookings = roomBookingRepo.getBookingsByRoomAndDateAndBookingTimeBetween(booking.getRoom(),booking.getDate(),booking.getStart(),booking.getEndTime());
            bookings.remove(existingBooking);
@@ -130,7 +130,7 @@ public class RoomBookingServiceImplementation implements RoomBookingService {
            existingBooking.setCreatedOn(LocalDateTime.now());
            return this.roomBookingRepo.addBooking(existingBooking);
        }catch(DataAccessException e){
-           throw new RoomNotFoundException("Database access error occurred for id: "+booking.getId());
+           throw new RoomNotFoundException();
        }
     }
 
