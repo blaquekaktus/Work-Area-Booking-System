@@ -1,6 +1,5 @@
 package com.itkolleg.bookingsystem.controller;
 
-import com.itkolleg.bookingsystem.domains.ErrorDetails;
 import com.itkolleg.bookingsystem.exceptions.ResourceNotFoundException;
 import com.itkolleg.bookingsystem.exceptions.DeskNotAvailableException;
 import com.itkolleg.bookingsystem.exceptions.EmployeeExceptions.EmployeeAlreadyExistsException;
@@ -16,7 +15,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
-import org.springframework.web.bind.annotation.ResponseStatus;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 
 @ControllerAdvice
@@ -44,32 +43,31 @@ public class GlobalExceptionController {
         return new ResponseEntity<>(new ExceptionDTO("1000", employeeAlreadyExistsException.getMessage()), HttpStatus.NOT_FOUND);
     }
 
-    @ResponseStatus(HttpStatus.NOT_FOUND)
     @ExceptionHandler(ResourceNotFoundException.class)
-    public ErrorDetails handleResourceNotFound(ResourceNotFoundException ex) {
+    public String handleResourceNotFound(ResourceNotFoundException ex, RedirectAttributes redirectAttributes) {
         logger.error("ResourceNotFoundException: {}", ex.getMessage(), ex);
-        return new ErrorDetails("Resource Not Found", ex.getMessage());
+        redirectAttributes.addFlashAttribute("errorMessage", ex.getMessage());
+        return "redirect:/error";
     }
 
-    @ResponseStatus(HttpStatus.CONFLICT)
     @ExceptionHandler(DeskNotAvailableException.class)
-    public ErrorDetails handleDeskNotAvailable(DeskNotAvailableException ex) {
+    public String handleDeskNotAvailable(DeskNotAvailableException ex, RedirectAttributes redirectAttributes) {
         logger.error("DeskNotAvailableException: {}", ex.getMessage(), ex);
-        return new ErrorDetails("Desk Not Available", ex.getMessage());
+        redirectAttributes.addFlashAttribute("errorMessage", ex.getMessage());
+        return "redirect:/error";
     }
 
-    @ResponseStatus(HttpStatus.NOT_FOUND)
     @ExceptionHandler(EmptyResultDataAccessException.class)
-    public ErrorDetails handleEmptyResultDataAccess(EmptyResultDataAccessException ex) {
+    public String handleEmptyResultDataAccess(EmptyResultDataAccessException ex, RedirectAttributes redirectAttributes) {
         logger.error("EmptyResultDataAccessException: {}", ex.getMessage(), ex);
-        return new ErrorDetails("No Data Found", ex.getMessage());
+        redirectAttributes.addFlashAttribute("errorMessage", ex.getMessage());
+        return "redirect:/error";
     }
 
-    @ResponseStatus(HttpStatus.INTERNAL_SERVER_ERROR)
     @ExceptionHandler(Exception.class)
-    public ErrorDetails handleGeneralException(Exception ex) {
+    public String handleGeneralException(Exception ex, RedirectAttributes redirectAttributes) {
         logger.error("Exception: {}", ex.getMessage(), ex);
-        return new ErrorDetails("Unknown Exception", "An unexpected error occurred.");
+        redirectAttributes.addFlashAttribute("errorMessage", "An unexpected error occurred.");
+        return "redirect:/error";
     }
-
 }
