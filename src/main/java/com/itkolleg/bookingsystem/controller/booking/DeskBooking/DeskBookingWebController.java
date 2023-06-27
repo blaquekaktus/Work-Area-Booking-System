@@ -92,7 +92,7 @@ public class DeskBookingWebController {
     }
 
     @PostMapping("/add")
-    public String addDeskBooking(@ModelAttribute("deskBooking") @Valid DeskBooking booking, BindingResult bindingResult, @RequestParam("employee.id") Long employeeId, @RequestParam("desk.id") Long deskId, Model model, RedirectAttributes redirectAttributes) {
+    public String addDeskBooking(@ModelAttribute("deskBooking") @Valid DeskBooking booking, BindingResult bindingResult, @RequestParam("employee.id") Long employeeId, @RequestParam("desk.id") Long deskId, RedirectAttributes redirectAttributes) {
         try {
             if (bindingResult.hasErrors()) {
                 logger.error("Validation errors: {}", bindingResult.getAllErrors());
