@@ -50,7 +50,7 @@ public class GlobalExceptionController {
 
     @ExceptionHandler(DeskNotAvailableException.class)
     public ModelAndView handleDeskNotAvailableException(DeskNotAvailableException e) {
-        ModelAndView modelAndView = new ModelAndView("errorPage");
+        ModelAndView modelAndView = new ModelAndView("error");
         modelAndView.addObject("errorDetails", new ErrorDetails("Desk Not Available", "The desk is not available."));
         e.printStackTrace();
         return modelAndView;
@@ -64,7 +64,7 @@ public class GlobalExceptionController {
 
     @ExceptionHandler(Exception.class)
     public ModelAndView handleGeneralException(Exception e) {
-        ModelAndView modelAndView = new ModelAndView("errorPage");
+        ModelAndView modelAndView = new ModelAndView("error");
         modelAndView.addObject("errorDetails", new ErrorDetails("UnknownException", "An unexpected error occurred."));
         e.printStackTrace();
         return modelAndView;

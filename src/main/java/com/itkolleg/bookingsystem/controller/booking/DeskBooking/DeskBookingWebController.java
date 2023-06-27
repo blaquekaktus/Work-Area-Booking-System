@@ -272,6 +272,6 @@ public class DeskBookingWebController {
 
     @GetMapping("/error")
     public String getError() {
-        return "errorPage";
+        return "error";
     }
 }

@@ -28,7 +28,7 @@ public class RoomWebController {
     }
 
     @GetMapping("/web/allrooms")
-    public ModelAndView allemployees() throws ExecutionException, InterruptedException {
+    public ModelAndView allrooms() throws ExecutionException, InterruptedException {
         List<Room> allRooms = roomService.getAllRooms();
         return new ModelAndView("room/allrooms", "rooms", allRooms);
     }
@@ -46,7 +46,7 @@ public class RoomWebController {
         } catch (RoomDeletionNotPossibleException e) {
             model.addAttribute("errortitle", "Raum-Löschen schlägt fehl!");
             model.addAttribute("errormessage", e.getMessage());
-            return "errorPage";
+            return "error";
         }
     }
 
@@ -60,4 +60,22 @@ public class RoomWebController {
             return "redirect:/web/allrooms";
         }
     }
+    @GetMapping("/web/floors")
+    public ModelAndView allfloors() throws ExecutionException, InterruptedException {
+        List<Room> allFloors = roomService.getAllRooms();
+        return new ModelAndView("room/floors", "floors", allFloors);
+    }
+
+    @GetMapping("/web/png2room")
+    public ModelAndView allpng2room() throws ExecutionException, InterruptedException {
+        List<Room> allFloors = roomService.getAllRooms();
+        return new ModelAndView("room/png2room", "floors", allFloors);
+    }
+
+    @GetMapping("/web/imagemap")
+    public ModelAndView allimagemap() throws ExecutionException, InterruptedException {
+        List<Room> allFloors = roomService.getAllRooms();
+        return new ModelAndView("room/imagemap", "floors", allFloors);
+    }
+
 }

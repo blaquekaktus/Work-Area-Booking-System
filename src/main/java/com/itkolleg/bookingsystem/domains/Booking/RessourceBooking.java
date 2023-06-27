@@ -29,7 +29,7 @@ import java.time.LocalTime;
 @Setter
 public class RessourceBooking extends Booking {
     @ManyToOne
-    //@JoinColumn(name = "ressource_id")
+    @JoinColumn(name = "ressource_id")
     private Ressource ressource;
 
     /**

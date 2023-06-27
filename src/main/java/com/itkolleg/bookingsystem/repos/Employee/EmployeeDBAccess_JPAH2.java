@@ -32,19 +32,6 @@ public class EmployeeDBAccess_JPAH2 implements EmployeeDBAccess {
 */
     @Override
     public Employee saveEmployee(Employee employee) throws EmployeeAlreadyExistsException {
-        String email = employee.getEmail();
-        String nick = employee.getNick();
-
-        Employee existingEmployeeByEmail = employeeJPARepo.getEmployeeByEmail(email);
-        Employee existingEmployeeByNick = employeeJPARepo.getEmployeeByNick(nick);
-
-        if (existingEmployeeByEmail != null) {
-            throw new EmployeeAlreadyExistsException("Employee with email already exists");
-        }
-
-        if (existingEmployeeByNick != null) {
-            throw new EmployeeAlreadyExistsException("Employee with nick already exists");
-        }
 
         return employeeJPARepo.save(employee);
     }

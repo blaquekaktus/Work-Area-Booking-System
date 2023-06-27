@@ -48,8 +48,8 @@
         </li>
         <li><a href="#">Mitarbeiter<i class="fa fa-chevron-down"></i></a>
             <ul>
-                <li><a href="/../web/allemployees">Mitarbeiterliste</a></li>
-                <li><a href="/../web/insertemployeeform">Mitarbeiter Hinzufügen</a></li>
+                <li><a href="/../web/employees/allemployees">Mitarbeiterliste</a></li>
+                <li><a href="/../web/employees/insertemployeeform">Mitarbeiter Hinzufügen</a></li>
             </ul>
         </li>
         <li><a href="#">Ressourcen</a></li>
@@ -59,11 +59,11 @@
 </div>
 <!-- Content -->
 <div class="content-container">
-    <div class="editEmployee-Container">
+    <div class="addRessourceContainer">
         <!-- Hier kommt der Inhalt der Webseite hin -->
         <h1>Mitarbeiter eintragen</h1>
         <div style="background-color: white">
-            <form th:action="@{/web/insertemployee}" method="post" th:object="${myemployee}">
+            <form th:action="@{/web/employees/insertemployee}" method="post" th:object="${myemployee}">
                 <div class="form-group">
                     <label for="fname">Vorname</label>
                     <input type="text" id="fname" th:field="*{fname}"/>
@@ -94,13 +94,13 @@
                     <select class="form-control" name="role" id="role">
                         <option>---Bitte Auswählen---</option>
                         <option th:each="role : ${T(com.itkolleg.bookingsystem.domains.Role).values()}"
-                                th:value="${role}" th:text="${role}" th:selected="${role == myemployee.role}">
+                                th:value="${role}" th:text="${#strings.substringAfter(role, '_')}" th:selected="${role == myemployee.role}">
                         </option>
                     </select>
                 </div>
                 <div>
                     <button class="btn btn-primary" type="submit" name="action" value="save">Speichern</button>
-                    <a class="btn delete-button" href="/../web/allemployees">Zurück</a>
+                    <a class="btn delete-button" href="/../web/employees/allemployees">Zurück</a>
                 </div>
             </form>
         </div>
