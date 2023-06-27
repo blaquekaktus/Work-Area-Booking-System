@@ -9,16 +9,20 @@ import com.itkolleg.bookingsystem.exceptions.EmployeeExceptions.EmployeeNotFound
 import com.itkolleg.bookingsystem.exceptions.EmployeeExceptions.EmployeeValidationException;
 import com.itkolleg.bookingsystem.exceptions.ExceptionDTO;
 import com.itkolleg.bookingsystem.exceptions.FormValidationExceptionDTO;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
-import org.springframework.web.servlet.ModelAndView;
+import org.springframework.web.bind.annotation.ResponseStatus;
 
 
 @ControllerAdvice
 public class GlobalExceptionController {
+    private static final Logger logger = LoggerFactory.getLogger(GlobalExceptionController.class);
+
 
     @ExceptionHandler(EmployeeNotFoundException.class)
     public ResponseEntity<ExceptionDTO> employeeNotFound(EmployeeNotFoundException employeeNotFoundException) {
@@ -40,34 +44,32 @@ public class GlobalExceptionController {
         return new ResponseEntity<>(new ExceptionDTO("1000", employeeAlreadyExistsException.getMessage()), HttpStatus.NOT_FOUND);
     }
 
+    @ResponseStatus(HttpStatus.NOT_FOUND)
     @ExceptionHandler(ResourceNotFoundException.class)
-    public ModelAndView handleResourceNotFoundException(ResourceNotFoundException ex) {
-        ModelAndView modelAndView = new ModelAndView();
-        modelAndView.setViewName("error");
-        modelAndView.addObject("errorMessage", ex.getMessage());
-        return modelAndView;
+    public ErrorDetails handleResourceNotFound(ResourceNotFoundException ex) {
+        logger.error("ResourceNotFoundException: {}", ex.getMessage(), ex);
+        return new ErrorDetails("Resource Not Found", ex.getMessage());
     }
 
+    @ResponseStatus(HttpStatus.CONFLICT)
     @ExceptionHandler(DeskNotAvailableException.class)
-    public ModelAndView handleDeskNotAvailableException(DeskNotAvailableException e) {
-        ModelAndView modelAndView = new ModelAndView("error");
-        modelAndView.addObject("errorDetails", new ErrorDetails("Desk Not Available", "The desk is not available."));
-        e.printStackTrace();
-        return modelAndView;
+    public ErrorDetails handleDeskNotAvailable(DeskNotAvailableException ex) {
+        logger.error("DeskNotAvailableException: {}", ex.getMessage(), ex);
+        return new ErrorDetails("Desk Not Available", ex.getMessage());
     }
 
+    @ResponseStatus(HttpStatus.NOT_FOUND)
     @ExceptionHandler(EmptyResultDataAccessException.class)
-    public ResponseEntity<String> handleEmptyResultDataAccessException(EmptyResultDataAccessException e) {
-        // customize error message and HTTP status as needed
-        return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Booking not Found!");
+    public ErrorDetails handleEmptyResultDataAccess(EmptyResultDataAccessException ex) {
+        logger.error("EmptyResultDataAccessException: {}", ex.getMessage(), ex);
+        return new ErrorDetails("No Data Found", ex.getMessage());
     }
 
+    @ResponseStatus(HttpStatus.INTERNAL_SERVER_ERROR)
     @ExceptionHandler(Exception.class)
-    public ModelAndView handleGeneralException(Exception e) {
-        ModelAndView modelAndView = new ModelAndView("error");
-        modelAndView.addObject("errorDetails", new ErrorDetails("UnknownException", "An unexpected error occurred."));
-        e.printStackTrace();
-        return modelAndView;
+    public ErrorDetails handleGeneralException(Exception ex) {
+        logger.error("Exception: {}", ex.getMessage(), ex);
+        return new ErrorDetails("Unknown Exception", "An unexpected error occurred.");
     }
 
 }
