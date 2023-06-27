@@ -1,74 +1,18 @@
 <!DOCTYPE html>
 <html lang="en" xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
-<head>
-    <title>Ressource hinzufügen</title>
-    <meta charset="UTF-8">
-    <link href="https://fonts.googleapis.com/css?family=Roboto+Condensed&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="/css/WABS.css">
-    <!-- jQuery -->
-    <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
-
-    <!-- Font Awesome 4-->
-    <link rel="stylesheet" href="/css/sidebar-accordionAdmin.css">
-    <script src="/js/sidebar-accordion.js"></script>
-    <script src="/js/DropDown.js"></script>
-    <script src="/js/DropDown.js"></script>
-    <script src="/js/sidebar-accordion.js"></script>
-    <style>
-        body {
-            background-image: url("/img/background.jpg");
-            background-size: cover;
-            background-repeat: no-repeat;
-        }
-        .error-message {
-            color: red;
-        }
-    </style>
-    <link rel="stylesheet" href="/static/css/fontawesome.css">
-</head>
+<div th:insert="headerAdmin :: headerAdmin" th:with="title='Arbeitsplatz buchen'">  </div>
 <body>
 <!-- Top Bar -->
-<div class="top-barAdmin">
-    <img src="/img/LogoWhite.png" alt="Logo" class="logo">
-    <a th:href="@{/web/logout}" class="logout-link">Abmelden</a>
-    <div class="top-bar-header">
-        <h1>W.A.B.S.</h1>
-    </div>
-    <div class="top-bar-sub-header">
-        <h2>Working-Area Booking System</h2>
-    </div>
-</div>
+<div th:insert="topbarAdmin :: topbarAdmin">  </div>
 <!-- Side Navbar -->
-<div class="contenedor-menu">
-    <!-- <a href="" class="btnMenu">Menu <i class="fa fa-bars"></i></a> -->
-
-    <ul class="menu">
-        <li><a href="#">Home</a></li>
-        <li><a href="#">Bookings <i class="fa fa-chevron-down"></i></a>
-            <ul>
-                <li><a href="#">Work-Areas</a></li>
-                <li><a href="#">Equipment</a></li>
-                <li><a href="#">Rooms</a></li>
-            </ul>
-        </li>
-        <li><a href="#">My Bookings <i class="fa fa-chevron-down"></i></a>
-            <ul>
-                <li><a href="#">Work-Areas</a></li>
-                <li><a href="#">Equipment</a></li>
-                <li><a href="#">Rooms</a></li>
-                <li><a href="#">History</a></li>
-            </ul>
-        </li>
-        <li><a href="#">Back</a></li>
-    </ul>
-</div>
+<div th:insert="navbarAdmin :: navbarAdmin">  </div>
 <div class="content-container">
     <div class="addRessourceContainer">
-        <h1 class="text-center text-dark">Create New Work-Area Booking</h1>
+        <h1 class="text-center text-dark">Arbeitsplatz buchen</h1>
         <br>
         <br>
-        <a class="button" role="button" style="margin-right: 50px" th:href="@{/web/desks}">View All Work-Areas</a>
-        <a class="button" role="button" style="margin-right: 50px" th:href="@{/web/deskBookings/admin}">View My Work-Area Bookings</a>
+        <a class="button" role="button" style="margin-right: 50px" th:href="@{/web/desks}">Alle Arbeitsplätze anzeigen</a>
+        <a class="button" role="button" style="margin-right: 50px" th:href="@{/web/deskBookings/admin}">Meine Arbeitsplatz-Buchungen</a>
         <br>
         <br>
         <form method="post" th:action="@{/web/deskbookings/add}" th:object="${deskBooking}">
@@ -76,7 +20,7 @@
                 <p th:text="${errorMessage}"></p>
             </div>
             <div class="mb-3 form-group">
-                <label class="form-label" for="employee.id">Employee</label>
+                <label class="form-label" for="employee.id">Mitarbeiter</label>
                 <select class="form-control" id="employee.id" name="employee.id" th:field="*{employee.id}">
                     <option th:each="employee : ${employees}"
                             th:text="${employee.fname} + ' '+ ${employee.lname}"
@@ -87,7 +31,7 @@
             </div>
 
             <div class="mb-3 form-group">
-                <label class="form-label" for="deskNr">Work-Area</label>
+                <label class="form-label" for="deskNr">Arbeitsplatz</label>
                 <select class="form-control" id="deskNr" name="desk.id" th:field="*{desk.id}" onchange="updateDeskId()">
                     <option th:each="desk : ${desks}"
                             th:text="*{desk.deskNr}"
@@ -100,7 +44,7 @@
             </div>
             <input type="hidden" id="desk.id" name="desk.id" th:field="*{desk.id}"/>
             <div class="mb-3 form-group">
-                <label class="form-label" for="date">Date</label>
+                <label class="form-label" for="date">Datum</label>
                 <input class="form-control" id="date" name="bookingStart"
                        th:field="*{date}"
                        th:value="${#dates.format(#dates.createNow(), 'yyyy-MM-dd')}" type="date"/>
@@ -109,7 +53,7 @@
                      th:if="${#fields.hasErrors('date')}"></div>
             </div>
             <div class="mb-3">
-                <label class="form-label" for="start">Start Time</label>
+                <label class="form-label" for="start">Start</label>
                 <select class="form-select" id="start" name="start" th:field="*{start}">
                     <option value="">--Select Start Time--</option>
                     <option th:each="time : ${startTimes}"
@@ -122,7 +66,7 @@
             </div>
 
             <div class="mb-3">
-                <label class="form-label" for="end">End Time</label>
+                <label class="form-label" for="end">Ende</label>
                 <select class="form-select" id="end" name="end" th:field="*{endTime}">
                     <option value="">--Select End Time--</option>
                     <option th:each="time : ${endTimes}"
@@ -136,8 +80,8 @@
             <br>
             <br>
             <div class="d-flex justify-content-center">
-                <button type="submit" class="button">Book</button>
-                <button class="delete-button" th:href="@{/web/deskbookings/admin}">Cancel</button>
+                <button type="submit" class="button">Buchen</button>
+                <button class="delete-button" th:href="@{/web/deskbookings/admin}">Abbrechen</button>
             </div>
         </form>
     </div>

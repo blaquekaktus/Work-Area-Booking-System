@@ -3,6 +3,10 @@ body {
     font-family: 'Roboto Condensed', sans-serif;
 }
 
+.error-message {
+    color: red;
+}
+
 .addRessourceContainer {
     background-color: #fff;
     padding: 20px;
