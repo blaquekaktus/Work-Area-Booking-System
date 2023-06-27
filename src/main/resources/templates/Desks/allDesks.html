@@ -1,61 +1,30 @@
 <!DOCTYPE html>
 <html lang="en" xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
-<head>
-    <meta charset="UTF-8">
-    <title>Add Desk</title>
-    <link th:href="@{/webjars/bootstrap/4.0.0-2/css/bootstrap.min.css} " th:rel="stylesheet"/>
-    <script src="/static/js/Desks.js"></script>
-    <link rel="stylesheet" href="../../static/css/desks.css">
-    <link rel="stylesheet" href="../../static/css/WABS.css">
-    <link rel="stylesheet" href="../../static/css/sidebar-accordion.css">
-</head>
-<body style="background-image: url('../../static/img/background2.jpg');background-repeat:no-repeat;background-size:cover;">
-<nav class="navbar navbar-expand-lg navbar-light"
-     style="background-color: #96C01E;height: 200px;display:flex;align-items:center;">
-    <div class="top-bar">
-        <img src="/static/img/LogoWhite.png" alt="Logo" class="logo">
-        <a href="#" class="logout-link">Abmelden</a>
-        <div class="top-bar-header">
-            <h1>W.A.B.S.</h1>
-        </div>
-        <div class="top-bar-sub-header">
-            <h2>Working-Area Booking System</h2>
-        </div>
-    </div>
-</nav>
-<br>
-<br>
-<div>
-    <h1 class="text-center text-dark">All Work-Areas</h1>
-</div>
-<br>
-<br>
-<div class="container">
-    <div class="row justify-content-center">
-        <div class="col-md-6">
-            <div style="display:flex;justify-content:flex-end;align-items:center;">
+<div th:insert="headerAdmin :: headerAdmin" th:with="title='Alle Tische'">  </div>
+<body>
+<!-- Top Bar -->
+<div th:insert="topbarAdmin :: topbarAdmin">  </div>
+<!-- Side Navbar -->
+<div th:insert="navbarAdmin :: navbarAdmin">  </div>
+<!-- Content -->
+<div class="content-container">
+    <div class="subcontainer">
+        <div class="form-group">
                 <a class="btn btn-dark" role="button" style="margin-right: 50px" th:href="@{/web/desks/add}">Create New Work-Area</a>
             </div>
-            <br>
-            <br>
             <div class="room">
                 <!-- The desks will be added here by JavaScript -->
             </div>
-            <div th:each="desk: ${viewAllDesks}" class="desk-data" th:id="${'desk' + desk.id}" th:data-status="${desk.bookingStatus}" style="display: none;"></div>
-
-            <div class="row-cols-sm-6 d-flex justify-content-center align-items-center flex-column flex-lg-row w-60 w-m-75 w-lg-90">
-                <div class="alert alert-danger" role="alert" th:if="${errorMessage}" th:text="${errorMessage}">
-                </div>
-                <table class="table" id="bookingTable">
+            <!--<div th:each="desk: ${viewAllDesks}" class="desk-data" th:id="${'desk' + desk.id}" th:data-status="${desk.bookingStatus}" style="display: none;"></div>-->
+                <div class="alert alert-danger" role="alert" th:if="${errorMessage}" th:text="${errorMessage}"></div>
+                <table>
                     <thead>
                     <tr>
                         <td>Work-Area Id</td>
                         <td>Work-Area Number</td>
                         <td>Monitors</td>
                         <td>Ports</td>
-                        <td>View</td>
-                        <td>Edit</td>
-                        <td>Delete</td>
+                        <td>Aktion</td>
                     </tr>
                     </thead>
                     <tbody>
@@ -63,25 +32,15 @@
                         <td th:text="${desk.id}"></td>
                         <td th:text="${desk.deskNr}"></td>
                         <td th:text="${desk.nrOfMonitors}"></td>
-                        <td>
-                            <ul>
-                                <li th:each="port : ${desk.ports}" th:text="${port.name}"></li>
-                            </ul>
-                        </td>
-                        <td><a class="btn btn-info" role="button" th:href="@{/web/desks/view/{id}(id=${desk.id})}">View</a></td>
-                        <td><a class="btn btn-warning" role="button" th:href="@{/web/desks/update/{id}(id=${desk.id})}">Edit</a>
-                        </td>
-                        <td><a class="btn btn-danger" role="button" th:href="@{/web/desks/delete/{id}(id=${desk.id})}">Delete</a>
-                        </td>
+                        <td><p th:each="port : ${desk.ports}" th:text="${port.name}"></p></td>
+                        <td><a class="button" role="button" th:href="@{/web/desks/view/{id}(id=${desk.id})}">Ansicht</a></td>
+                        <td><a class="button" role="button" th:href="@{/web/desks/update/{id}(id=${desk.id})}">Bearbeiten</a>
+                        <td><a class="delete-button" role="button" th:href="@{/web/desks/delete/{id}(id=${desk.id})}">Löschen</a>
                     </tr>
                     </tbody>
                 </table>
             </div>
         </div>
-    </div>
-    <script th:src="@{/webjars/jquery/3.0.0/jquery.min.js}"></script>
-    <script th:src="@{/webjars/popper.js/1.12.9-1/umd/popper.min.js}"></script>
-    <script th:src="@{/webjars/bootstrap/4.0.0-2/js/bootstrap.min.js}"></script>
-</div>
+<div class="filler"></div>
 </body>
 </html>
