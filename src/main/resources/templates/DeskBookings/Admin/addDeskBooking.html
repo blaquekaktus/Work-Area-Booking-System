@@ -71,7 +71,7 @@
         <a class="button" role="button" style="margin-right: 50px" th:href="@{/web/deskBookings/admin}">View My Work-Area Bookings</a>
         <br>
         <br>
-        <form method="post" th:action="@{/web/deskbookings/admin/add}" th:object="${deskBooking}">
+        <form method="post" th:action="@{/web/deskbookings/add}" th:object="${deskBooking}">
             <div th:if="${errorMessage}" class="alert alert-danger error-message">
                 <p th:text="${errorMessage}"></p>
             </div>

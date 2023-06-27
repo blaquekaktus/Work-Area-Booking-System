@@ -47,7 +47,7 @@
         </div>
         <div class="mb-3 form-group">
             <label for="date">Date</label>
-            <input class="form-control" id="date" name="date" required th:field="${booking.date}" th:default="${booking.getDate()}" type="date">
+            <input class="form-control" id="date" name="date" required th:field="${booking.date}" th:default="${#temporals.format(booking.date, 'dd-MM-YYYY')}"  type="date">
             <div class="form-text" th:errors="*{date}"
                  th:if="${#fields.hasErrors('date')}"></div>
         </div>
