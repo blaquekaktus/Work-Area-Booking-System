@@ -45,12 +45,27 @@
             <div class="form-text"  th:errors="*{desk.id}"
                  th:if="${#fields.hasErrors('desk.id')}"></div>
         </div>
+        <!--th:default="${booking.getDate()}"-->
+        <!--<div class="mb-3 form-group">
+            <label for="date">Date</label>
+            <input class="form-control" id="date" name="date" required th:field="${booking.date}" th:default="${(booking.getDate())}" type="date">
+            <div class="form-text" th:errors="*{date}"
+                 th:if="${#fields.hasErrors('date')}"></div>
+        </div>-->
         <div class="mb-3 form-group">
             <label for="date">Date</label>
-            <input class="form-control" id="date" name="date" required th:field="${booking.date}" th:default="${booking.getDate()}" type="date">
+            <input class="form-control" id="date" name="date" required th:field="*{date}" th:value="${#dates.format(booking.date, 'yyyy-MM-dd')}" type="date">
             <div class="form-text" th:errors="*{date}"
                  th:if="${#fields.hasErrors('date')}"></div>
         </div>
+
+        <!--<div class="mb-3 form-group">
+            <label for="date">Date</label>
+            <input class="form-control" id="date" name="date" required th:field="${booking.date}" type="date"
+                   th:value="${#dates.format(booking.date, 'yyyy-MM-dd')}" th:default="${booking.getDate()}">
+            <div class="form-text" th:errors="*{date}" th:if="${#fields.hasErrors('date')}"></div>
+        </div>-->
+
         <div class="mb-3form-group">
             <label class="form-label" for="start">Start Time</label>
             <select class="form-select" id="start" name="start" th:field="*{start}">

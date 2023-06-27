@@ -39,7 +39,19 @@
         <li><a href="/../web/employees/admin-start">Home</a></li>
         <li><a href="#">Bookings <i class="fa fa-chevron-down"></i></a>
             <ul>
-                <li><a th:href="@{/web/deskbookings/admin}">Work-Area</a></li>
+                <!--<li><a th:href="@{/web/deskbookings/admin}">Work-Area</a></li>-->
+                <li><a href="#">Work-Area<i class="fa fa-chevron-down"></i></a>
+                    <ul>
+                        <li><a href="/web/deskbookings/admin">View All</a></li>
+                        <li><a href="/web/deskbookings/admin/add">Create New</a></li>
+                    </ul>
+                </li>
+                <li><a href="#">Work-Areas<i class="fa fa-chevron-down"></i></a>
+                    <ul>
+                        <li><a href="/web/desks">View All</a></li>
+                        <li><a href="/web/desks/add">Create New</a></li>
+                    </ul>
+                </li>
                 <li><a href="#">Ressourcen</a></li>
                 <li><a href="#">Räume</a></li>
             </ul>
