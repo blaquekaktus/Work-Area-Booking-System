@@ -5,7 +5,6 @@ import com.itkolleg.bookingsystem.exceptions.EmployeeExceptions.EmployeeNotFound
 import com.itkolleg.bookingsystem.exceptions.ResourceDeletionFailureException;
 import com.itkolleg.bookingsystem.exceptions.ResourceNotFoundException;
 import com.itkolleg.bookingsystem.exceptions.RessourceExceptions.RessourceAlreadyExistsException;
-import com.itkolleg.bookingsystem.exceptions.RessourceExceptions.RessourceDeletionNotPossibleException;
 import com.itkolleg.bookingsystem.exceptions.RessourceExceptions.RessourceNotAvailableException;
 import com.itkolleg.bookingsystem.exceptions.RessourceExceptions.RessourceNotFoundException;
 import com.itkolleg.bookingsystem.service.Employee.EmployeeService;
@@ -54,13 +53,10 @@ public class RessourceBookingWebController {
      * Diese Methode gibt eine Liste aller Ressourcen Buchungen für einen/eine angemeldeten/angemeldetet Mitarbeiter:inn aus.
      * Die Methode prüft, ob zur Laufzeit ein/eine angemeldeter/angemeldete Mitarbeiter:inn existiert. Wenn nicht, wird eine EmployeeNotFoundException geworfen.
      * Scheitert die Prüfung nicht, wird eine Liste für den angemeldeten Employee geliefert. Die Identifizierung läuft über den einzigartigen NickName.
-     *
      * Diese Methode ist mit @GetMapping annotiert, da sie eine HTTP-Anfrage verarbeiten und zurückliefern muss.
      *
      * @return ModelAndView
-     * @throws ExecutionException
-     * @throws InterruptedException
-     * @throws EmployeeNotFoundException
+     * @throws EmployeeNotFoundException Mitarbeiter nicht gefunden
      */
     @GetMapping("/allBookingsEmployee")
     public ModelAndView allBookingsEmployee() throws EmployeeNotFoundException {
@@ -90,6 +86,18 @@ public class RessourceBookingWebController {
         return new ModelAndView("ressourceBooking/viewRessourceBookings", "bookings", bookings);
     }
 
+    /**
+     * Diese Methode erstellt eine Buchung für einen/eine Mitarbeiter:inn anhand der übergebenen ID. Um eine Buchung erstellen zu können, benötigt die Methode eine leere Buchung, den/die aktuelle/aktuellen Benutzer:inn
+     * und die ausgewählte Ressource.
+     * Diese Methode ist mit @GetMapping annotiert, da sie eine HTTP-Anfrage verarbeiten und zurückliefern muss.
+     * @param id vom Typ Long
+     * @param model vom Typ Model
+     * @return ModelAndView
+     * @throws RessourceNotFoundException Ressource nicht gefunden
+     * @throws ExecutionException Ausführung nicht funktioniert
+     * @throws InterruptedException unterbrechung
+     * @throws EmployeeNotFoundException Employee nicht gefunden
+     */
     @GetMapping("/createBookingEmployee/{id}")
     public ModelAndView createBookingEmployee(@PathVariable Long id, Model model) throws RessourceNotFoundException, ExecutionException, InterruptedException, EmployeeNotFoundException {
 
@@ -112,6 +120,14 @@ public class RessourceBookingWebController {
         return new ModelAndView("ressourceBooking/createRessourceBookingEmployee", "Booking", model);
     }
 
+    /**
+     * Diese Methode übergibt mittels @PostMapping die übergebenen Daten und übermittelt sie an die Datenbank.
+     * @param booking vom typ RessourceBooking
+     * @param bindingResult vom Typ BindingResults
+     * @return redirection
+     * @throws RessourceNotAvailableException Ressource ist nicht verfügbar
+     * @throws ResourceNotFoundException Ressource nicht gefunden
+     */
     @PostMapping("/createBookingEmployee")
     public String createBookingEmployee(@Valid RessourceBooking booking, BindingResult bindingResult) throws RessourceNotAvailableException, ResourceNotFoundException {
 
@@ -124,6 +140,18 @@ public class RessourceBookingWebController {
 
     }
 
+    /**
+     * Diese Methode erstellt eine Buchung für einen/eine Admin anhand der übergebenen ID. Um eine Buchung erstellen zu können, benötigt die Methode eine leere Buchung, den/die aktuelle/aktuellen Benutzer:inn
+     * und die ausgewählte Ressource.
+     * Diese Methode ist mit @GetMapping annotiert, da sie eine HTTP-Anfrage verarbeiten und zurückliefern muss.
+     * @param id vom Typ Long
+     * @param model vom Typ Model
+     * @return ModelAndView
+     * @throws RessourceNotFoundException Ressoruce nicht gefunden
+     * @throws ExecutionException Auführungsfehler
+     * @throws InterruptedException Unterbrechungsfehler
+     * @throws EmployeeNotFoundException Emloyee nicht gefunden
+     */
     @GetMapping("/createBooking/{id}")
     public ModelAndView createBookingAdmin(@PathVariable Long id, Model model) throws RessourceNotFoundException, ExecutionException, InterruptedException, EmployeeNotFoundException {
 
@@ -145,6 +173,14 @@ public class RessourceBookingWebController {
         return new ModelAndView("ressourceBooking/createRessourceBooking", "Booking", model);
     }
 
+    /**
+     * Diese Methode übergibt mittels @PostMapping die übergebenen Daten und übermittelt sie an die Datenbank.
+     * @param booking vom typ RessourceBooking
+     * @param bindingResult vom Typ BindingResults
+     * @return redirection
+     * @throws RessourceNotAvailableException Ressource nicht verfügbar
+     * @throws ResourceNotFoundException Ressource nicht gefunden
+     */
     @PostMapping("/createBooking")
     public String createBookingAdmin(@Valid RessourceBooking booking, BindingResult bindingResult) throws RessourceNotAvailableException, ResourceNotFoundException {
 
@@ -157,6 +193,17 @@ public class RessourceBookingWebController {
 
     }
 
+    /**
+     * Diese Methode bearbeitet eine @GetMapping HTTP Anfrage und lässt diese Seite sich darstellen. Es wird eine ID übergeben damit man auf die UpdateDaten der entsprechenden Buchung gelangt.
+     * @param id vom Typ Long
+     * @param model vom Typ Model
+     * @return ModelAndView
+     * @throws RessourceNotFoundException Ressource nicht gefunden
+     * @throws ExecutionException Ausführungsfehler
+     * @throws InterruptedException Unterbrechungsfehler
+     * @throws ResourceNotFoundException Ressource nicht gefunden
+     * @throws EmployeeNotFoundException Mitarbeiter nicht gefunden
+     */
     @GetMapping("/updateBooking/{id}")
     public ModelAndView updateBooking(@PathVariable Long id, Model model) throws RessourceNotFoundException, ExecutionException, InterruptedException, ResourceNotFoundException, EmployeeNotFoundException {
 
@@ -165,8 +212,19 @@ public class RessourceBookingWebController {
         return new ModelAndView("ressourceBooking/editRessourceBooking", "Booking", model);
     }
 
+    /**
+     * Diese Methode übermittelt mittels @PostMapping die überarbeiteten Daten an die Datenbank und überschreib das ursprüngliche Model.
+     * @param booking vom Typ RessourceBooking
+     * @param bindingResult vom Typ BindingResults
+     * @return Redircetion
+     * @throws RessourceAlreadyExistsException Ressource existiert bereits
+     * @throws ExecutionException Ausführungsfehler
+     * @throws InterruptedException Unterbrechungsfehler
+     * @throws RessourceNotAvailableException Ressource nicht verfügbar
+     * @throws EmployeeNotFoundException Employee nicht gefunden
+     */
     @PostMapping("/updateBooking")
-    public String updateBooking(@Valid RessourceBooking booking, BindingResult bindingResult) throws RessourceAlreadyExistsException, ExecutionException, InterruptedException, RessourceNotFoundException, RessourceNotAvailableException, ResourceNotFoundException, EmployeeNotFoundException {
+    public String updateBooking(@Valid RessourceBooking booking, BindingResult bindingResult) throws RessourceAlreadyExistsException, ExecutionException, InterruptedException, RessourceNotAvailableException, EmployeeNotFoundException, ResourceNotFoundException {
 
         if (bindingResult.hasErrors()) {
             return "/ressourceBooking/editRessourceBooking";
@@ -179,11 +237,9 @@ public class RessourceBookingWebController {
     /**
      * Diese Methode löscht eine Buchung für den/die angemeldeten/angemeldete Benutzer:inn. Dabei ist zu beachten, nur durch das Löschen der Buchung die Ressource
      * wieder freigegeben wird. Erst dann kann man die Ressource selbst wieder löschen.
-     *
      * Es findet eine Prüfung statt, ob die Buchung getätigt werden kann. Die Methode fängt ResourceDeletionFailureException und ResourceNotFoundException ab.
-     *
      * Diese Methode ist mit @GetMapping annotiert, da sie eine HTTP-Anfrage verarbeiten und zurückliefern muss.
-     * @param id
+     * @param id vom Typ Long
      * @return Webseitenaufruf auf ViewBookingsEmployee
      */
     @GetMapping("/deleteBookingEmployee/{id}")
@@ -199,7 +255,6 @@ public class RessourceBookingWebController {
     /**
      * Diese Methode löscht eine Ressourcenbuchung für den/die angemeldeten/angemeldete Admin.
      * Es findet eine Prüfung statt, ob die Buchung getätigt werden kann. Die Methode fängt ResourceDeletionFailureException und ResourceNotFoundException ab.
-     *
      * Diese Methode ist mit @GetMapping annotiert, da sie eine HTTP-Anfrage verarbeiten und zurückliefern muss.
      * @param id vom Typ Long
      * @return Webseitenaufruf auf ViewAllBookings
