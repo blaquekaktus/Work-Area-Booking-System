@@ -86,7 +86,7 @@ public class WebSecurityConfig {
                 .and()
                 .authorizeHttpRequests(authConfig -> {
                     authConfig.requestMatchers(HttpMethod.GET, "/web/login", "/error", "/web/login-error", "/web/logout", "/static/**", "/templates/**").permitAll();
-                    authConfig.requestMatchers(HttpMethod.GET,  "/web/employees/start", "/web/ressource/**", "/web/roomBooking/**", "/web/ressourceBooking/**", "/web/room/**").hasAnyRole("OPERATOR", "N_EMPLOYEE", "P_EMPLOYEE");
+                    authConfig.requestMatchers(HttpMethod.GET,  "/web/employees/start", "/web/ressource/**", "/web/roomBooking/**", "/web/ressourceBooking/**", "/web/floorsEmployee","/web/desks/**","/web/room/**").hasAnyRole("OPERATOR", "N_EMPLOYEE", "P_EMPLOYEE");
                     authConfig.requestMatchers(HttpMethod.GET, "/web/**").hasRole("ADMIN");
                     authConfig.requestMatchers(HttpMethod.POST, "/web/login").permitAll();
                     authConfig.requestMatchers(HttpMethod.POST, "/web/desks/**", "/web/ressource/**", "/web/roomBooking/**", "/web/ressourceBooking/**", "/web/room").hasAnyRole("OPERATOR", "N_EMPLOYEE", "P_EMPLOYEE");

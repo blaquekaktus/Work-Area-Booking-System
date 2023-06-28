@@ -137,5 +137,10 @@ public class RoomWebController {
         return new ModelAndView("room/floors", "floors", allFloors);
     }
 
+    @GetMapping("/web/floorsEmployee")
+    public ModelAndView allfloorsemployee() throws ExecutionException, InterruptedException {
+        List<Room> allFloors = roomService.getAllRooms();
+        return new ModelAndView("room/floorsEmployee", "floors", allFloors);
+    }
 
 }
