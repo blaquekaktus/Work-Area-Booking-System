@@ -99,7 +99,7 @@ public class EmployeeServiceImplementation implements EmployeeService {
     public Employee getEmployeeByNick(String nick) {
         Employee employeeDB = this.employeeDBAccess.getEmployeeByNick(nick);
         if(employeeDB == null){
-            // Benutzer nicht gefunden, Fehlerbehandlung durchfÃ¼hren
+            // Benutzer nicht gefunden, Fehlerbehandlung durchführen
             throw new IllegalArgumentException("Benutzername nicht gefunden: " + nick);
         }
         return employeeDB;

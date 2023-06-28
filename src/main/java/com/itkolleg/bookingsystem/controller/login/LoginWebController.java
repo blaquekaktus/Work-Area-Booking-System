@@ -1,19 +1,15 @@
 package com.itkolleg.bookingsystem.controller.login;
 
 import jakarta.servlet.http.HttpServletRequest;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
-import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
-
-import java.security.Principal;
 
 /**
  * Der LoginWebController ist verantwortlich für die Verarbeitung von HTTP-Anforderungen, die mit der Benutzeranmeldung
@@ -22,8 +18,6 @@ import java.security.Principal;
 @Controller
 @RequestMapping("/web")
 public class LoginWebController {
-
-    @Autowired
     private final AuthenticationManager authenticationManager;
 
     /**
@@ -45,7 +39,6 @@ public class LoginWebController {
         model.addAttribute("error", "");
         return "login/login";
     }
-
 
     /**
      * Verarbeitet das Login-Formular und authentifiziert den Benutzer.
@@ -69,8 +62,6 @@ public class LoginWebController {
         }
         return null; // Rückgabewert kann null sein, da die Weiterleitung bereits in der Security-Konfiguration festgelegt wird
     }
-
-
 
     @GetMapping("/logout")
     public String logout(HttpServletRequest request) {
