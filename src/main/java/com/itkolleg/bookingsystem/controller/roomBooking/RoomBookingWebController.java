@@ -87,7 +87,7 @@ public class RoomBookingWebController {
         return new ModelAndView("roomBooking/viewRoomBookings", "bookings", bookings);
     }
 
-    @GetMapping("/web/createRoomBookingEmployee/{id}")
+    @GetMapping("/createRoomBookingEmployee/{id}")
     public ModelAndView createBookingEmployee(@PathVariable Long id, Model model) throws RoomNotFoundException, ExecutionException, InterruptedException, EmployeeNotFoundException {
 
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
@@ -109,7 +109,7 @@ public class RoomBookingWebController {
         return new ModelAndView("roomBooking/createRoomBookingEmployee", "Booking", model);
     }
 
-    @PostMapping("/web/createBookingEmployee")
+    @PostMapping("/createBookingEmployee")
     public String createBookingEmployee(@Valid RoomBooking booking, BindingResult bindingResult) throws RoomNotAvailableException, RoomNotFoundException {
 
         if (bindingResult.hasErrors()) {
