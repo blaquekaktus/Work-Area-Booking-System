@@ -7,24 +7,6 @@
 <!-- Side Navbar -->
 <div th:insert="navbarAdmin :: navbarAdmin">  </div>
 <!-- Content -->
-<div class="contenedor-menu">
-  <!-- <a href="" class="btnMenu">Menu <i class="fa fa-bars"></i></a> -->
-
-  <ul class="menu">
-    <li><a href="/templates/Interface/templateAdmin.html">Home</a></li>
-    <li><a href="#">Bookings <i class="fa fa-chevron-down"></i></a>
-      <ul>
-        <li><a href="#">Work-Area</a></li>
-        <li><a th:href="@{/web/roomBooking/allBookings}">Raumbuchungen</a></li>
-        <li><a href="#">Räume</a></li>
-      </ul>
-    </li>
-    <li><a href="#">Mitarbeiter</a></li>
-    <li><a th:href="@{/web/rooms/allRooms}">Alle Räume</a></li>
-    <li><a href="#">Ressourcen</a></li>
-    <li><a href="#">Zurück</a></li>
-  </ul>
-</div>
 <!-- Content -->
 <div class="content-container">
   <div class="allroomsContainer">

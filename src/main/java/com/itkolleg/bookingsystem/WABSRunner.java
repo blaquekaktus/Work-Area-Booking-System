@@ -74,7 +74,7 @@ public class WABSRunner implements ApplicationRunner {
 
         Room room2=this.dbAccessRoom.addRoom(new Room(2L,"1"));
 
-        Room room3=this.dbAccessRoom.addRoom(new Room(3l,"1"));
+        Room room3=this.dbAccessRoom.addRoom(new Room(3L,"1"));
 
         Room room4=this.dbAccessRoom.addRoom(new Room(4L,"1"));
         Room room5=this.dbAccessRoom.addRoom(new Room(5L,"1"));
