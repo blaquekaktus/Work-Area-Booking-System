@@ -7,6 +7,8 @@ import com.itkolleg.bookingsystem.service.Desk.DeskService;
 import jakarta.validation.Valid;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -29,6 +31,15 @@ public class DeskWebController {
     public String getAllDesks(Model model) {
         model.addAttribute("viewAllDesks", this.deskService.getAllDesks());
         return "Desks/allDesks";
+    }
+
+    @GetMapping("/pages")
+    public String getAllDesks(Model model,
+                              @RequestParam(defaultValue = "0") int page,
+                              @RequestParam(defaultValue = "10") int size) {
+        Page<Desk> deskPage = this.deskService.getAllDesksByPage(PageRequest.of(page, size));
+        model.addAttribute("desks", deskPage);
+        return "Desks/allDesksPages";
     }
 
     @GetMapping("/add")
@@ -86,18 +97,18 @@ public class DeskWebController {
     }
 
     @GetMapping("/cancel/{id}")
-    public String cancelDesk(@PathVariable Long id, Model model) {
+    public String deleteDeskForm(@PathVariable Long id, Model model) {
         try {
             Desk desk = this.deskService.getDeskById(id);
             model.addAttribute("desk", desk);
-            return "DeskBookings/cancelDeskBooking";
+            return "Desks/deleteDesk";
         } catch (ResourceNotFoundException e) {
             return "redirect:/web/desks";
         }
     }
 
     @PostMapping("/cancel/{id}")
-    public String cancelDesk(@PathVariable Long id, RedirectAttributes redirectAttributes) {
+    public String deleteDesk(@PathVariable Long id, RedirectAttributes redirectAttributes) {
         try {
             this.deskService.deleteDeskById(id);
             redirectAttributes.addFlashAttribute("message", "Desk cancelled successfully!");
@@ -107,7 +118,7 @@ public class DeskWebController {
         }
     }
 
-    @GetMapping("/delete/{id}")
+    /*@GetMapping("/delete/{id}")
     public String deleteDesk(@PathVariable Long id, RedirectAttributes redirectAttributes) {
         try {
             this.deskService.deleteDeskById(id);
@@ -116,7 +127,7 @@ public class DeskWebController {
         } catch (ResourceDeletionFailureException e) {
             return "redirect:/web/desks";
         }
-    }
+    }*/
 
     @GetMapping("/error")
     public String getError() {

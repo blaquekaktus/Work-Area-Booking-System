@@ -43,6 +43,13 @@ public class GlobalExceptionController {
         return new ResponseEntity<>(new ExceptionDTO("1000", employeeAlreadyExistsException.getMessage()), HttpStatus.NOT_FOUND);
     }
 
+    /**
+     * Handles the ResourceNotFoundException and redirects to the error page.
+     *
+     * @param ex                 The ResourceNotFoundException instance.
+     * @param redirectAttributes The RedirectAttributes object to add flash attributes.
+     * @return A string representing the redirect path to the error page.
+     */
     @ExceptionHandler(ResourceNotFoundException.class)
     public String handleResourceNotFound(ResourceNotFoundException ex, RedirectAttributes redirectAttributes) {
         logger.error("ResourceNotFoundException: {}", ex.getMessage(), ex);
@@ -50,23 +57,44 @@ public class GlobalExceptionController {
         return "redirect:/error";
     }
 
+    /**
+     * Handles the DeskNotAvailableException and redirects to the error page.
+     *
+     * @param e                 The DeskNotAvailableException instance.
+     * @param redirectAttributes The RedirectAttributes object to add flash attributes.
+     * @return A string representing the redirect path to the error page.
+     */
     @ExceptionHandler(DeskNotAvailableException.class)
-    public String handleDeskNotAvailable(DeskNotAvailableException ex, RedirectAttributes redirectAttributes) {
-        logger.error("DeskNotAvailableException: {}", ex.getMessage(), ex);
-        redirectAttributes.addFlashAttribute("errorMessage", ex.getMessage());
+    public String handleDeskNotAvailable(DeskNotAvailableException e, RedirectAttributes redirectAttributes) {
+        logger.error("DeskNotAvailableException: {}", e.getMessage(), e);
+        redirectAttributes.addFlashAttribute("errorMessage", e.getMessage());
         return "redirect:/error";
     }
 
+    /**
+     * Handles the EmptyResultDataAccessException and redirects to the error page.
+     *
+     * @param e                 The EmptyResultDataAccessException instance.
+     * @param redirectAttributes The RedirectAttributes object to add flash attributes.
+     * @return A string representing the redirect path to the error page.
+     */
     @ExceptionHandler(EmptyResultDataAccessException.class)
-    public String handleEmptyResultDataAccess(EmptyResultDataAccessException ex, RedirectAttributes redirectAttributes) {
-        logger.error("EmptyResultDataAccessException: {}", ex.getMessage(), ex);
-        redirectAttributes.addFlashAttribute("errorMessage", ex.getMessage());
+    public String handleEmptyResultDataAccess(EmptyResultDataAccessException e, RedirectAttributes redirectAttributes) {
+        logger.error("EmptyResultDataAccessException: {}", e.getMessage(), e);
+        redirectAttributes.addFlashAttribute("errorMessage", e.getMessage());
         return "redirect:/error";
     }
 
+    /**
+    * Handles any general Exception and redirects to the error page.
+    *
+    * @param e                 The Exception instance.
+    * @param redirectAttributes The RedirectAttributes object to add flash attributes.
+    * @return A string representing the redirect path to the error page.
+    */
     @ExceptionHandler(Exception.class)
-    public String handleGeneralException(Exception ex, RedirectAttributes redirectAttributes) {
-        logger.error("Exception: {}", ex.getMessage(), ex);
+    public String handleGeneralException(Exception e, RedirectAttributes redirectAttributes) {
+        logger.error("Exception: {}", e.getMessage(), e);
         redirectAttributes.addFlashAttribute("errorMessage", "An unexpected error occurred.");
         return "redirect:/error";
     }
