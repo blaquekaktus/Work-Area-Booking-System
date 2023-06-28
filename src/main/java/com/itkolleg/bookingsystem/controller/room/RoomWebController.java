@@ -87,7 +87,7 @@ public class RoomWebController {
      * @throws ExecutionException
      * @throws InterruptedException
      */
-    @GetMapping("/updateroom/{id}")
+    @GetMapping("/updateRoom/{id}")
     public ModelAndView updateRoom(@PathVariable Long id, Model model) throws RoomNotFoundException, ExecutionException, InterruptedException {
 
         Room room = this.roomService.getRoomById(id);
@@ -111,7 +111,7 @@ public class RoomWebController {
             return "/room/editRoom";
         } else {
             this.roomService.updateRoomById(room);
-            return "redirect:/web/room/allRooms";
+            return "redirect:/web/rooms/allRooms";
         }
     }
 

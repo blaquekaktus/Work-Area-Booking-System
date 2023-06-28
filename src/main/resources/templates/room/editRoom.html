@@ -11,7 +11,7 @@
 <div class="content-container">
   <div class="addroomContainer">
     <h1>Raum bearbeiten</h1><br><br>
-    <form th:object="${updateroom}" th:action="@{/web/room/updateroom}" method="post"> <!--zuerst objekt holen, mapping wohin, übertragungsmethode-->
+    <form th:object="${updateroom}" th:action="@{/web/room/updateRoom}" method="post"> <!--zuerst objekt holen, mapping wohin, übertragungsmethode-->
       <div class="form-group">
         <label for="id">ID:</label>
         <input type="text" class="form-control" id="id" name="id" th:field="*{id}" readonly>
@@ -19,10 +19,6 @@
       <div class="form-group">
         <label for="name">Name:</label>
         <input type="text" class="form-control" id="name" name="name" th:field="*{floor}" required>
-      </div>
-      <div class="form-group">
-        <label for="description">Beschreibung:</label>
-        <textarea class="form-control" id="description" name="description" th:field="*{description}" ></textarea>
       </div>
       <div class="form-group">
         <label for="info">Info:</label>
