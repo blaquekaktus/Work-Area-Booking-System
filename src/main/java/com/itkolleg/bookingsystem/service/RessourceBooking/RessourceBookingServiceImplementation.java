@@ -49,6 +49,7 @@ public class RessourceBookingServiceImplementation implements RessourceBookingSe
 
     @Override
     public RessourceBooking addRessourceBooking(RessourceBooking booking) throws RessourceNotAvailableException, ResourceNotFoundException {
+
         List<RessourceBooking> bookings = this.ressourceBookingRepo.getBookingsByRessourceAndDateAndBookingTimeBetween(booking.getRessource(), booking.getDate(),booking.getStart(), booking.getEndTime());
         LocalDate currentDate = LocalDate.now();
         System.out.println("Booking date: " + booking.getDate());
@@ -119,6 +120,7 @@ public class RessourceBookingServiceImplementation implements RessourceBookingSe
 
     @Override
     public RessourceBooking updateBooking(RessourceBooking booking) throws ResourceNotFoundException, RessourceNotAvailableException, ResourceNotFoundException {
+
         try {
             RessourceBooking existingBooking = this.ressourceBookingRepo.getBookingByBookingId(booking.getId())
                     .orElseThrow(() -> new ResourceNotFoundException("Booking not found for id: " + booking.getId()));
@@ -134,7 +136,7 @@ public class RessourceBookingServiceImplementation implements RessourceBookingSe
             existingBooking.setStart(booking.getStart());
             existingBooking.setEndTime(booking.getEndTime());
             existingBooking.setCreatedOn(LocalDateTime.now());
-            return this.ressourceBookingRepo.addBooking(existingBooking);
+            return this.ressourceBookingRepo.updateBooking(existingBooking);
         }catch (DataAccessException e){
             throw new ResourceNotFoundException("Database access error occurred for id: " + booking.getId(), e);
         }

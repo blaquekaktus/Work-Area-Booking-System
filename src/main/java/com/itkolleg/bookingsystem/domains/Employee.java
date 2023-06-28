@@ -5,11 +5,9 @@ import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.validation.constraints.Email;
+import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
-import lombok.ToString;
+import lombok.*;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -40,7 +38,7 @@ public class Employee implements UserDetails {
     private String lname;
 
     //nick darf leer sein
-    @Size(max = 10)
+    @Size(min = 2, max = 10)
     //@Column(name="NICK")
     private String nick;
 
@@ -49,8 +47,11 @@ public class Employee implements UserDetails {
     private String email;
 
     //@Column(name="PASSWORD")
+    @NotNull
+    @Size(min = 2, max = 50)
     private String password;
 
+    @NotNull
     private Role role;
 
     public Employee(String fname, String lname, String nick, String email, String password, Role role) {

@@ -43,7 +43,7 @@ public class RoomWebController {
     }
 
     /**
-     * Diese Methode ermöglicht dem/der Admin das hinzufügen einer room in die Datenbank. Es ist mit @GetMapping annotiert, da es die HTTP-Anfrage verarbeiten und darstellen muss
+     * Diese Methode ermöglicht dem/der Admin das hinzufügen eines Raums in die Datenbank. Es ist mit @GetMapping annotiert, da es die HTTP-Anfrage verarbeiten und darstellen muss
      * @param model
      * @return modelAndView
      */
@@ -55,7 +55,7 @@ public class RoomWebController {
     }
 
     /**
-     * Diese Methode ermöglicht dem/der Admin das hinzufügen einer room in die Datenbank. Es ist mit @PostMapping annotiert, da es die HTTP-Anfrage übergeben muss.
+     * Diese Methode ermöglicht dem/der Admin das hinzufügen eines Raums in die Datenbank. Es ist mit @PostMapping annotiert, da es die HTTP-Anfrage übergeben muss.
      * Beim Durchführen wird der/die Benutzer:inn wieder an die HTML-Seite allrooms weitergeleitet.
      * Wird ein Fehler geworfen, dann bleibt der/die Benutzer:inn auf der selben Seite mit einer entsprechenden Fehlermeldung
      * @param room
@@ -75,7 +75,7 @@ public class RoomWebController {
     }
 
     /**
-     * Diese Methode updated eine room, welche aus seinem Listenelement (nicht in dieser Methode) mit der dazugehörigen id geholt wird.
+     * Diese Methode updated einen Raum, welcher aus seinem Listenelement (nicht in dieser Methode) mit der dazugehörigen id geholt wird.
      * Die Methode ist mit @GetMapping annotiert, da sie eine HTTP Anfrage verarbeiten und auf das entsprechende HTML Dokument verweisen muss.
      * @param id
      * @param model
@@ -93,7 +93,7 @@ public class RoomWebController {
     }
 
     /**
-     * Diese Methode updated eine room, welche aus seinem Listenelement (nicht in dieser Methode) mit der dazugehörigen id geholt wird.
+     * Diese Methode updated einen Raum, welcher aus seinem Listenelement (nicht in dieser Methode) mit der dazugehörigen id geholt wird.
      * Die Methode ist mit @PostMapping annotiert, da sie eine HTTP Anfrage verarbeiten und auf das entsprechende HTML Dokument verweisen muss.
      * @param room
      * @param bindingResult

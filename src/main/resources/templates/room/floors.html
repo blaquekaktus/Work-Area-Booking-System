@@ -1,39 +1,31 @@
 <!DOCTYPE html>
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
+<html>
 <head>
-    <title>Stockwerke</title>
+    <title>Raumbuchung hinzufügen</title>
     <meta charset="UTF-8">
     <link href="https://fonts.googleapis.com/css?family=Roboto+Condensed&display=swap" rel="stylesheet">
-    <link rel="stylesheet" th:href="@{/static/css/WABS.css}">
+    <link rel="stylesheet" href="/static/css/WABS.css">
     <!-- jQuery -->
     <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
-    <script src="/static/js/jquery.rwdImageMaps.min.js"></script>
 
     <!-- Font Awesome 4-->
     <link href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet">
-    <link rel="stylesheet" th:href="@{/static/css/sidebar-accordion.css}">
-    <script th:src="@{/static/js/sidebar-accordion.js}"></script>
-    <script th:src="@{/static/js/DropDown.js}"></script>
+    <link rel="stylesheet" href="/static/css/sidebar-accordionAdmin.css">
+    <script src="/static/js/sidebar-accordion.js"></script>
+    <script src="/static/js/DropDown.js"></script>
+    <script th:src="@{/static/js/FloorScaling.js}"></script>
     <style>
         body {
             background-image: url("/static/img/background.jpg");
             background-size: cover;
             background-repeat: no-repeat;
         }
-
-        .tooltip {
-            position: fixed;
-            background-color: #000;
-            color: #fff;
-            padding: 5px;
-            font-size: 12px;
-        }
-        /* Hintergrundbild für den Content-Bereich */
-
     </style>
 </head>
 <body>
-<div class="top-bar">
+<!-- Top Bar -->
+<div class="top-barAdmin">
     <img src="/static/img/LogoWhite.png" alt="Logo" class="logo">
     <a th:href="@{/web/logout}" class="logout-link">Abmelden</a>
     <div class="top-bar-header">
@@ -48,22 +40,17 @@
     <!-- <a href="" class="btnMenu">Menu <i class="fa fa-bars"></i></a> -->
 
     <ul class="menu">
-        <li><a href="#">Home</a></li>
-
-
-        <li><a href="#">Work-Area</a></li>
-        <li><a href="#">Ressourcen</a></li>
-        <li><a href="#">Räume</a></li>
-
-
-        <li><a href="#">Meine Buchungen <i class="fa fa-chevron-down"></i></a>
+        <li><a href="/templates/Interface/templateAdmin.html">Home</a></li>
+        <li><a href="#">Bookings <i class="fa fa-chevron-down"></i></a>
             <ul>
                 <li><a href="#">Work-Area</a></li>
-                <li><a th:href="@{/web/ressourceBooking/allBookingsEmployee}">Ressourcen</a></li>
-                <li><a href="#">Räume</a></li>
-                <li><a href="#">Vergangene Buchungen</a></li>
+                <li><a th:href="@{/web/roomBooking/allBookings}">Räume</a></li>
+                <li><a href="#">Ressourcen</a></li>
             </ul>
         </li>
+        <li><a href="#">Mitarbeiter</a></li>
+        <li><a th:href="@{/web/room/floors}">Räume</a></li>
+        <li><a href="#">Ressourcen</a></li>
         <li><a href="#">Zurück</a></li>
     </ul>
 </div>
@@ -125,58 +112,10 @@
 <script>
 
 
-    function scaleImageMap() {
-        var image = document.getElementById('image');
-        var map = document.querySelector('map[name="image-map"]');
-        var areas = map.getElementsByTagName('area');
-
-        var widthRatio = image.clientWidth / image.naturalWidth;
-        var heightRatio = image.clientHeight / image.naturalHeight;
-
-        for (var i = 0; i < areas.length; i++) {
-            var coords = areas[i].getAttribute('coords').split(',');
-            var scaledCoords = [];
-
-            for (var j = 0; j < coords.length; j++) {
-                if (j % 2 === 0) {
-                    // X coordinate
-                    scaledCoords.push(Math.round(coords[j] * widthRatio));
-                } else {
-                    // Y coordinate
-                    scaledCoords.push(Math.round(coords[j] * heightRatio));
-                }
-            }
-
-            areas[i].setAttribute('coords', scaledCoords.join(','));
-        }
-    }
-
     // Skalierung der Image Map beim Laden der Seite und bei Größenänderungen des Fensters ausführen
     window.addEventListener('load', scaleImageMap);
     window.addEventListener('resize', scaleImageMap);
 
-    //$('img[usemap]').rwdImageMaps();
-    function displayPopup() {
-        var tooltip = document.createElement('div');
-        tooltip.innerText = 'Klick mich zum Buchen';
-        tooltip.classList.add('tooltip');
-
-        document.body.appendChild(tooltip);
-
-        document.addEventListener('mousemove', moveTooltip);
-
-        function moveTooltip(event) {
-            tooltip.style.left = event.clientX + 'px';
-            tooltip.style.top = event.clientY + 'px';
-        }
-
-        function removeTooltip() {
-            document.removeEventListener('mousemove', moveTooltip);
-            document.body.removeChild(tooltip);
-        }
-
-        document.addEventListener('mouseout', removeTooltip);
-    }
 </script>
 <div class="filler"></div>
 </body>

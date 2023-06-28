@@ -36,20 +36,21 @@
 <div class="contenedor-menu">
     <!-- <a href="" class="btnMenu">Menu <i class="fa fa-bars"></i></a> -->
     <ul class="menu">
-        <li><a href="/../web/admin-start">Home</a></li>
+        <li><a href="/../web/employees/admin-start">Home</a></li>
         <li><a href="#">Bookings <i class="fa fa-chevron-down"></i></a>
             <ul>
-                <li><a href="#">Work-Area</a></li>
+                <li><a th:href="@{/web/deskbookings/admin}">Work-Area</a></li>
                 <li><a href="#">Ressourcen</a></li>
                 <li><a href="#">Räume</a></li>
             </ul>
         </li>
         <li><a href="#">Mitarbeiter<i class="fa fa-chevron-down"></i></a>
             <ul>
-                <li><a href="/../web/allemployees">Mitarbeiterliste</a></li>
-                <li><a href="/../web/insertemployeeform">Mitarbeiter Hinzufügen</a></li>
+                <li><a href="/../web/employees/allemployees">Mitarbeiterliste</a></li>
+                <li><a href="/../web/employees/insertemployeeform">Mitarbeiter Hinzufügen</a></li>
             </ul>
         </li>
+        <li><a th:href="@{/web/desks}">Work-Areas</a></li>
         <li><a href="#">Ressourcen</a></li>
         <li><a href="#">Räume</a></li>
         <li><a href="#">Zurück</a></li>

@@ -5,7 +5,13 @@
 * Bei Mitarbeiter "Bookings" in Nav-Bar rausnehmen, da nur für Admin relevant?
 * Navigation Bar als separates Include, damit das nur an einer Steller geändert werden muss (separat für Mitarbeiter und Admin)
 
+
+Modul Ressource-Buchung:<br>
+
+Modul Ressource:<br>
+
 <h2>Modul Ressource:</h2>
+
 
 
 <h2>Modul Ressource-Buchung:</h2>

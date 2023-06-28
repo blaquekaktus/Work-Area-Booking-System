@@ -4,19 +4,19 @@
     <title>Ressource hinzufügen</title>
     <meta charset="UTF-8">
     <link href="https://fonts.googleapis.com/css?family=Roboto+Condensed&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="/static/css/WABS.css">
+    <link rel="stylesheet" href="/css/WABS.css">
     <!-- jQuery -->
     <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
 
     <!-- Font Awesome 4-->
-    <link href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet">
-    <link rel="stylesheet" href="/css/sidebar-accordion.css">
-    <link rel="stylesheet" href="/static/css/sidebar-accordion.css">
-    <script src="/static/js/sidebar-accordion.js"></script>
-    <script src="/static/js/DropDown.js"></script>
+    <link rel="stylesheet" href="/css/sidebar-accordionAdmin.css">
+    <script src="/js/sidebar-accordion.js"></script>
+    <script src="/js/DropDown.js"></script>
+    <script src="/js/DropDown.js"></script>
+    <script src="/js/sidebar-accordion.js"></script>
     <style>
         body {
-            background-image: url("/static/img/background.jpg");
+            background-image: url("/img/background.jpg");
             background-size: cover;
             background-repeat: no-repeat;
         }
@@ -24,11 +24,12 @@
             color: red;
         }
     </style>
+    <link rel="stylesheet" href="/static/css/fontawesome.css">
 </head>
 <body>
 <!-- Top Bar -->
-<div class="top-bar">
-    <img src="/static/img/LogoWhite.png" alt="Logo" class="logo">
+<div class="top-barAdmin">
+    <img src="/img/LogoWhite.png" alt="Logo" class="logo">
     <a th:href="@{/web/logout}" class="logout-link">Abmelden</a>
     <div class="top-bar-header">
         <h1>W.A.B.S.</h1>
@@ -38,21 +39,43 @@
     </div>
 </div>
 <!-- Side Navbar -->
-<div th:insert="navbarEmployee :: navbarEmployee">  </div>
+<div class="contenedor-menu">
+    <!-- <a href="" class="btnMenu">Menu <i class="fa fa-bars"></i></a> -->
+
+    <ul class="menu">
+        <li><a href="#">Home</a></li>
+        <li><a href="#">Bookings <i class="fa fa-chevron-down"></i></a>
+            <ul>
+                <li><a href="#">Work-Areas</a></li>
+                <li><a href="#">Equipment</a></li>
+                <li><a href="#">Rooms</a></li>
+            </ul>
+        </li>
+        <li><a href="#">My Bookings <i class="fa fa-chevron-down"></i></a>
+            <ul>
+                <li><a href="#">Work-Areas</a></li>
+                <li><a href="#">Equipment</a></li>
+                <li><a href="#">Rooms</a></li>
+                <li><a href="#">History</a></li>
+            </ul>
+        </li>
+        <li><a href="#">Back</a></li>
+    </ul>
+</div>
 <div class="content-container">
     <div class="addRessourceContainer">
         <h1 class="text-center text-dark">Create New Work-Area Booking</h1>
         <br>
         <br>
         <a class="button" role="button" style="margin-right: 50px" th:href="@{/web/desks}">View All Work-Areas</a>
-        <a class="button" role="button" style="margin-right: 50px" th:href="@{/web/deskBookings}">View All Work-Area Bookings</a>
+        <a class="button" role="button" style="margin-right: 50px" th:href="@{/web/deskBookings/admin}">View My Work-Area Bookings</a>
         <br>
         <br>
         <form method="post" th:action="@{/web/deskbookings/admin/add}" th:object="${deskBooking}">
             <div th:if="${errorMessage}" class="alert alert-danger error-message">
                 <p th:text="${errorMessage}"></p>
             </div>
-            <div class="mb-3 form-group"s>
+            <div class="mb-3 form-group">
                 <label class="form-label" for="employee.id">Employee</label>
                 <select class="form-control" id="employee.id" name="employee.id" th:field="*{employee.id}">
                     <option th:each="employee : ${employees}"
@@ -114,7 +137,7 @@
             <br>
             <div class="d-flex justify-content-center">
                 <button type="submit" class="button">Book</button>
-                <a class="delete-button" th:href="@{/web/deskBookings}">Cancel</a>
+                <button class="delete-button" th:href="@{/web/deskbookings/admin}">Cancel</button>
             </div>
         </form>
     </div>

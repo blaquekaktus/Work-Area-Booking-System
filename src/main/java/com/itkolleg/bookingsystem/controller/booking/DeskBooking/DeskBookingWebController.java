@@ -16,6 +16,7 @@ import jakarta.validation.Valid;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -27,7 +28,7 @@ import java.util.concurrent.ExecutionException;
 import java.util.stream.Collectors;
 
 @Controller
-@RequestMapping("web/deskBookings")
+@RequestMapping("web/deskbookings")
 public class DeskBookingWebController {
     private final DeskBookingService deskBookingService;
 
@@ -36,11 +37,11 @@ public class DeskBookingWebController {
     private final EmployeeService employeeService;
     private final TimeSlotService timeSlotService;
     private static final Logger logger = LoggerFactory.getLogger(DeskBookingWebController.class);
-    private DeskBooking booking;
+    /*private DeskBooking booking;
     private BindingResult bindingResult;
     private Long id;
     private Long deskId;
-    private Long employeeId;
+    private Long employeeId;*/
 
 
     public DeskBookingWebController(DeskBookingService deskBookingService, DeskService deskService, EmployeeService employeeService, TimeSlotService timeSlotService) {
@@ -50,13 +51,13 @@ public class DeskBookingWebController {
         this.timeSlotService = timeSlotService;
     }
 
-    @GetMapping
+    @GetMapping("/admin")
     public String getAllDeskBookings(Model model) {
         model.addAttribute("viewAllDeskBookings", deskBookingService.getAllBookings());
         return "DeskBookings/Admin/allDeskBookings";
     }
 
-    @GetMapping("/add")
+    @GetMapping("/admin/add")
     public String addDeskBookingForm(Model model) throws ExecutionException, InterruptedException {
         DeskBooking deskBooking = new DeskBooking();
         List<Desk> deskList = deskService.getAllDesks();
@@ -79,16 +80,16 @@ public class DeskBookingWebController {
         model.addAttribute("desks", deskList);
         model.addAttribute("startTimes", uniqueStartTimes);
         model.addAttribute("endTimes", uniqueEndTimes);
-        return "DeskBookings/addDeskBooking";
+        return "DeskBookings/Admin/addDeskBooking";
     }
 
-    @PostMapping("/add")
+    @PostMapping("/admin/add")
     public String addDeskBooking(@ModelAttribute("deskBooking") @Valid DeskBooking booking, BindingResult bindingResult, @RequestParam("employee.id") Long employeeId, @RequestParam("desk.id") Long deskId, Model model) throws ExecutionException, InterruptedException {
         //String deskID = booking.getId("deskId");
         try {
             if (bindingResult.hasErrors()) {
                 System.out.println("Errors: " + bindingResult.getAllErrors());
-                return "DeskBookings/addDeskBooking";
+                return "DeskBookings/Admin/addDeskBooking";
             } else {
                 Desk desk = deskService.getDeskById(deskId);
                 Employee employee = employeeService.getEmployeeById(employeeId);
@@ -98,23 +99,23 @@ public class DeskBookingWebController {
                 //booking.setCreatedOn(LocalDateTime.now());
 
                 this.deskBookingService.addDeskBooking(booking);
-                return "redirect:/web/deskBookings";
+                return "redirect:/web/deskbookings/admin";
             }
         } catch (DeskNotAvailableException e) {
             logger.error("Desk is not available for booking: " + e.getMessage(), e);
             model.addAttribute("errorMessage", "Desk is not available for booking.");
             addAttributesToModel(model);
-            return "DeskBookings/addDeskBooking";
+            return "DeskBookings/Admin/addDeskBooking";
         } catch (ExecutionException | InterruptedException | EmployeeNotFoundException | ResourceNotFoundException e) {
             logger.error("Error occurred while booking the desk: " + e.getMessage(), e);
             model.addAttribute("errorMessage", "Error occurred while booking the desk.");
             addAttributesToModel(model);
-            return "DeskBookings/addDeskBooking";
+            return "DeskBookings/Admin/addDeskBooking";
         } catch (IllegalArgumentException e) {
             logger.error("Cannot create booking for a past date: " + e.getMessage(), e);
             model.addAttribute("errorMessage", "Cannot create booking for a past date.");
             addAttributesToModel(model);
-            return "DeskBookings/addDeskBooking";
+            return "DeskBookings/Admin/addDeskBooking";
         }
     }
 
@@ -143,25 +144,25 @@ public class DeskBookingWebController {
     }
 
 
-    @GetMapping("/view/{id}")
+    @GetMapping("/admin/view/{id}")
     public String viewDeskBooking(@PathVariable Long id, Model model) throws ResourceNotFoundException {
         DeskBooking deskBooking = this.deskBookingService.getBookingById(id);
-        model.addAttribute("myDeskBooking", deskBooking);
-        return "DeskBookings/viewDeskBooking";
+        model.addAttribute("deskBooking", deskBooking);
+        return "DeskBookings/Admin/viewDeskBooking";
     }
 
-    @GetMapping("/update/{id}")
-    public String updateDeskBookingForm(@PathVariable Long id, Model model) throws ResourceNotFoundException {
+    @GetMapping("/admin/update/{id}")
+    public String updateDeskBookingForm(@PathVariable Long id, Model model) throws ResourceNotFoundException, ExecutionException, InterruptedException {
         DeskBooking booking = this.deskBookingService.getBookingById(id);
 
         if (booking == null) {
             // Log an error message indicating that the booking was not found
             logger.error("Booking with ID {} not found.", id);
-            return "redirect:/error";
+            return "redirect:web/errorPage";
         }
 
         // Get the employee, Desks and TimesSlots after checking that the booking is not null
-        Employee employee = booking.getEmployee();
+        List<Employee> employees = this.employeeService.getAllEmployees();
         List<Desk> desks = this.deskService.getAllDesks();
         List<TimeSlot> times = timeSlotService.getAllTimeSlots();
 
@@ -177,54 +178,84 @@ public class DeskBookingWebController {
                 .collect(Collectors.toList());
         //Add booking, employee, desks, unique booking start and end times to the model
         model.addAttribute("booking", booking);
-        model.addAttribute("employee", employee);
+        model.addAttribute("employees", employees);
         model.addAttribute("desks", desks);
         model.addAttribute("uniqueStartTimes", uniqueStartTimes);
         model.addAttribute("uniqueEndTimes", uniqueEndTimes);
         return "DeskBookings/Admin/updateDeskBooking";
     }
 
-
-
-    @PostMapping("/update")
+    @PostMapping("/admin/update")
     public String updateDeskBooking(@Valid DeskBooking booking, BindingResult bindingResult, @RequestParam("id") Long id, @RequestParam("desk.id") Long deskId, @RequestParam("employee.id") Long employeeId) throws ResourceNotFoundException, DeskNotAvailableException, ExecutionException, InterruptedException, EmployeeNotFoundException {
-        this.booking = booking;
-        this.bindingResult = bindingResult;
-        this.id= booking.getId();
-        this.deskId = booking.getDesk().getId();
-        this.employeeId = employeeId;
         if (bindingResult.hasErrors()) {
             System.out.println("Errors: " + bindingResult.getAllErrors());
             return "DeskBookings/Admin/updateDeskBooking";
         } else {
             Desk desk = deskService.getDeskById(deskId);
-                if(desk == null) {
-                    throw new ResourceNotFoundException("Desk not found for id: " + deskId);
-                }
+            if(desk == null) {
+                throw new ResourceNotFoundException("Desk not found for id: " + deskId);
+            }
             Employee employee = employeeService.getEmployeeById(employeeId);
-                if(employee == null) {
-                    throw new EmployeeNotFoundException("Employee not found for id: " + employeeId);
-                }
+            if(employee == null) {
+                throw new EmployeeNotFoundException("Employee not found for id: " + employeeId);
+            }
             booking.setDesk(desk);
             booking.setEmployee(employee);
             booking.setId(id);
-
+            booking.setCreatedOn(LocalDateTime.now());
 
             this.deskBookingService.updateBookingById(booking.getId(), booking);
-            return "redirect:/web/deskBookings";
+            return "redirect:/web/deskbookings/admin";
         }
     }
 
-    @GetMapping("/cancel/{id}")
-    public String cancelDeskBooking(@PathVariable Long id, Model model) throws ResourceDeletionFailureException, ResourceNotFoundException {
+    @GetMapping("/admin/cancel/{id}")
+    public String cancelDeskBookingForm(@PathVariable Long id, Model model) throws ResourceDeletionFailureException, ResourceNotFoundException {
         DeskBooking booking = this.deskBookingService.getBookingById(id);
         model.addAttribute("booking", booking);
         this.deskBookingService.deleteBooking(id);
-        return "redirect:/web/deskBookings";
+        return "DeskBookings/Admin/cancelDeskBooking";
     }
 
+    @PostMapping("/admin/cancel/{id}")
+    public String cancelDeskBooking(@PathVariable Long id, Model model) {
+        try {
+            DeskBooking booking = this.deskBookingService.getBookingById(id);
+            if (booking == null) {
+                // Log an error message indicating that the booking was not found
+                logger.error("Booking with ID {} not found.", id);
+                return "redirect:/error";
+            }
 
-    @GetMapping("/mybookings/{id}")
+            this.deskBookingService.deleteBooking(id);
+            return "redirect:/web/deskbookings/admin";
+        } catch (ResourceDeletionFailureException e) {
+            logger.error("Failed to delete desk booking with ID {}: {}", id, e.getMessage());
+            model.addAttribute("errorMessage", "Failed to cancel the desk booking.");
+            return "DeskBookings/Admin/cancelDeskBooking";
+        } catch (ResourceNotFoundException e) {
+            logger.error("Booking with ID {} not found: {}", id, e.getMessage());
+            model.addAttribute("errorMessage", "Booking not found.");
+            return "redirect:/error";
+        }
+    }
+
+    @GetMapping("/mydeskbookings")
+    public String getBookings(Model model, Authentication authentication) {
+        String username = authentication.getName();
+        Employee employee = employeeService.findByNick(username);
+        Long employeeId = employee.getId();
+
+        // fetch bookings related to this employee
+        List<DeskBooking> myBookings = deskBookingService.getBookingsByEmployeeId(employeeId);
+
+        // add the bookings to the model
+        model.addAttribute("myDeskBookings", myBookings);
+
+        return "DeskBookings/myDeskBookings"; // return the name of your Thymeleaf template
+    }
+
+        @GetMapping("/mybookings/{id}")
     public String getMyDeskBookings(Model model, @PathVariable Long id) {
         List<DeskBooking> myBookings = this.deskBookingService.getBookingsByEmployeeId(id);
         model.addAttribute("myBookings", myBookings);
@@ -238,19 +269,9 @@ public class DeskBookingWebController {
         return "DeskBookings/myDeskBookingsHistory";
     }
 
-    @GetMapping("/admin")
-    public String getAdminDashboard(Model model) {
-        List<DeskBooking> bookings = this.deskBookingService.getAllBookings();
-        List<Desk> desks = this.deskService.getAllDesks();
-        model.addAttribute("bookings", bookings);
-        model.addAttribute("desks", desks);
-        // additional items to display on the admin dashboard e.g. All Equipment Bookings & All Room Bookings
-        return "DeskBookings/adminDashboard";
-    }
-
 
     @GetMapping("/error")
     public String getError() {
-        return "errorPage";
+        return "error";
     }
 }

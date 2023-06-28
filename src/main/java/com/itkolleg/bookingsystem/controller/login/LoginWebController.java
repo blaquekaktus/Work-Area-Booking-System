@@ -1,6 +1,7 @@
 package com.itkolleg.bookingsystem.controller.login;
 
 import jakarta.servlet.http.HttpServletRequest;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
@@ -10,6 +11,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
 
 import java.security.Principal;
 
@@ -18,8 +20,10 @@ import java.security.Principal;
  * und -authentifizierung im Zusammenhang stehen, und steuert den Ablauf des Anmelde- und Authentifizierungsprozesses.
  */
 @Controller
+@RequestMapping("/web")
 public class LoginWebController {
 
+    @Autowired
     private final AuthenticationManager authenticationManager;
 
     /**
@@ -36,25 +40,12 @@ public class LoginWebController {
      *
      * @return der Name des HTML-Formulars, das das Login-Formular darstellt.
      */
-    @GetMapping("/web/login")
+    @GetMapping("/login")
     public String showLoginForm(Model model) {
         model.addAttribute("error", "");
         return "login/login";
     }
 
-    /**
-     * Zeigt die Begrüßungsseite nach einer erfolgreichen Anmeldung an.
-     *
-     * @param model     das Model-Objekt zur Verarbeitung und Anzeige von Daten in der Benutzeroberfläche.
-     * @param principal ein Principal-Objekt, das den angemeldeten Benutzer darstellt.
-     * @return der Name des HTML-Dokuments, das die Begrüßungsseite darstellt.
-     */
-    @GetMapping("/web/hello")
-    public String hello(Model model, Principal principal) {
-        String username = principal.getName();
-        model.addAttribute("username", username);
-        return "/login/hello";
-    }
 
     /**
      * Verarbeitet das Login-Formular und authentifiziert den Benutzer.
@@ -63,7 +54,7 @@ public class LoginWebController {
      * @return eine Weiterleitung auf die Begrüßungsseite, falls die Authentifizierung erfolgreich war, oder auf
      * die Login-Fehlerseite, falls die Authentifizierung fehlgeschlagen ist.
      */
-    @PostMapping("/web/login")
+    @PostMapping("/login")
     public String processLoginForm(HttpServletRequest request, Model model) {
         String username = request.getParameter("username");
         String password = request.getParameter("password");
@@ -71,18 +62,21 @@ public class LoginWebController {
         try {
             Authentication authentication = authenticationManager.authenticate(token);
             SecurityContextHolder.getContext().setAuthentication(authentication);
-            return "redirect:/web/hello";
-        } catch (AuthenticationException e) {
+        } catch (Exception e) {
+            System.out.println("Exception: " + e.getMessage());
             model.addAttribute("error", "Benutzername oder Passwort ungültig");
-            return "redirect:/web/login-error";
+            return "login/login";
         }
+        return null; // Rückgabewert kann null sein, da die Weiterleitung bereits in der Security-Konfiguration festgelegt wird
     }
 
-    @GetMapping("/web/logout")
+
+
+    @GetMapping("/logout")
     public String logout(HttpServletRequest request) {
         request.getSession().invalidate();
         SecurityContextHolder.clearContext();
-        return "login/logout";
+        return "login/login";
     }
 
 
@@ -91,7 +85,7 @@ public class LoginWebController {
      *
      * @return der Name des HTML-Dokuments, das die Login-Fehlerseite darstellt.
      */
-    @GetMapping("/web/login-error")
+    @GetMapping("/login-error")
     public String loginError() {
         return "login/login-error";
     }

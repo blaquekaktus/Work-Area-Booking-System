@@ -1,35 +1,59 @@
 <!DOCTYPE html>
 <html lang="en" xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
 <head>
-    <meta charset="UTF-8">
     <title>Cancel Booking</title>
-    <link th:href="@{/webjars/bootstrap/4.0.0-2/css/bootstrap.min.css} " th:rel="stylesheet"/>
+    <meta charset="UTF-8">
+    <link href="https://fonts.googleapis.com/css?family=Roboto+Condensed&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="/static/css/WABS.css">
+    <!-- jQuery -->
+    <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
+
+    <!-- Font Awesome 4-->
+    <link href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="/static/css/sidebar-accordion.css">
+    <script src="/static/js/sidebar-accordion.js"></script>
+    <script src="/static/js/DropDown.js"></script>
+    <script th:src="@{/webjars/jquery/3.0.0/jquery.min.js}"></script>
+    <script th:src="@{/webjars/popper.js/1.12.9-1/umd/popper.min.js}"></script>
+    <script th:src="@{/webjars/bootstrap/4.0.0-2/js/bootstrap.min.js}"></script>
+    <style>
+        body {
+            background-image: url("/static/img/background.jpg");
+            background-size: cover;
+            background-repeat: no-repeat;
+        }
+    </style>
 </head>
-<body style="background-image: url('../../../static/img/background2.jpg');background-repeat:no-repeat;background-size:cover;">
-<nav class="navbar navbar-expand-lg navbar-light"
-     style="background-color: #96C01E;height: 200px;display:flex;align-items:center;">
-    <!-- Navigation content -->
-</nav>
-<br>
-<br>
-<div>
-    <h1 class="text-center text-dark">Cancel Work-Area Booking</h1>
+<body>
+<!-- Top Bar -->
+<div class="top-bar">
+    <img src="/static/img/LogoWhite.png" alt="Logo" class="logo">
+    <a th:href="@{/web/logout}" class="logout-link">Abmelden</a>
+    <div class="top-bar-header">
+        <h1>W.A.B.S.</h1>
+    </div>
+    <div class="top-bar-sub-header">
+        <h2>Working-Area Booking System</h2>
+    </div>
 </div>
-<br>
-<br>
-<div class="container">
-    <div class="row justify-content-center">
-        <div class="col-md-6">
-            <form method="post" th:action="@{/web/deskbookings/admin/cancel/{id}(id=${booking.id})}" th:object="${booking}">
+<!-- Side Navbar -->
+<div th:insert="navbarEmployee :: navbarEmployee">  </div>
+<div class="content-container">
+    <div class="addRessourceContainer">
+        <h1 class="text-center text-dark">Cancel Work-Area Booking</h1><br><br>
+        <div class="form-group">
+            <form method="post" th:action="@{/web/desks/cancel/{id}(id=${booking.id})}" th:object="${booking}">
                 <p class="text-center">Are you sure you want to cancel booking for Work-Area: <strong
                         th:text="${booking.desk.deskNr}"></strong> on <strong th:text="${booking.date}"></strong>?</p>
+                <br>
                 <div class="container">
                     <div class="row justify-content-center">
                         <div class="col-md-6">
                             <div class="mb-3">
                                 <label class="form-label" for="employee">Employee</label>
                                 <input class="form-control" id="employee" name="employee" readonly
-                                       th:value="${booking.employee.fname} + ' '+ ${booking.employee.lname}" type="text">
+                                       th:value="${booking.employee.fname} + ' '+ ${booking.employee.lname}"
+                                       type="text">
                             </div>
                             <div class="mb-3">
                                 <label class="form-label" for="deskNr">Work-Area Number</label>
@@ -43,6 +67,7 @@
                             </div>
                             <div class="mb-3">
                                 <label class="form-label" for="start">Start</label>
+                                <!--          <--Use field value directly -->
                                 <input class="form-control" id="start" name="start" readonly th:field="${booking.start}"
                                        type="text">
                             </div>
@@ -52,21 +77,18 @@
                                        type="text">
                             </div>
                             <div class="d-flex justify-content-center">
-                                <button class="btn btn-dark my-2 my-sm-0" onclick="goBack()">Back to Work-Area Bookings</button>
+                                <button class="button" onclick="goBack()">Back to Work-Area Bookings</button>
+                            </div>
+                            <div class="d-flex justify-content-center">
+                                <button class="delete-button" type="submit">Confirm Cancellation</button>
                             </div>
                         </div>
                     </div>
-                </div>
-
-                <div class="d-flex justify-content-center">
-                    <button class="btn btn-danger my-2 my-sm-0 mr-3" type="submit">Confirm Cancellation</button>
-<!--
-                    <button class="btn btn-dark my-2 my-sm-0" th:href="@{/web/deskBookings/add}">Make a New Booking</button>
--->
                 </div>
             </form>
         </div>
     </div>
 </div>
+<div class="filler"></div>
 </body>
 </html>

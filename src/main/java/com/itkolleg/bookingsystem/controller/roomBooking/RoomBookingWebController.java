@@ -49,7 +49,7 @@ public class RoomBookingWebController {
 
     /**
      * Diese Methode gibt eine Liste aller Raum Buchungen für einen/eine angemeldeten/angemeldetet Mitarbeiter:inn aus.
-     * Die Methode prüft, ob zur Laufzeit ein/eine angemeldeter/angemeldete Mitarbeiter:inn existiert. Wenn nicht, wird eine EmployeeNotFoundException geworfen.
+     * Die Methode prüft, ob zur Laufzeit ein/eine angemeldeter/angemeldete Mitarbeiter:in existiert. Wenn nicht, wird eine EmployeeNotFoundException geworfen.
      * Scheitert die Prüfung nicht, wird eine Liste für den angemeldeten Employee geliefert. Die Identifizierung läuft über den einzigartigen NickName.
      *
      * Diese Methode ist mit @GetMapping annotiert, da sie eine HTTP-Anfrage verarbeiten und zurückliefern muss.
@@ -116,7 +116,7 @@ public class RoomBookingWebController {
             return "redirect:/web/roomBooking/createBookingEmployee/" + booking.getRoom().getId();
         } else {
             this.roomBookingService.addRoomBooking(booking);
-            return "redirect:/web/room/allRoomsEmployee";
+            return "redirect:/web/floors";
         }
 
     }
@@ -195,7 +195,7 @@ public class RoomBookingWebController {
     }
 
     /**
-     * Diese Methode löscht eine Roomenbuchung für den/die angemeldeten/angemeldete Admin.
+     * Diese Methode löscht eine Roombuchung für den/die angemeldeten/angemeldete Admin.
      * Es findet eine Prüfung statt, ob die Buchung getätigt werden kann. Die Methode fängt ResourceDeletionFailureException und ResourceNotFoundException ab.
      *
      * Diese Methode ist mit @GetMapping annotiert, da sie eine HTTP-Anfrage verarbeiten und zurückliefern muss.

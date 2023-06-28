@@ -8,33 +8,36 @@
 <body style="background-image: url('../../../static/img/background2.jpg');background-repeat:no-repeat;background-size:cover;">
 <nav class="navbar navbar-expand-lg navbar-light"
      style="background-color: #96C01E;height: 200px;display:flex;align-items:center;">
-    <!-- Navigation content -->
-    <div class="row d-flex justify-content-evenly align-items-center" style="width:100%">
-        <div class="col-4"><img alt="KlimaBuendnis Green Logo" height="180px" src="/img/GreenLogo.png"></div>
-        <div class="col-6"><img alt="WABS" height="190px" src="/img/wabs.png"></div>
-        <div class="col-2"><img alt="Badge" height="160px" src="/img/kb_badge2.png"></div>
-    </div>
 </nav>
 <div class="container">
-    <h1 class="text-center">Change My Work-Area Booking</h1>
-    <form method="post" th:action="@{/web/deskBookings/update}" th:object="${booking}">
-       <!-- <form method="post" th:action="@{/web/deskBookings/update/{id}(id=${booking.id})}" th:object="${booking}">-->
+    <h1 class="text-center">Change A Work-Area Booking</h1>
+    <form method="post" th:action="@{/web/deskbookings/admin/update}" th:object="${booking}">
+        <!-- <form method="post" th:action="@{/web/deskBookings/update/{id}(id=${booking.id})}" th:object="${booking}">-->
         <div class="form-group">
             <label for="id" hidden="hidden"></label>
             <input class="form-control" id="id" name="id" required th:field="*{id}"
                    type="hidden">
         </div>
-       <!-- <input type="hidden" id="deskId" name="deskId" th:value="${booking.desk.id}">-->
+        <!-- <input type="hidden" id="deskId" name="deskId" th:value="${booking.desk.id}">-->
 
-        <div class="mb-3 form-group">
+       <!-- <div class="mb-3 form-group">
             <label class="form-label" for="employee.name">Employee</label>
             <input class="form-control" id="employee.name" name="employee.name"
-                   th:value="${employee.fname} + ' ' + ${employee.lname}" readonly>
-            <input type="hidden" id="employee.id" name="employee.id" th:value="${employee.id}">
-        </div>
+                   th:value="*{employee.fname} + ' ' + *{employee.lname}" readonly>
+            <input type="hidden" id="employee.id" name="employee.id" th:value="*{employee.id}">
+        </div>-->
 
         <div class="mb-3 form-group">
-            <label class="form-label" for="deskId">Desk</label>
+            <label class="form-label" for="employee.id">Employee</label>
+            <select class="form-control" id="employee.id" name="employee" th:field="*{employee.id}">
+                <option selected="selected" value="">--Select Employee--</option>
+                <option th:each="employee : ${employees}" th:text="${employee.fname} + ' ' + ${employee.lname}" th:value="${employee.id}"></option>
+            </select>
+            <div class="form-text"  th:errors="*{employee.id}"
+                 th:if="${#fields.hasErrors('employee.id')}"></div>
+        </div>
+        <div class="mb-3 form-group">
+            <label class="form-label" for="deskId">Work-Area</label>
             <select class="form-control" id="deskId" name="desk.id" th:field="*{desk.id}">
                 <option selected="selected" value="">--Select Work-Area--</option>
                 <option th:each="desk : ${desks}" th:text="${desk.deskNr}" th:value="${desk.id}"></option>
@@ -42,10 +45,9 @@
             <div class="form-text"  th:errors="*{desk.id}"
                  th:if="${#fields.hasErrors('desk.id')}"></div>
         </div>
-        <div class="mb-3form-group">
+        <div class="mb-3 form-group">
             <label for="date">Date</label>
-            <input class="form-control" id="date" name="date" required th:default="${booking.getDate()}"
-                   th:field="${booking.date}" type="date">
+            <input class="form-control" id="date" name="date" required th:field="${booking.date}" th:default="${booking.getDate()}" type="date">
             <div class="form-text" th:errors="*{date}"
                  th:if="${#fields.hasErrors('date')}"></div>
         </div>
@@ -72,11 +74,8 @@
                  th:if="${#fields.hasErrors('endTime')}"></div>
         </div>
         <button class="btn btn-primary" type="submit">Save</button>
-        <a class="btn btn-secondary" th:href="@{/web/deskBookings}">Cancel</a>
+        <a class="btn btn-secondary" th:href="@{/web/deskbookings/admin}">Cancel</a>
     </form>
 </div>
-<script th:src="@{/webjars/jquery/3.0.0/jquery.min.js}"></script>
-<script th:src="@{/webjars/popper.js/1.12.9-1/umd/popper.min.js}"></script>
-<script th:src="@{/webjars/bootstrap/4.0.0-2/js/bootstrap.min.js}"></script>
 </body>
 </html>

@@ -1,5 +1,6 @@
 package com.itkolleg.bookingsystem.service.Employee;
 
+import com.itkolleg.bookingsystem.domains.CustomEmployeeDetails;
 import com.itkolleg.bookingsystem.domains.Employee;
 import com.itkolleg.bookingsystem.exceptions.EmployeeExceptions.EmployeeAlreadyExistsException;
 import com.itkolleg.bookingsystem.exceptions.EmployeeExceptions.EmployeeDeletionNotPossibleException;
@@ -15,6 +16,8 @@ import org.springframework.stereotype.Service;
 import java.util.List;
 import java.util.concurrent.ExecutionException;
 
+
+
 @Service
 public class EmployeeServiceImplementation implements EmployeeService {
 
@@ -27,6 +30,20 @@ public class EmployeeServiceImplementation implements EmployeeService {
 
     @Override
     public Employee addEmployee(Employee employee) throws EmployeeAlreadyExistsException, ExecutionException, InterruptedException {
+        String email = employee.getEmail();
+        String nick = employee.getNick();
+
+        Employee existingEmployeeByEmail = employeeDBAccess.getEmployeeByEmail(email);
+        Employee existingEmployeeByNick = employeeDBAccess.getEmployeeByNick(nick);
+
+        if (existingEmployeeByEmail != null) {
+            throw new EmployeeAlreadyExistsException("Employee with email already exists");
+        }
+
+        if (existingEmployeeByNick != null) {
+            throw new EmployeeAlreadyExistsException("Employee with nick already exists");
+        }
+
         return this.employeeDBAccess.saveEmployee(employee);
     }
 
@@ -80,8 +97,26 @@ public class EmployeeServiceImplementation implements EmployeeService {
 
     @Override
     public Employee getEmployeeByNick(String nick) {
-        return this.employeeDBAccess.getEmployeeByNick(nick);
+        Employee employeeDB = this.employeeDBAccess.getEmployeeByNick(nick);
+        if(employeeDB == null){
+            // Benutzer nicht gefunden, Fehlerbehandlung durchfÃ¼hren
+            throw new IllegalArgumentException("Benutzername nicht gefunden: " + nick);
+        }
+        return employeeDB;
 
+    }
+
+    @Override
+    public Employee findByNick(String username) {
+        return this.employeeDBAccess.getEmployeeByNick(username);
+    }
+
+    public UserDetails loadEmployeeByUsername(String username) throws UsernameNotFoundException {
+        Employee employee = employeeDBAccess.getEmployeeByNick(username);
+        if (employee == null) {
+            throw new UsernameNotFoundException(username);
+        }
+        return new CustomEmployeeDetails(employee);
     }
 
     @Override
