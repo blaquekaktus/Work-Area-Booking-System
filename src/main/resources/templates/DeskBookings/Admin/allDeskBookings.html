@@ -1,48 +1,31 @@
 <!DOCTYPE html>
 <html lang="en" xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
-<head>
-    <meta charset="UTF-8">
-    <title>All Desk Bookings</title>
-    <!--<link href="https://stackpath.bootstrapcdn.com/bootstrap/5.0.0-beta1/css/bootstrap.min.css" rel="stylesheet">-->
-    <link rel="stylesheet" href="/static/css/bootstrap.min.css">
-</head>
-<body style="background-image: url('../../../static/img/background2.jpg');background-repeat:no-repeat;background-size:cover;">
-<nav class="navbar navbar-expand-lg navbar-light"
-     style="background-color: #96C01E;height: 200px;display:flex;align-items:center;">
-</nav>
-<div class="container-fluid">
-    <br>
-    <br>
-    <div>
-        <h1 class="text-center text-dark">Work-Area Bookings</h1>
-    </div>
-    <br>
-    <br>
-    <div style="display:flex;justify-content:flex-end;align-items:center;">
-        <a class="btn btn-dark" role="button" style="margin-right: 100px"
-           th:href="@{/web/deskbookings/admin/add}">Book a Work-Area</a>
-    </div>
-    <br>
-    <br>
-    <div class="row-cols-sm-6 d-flex justify-content-center align-items-center flex-column flex-lg-row w-60 w-m-75 w-lg-90">
-        <table class="table table-hover">
+<div th:insert="headerAdmin :: headerAdmin" th:with="title='Arbeitsplatz-Buchungen'"></div>
+<body>
+<!-- Top Bar -->
+<div th:insert="topbarAdmin :: topbarAdmin"></div>
+<!-- Side Navbar -->
+<div th:insert="navbarAdmin :: navbarAdmin"></div>
+<!-- Content -->
+<div class="content-container">
+    <div class="subcontainer">
+        <h1>Arbeitsplatz-Buchungen</h1><br><br>
+        <table>
             <thead>
             <tr>
-                <th scope="col">Booking Id</th>
-                <th scope="col">Employee</th>
-                <th scope="col">Work-Area</th>
-                <th scope="col">Date</th>
-                <th scope="col">Start</th>
-                <th scope="col">End</th>
-                <th scope="col">Created On</th>
-                <th scope="col">Last Edited On</th>
-                <th scope="col">View</th>
-                <th scope="col">Edit</th>
-                <th scope="col">Delete</th>
+                <th>ID</th>
+                <th>Mitarbeiter</th>
+                <th>Arbeitsplatz</th>
+                <th>Datum</th>
+                <th>Start</th>
+                <th>Ende</th>
+                <th>Angelegt am</th>
+                <th>Bearbeitet am</th>
+                <th>Aktion</th>
             </tr>
             </thead>
             <tbody>
-            <tr th:each="booking: ${viewAllDeskBookings}"  th:id="'bookingRow-' + ${booking.id}">
+            <tr th:each="booking: ${viewAllDeskBookings}" th:id="'bookingRow-' + ${booking.id}">
                 <td th:text="${booking.id}"></td>
                 <td th:text="${booking.employee.fname } + ' ' + ${booking.employee.lname}"></td>
                 <td th:text="${booking.desk.deskNr}"></td>
@@ -52,18 +35,16 @@
                 <td th:text="${#temporals.format(booking.getCreatedOn, 'MMMM d, yyyy, hh:mm a')}"></td>
                 <td th:text="${#temporals.format(booking.getUpdatedOn, 'MMMM d, yyyy, hh:mm a')}"></td>
                 <td>
-                    <a class="btn btn-info" role="button" th:href="@{/web/deskbookings/admin/view/{id}(id=${booking.id})}">View</a>
-                </td>
-                <td>
-                    <a class="btn btn-warning" role="button" th:href="@{/web/deskbookings/admin/update/{id}(id=${booking.id})}">Edit</a>
-                </td>
-                <td>
-                    <a class="btn btn-danger" role="button" th:href="@{/web/deskbookings/admin/cancel/{id}(id=${booking.id})}">Cancel</a>
+                    <a class="button" role="button" th:href="@{/web/deskbookings/admin/view/{id}(id=${booking.id})}">Anzeigen</a>
+                    <a class="button" role="button" th:href="@{/web/deskbookings/admin/update/{id}(id=${booking.id})}">Bearbeiten</a>
+                    <a class="delete-button" role="button" th:href="@{/web/deskbookings/admin/cancel/{id}(id=${booking.id})}">Abbrechen</a>
                 </td>
             </tr>
             </tbody>
         </table>
+        <a th:href="@{/web/deskbookings/admin/add}" class="add-button" role="button">Buchen</a>
     </div>
 </div>
+<div class="filler"></div>
 </body>
 </html>
