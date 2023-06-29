@@ -13,7 +13,7 @@
         <table>
             <thead>
             <tr>
-                <th>Buchungs-Id</th>
+                <th>Buchung-Id</th>
                 <th>Arbeitsplatznummer</th>
                 <th>Datum</th>
                 <th>Start</th>
@@ -33,7 +33,7 @@
                 <td th:text="${#temporals.format(booking.getCreatedOn, 'MMMM d, yyyy, hh:mm a')}"></td>
                 <td th:text="${#temporals.format(booking.getUpdatedOn, 'MMMM d, yyyy, hh:mm a')}"></td>
                 <td>
-                    <a class="button" role="button" th:href="@{/web/deskbookings/view/{id}(id=${booking.id})}">Anzeigen</a>
+                    <a class="button" role="button" th:href="@{/web/deskbookings/view/{id}(id=${booking.id})}">Details Anzeigen</a>
                 </td>
             </tr>
             </tbody>
