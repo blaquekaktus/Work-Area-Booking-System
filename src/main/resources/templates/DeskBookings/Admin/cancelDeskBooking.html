@@ -9,6 +9,7 @@
 <div class="content-container">
     <div class="addRessourceContainer">
         <h1>Arbeitsplatz-Buchung löschen</h1><br><br>
+        <div class="scroll-container">
         <form method="post" th:action="@{/web/deskbookings/admin/cancel/{id}(id=${booking.id})}" th:object="${booking}">
             <p>Sind Sie sicher, dass Sie die folgende Arbeitsplatz-Buchung löschen wollen:<br><br>
                 <strong th:text="${booking.desk.deskNr}"></strong> am <strong th:text="${booking.date}"></strong>
@@ -39,9 +40,12 @@
                 <input id="end" name="end" readonly th:field="${booking.endTime}"
                        type="text">
             </div>
-            <button class="button" type="submit">Bestätigen</button>
-            <button class="delete-button" th:href="@{/web/deskbookings/admin}">Zurück</button>
+            <div class="button-row">
+                <button class="button" type="submit">Bestätigen</button>
+                <button class="delete-button" th:href="@{/web/deskbookings/admin}">Zurück</button>
+            </div>
         </form>
+            </div>
     </div>
 </div>
 <div class="filler"></div>

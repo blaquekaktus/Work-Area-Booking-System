@@ -10,6 +10,7 @@
 <div class="content-container">
     <div class="addRessourceContainer">
       <h1>Mitarbeiter bearbeiten</h1><br><br>
+      <div class="scroll-container">
       <form th:action="@{/web/admin/editemployee}" method="post" th:object="${employee}">
         <input type="hidden" th:field="*{id}"/>
         <div class="form-group">
@@ -46,11 +47,12 @@
             </option>
           </select>
         </div>
-        <div>
-          <button class="button" type="submit" name="action" value="save">Speichern</button>
+        <div class="button-row">
+          <button class="button" type="submit" name="action" value="save">Senden</button>
           <a class="delete-button" th:href="@{/web/admin/allemployees}">Zurück</a>
         </div>
       </form>
+        </div>
     </div>
 </div>
 <div class="filler"></div>

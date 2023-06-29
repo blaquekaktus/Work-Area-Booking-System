@@ -10,6 +10,7 @@
 <div class="content-container">
     <div class="allEmployee-Container">
         <h1>Mitarbeiterverzeichnis</h1><br><br>
+        <div class="scroll-container">
         <table>
             <thead>
             <tr>
@@ -37,8 +38,9 @@
                 </tr>
             </th:block>
         </table>
-        <div>
-            <a class="add-button" th:href="@{/web/admin/insertemployeeform}">Mitarbeiter hinzufügen</a>
+        </div>
+        <div class="button-row">
+            <a class="add-button" th:href="@{/web/admin/insertemployeeform}">neuer Mitarbeiter</a>
         </div>
     </div>
 </div>
