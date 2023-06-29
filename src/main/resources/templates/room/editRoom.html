@@ -1,6 +1,6 @@
 <!DOCTYPE html>
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
-<div th:insert="headerAdmin :: headerAdmin" th:with="title='Ressource hinzufügen'">  </div>
+<div th:insert="headerAdmin :: headerAdmin" th:with="title='Raum hinzufügen'">  </div>
 <body>
 <!-- Top Bar -->
 <div th:insert="topbarAdmin :: topbarAdmin">  </div>
@@ -11,7 +11,7 @@
 <div class="content-container">
   <div class="addroomContainer">
     <h1>Raum bearbeiten</h1><br><br>
-    <form th:object="${updateroom}" th:action="@{/web/room/updateRoom}" method="post"> <!--zuerst objekt holen, mapping wohin, übertragungsmethode-->
+    <form th:object="${updateRoom}" th:action="@{/web/room/updateRoom}" method="post"> <!--zuerst objekt holen, mapping wohin, übertragungsmethode-->
       <div class="form-group">
         <label for="id">ID:</label>
         <input type="text" class="form-control" id="id" name="id" th:field="*{id}" readonly>

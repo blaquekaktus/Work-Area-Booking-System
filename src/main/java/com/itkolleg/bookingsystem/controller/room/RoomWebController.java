@@ -91,7 +91,7 @@ public class RoomWebController {
     public ModelAndView updateRoom(@PathVariable Long id, Model model) throws RoomNotFoundException, ExecutionException, InterruptedException {
 
         Room room = this.roomService.getRoomById(id);
-        model.addAttribute("updateroom", room);
+        model.addAttribute("updateRoom", room);
         return new ModelAndView("room/editRoom", "room", model);
     }
 

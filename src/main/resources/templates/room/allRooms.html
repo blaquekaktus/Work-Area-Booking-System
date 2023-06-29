@@ -25,14 +25,14 @@
           <td th:text="${room.floor}"></td>
           <td>
             <a th:href="@{'/web/roomBooking/createBooking/' + ${room.id}}" class="button" role="button">Buchen</a>
-            <a th:href="@{'/web/rooms/updateRooms/' + ${room.id}}" class="button" role="button">Bearbeiten</a>
-            <a th:href="@{'/web/rooms/deleteRooms/' + ${room.id}}" class="delete-button" role="button">Löschen</a>
+            <a th:href="@{'/web/rooms/updateRoom/' + ${room.id}}" class="button" role="button">Bearbeiten</a>
+            <a th:href="@{'/web/rooms/deleteRoom/' + ${room.id}}" class="delete-button" role="button">Löschen</a>
           </td>
         </tr>
       </th:block>
       </tbody>
     </table>
-    <a th:href="@{addrooms}" class="add-button" role="button">Neuer Raum</a>
+    <a th:href="@{addRoom}" class="add-button" role="button">Neuer Raum</a>
   </div>
 </div>
 <div class="filler"></div>
