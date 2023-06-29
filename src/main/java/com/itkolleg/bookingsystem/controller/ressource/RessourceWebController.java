@@ -83,7 +83,7 @@ public class RessourceWebController {
      * @throws InterruptedException
      */
     @PostMapping("/addRessource")
-    public String addRessource(@Valid Ressource ressource, BindingResult bindingResult) throws ExecutionException, InterruptedException {
+    public String addRessource( @Valid @ModelAttribute("newRessource") Ressource ressource, BindingResult bindingResult, Model model) throws ExecutionException, InterruptedException {
         if (bindingResult.hasErrors()) {
             return "/ressource/addRessource";
         } else {

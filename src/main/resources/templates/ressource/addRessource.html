@@ -10,7 +10,7 @@
 <div class="content-container">
     <div class="addRessourceContainer">
         <h1>Ressource hinzufügen</h1><br><br>
-        <form th:object="${newRessource}" th:action="@{/web/ressource/addRessource}" method="post"> <!--zuerst objekt holen, mapping wohin, übertragungsmethode-->
+        <form th:action="@{/web/ressource/addRessource}" th:object="${newRessource}"  method="post"> <!--zuerst objekt holen, mapping wohin, übertragungsmethode-->
             <div class="form-group">
                 <label for="name">Name:</label>
                 <input type="text" class="form-control" id="name" name="name" th:field="*{name}" required>
