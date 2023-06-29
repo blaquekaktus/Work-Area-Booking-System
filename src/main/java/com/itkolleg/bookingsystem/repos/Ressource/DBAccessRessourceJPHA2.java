@@ -7,7 +7,6 @@ import com.itkolleg.bookingsystem.repos.RessourceBooking.RessourceBookingRepo;
 import org.springframework.stereotype.Component;
 import java.util.List;
 import java.util.Optional;
-import java.util.concurrent.ExecutionException;
 
 /**
  * Die gegebene Klasse DBAccessRessourceJPHA2 ist eine Implementierung des Interfaces DBAccessRessource. Sie dient als Datenbankzugriffsschicht für die Ressourcen in einem Buchungssystem.

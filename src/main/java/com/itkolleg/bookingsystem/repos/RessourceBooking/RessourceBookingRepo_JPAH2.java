@@ -106,9 +106,8 @@ public class RessourceBookingRepo_JPAH2 implements RessourceBookingRepo {
      * Die Methode kann eine ResourceNotFoundException auslösen.
      * @param id vom Typ Long
      * @return Ein Optional-Objekt vom Typ RessourceBooking, das die gefundenen Buchung enthält, falls eine Buchung mit der angegebenen ID gefunden wurde. Andernfalls enthält das Optional-Objekt den Wert null.
-     * @throws ResourceNotFoundException Wird ausgelöst, wenn keine Buchung mit der angegebenen ID gefunden wurde.
      */
-    public Optional<RessourceBooking> getBookingsByBookingId(Long id) throws ResourceNotFoundException {
+    public Optional<RessourceBooking> getBookingsByBookingId(Long id) {
         return this.ressourceBookingJPARepo.findById(id);
     }
 
