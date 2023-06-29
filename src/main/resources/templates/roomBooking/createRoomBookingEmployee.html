@@ -6,10 +6,10 @@
 <div th:insert="topbarEmployee :: topbarEmployee">  </div>
 <!-- Side Navbar -->
 <div th:insert="navbarEmployee :: navbarEmployee">  </div>
-<!-- Content -->
+
 <!-- Content -->
 <div class="content-container">
-    <div class="addroomContainer">
+    <div class="addRessourceContainer">
         <h1>Buchung für Raum:</h1><br><br>
         <form th:object="${newBooking}" th:action="@{/web/roomBooking/createBookingEmployee}" method="post">
             <table>

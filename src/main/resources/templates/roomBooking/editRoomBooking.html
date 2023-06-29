@@ -7,9 +7,8 @@
 <!-- Side Navbar -->
 <div th:insert="navbarAdmin :: navbarAdmin">  </div>
 <!-- Content -->
-<!-- Content -->
 <div class="content-container">
-    <div class="addroomContainer">
+    <div class="addRessourceContainer">
         <h1>Buchung für Raum:</h1><br><br>
         <form th:object="${updateBooking}" th:action="@{/web/roomBooking/updateBooking}" method="post">
             <table>
