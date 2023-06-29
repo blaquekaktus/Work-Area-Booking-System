@@ -81,7 +81,7 @@ public class WebSecurityConfig {
 
                     authConfig.requestMatchers(HttpMethod.GET, "/web/login", "/error", "/web/login-error", "/web/logout", "/static/**", "/templates/**").permitAll();
                     authConfig.requestMatchers(HttpMethod.POST, "/web/login").permitAll();
-                    authConfig.requestMatchers(HttpMethod.GET, "/web/user/start", "/web/ressourceBooking/allBookingsEmployee", "/web/ressourceBooking/createBookingEmployee/**", "/web/ressourceBooking/deleteBookingEmployee/**","/web/deskbookings/mydeskbookings","/web/ressource/allRessourcesEmployee", "/web/rooms/allRoomsEmployee", "/web/roomBooking/allBookingsEmployee","/web/roomBooking/createBookingEmployee/").hasAnyRole("ADMIN", "OPERATOR", "N_EMPLOYEE", "P_EMPLOYEE");
+                    authConfig.requestMatchers(HttpMethod.GET, "/web/user/start", "/web/ressourceBooking/allBookingsEmployee", "/web/ressourceBooking/createBookingEmployee/**", "/web/ressourceBooking/deleteBookingEmployee/**","/web/deskbookings/mydeskbookings","/web/ressource/allRessourcesEmployee", "/web/rooms/allRoomsEmployee", "/web/roomBooking/allBookingsEmployee","/web/roomBooking/createBookingEmployee/**").hasAnyRole("ADMIN", "OPERATOR", "N_EMPLOYEE", "P_EMPLOYEE");
                     authConfig.requestMatchers(HttpMethod.GET,"/web/**").hasAnyRole("ADMIN", "OPERATOR");
                     authConfig.requestMatchers(HttpMethod.POST, "/web/desks/add/**", "/web/ressource/**", "/web/roomBooking/**", "/web/ressourceBooking/**", "/web/rooms/**","/web/roomBooking/createBookingEmployee/**").hasAnyRole( "ADMIN", "OPERATOR","N_EMPLOYEE", "P_EMPLOYEE");
                     authConfig.requestMatchers(HttpMethod.POST, "/web/**").hasAnyRole("ADMIN", "OPERATOR");
