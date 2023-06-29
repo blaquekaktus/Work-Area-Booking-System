@@ -26,16 +26,16 @@
                        th:value="${#temporals.format(deskBooking.date, 'dd-MM-YYYY')}" type="text">
             </div>
             <div class="form-group">
-                <label for="start">Start</label>
+                <label for="start">Anfang</label>
                 <input class="form-control" id="start" name="start" readonly th:field="${deskBooking.start}"
                        type="text">
             </div>
             <div class="form-group">
-                <label class="form-label" for="end">End</label>
+                <label class="form-label" for="end">Ende</label>
                 <input class="form-control" id="end" name="end" readonly th:field="${deskBooking.endTime}"
                        type="text">
             </div>
-            <a role="button" class="delete-button" th:href="@{/web/deskbookings/admin}">Back</a>
+            <a role="button" class="delete-button" th:href="@{/web/deskbookings/admin}">Zurück</a>
         </form>
     </div>
 </div>
