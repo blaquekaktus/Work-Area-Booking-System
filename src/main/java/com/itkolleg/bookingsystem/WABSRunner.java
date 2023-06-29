@@ -57,8 +57,8 @@ public class WABSRunner implements ApplicationRunner {
         this.holidayRepo = holidayRepo;
         this.dbAccessRessource = dbAccessRessource;
         this.ressourceBookingRepo = ressourceBookingRepo;
-        this.dbAccessRoom=dbAccessRoom;
-        this.roombookingRepo=roombookingRepo;
+        this.dbAccessRoom = dbAccessRoom;
+        this.roombookingRepo = roombookingRepo;
     }
 
     public static void main(String[] args) {
@@ -70,15 +70,15 @@ public class WABSRunner implements ApplicationRunner {
         System.out.println("\n\nSystem is up and running!\n");
 
 
-        Room room1=this.dbAccessRoom.addRoom(new Room(1L,"1"));
+        Room room1 = this.dbAccessRoom.addRoom(new Room(1L, "1"));
 
-        Room room2=this.dbAccessRoom.addRoom(new Room(2L,"1"));
+        Room room2 = this.dbAccessRoom.addRoom(new Room(2L, "1"));
 
-        Room room3=this.dbAccessRoom.addRoom(new Room(3L,"1"));
+        Room room3 = this.dbAccessRoom.addRoom(new Room(3L, "1"));
 
-        Room room4=this.dbAccessRoom.addRoom(new Room(4L,"1"));
-        Room room5=this.dbAccessRoom.addRoom(new Room(5L,"1"));
-        Room room6=this.dbAccessRoom.addRoom(new Room(6L,"1"));
+        Room room4 = this.dbAccessRoom.addRoom(new Room(4L, "1"));
+        Room room5 = this.dbAccessRoom.addRoom(new Room(5L, "1"));
+        Room room6 = this.dbAccessRoom.addRoom(new Room(6L, "1"));
 
 
         Ressource test1 = this.dbAccessRessource.addRessource(new Ressource(1L, Ressourcetype.BEAMER, "Test1", "TestBeamer", "InfoBeamer", "BeamerSN"));
@@ -86,7 +86,7 @@ public class WABSRunner implements ApplicationRunner {
         Ressource test3 = this.dbAccessRessource.addRessource(new Ressource(3L, Ressourcetype.BEAMER, "Test3", "TestBeamer", "InfoBeamer", "BeamerSN"));
         Ressource test4 = this.dbAccessRessource.addRessource(new Ressource(4L, Ressourcetype.BEAMER, "Test4", "TestBeamer", "InfoBeamer", "BeamerSN"));
 
-      
+
         Employee operator = this.employeeDBAccess.saveEmployee(new Employee("Patrick", "Bayr", "operator", "bayr2@hotmail.com", "password", Role.ROLE_OPERATOR));
         Employee pemployee = this.employeeDBAccess.saveEmployee(new Employee("Manuel", "Payr", "nemployee", "bayr@hotmail.com", "password", Role.ROLE_N_EMPLOYEE));
         Employee nemployee = this.employeeDBAccess.saveEmployee(new Employee("Sonja", "Lechner", "pemployee", "bayr1@hotmail.com", "password", Role.ROLE_P_EMPLOYEE));
@@ -100,44 +100,44 @@ public class WABSRunner implements ApplicationRunner {
 
 
         LocalDate rdate = LocalDate.now();
-        LocalTime rtime1 = LocalTime.of(8,0, 0, 0);
-        LocalTime rtime2 = LocalTime.of(10,0, 0, 0);
+        LocalTime rtime1 = LocalTime.of(8, 0, 0, 0);
+        LocalTime rtime2 = LocalTime.of(10, 0, 0, 0);
         RessourceBooking rBooking1 = this.ressourceBookingRepo.addBooking(new RessourceBooking(admin, test1, rdate, rtime1, rtime2));
         try {
-            RoomBooking roomBooking1=this.roombookingRepo.addBooking(new RoomBooking(admin,room1,rdate,rtime1,rtime2));
+            RoomBooking roomBooking1 = this.roombookingRepo.addBooking(new RoomBooking(admin, room1, rdate, rtime1, rtime2));
         } catch (RoomNotAvailableException e) {
             throw new RuntimeException(e);
         }
         try {
-            RoomBooking roomBooking2=this.roombookingRepo.addBooking((new RoomBooking(admin,room2,rdate,rtime1,rtime2)));
+            RoomBooking roomBooking2 = this.roombookingRepo.addBooking((new RoomBooking(admin, room2, rdate, rtime1, rtime2)));
         } catch (RoomNotAvailableException e) {
             throw new RuntimeException(e);
         }
         try {
-            RoomBooking roomBooking3=this.roombookingRepo.addBooking((new RoomBooking(admin,room3,rdate,rtime1,rtime2)));
+            RoomBooking roomBooking3 = this.roombookingRepo.addBooking((new RoomBooking(admin, room3, rdate, rtime1, rtime2)));
         } catch (RoomNotAvailableException e) {
             throw new RuntimeException(e);
         }
         try {
-            RoomBooking roomBooking4=this.roombookingRepo.addBooking((new RoomBooking(jaslech,room4,rdate,rtime1,rtime2)));
+            RoomBooking roomBooking4 = this.roombookingRepo.addBooking((new RoomBooking(jaslech, room4, rdate, rtime1, rtime2)));
         } catch (RoomNotAvailableException e) {
             throw new RuntimeException(e);
         }
         rdate = LocalDate.of(2023, 10, 30);
-        rtime1 = LocalTime.of(12,0, 0, 0);
-        rtime2 = LocalTime.of(20,0, 0, 0);
+        rtime1 = LocalTime.of(12, 0, 0, 0);
+        rtime2 = LocalTime.of(20, 0, 0, 0);
         RessourceBooking rBooking2 = this.ressourceBookingRepo.addBooking(new RessourceBooking(admin, test3, rdate, rtime1, rtime2));
         rdate = LocalDate.of(2023, 10, 25);
-        rtime1 = LocalTime.of(10,0, 0, 0);
-        rtime2 = LocalTime.of(11,0, 0, 0);
+        rtime1 = LocalTime.of(10, 0, 0, 0);
+        rtime2 = LocalTime.of(11, 0, 0, 0);
         RessourceBooking rBooking3 = this.ressourceBookingRepo.addBooking(new RessourceBooking(admin, test4, rdate, rtime1, rtime2));
         rdate = LocalDate.of(2023, 10, 20);
-        rtime1 = LocalTime.of(12,0, 0, 0);
-        rtime2 = LocalTime.of(15,0, 0, 0);
+        rtime1 = LocalTime.of(12, 0, 0, 0);
+        rtime2 = LocalTime.of(15, 0, 0, 0);
         RessourceBooking rBooking4 = this.ressourceBookingRepo.addBooking(new RessourceBooking(admin, test1, rdate, rtime1, rtime2));
         rdate = LocalDate.of(2023, 10, 20);
-        rtime1 = LocalTime.of(12,0, 0, 0);
-        rtime2 = LocalTime.of(15,0, 0, 0);
+        rtime1 = LocalTime.of(12, 0, 0, 0);
+        rtime2 = LocalTime.of(15, 0, 0, 0);
         RessourceBooking rBooking5 = this.ressourceBookingRepo.addBooking(new RessourceBooking(jaslech, test2, rdate, rtime1, rtime2));
 
         Port hdmi = new Port("HDMI");
@@ -225,7 +225,7 @@ public class WABSRunner implements ApplicationRunner {
         deskRepo.addDesk(desk10);
         noOfDesks++;
 
-        if (deskRepo.getAllDesks () != null) {
+        if (deskRepo.getAllDesks() != null) {
             System.out.println("\nDesks successfully added to the Database\n");
         } else {
             System.out.println("Error: Desks  were not added to the Database.");
@@ -325,12 +325,12 @@ public class WABSRunner implements ApplicationRunner {
         //PublicHoliday corpusChristie = new PublicHoliday(LocalDate.of(2023, 6, 8),"Corpus Christie", false);
         //PublicHoliday assumptionOfMary = new PublicHoliday(LocalDate.of(2023,6,15)," Assumption of Mary",false);
         PublicHoliday nationalDay = new PublicHoliday(LocalDate.of(2023, 10, 26), "National Day", true);
-        PublicHoliday immaculateConception = new PublicHoliday(LocalDate.of(2023, 12,8), "Immaculate Conception", true);
-        PublicHoliday christmasDay = new PublicHoliday(LocalDate.of(2023,12,25),"Christmas Day", false);
-        PublicHoliday boxingDay = new PublicHoliday(LocalDate.of(2023,12,26), "Boxing Day (St. Stephen's Day)",false);
+        PublicHoliday immaculateConception = new PublicHoliday(LocalDate.of(2023, 12, 8), "Immaculate Conception", true);
+        PublicHoliday christmasDay = new PublicHoliday(LocalDate.of(2023, 12, 25), "Christmas Day", false);
+        PublicHoliday boxingDay = new PublicHoliday(LocalDate.of(2023, 12, 26), "Boxing Day (St. Stephen's Day)", false);
 
         //Add to Database
-        try{
+        try {
             //this.holidayRepo.addHoliday(whitMonday);
             //this.holidayRepo.addHoliday(corpusChristie);
             //this.holidayRepo.addHoliday(assumptionOfMary);
@@ -339,7 +339,7 @@ public class WABSRunner implements ApplicationRunner {
             this.holidayRepo.addHoliday(christmasDay);
             this.holidayRepo.addHoliday(boxingDay);
 
-        }catch(RuntimeException e){
+        } catch (RuntimeException e) {
             throw new RuntimeException(e);
         }
 

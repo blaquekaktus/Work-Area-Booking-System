@@ -27,6 +27,7 @@ public class RoomWebController {
     public RoomWebController(RoomService roomService) {
         this.roomService = roomService;
     }
+
     @GetMapping("/allRooms")
     public ModelAndView allrooms() throws ExecutionException, InterruptedException {
         List<Room> allRooms = roomService.getAllRooms();
@@ -35,6 +36,7 @@ public class RoomWebController {
 
     /**
      * Dient dazu eine Übersicht aller Räume für den/die Mitarbeiter:in zu liefern.
+     *
      * @return modelAndView
      * @throws ExecutionException
      * @throws InterruptedException
@@ -47,11 +49,12 @@ public class RoomWebController {
 
     /**
      * Diese Methode ermöglicht dem/der Admin das hinzufügen eines Raums in die Datenbank. Es ist mit @GetMapping annotiert, da es die HTTP-Anfrage verarbeiten und darstellen muss
+     *
      * @param model
      * @return modelAndView
      */
     @GetMapping("/addRoom")
-    public ModelAndView addRoom( Model model) {
+    public ModelAndView addRoom(Model model) {
 
         model.addAttribute("newRoom", new Room());
         return new ModelAndView("room/addRoom", "Room", model);
@@ -61,6 +64,7 @@ public class RoomWebController {
      * Diese Methode ermöglicht dem/der Admin das hinzufügen eines Raums in die Datenbank. Es ist mit @PostMapping annotiert, da es die HTTP-Anfrage übergeben muss.
      * Beim Durchführen wird der/die Benutzer:inn wieder an die HTML-Seite allrooms weitergeleitet.
      * Wird ein Fehler geworfen, dann bleibt der/die Benutzer:inn auf der selben Seite mit einer entsprechenden Fehlermeldung
+     *
      * @param room
      * @param bindingResult
      * @return
@@ -80,6 +84,7 @@ public class RoomWebController {
     /**
      * Diese Methode updated einen Raum, welcher aus seinem Listenelement (nicht in dieser Methode) mit der dazugehörigen id geholt wird.
      * Die Methode ist mit @GetMapping annotiert, da sie eine HTTP Anfrage verarbeiten und auf das entsprechende HTML Dokument verweisen muss.
+     *
      * @param id
      * @param model
      * @return ModelAndView
@@ -98,6 +103,7 @@ public class RoomWebController {
     /**
      * Diese Methode updated einen Raum, welcher aus seinem Listenelement (nicht in dieser Methode) mit der dazugehörigen id geholt wird.
      * Die Methode ist mit @PostMapping annotiert, da sie eine HTTP Anfrage verarbeiten und auf das entsprechende HTML Dokument verweisen muss.
+     *
      * @param room
      * @param bindingResult
      * @return
@@ -118,7 +124,7 @@ public class RoomWebController {
     /**
      * Diese Methode löscht eine bestimmte room aus einer Liste, und nimmt die ID der room entgegen.
      * Die Methode ist NUR mit @GetMapping annotiert, da die Aktion auf der selben Seite durchgeführt werden soll.
-     *
+     * <p>
      * Es ist anzumerken, dass eine room nicht gelöscht werden kann, wenn sie von einer aktiven Buchung verwendet wird.
      *
      * @param id vom Typ Long

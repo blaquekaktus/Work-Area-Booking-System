@@ -31,7 +31,7 @@ public class ResourceNotFoundException extends Exception {
      * Constructs a new ResourceNotFoundException with the specified detail message and cause.
      *
      * @param message the detail message.
-     * @param cause the cause of the exception.
+     * @param cause   the cause of the exception.
      */
     public ResourceNotFoundException(String message, Throwable cause) {
         super(message, cause);

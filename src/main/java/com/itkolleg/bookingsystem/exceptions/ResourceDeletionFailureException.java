@@ -26,7 +26,7 @@ public class ResourceDeletionFailureException extends Exception {
      * Constructs a new ResourceDeletionFailureException with the specified detail message and cause.
      *
      * @param message the detail message.
-     * @param cause the cause of the exception.
+     * @param cause   the cause of the exception.
      */
     public ResourceDeletionFailureException(String message, Throwable cause) {
         super(message, cause);

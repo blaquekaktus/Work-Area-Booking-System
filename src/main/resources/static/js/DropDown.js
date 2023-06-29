@@ -1,4 +1,4 @@
-$(document).ready(function() {
+$(document).ready(function () {
     $("#navbarContainer").load("/static/css/navbarEmployee.html");
 });
 //alert("JavaScript-Code wird ausgef�hrt!");
@@ -26,27 +26,27 @@ dropdownToggles.forEach((toggle) => {
 });
 
 // Datepicker initialisieren
-$(function() {
+$(function () {
     $("#startDate").datepicker({
         dateFormat: "dd-mm-yy",
-        onSelect: function(selectedDate) {
+        onSelect: function (selectedDate) {
             $("#endDate").datepicker("option", "minDate", selectedDate);
         }
     });
     $("#endDate").datepicker({
         dateFormat: "dd-mm-yy",
-        onSelect: function(selectedDate) {
+        onSelect: function (selectedDate) {
             $("#startDate").datepicker("option", "maxDate", selectedDate);
         }
     });
 });
 
 // Begrenze die Uhrzeit auf volle Stunden
-$(function() {
-    $("#startTime").on("change", function() {
+$(function () {
+    $("#startTime").on("change", function () {
         var selectedHour = $(this).val().split(":")[0];
         $("#endTime option").prop("disabled", false);
-        $("#endTime option").each(function() {
+        $("#endTime option").each(function () {
             var hour = $(this).val().split(":")[0];
             if (parseInt(hour) <= parseInt(selectedHour)) {
                 $(this).prop("disabled", true);

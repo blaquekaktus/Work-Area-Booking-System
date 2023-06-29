@@ -31,7 +31,7 @@ public class DeskNotAvailableException extends Exception {
      * Constructs a new exception with the specified detail message and cause.
      *
      * @param message the detail message
-     * @param cause the cause of the exception
+     * @param cause   the cause of the exception
      */
     public DeskNotAvailableException(String message, Throwable cause) {
         super(message, cause);

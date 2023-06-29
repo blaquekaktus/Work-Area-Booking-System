@@ -14,8 +14,11 @@ public interface HolidayService {
     Logger logger = LoggerFactory.getLogger(HolidayService.class);
 
     void addHoliday(PublicHoliday publicHoliday);
-    List<PublicHoliday>getAllHolidays();
+
+    List<PublicHoliday> getAllHolidays();
+
     void deleteHoliday(Long id);
+
     boolean isBookingAllowedOnHoliday(LocalDate date);
 
 }

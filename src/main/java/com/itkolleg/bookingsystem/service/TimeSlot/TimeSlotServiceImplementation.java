@@ -24,8 +24,8 @@ public class TimeSlotServiceImplementation implements TimeSlotService {
     /**
      * Constructs a TimeSlotServiceImplementation instance.
      *
-     * @param timeSlotRepo      Repository for accessing TimeSlot data.
-    */
+     * @param timeSlotRepo Repository for accessing TimeSlot data.
+     */
     public TimeSlotServiceImplementation(TimeSlotRepo timeSlotRepo) {
         this.timeSlotRepo = timeSlotRepo;
     }
@@ -33,7 +33,7 @@ public class TimeSlotServiceImplementation implements TimeSlotService {
     /**
      * Adds a new TimeSlot.
      *
-     * @param timeSlot  The TimeSlot to add.
+     * @param timeSlot The TimeSlot to add.
      * @return The added TimeSlot.
      */
     @Override
@@ -54,7 +54,7 @@ public class TimeSlotServiceImplementation implements TimeSlotService {
     /**
      * Retrieves a TimeSlot by its name.
      *
-     * @param name  The name of the TimeSlot.
+     * @param name The name of the TimeSlot.
      * @return An Optional containing the found TimeSlot, or empty if no TimeSlot was found.
      */
     @Override
@@ -66,18 +66,19 @@ public class TimeSlotServiceImplementation implements TimeSlotService {
             return Optional.empty();
         }
     }
+
     /**
      * Retrieves a TimeSlot by its start time.
      *
-     * @param startTime  The start time of the TimeSlot.
+     * @param startTime The start time of the TimeSlot.
      * @return An Optional containing the found TimeSlot, or empty if no TimeSlot was found.
      */
     @Override
-    public Optional<TimeSlot> getTimeSlotByStartTime(LocalTime startTime){
-        try{
-        return this.timeSlotRepo.getTimeSlotByStartTime(startTime);
+    public Optional<TimeSlot> getTimeSlotByStartTime(LocalTime startTime) {
+        try {
+            return this.timeSlotRepo.getTimeSlotByStartTime(startTime);
         } catch (ResourceNotFoundException e) {
-            logger.error("TimeSlot with start time '{}' not found",startTime, e);
+            logger.error("TimeSlot with start time '{}' not found", startTime, e);
             return Optional.empty();
         }
     }
@@ -85,13 +86,13 @@ public class TimeSlotServiceImplementation implements TimeSlotService {
     /**
      * Retrieves a TimeSlot by its end time.
      *
-     * @param endTime  The end time of the TimeSlot.
+     * @param endTime The end time of the TimeSlot.
      * @return An Optional containing the found TimeSlot, or empty if no TimeSlot was found.
      */
     @Override
-    public Optional<TimeSlot> getTimeSlotByEndTime(LocalTime endTime){
-        try{
-        return this.timeSlotRepo.getTimeSlotByEndTime(endTime);
+    public Optional<TimeSlot> getTimeSlotByEndTime(LocalTime endTime) {
+        try {
+            return this.timeSlotRepo.getTimeSlotByEndTime(endTime);
         } catch (ResourceNotFoundException e) {
             logger.error("TimeSlot with endTime '{}' not found", endTime, e);
             return Optional.empty();
@@ -101,21 +102,21 @@ public class TimeSlotServiceImplementation implements TimeSlotService {
     /**
      * Updates a TimeSlot.
      *
-     * @param timeSlot  The TimeSlot to update.
+     * @param timeSlot The TimeSlot to update.
      * @return An Optional containing the updated TimeSlot, or empty if no TimeSlot was found.
      */
     @Override
-    public Optional<TimeSlot> updateTimeSlot(TimeSlot timeSlot){
+    public Optional<TimeSlot> updateTimeSlot(TimeSlot timeSlot) {
         return this.timeSlotRepo.updateTimeSlot(timeSlot);
     }
 
     /**
      * Deletes a TimeSlot by its id.
      *
-     * @param id  The id of the TimeSlot to delete.
+     * @param id The id of the TimeSlot to delete.
      */
     @Override
-    public void deleteTimeSlotById(Long id){
+    public void deleteTimeSlotById(Long id) {
         this.timeSlotRepo.deleteTimeSlotById(id);
     }
 
@@ -123,10 +124,10 @@ public class TimeSlotServiceImplementation implements TimeSlotService {
      * Deletes a TimeSlot by its name.
      * If the TimeSlot with the given name does not exist, an error is logged and no action is taken.
      *
-     * @param name  The name of the TimeSlot to delete.
+     * @param name The name of the TimeSlot to delete.
      */
     @Override
-    public void deleteTimeSlotByName(String name){
+    public void deleteTimeSlotByName(String name) {
         try {
             TimeSlot toDelete = this.timeSlotRepo.getTimeSlotByName(name)
                     .orElseThrow(() -> new IllegalArgumentException("No timeslot found with the given name: " + name));

@@ -165,11 +165,11 @@ public class DeskBookingWebController {
             return "DeskBookings/Admin/updateDeskBooking";
         } else {
             Desk desk = deskService.getDeskById(deskId);
-            if(desk == null) {
+            if (desk == null) {
                 throw new ResourceNotFoundException("Desk not found for id: " + deskId);
             }
             Employee employee = employeeService.getEmployeeById(employeeId);
-            if(employee == null) {
+            if (employee == null) {
                 throw new EmployeeNotFoundException("Employee not found for id: " + employeeId);
             }
             booking.setDesk(desk);

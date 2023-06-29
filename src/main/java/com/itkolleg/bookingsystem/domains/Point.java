@@ -8,7 +8,8 @@ public class Point {
     private int y;
 
     // default constructor
-    public Point() {}
+    public Point() {
+    }
 
     // constructor
     public Point(int x, int y) {

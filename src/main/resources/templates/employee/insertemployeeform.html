@@ -1,11 +1,11 @@
 <!DOCTYPE html>
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
-<div th:insert="headerAdmin :: headerAdmin" th:with="title='Mitarbeiter eintragen'">  </div>
+<div th:insert="headerAdmin :: headerAdmin" th:with="title='Mitarbeiter eintragen'"></div>
 <body>
 <!-- Top Bar -->
-<div th:insert="topbarAdmin :: topbarAdmin">  </div>
+<div th:insert="topbarAdmin :: topbarAdmin"></div>
 <!-- Side Navbar -->
-<div th:insert="navbarAdmin :: navbarAdmin">  </div>
+<div th:insert="navbarAdmin :: navbarAdmin"></div>
 <!-- Content -->
 <div class="content-container">
     <div class="addRessourceContainer">
@@ -42,7 +42,8 @@
                     <select class="form-control" name="role" id="role">
                         <option>---Bitte Auswählen---</option>
                         <option th:each="role : ${T(com.itkolleg.bookingsystem.domains.Role).values()}"
-                                th:value="${role}" th:text="${#strings.substringAfter(role, '_')}" th:selected="${role == myemployee.role}">
+                                th:value="${role}" th:text="${#strings.substringAfter(role, '_')}"
+                                th:selected="${role == myemployee.role}">
                         </option>
                     </select>
                 </div>
@@ -51,9 +52,9 @@
                     <a class="delete-button" th:href="@{/web/admin/allemployees}">Zurück</a>
                 </div>
             </form>
-            </div>
         </div>
     </div>
+</div>
 <div class="filler"></div>
 </body>
 </html>

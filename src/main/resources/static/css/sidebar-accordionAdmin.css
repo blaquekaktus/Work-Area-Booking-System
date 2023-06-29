@@ -19,7 +19,9 @@ body {
     background-repeat: no-repeat;
 }
 
-a { text-decoration: none; }
+a {
+    text-decoration: none;
+}
 
 .btnMenu {
     display: none;
@@ -29,7 +31,9 @@ a { text-decoration: none; }
     color: #fff;
 }
 
-.btnMenu i.fa { float: right; }
+.btnMenu i.fa {
+    float: right;
+}
 
 .contenedor-menu {
     position: fixed;
@@ -40,9 +44,13 @@ a { text-decoration: none; }
     overflow-y: auto;
 }
 
-.contenedor-menu .menu { width: 100%; }
+.contenedor-menu .menu {
+    width: 100%;
+}
 
-.contenedor-menu ul { list-style: none; }
+.contenedor-menu ul {
+    list-style: none;
+}
 
 .contenedor-menu .menu li a {
     color: #494949;
@@ -50,7 +58,12 @@ a { text-decoration: none; }
     padding: 25px 20px;
     background: #e9e9e9;
 }
-.contenedor-menu .menu li a:hover { background: #00b8eb; color: #fff; }
+
+.contenedor-menu .menu li a:hover {
+    background: #00b8eb;
+    color: #fff;
+}
+
 .contenedor-menu .menu i.fa {
     font-size: 12px;
     line-height: 18px;
@@ -59,7 +72,10 @@ a { text-decoration: none; }
 }
 
 
-.contenedor-menu .menu ul { display: none; }
+.contenedor-menu .menu ul {
+    display: none;
+}
+
 .contenedor-menu .menu ul li a {
     background: #424242;
     color: #e9e9e9;
@@ -121,6 +137,7 @@ a { text-decoration: none; }
         min-width: 150px;
         overflow-y: auto;
     }
+
     .filler {
         position: fixed;
         top: 0;
@@ -144,6 +161,7 @@ a { text-decoration: none; }
         min-width: 200px;
         overflow-y: auto;
     }
+
     .filler {
         position: fixed;
         top: 0;
@@ -166,6 +184,7 @@ a { text-decoration: none; }
         min-width: 250px;
         overflow-y: auto;
     }
+
     .filler {
         position: fixed;
         top: 0;
@@ -189,6 +208,7 @@ a { text-decoration: none; }
         min-width: 300px;
         overflow-y: auto;
     }
+
     .filler {
         position: fixed;
         top: 0;

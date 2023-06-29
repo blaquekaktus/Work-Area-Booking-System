@@ -1,4 +1,5 @@
 package com.itkolleg.bookingsystem.repos.RessourceBooking;
+
 import com.itkolleg.bookingsystem.domains.Booking.RessourceBooking;
 import com.itkolleg.bookingsystem.domains.Employee;
 import com.itkolleg.bookingsystem.domains.Ressource;
@@ -23,6 +24,7 @@ import java.util.Optional;
 /**
  * Die gegebene Klasse ist eine Implementierung des Interfaces "RessourceBookingRepo". Sie stellt Methoden zum Hinzufügen, Abrufen, Aktualisieren und Löschen von Ressourcenbuchungen (Resource Booking) bereit.
  * Die Klasse arbeitet mit den JPA-Repositorien "RessourceBookingJPARepo", "RessourceJPARepo" und "EmployeeJPARepo" zusammen, um auf die Datenbank zuzugreifen.
+ *
  * @author Manuel Payer
  * @version 1.0
  * @since 29.06.2023
@@ -37,9 +39,10 @@ public class RessourceBookingRepo_JPAH2 implements RessourceBookingRepo {
 
     /**
      * Konstruktor der Klasse RessourceBookingRepo_JPAH2 und benötigt folgende Parameter:
+     *
      * @param ressourceBookingJPARepo vom Typ RessourecBookingRepo_JPAH2
-     * @param ressourceJPARepo vom Typ RessourceJPARepo
-     * @param employeeJPARepo vom Typ EmployeeJPARepo
+     * @param ressourceJPARepo        vom Typ RessourceJPARepo
+     * @param employeeJPARepo         vom Typ EmployeeJPARepo
      */
     public RessourceBookingRepo_JPAH2(RessourceBookingJPARepo ressourceBookingJPARepo, RessourceJPARepo ressourceJPARepo, EmployeeJPARepo employeeJPARepo) {
         this.ressourceBookingJPARepo = ressourceBookingJPARepo;
@@ -50,15 +53,16 @@ public class RessourceBookingRepo_JPAH2 implements RessourceBookingRepo {
     /**
      * Die Methode addBooking fügt eine Ressourcenbuchung hinzu. Sie akzeptiert ein Objekt vom Typ RessourceBooking als Parameter und gibt ein Objekt vom selben Typ zurück.
      * Die Methode kann zwei Ausnahmen auslösen: ResourceNotFoundException und RessourceNotAvailableException.
+     *
      * @param ressourceBooking vom Typ RessourceBooking
      * @return Das Objekt vom Typ RessourceBooking, das erfolgreich zur Datenbank hinzugefügt wurde.
-     * @throws ResourceNotFoundException Wird ausgelöst, wenn die Ressource nicht gefunden werden kann.
+     * @throws ResourceNotFoundException      Wird ausgelöst, wenn die Ressource nicht gefunden werden kann.
      * @throws RessourceNotAvailableException Wird ausgelöst, wenn die Ressource für den Buchungszeitraum nicht verfügbar ist.
      */
     @Override
     public RessourceBooking addBooking(RessourceBooking ressourceBooking) throws ResourceNotFoundException, RessourceNotAvailableException {
         // Check for null values
-        if(ressourceBooking == null || ressourceBooking.getRessource() == null) {
+        if (ressourceBooking == null || ressourceBooking.getRessource() == null) {
             throw new IllegalArgumentException("The RessourceBooking or Ressource cannot be null.");
         }
 
@@ -68,7 +72,7 @@ public class RessourceBookingRepo_JPAH2 implements RessourceBookingRepo {
 
         // Check if the ressource is available for the booking period
         if (!isRessourceAvailable(ressource, ressourceBooking.getDate(), ressourceBooking.getStart(), ressourceBooking.getEndTime())) {
-          throw new RessourceNotAvailableException("Ressource not available for booking period");
+            throw new RessourceNotAvailableException("Ressource not available for booking period");
         }
 
         // Create a new Booking entity
@@ -93,6 +97,7 @@ public class RessourceBookingRepo_JPAH2 implements RessourceBookingRepo {
 
     /**
      * Diese Methode liefert eine Liste aller Buchungen zurück.
+     *
      * @return Liste von RessourceBooking
      */
     @Override
@@ -101,9 +106,10 @@ public class RessourceBookingRepo_JPAH2 implements RessourceBookingRepo {
     }
 
     /**
-     *Die Methode getBookingsByBookingId sucht nach einer Ressourcenbuchung anhand einer angegebenen Buchungs-ID.
+     * Die Methode getBookingsByBookingId sucht nach einer Ressourcenbuchung anhand einer angegebenen Buchungs-ID.
      * Sie akzeptiert eine Buchungs-ID vom Typ Long als Parameter und gibt ein Optional-Objekt vom Typ RessourceBooking zurück.
      * Die Methode kann eine ResourceNotFoundException auslösen.
+     *
      * @param id vom Typ Long
      * @return Ein Optional-Objekt vom Typ RessourceBooking, das die gefundenen Buchung enthält, falls eine Buchung mit der angegebenen ID gefunden wurde. Andernfalls enthält das Optional-Objekt den Wert null.
      */
@@ -112,8 +118,9 @@ public class RessourceBookingRepo_JPAH2 implements RessourceBookingRepo {
     }
 
     /**
-     *Die Methode getBookingsByEmployeeId sucht nach Ressourcenbuchungen basierend auf einer angegebenen Mitarbeiter-ID.
+     * Die Methode getBookingsByEmployeeId sucht nach Ressourcenbuchungen basierend auf einer angegebenen Mitarbeiter-ID.
      * Sie akzeptiert eine Mitarbeiter-ID vom Typ Long als Parameter und gibt eine Liste von Ressourcenbuchungen zurück.
+     *
      * @param employeeId Die ID des Mitarbeiters, für den die Buchungen gesucht werden sollen.
      * @return Eine Liste von RessourceBooking-Objekten, die die gefundenen Buchungen für den angegebenen Mitarbeiter enthalten. Wenn keine Buchungen für den Mitarbeiter gefunden werden, wird eine leere Liste zurückgegeben.
      */
@@ -124,6 +131,7 @@ public class RessourceBookingRepo_JPAH2 implements RessourceBookingRepo {
 
     /**
      * Die Methode getBookingsByRessource sucht nach Ressourcenbuchungen basierend auf einer angegebenen Ressource. Sie akzeptiert ein Ressource-Objekt als Parameter und gibt eine Liste von Ressourcenbuchungen zurück.
+     *
      * @param ressource Das Ressource-Objekt, für das die Buchungen gesucht werden sollen.
      * @return Eine Liste von RessourceBooking-Objekten, die die gefundenen Buchungen für die angegebene Ressource enthalten. Wenn keine Buchungen für die Ressource gefunden werden, wird eine leere Liste zurückgegeben.
      */
@@ -135,6 +143,7 @@ public class RessourceBookingRepo_JPAH2 implements RessourceBookingRepo {
     /**
      * Die Methode getBookingsByRessourceId sucht nach Ressourcenbuchungen basierend auf einer angegebenen Ressourcen-ID.
      * Sie akzeptiert eine Ressourcen-ID als Parameter und gibt eine Liste von Ressourcenbuchungen zurück.
+     *
      * @param id Die ID der Ressource, für die die Buchungen gesucht werden sollen.
      * @return Eine Liste von RessourceBooking-Objekten, die die gefundenen Buchungen für die angegebene Ressourcen-ID enthalten. Wenn keine Buchungen für die Ressource gefunden werden, wird eine leere Liste zurückgegeben.
      */
@@ -145,6 +154,7 @@ public class RessourceBookingRepo_JPAH2 implements RessourceBookingRepo {
     /**
      * Die Methode getBookingByBookingId sucht nach einer Ressourcenbuchung anhand einer bestimmten Buchungs-ID.
      * Sie akzeptiert eine Buchungs-ID als Parameter und gibt eine Optionale RessourceBooking-Instanz zurück.
+     *
      * @param id Die ID der Buchung, die gesucht werden soll.
      * @return Eine Optionale RessourceBooking-Instanz, die die gefundene Buchung für die angegebene Buchungs-ID enthält. Wenn keine Buchung mit der angegebenen ID gefunden wird, wird eine leere Option zurückgegeben.
      */
@@ -156,6 +166,7 @@ public class RessourceBookingRepo_JPAH2 implements RessourceBookingRepo {
     /**
      * Die Methode getBookingsByEmployee sucht nach Ressourcenbuchungen für einen bestimmten Mitarbeiter.
      * Sie akzeptiert einen Mitarbeiter als Parameter und gibt eine Liste von RessourceBooking-Objekten zurück, die dem angegebenen Mitarbeiter zugeordnet sind.
+     *
      * @param employee Der Mitarbeiter, für den die Buchungen gesucht werden sollen.
      * @return Eine Liste von RessourceBooking-Objekten, die den gefundenen Buchungen für den angegebenen Mitarbeiter entsprechen. Wenn keine Buchungen für den Mitarbeiter gefunden werden, wird eine leere Liste zurückgegeben.
      */
@@ -167,10 +178,11 @@ public class RessourceBookingRepo_JPAH2 implements RessourceBookingRepo {
     /**
      * Die Methode getBookingsByEmployeeAndDate sucht nach Ressourcenbuchungen für einen bestimmten Mitarbeiter an einem bestimmten Datum.
      * Sie akzeptiert einen Mitarbeiter und ein Datum als Parameter und gibt eine Liste von RessourceBooking-Objekten zurück, die dem angegebenen Mitarbeiter an dem angegebenen Datum zugeordnet sind.
+     *
      * @param employee Der Mitarbeiter, für den die Buchungen gesucht werden sollen.
-     * @param date Das Datum, für das die Buchungen gesucht werden sollen.
+     * @param date     Das Datum, für das die Buchungen gesucht werden sollen.
      * @return Eine Liste von RessourceBooking-Objekten, die den gefundenen Buchungen für den angegebenen Mitarbeiter und das angegebene Datum entsprechen.
-     *         Wenn keine Buchungen für den Mitarbeiter und das Datum gefunden werden, wird eine leere Liste zurückgegeben.
+     * Wenn keine Buchungen für den Mitarbeiter und das Datum gefunden werden, wird eine leere Liste zurückgegeben.
      */
     @Override
     public List<RessourceBooking> getBookingsByEmployeeAndDate(Employee employee, LocalDate date) {
@@ -178,12 +190,13 @@ public class RessourceBookingRepo_JPAH2 implements RessourceBookingRepo {
     }
 
     /**
-     *Die Methode getBookingsByRessourceAndDate sucht nach Ressourcenbuchungen für eine bestimmte Ressource an einem bestimmten Datum.
+     * Die Methode getBookingsByRessourceAndDate sucht nach Ressourcenbuchungen für eine bestimmte Ressource an einem bestimmten Datum.
      * Sie akzeptiert eine Ressource und ein Datum als Parameter und gibt eine Liste von RessourceBooking-Objekten zurück, die der angegebenen Ressource an dem angegebenen Datum zugeordnet sind.
+     *
      * @param ressource Die Ressource, für die die Buchungen gesucht werden sollen.
-     * @param date Das Datum, für das die Buchungen gesucht werden sollen.
+     * @param date      Das Datum, für das die Buchungen gesucht werden sollen.
      * @return Eine Liste von RessourceBooking-Objekten, die den gefundenen Buchungen für die angegebene Ressource und das angegebene Datum entsprechen.
-     *         Wenn keine Buchungen für die Ressource und das Datum gefunden werden, wird eine leere Liste zurückgegeben.
+     * Wenn keine Buchungen für die Ressource und das Datum gefunden werden, wird eine leere Liste zurückgegeben.
      */
     @Override
     public List<RessourceBooking> getBookingsByRessourceAndDate(Ressource ressource, LocalDate date) {
@@ -192,6 +205,7 @@ public class RessourceBookingRepo_JPAH2 implements RessourceBookingRepo {
 
     /**
      * Die Methode getBookingByDate sucht nach Ressourcenbuchungen für ein bestimmtes Datum. Sie akzeptiert ein Datum als Parameter und gibt eine Liste von RessourceBooking-Objekten zurück, die dem angegebenen Datum zugeordnet sind.
+     *
      * @param date Das Datum, für das die Buchungen gesucht werden sollen.
      * @return Eine Liste von RessourceBooking-Objekten, die den gefundenen Buchungen für das angegebene Datum entsprechen. Wenn keine Buchungen für das Datum gefunden werden, wird eine leere Liste zurückgegeben.
      */
@@ -203,7 +217,8 @@ public class RessourceBookingRepo_JPAH2 implements RessourceBookingRepo {
     /**
      * Die Methode updateBookingById wird verwendet, um eine vorhandene Ressourcenbuchung anhand ihrer ID zu aktualisieren.
      * Sie akzeptiert die ID der Buchung, sowie ein aktualisiertes RessourceBooking-Objekt als Parameter und gibt das aktualisierte RessourceBooking-Objekt zurück.
-     * @param ressourceBookingId Die ID der Buchung, die aktualisiert werden soll.
+     *
+     * @param ressourceBookingId      Die ID der Buchung, die aktualisiert werden soll.
      * @param updatedRessourceBooking Das aktualisierte RessourceBooking-Objekt, das die neuen Werte für die Buchung enthält.
      * @return Das aktualisierte RessourceBooking-Objekt, nachdem die Aktualisierung durchgeführt wurde.
      * @throws ResourceNotFoundException wenn die Ressource nicht gefunden wurde.
@@ -211,7 +226,7 @@ public class RessourceBookingRepo_JPAH2 implements RessourceBookingRepo {
     @Override
     public RessourceBooking updateBookingById(Long ressourceBookingId, RessourceBooking updatedRessourceBooking) throws ResourceNotFoundException {
         // Checking for mandatory fields on the updated booking
-        if(updatedRessourceBooking.getRessource() == null || updatedRessourceBooking.getStart() == null || updatedRessourceBooking.getEndTime() == null || updatedRessourceBooking.getCreatedOn() == null) {
+        if (updatedRessourceBooking.getRessource() == null || updatedRessourceBooking.getStart() == null || updatedRessourceBooking.getEndTime() == null || updatedRessourceBooking.getCreatedOn() == null) {
             throw new IllegalArgumentException("Updated Booking must have valid Desk, Employee, Date, StartTime, EndTime and Creation Date.");
         }
 
@@ -245,13 +260,14 @@ public class RessourceBookingRepo_JPAH2 implements RessourceBookingRepo {
 
     /**
      * Die Methode updateBooking wird verwendet, um eine vorhandene Ressourcenbuchung zu aktualisieren. Sie akzeptiert ein aktualisiertes RessourceBooking-Objekt als Parameter und gibt das aktualisierte RessourceBooking-Objekt zurück.
+     *
      * @param updatedBooking Das aktualisierte RessourceBooking-Objekt, das die neuen Werte für die Buchung enthält.
      * @return Das aktualisierte RessourceBooking-Objekt, nachdem die Aktualisierung durchgeführt wurde.
      * @throws ResourceNotFoundException Wenn die Ressource nicht gefunden wurde.
      */
     @Override
     public RessourceBooking updateBooking(RessourceBooking updatedBooking) throws ResourceNotFoundException {
-        if(updatedBooking.getId() == null) {
+        if (updatedBooking.getId() == null) {
             throw new IllegalArgumentException("Id cannot be null when updating");
         }
         return this.ressourceBookingJPARepo.saveAndFlush(updatedBooking);
@@ -259,6 +275,7 @@ public class RessourceBookingRepo_JPAH2 implements RessourceBookingRepo {
 
     /**
      * Die Methode deleteBookingById wird verwendet, um eine Ressourcenbuchung anhand ihrer ID zu löschen.
+     *
      * @param id Die ID der Ressourcenbuchung, die gelöscht werden soll.
      * @throws ResourceDeletionFailureException Wird ausgelöst, wenn die Ressourcenbuchung mit der angegebenen ID nicht gefunden werden kann und daher nicht gelöscht werden kann.
      */
@@ -274,9 +291,10 @@ public class RessourceBookingRepo_JPAH2 implements RessourceBookingRepo {
 
     /**
      * Die Methode getAvailableRessources wird verwendet, um eine Liste von verfügbaren Ressourcen für ein bestimmtes Datum und einen bestimmten Zeitraum zu erhalten.
-     * @param date Das Datum, für das verfügbare Ressourcen gesucht werden.
+     *
+     * @param date  Das Datum, für das verfügbare Ressourcen gesucht werden.
      * @param start Die Startzeit des gewünschten Zeitraums.
-     * @param end Die Endzeit des gewünschten Zeitraums.
+     * @param end   Die Endzeit des gewünschten Zeitraums.
      * @return Die Methode gibt eine Liste von Ressource-Objekten zurück, die als verfügbar für den angegebenen Zeitraum betrachtet werden.
      */
     @Override
@@ -294,10 +312,11 @@ public class RessourceBookingRepo_JPAH2 implements RessourceBookingRepo {
 
     /**
      * Die Methode isRessourceAvailable wird verwendet, um zu überprüfen, ob eine bestimmte Ressource für ein angegebenes Datum und einen angegebenen Zeitraum verfügbar ist.
+     *
      * @param ressource Die Ressource, deren Verfügbarkeit überprüft werden soll.
-     * @param date Das Datum, für das die Verfügbarkeit überprüft werden soll.
-     * @param start Die Startzeit des zu überprüfenden Zeitraums.
-     * @param end Die Endzeit des zu überprüfenden Zeitraums.
+     * @param date      Das Datum, für das die Verfügbarkeit überprüft werden soll.
+     * @param start     Die Startzeit des zu überprüfenden Zeitraums.
+     * @param end       Die Endzeit des zu überprüfenden Zeitraums.
      * @return
      */
     @Override
@@ -308,10 +327,11 @@ public class RessourceBookingRepo_JPAH2 implements RessourceBookingRepo {
 
     /**
      * Die Methode getBookingsByRessourceAndDateAndBookingTimeBetween wird verwendet, um alle Buchungen einer bestimmten Ressource abzurufen, die für ein angegebenes Datum und eine angegebene Buchungszeit innerhalb eines Zeitbereichs liegen.
+     *
      * @param ressource Die Ressource, für die die Buchungen abgerufen werden sollen.
-     * @param date Das Datum, für das die Buchungen abgerufen werden sollen.
-     * @param start Die Startzeit des Buchungszeitraums.
-     * @param endTime Die Endzeit des Buchungszeitraums.
+     * @param date      Das Datum, für das die Buchungen abgerufen werden sollen.
+     * @param start     Die Startzeit des Buchungszeitraums.
+     * @param endTime   Die Endzeit des Buchungszeitraums.
      * @return Die Methode gibt eine Liste von RessourceBooking-Objekten zurück, die den angegebenen Kriterien entsprechen.
      */
     @Override
@@ -321,9 +341,10 @@ public class RessourceBookingRepo_JPAH2 implements RessourceBookingRepo {
 
     /**
      * Die Methode getBookingByDateAndByStartBetween wird verwendet, um alle Buchungen für ein bestimmtes Datum abzurufen, bei denen der Startzeitpunkt innerhalb eines angegebenen Zeitbereichs liegt.
-     * @param date Das Datum, für das die Buchungen abgerufen werden sollen.
+     *
+     * @param date       Das Datum, für das die Buchungen abgerufen werden sollen.
      * @param startOfDay Der Startzeitpunkt des Zeitbereichs.
-     * @param endOfDay Der Endzeitpunkt des Zeitbereichs.
+     * @param endOfDay   Der Endzeitpunkt des Zeitbereichs.
      * @return Die Methode gibt eine Liste von RessourceBooking-Objekten zurück, die den angegebenen Kriterien entsprechen.
      */
     @Override
@@ -333,6 +354,7 @@ public class RessourceBookingRepo_JPAH2 implements RessourceBookingRepo {
 
     /**
      * Die Methode save wird verwendet, um eine Ressource-Buchung zu speichern oder zu aktualisieren.
+     *
      * @param booking Das Ressource-Buchungsobjekt, das gespeichert oder aktualisiert werden soll.
      * @return Die Methode gibt das gespeicherte oder aktualisierte Ressource-Buchungsobjekt vom Typ RessourceBooking zurück.
      */

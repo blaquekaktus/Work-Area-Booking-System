@@ -24,7 +24,7 @@ import java.util.stream.Collectors;
 
 @Service
 public class RoomBookingServiceImplementation implements RoomBookingService {
-    Logger logger= LoggerFactory.getLogger(RoomBookingServiceImplementation.class);
+    Logger logger = LoggerFactory.getLogger(RoomBookingServiceImplementation.class);
 
     private final RoomBookingRepo roomBookingRepo;
     private final DBAccessRoom dbAccessRoom;
@@ -38,16 +38,16 @@ public class RoomBookingServiceImplementation implements RoomBookingService {
 
     @Override
     public RoomBooking addRoomBooking(RoomBooking roomBooking) throws RoomNotAvailableException, RoomNotFoundException {
-        List<RoomBooking> bookings= this.roomBookingRepo.getBookingsByRoomAndDateAndBookingTimeBetween(roomBooking.getRoom(),roomBooking.getDate(),roomBooking.getStart(),roomBooking.getEndTime());
-        LocalDate currentDate=LocalDate.now();
+        List<RoomBooking> bookings = this.roomBookingRepo.getBookingsByRoomAndDateAndBookingTimeBetween(roomBooking.getRoom(), roomBooking.getDate(), roomBooking.getStart(), roomBooking.getEndTime());
+        LocalDate currentDate = LocalDate.now();
         System.out.println("Booking date: " + roomBooking.getDate());
         System.out.println("Current date: " + LocalDate.now());
 
-        if(!bookings.isEmpty()){
+        if (!bookings.isEmpty()) {
             throw new RoomNotAvailableException("Room not available for booking period");
         }
 
-        if(roomBooking.getDate().isBefore(currentDate)){
+        if (roomBooking.getDate().isBefore(currentDate)) {
             throw new IllegalArgumentException("Cannot create booking a past date");
         }
         return this.roomBookingRepo.addBooking(roomBooking);
@@ -75,17 +75,17 @@ public class RoomBookingServiceImplementation implements RoomBookingService {
 
     @Override
     public List<RoomBooking> getBookingsByDate(LocalDate localDate) {
-        LocalTime startOfDay=LocalTime.from(localDate.atStartOfDay());
-        LocalTime endOfDay=startOfDay.plusHours(24).minusSeconds(1);
-        return this.roomBookingRepo.getBookingsByDateAndByStartBetween(localDate,startOfDay,endOfDay);
+        LocalTime startOfDay = LocalTime.from(localDate.atStartOfDay());
+        LocalTime endOfDay = startOfDay.plusHours(24).minusSeconds(1);
+        return this.roomBookingRepo.getBookingsByDateAndByStartBetween(localDate, startOfDay, endOfDay);
     }
 
     @Override
     public RoomBooking getBookingById(Long bookingId) throws RoomNotFoundException {
-        Optional<RoomBooking> bookingOptional=this.roomBookingRepo.getBookingByBookingId(bookingId);
-        if(bookingOptional.isPresent()){
+        Optional<RoomBooking> bookingOptional = this.roomBookingRepo.getBookingByBookingId(bookingId);
+        if (bookingOptional.isPresent()) {
             return bookingOptional.get();
-        }else{
+        } else {
             throw new RoomNotFoundException();
 
         }
@@ -93,76 +93,75 @@ public class RoomBookingServiceImplementation implements RoomBookingService {
 
     @Override
     public RoomBooking updateBookingById(Long bookingId, RoomBooking updatedBooking) throws RoomNotFoundException, RoomNotAvailableException {
-        Optional<RoomBooking> booking=this.roomBookingRepo.getBookingByBookingId(bookingId);
-        if(booking.isEmpty()){
+        Optional<RoomBooking> booking = this.roomBookingRepo.getBookingByBookingId(bookingId);
+        if (booking.isEmpty()) {
             throw new RoomNotFoundException();
         }
-        Room room= booking.get().getRoom();
-        LocalDate date= booking.get().getDate();
-        LocalTime start= booking.get().getStart();
-        LocalTime endTime=booking.get().getEndTime();
-        if(isRoomAvailable(room,date,start,endTime)){
+        Room room = booking.get().getRoom();
+        LocalDate date = booking.get().getDate();
+        LocalTime start = booking.get().getStart();
+        LocalTime endTime = booking.get().getEndTime();
+        if (isRoomAvailable(room, date, start, endTime)) {
             updatedBooking.setId(bookingId);
         }
 
         return this.roomBookingRepo.updateBooking(updatedBooking);
 
 
-
     }
 
     @Override
     public RoomBooking updateBooking(RoomBooking booking) throws RoomNotFoundException, RoomNotAvailableException {
-       try{
-           RoomBooking existingBooking =this.roomBookingRepo.getBookingByBookingId(booking.getId())
-                   .orElseThrow(() -> new RoomNotFoundException());
+        try {
+            RoomBooking existingBooking = this.roomBookingRepo.getBookingByBookingId(booking.getId())
+                    .orElseThrow(() -> new RoomNotFoundException());
 
-           List <RoomBooking> bookings = roomBookingRepo.getBookingsByRoomAndDateAndBookingTimeBetween(booking.getRoom(),booking.getDate(),booking.getStart(),booking.getEndTime());
-           bookings.remove(existingBooking);
-           if(!bookings.isEmpty()){
-               throw new RoomNotAvailableException("Room not available for booking period!");
-           }
-           existingBooking.setEmployee(booking.getEmployee());
-           existingBooking.setRoom(booking.getRoom());
-           existingBooking.setDate(booking.getDate());
-           existingBooking.setStart(booking.getStart());
-           existingBooking.setEndTime(booking.getEndTime());
-           existingBooking.setCreatedOn(LocalDateTime.now());
-           return this.roomBookingRepo.addBooking(existingBooking);
-       }catch(DataAccessException e){
-           throw new RoomNotFoundException();
-       }
+            List<RoomBooking> bookings = roomBookingRepo.getBookingsByRoomAndDateAndBookingTimeBetween(booking.getRoom(), booking.getDate(), booking.getStart(), booking.getEndTime());
+            bookings.remove(existingBooking);
+            if (!bookings.isEmpty()) {
+                throw new RoomNotAvailableException("Room not available for booking period!");
+            }
+            existingBooking.setEmployee(booking.getEmployee());
+            existingBooking.setRoom(booking.getRoom());
+            existingBooking.setDate(booking.getDate());
+            existingBooking.setStart(booking.getStart());
+            existingBooking.setEndTime(booking.getEndTime());
+            existingBooking.setCreatedOn(LocalDateTime.now());
+            return this.roomBookingRepo.addBooking(existingBooking);
+        } catch (DataAccessException e) {
+            throw new RoomNotFoundException();
+        }
     }
 
 
-   public List<RoomBooking> findByRoomAndBookingEndAfterAndBookingStartBefore(Room room, LocalDate date, LocalTime start, LocalTime endTime) {
-        return this.roomBookingRepo.getBookingsByRoomAndDateAndBookingTimeBetween(room,date,start,endTime);
+    public List<RoomBooking> findByRoomAndBookingEndAfterAndBookingStartBefore(Room room, LocalDate date, LocalTime start, LocalTime endTime) {
+        return this.roomBookingRepo.getBookingsByRoomAndDateAndBookingTimeBetween(room, date, start, endTime);
     }
 
     @Override
     public void deleteBookingById(Long BookingId) throws RoomNotFoundException, RoomDeletionNotPossibleException {
-Optional<RoomBooking> booking= this.roomBookingRepo.getBookingByBookingId(BookingId);
-if(booking.isEmpty()){
-    throw new RoomDeletionNotPossibleException("Room not found!");
-}
-roomBookingRepo.deleteBookingById(BookingId);
+        Optional<RoomBooking> booking = this.roomBookingRepo.getBookingByBookingId(BookingId);
+        if (booking.isEmpty()) {
+            throw new RoomDeletionNotPossibleException("Room not found!");
+        }
+        roomBookingRepo.deleteBookingById(BookingId);
     }
 
     @Override
     public List<Room> getAvailableRooms(LocalDate date, LocalTime start, LocalTime endTime) throws ExecutionException, InterruptedException {
         return this.roomBookingRepo.getAllRooms().stream()
-                .filter(room -> roomBookingRepo.getBookingsByRoomAndDateAndBookingTimeBetween(room,date,start,endTime).isEmpty()).collect(Collectors.toList());
+                .filter(room -> roomBookingRepo.getBookingsByRoomAndDateAndBookingTimeBetween(room, date, start, endTime).isEmpty()).collect(Collectors.toList());
     }
 
     @Override
     public boolean isRoomAvailable(Room room, LocalDate date, LocalTime startDateTime, LocalTime endtime) {
-        List<RoomBooking> bookings=this.roomBookingRepo.getBookingsByRoomAndDateAndBookingTimeBetween(room,date,startDateTime,endtime);
-    return bookings.isEmpty();
+        List<RoomBooking> bookings = this.roomBookingRepo.getBookingsByRoomAndDateAndBookingTimeBetween(room, date, startDateTime, endtime);
+        return bookings.isEmpty();
     }
 
     @Override
     public void deleteBooking(Long id) throws RoomNotFoundException, RoomDeletionNotPossibleException {
-this.roomBookingRepo.deleteBookingById(id);
+        this.roomBookingRepo.deleteBookingById(id);
     }
 
     @Override

@@ -27,11 +27,18 @@
     </table>
     <nav aria-label="Page navigation example">
         <ul class="pagination">
-            <li class="page-item"><a class="page-link" href="#" th:href="@{/desks?page=0}" aria-label="First">First</a></li>
-            <li class="page-item"><a class="page-link" href="#" th:href="@{/desks?page=${pageNo-1}}" aria-label="Previous">Previous</a></li>
-            <li class="page-item" th:each="pageNo : ${#numbers.sequence(1, totalPages)}"><a class="page-link" href="#" th:href="@{/desks?page=${pageNo-1}}" th:text="${pageNo}"></a></li>
-            <li class="page-item"><a class="page-link" href="#" th:href="@{/desks?page=${pageNo+1}}" aria-label="Next">Next</a></li>
-            <li class="page-item"><a class="page-link" href="#" th:href="@{/desks?page=${totalPages-1}}" aria-label="Last">Last</a></li>
+            <li class="page-item"><a class="page-link" href="#" th:href="@{/desks?page=0}" aria-label="First">First</a>
+            </li>
+            <li class="page-item"><a class="page-link" href="#" th:href="@{/desks?page=${pageNo-1}}"
+                                     aria-label="Previous">Previous</a></li>
+            <li class="page-item" th:each="pageNo : ${#numbers.sequence(1, totalPages)}"><a class="page-link" href="#"
+                                                                                            th:href="@{/desks?page=${pageNo-1}}"
+                                                                                            th:text="${pageNo}"></a>
+            </li>
+            <li class="page-item"><a class="page-link" href="#" th:href="@{/desks?page=${pageNo+1}}" aria-label="Next">Next</a>
+            </li>
+            <li class="page-item"><a class="page-link" href="#" th:href="@{/desks?page=${totalPages-1}}"
+                                     aria-label="Last">Last</a></li>
         </ul>
     </nav>
 </div>

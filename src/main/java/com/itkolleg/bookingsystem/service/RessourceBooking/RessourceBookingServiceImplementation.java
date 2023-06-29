@@ -22,6 +22,7 @@ import java.util.stream.Collectors;
 
 /**
  * Die Klasse RessourceBookingServiceImplementation implementiert das RessourceBookingService-Interface und stellt somit die konkrete Implementierung der Service-Methoden für Ressource-Buchungen bereit.
+ *
  * @author Manuel Payer
  * @version 1.0
  * @since 29.06.2023
@@ -34,8 +35,9 @@ public class RessourceBookingServiceImplementation implements RessourceBookingSe
 
     /**
      * Konstruktor der Klasse ReesourceBookingRepo. Benötigt foglende Parameter:
+     *
      * @param ressourceBookingRepo vom Typ RessourceBookingRepo
-     * @param ressourceRepo vom Typ RessourceRepo
+     * @param ressourceRepo        vom Typ RessourceRepo
      */
     public RessourceBookingServiceImplementation(RessourceBookingRepo ressourceBookingRepo, DBAccessRessource ressourceRepo) {
         this.ressourceBookingRepo = ressourceBookingRepo;
@@ -48,13 +50,13 @@ public class RessourceBookingServiceImplementation implements RessourceBookingSe
      * @param booking Das RessourceBooking-Objekt, das die zu erstellende Buchung repräsentiert.
      * @return Das erstellte RessourceBooking-Objekt.
      * @throws RessourceNotAvailableException Wird ausgelöst, wenn die Ressource für den Buchungszeitraum nicht verfügbar ist.
-     * @throws ResourceNotFoundException     Wird ausgelöst, wenn die Ressource nicht gefunden wurde.
-     * @throws IllegalArgumentException     Wird ausgelöst, wenn eine Buchung für ein vergangenes Datum erstellt werden soll.
+     * @throws ResourceNotFoundException      Wird ausgelöst, wenn die Ressource nicht gefunden wurde.
+     * @throws IllegalArgumentException       Wird ausgelöst, wenn eine Buchung für ein vergangenes Datum erstellt werden soll.
      */
     @Override
     public RessourceBooking addRessourceBooking(RessourceBooking booking) throws RessourceNotAvailableException, ResourceNotFoundException {
 
-        List<RessourceBooking> bookings = this.ressourceBookingRepo.getBookingsByRessourceAndDateAndBookingTimeBetween(booking.getRessource(), booking.getDate(),booking.getStart(), booking.getEndTime());
+        List<RessourceBooking> bookings = this.ressourceBookingRepo.getBookingsByRessourceAndDateAndBookingTimeBetween(booking.getRessource(), booking.getDate(), booking.getStart(), booking.getEndTime());
         LocalDate currentDate = LocalDate.now();
         System.out.println("Booking date: " + booking.getDate());
         System.out.println("Current date: " + LocalDate.now());
@@ -145,10 +147,10 @@ public class RessourceBookingServiceImplementation implements RessourceBookingSe
     /**
      * Aktualisiert das RessourceBooking mit der angegebenen Buchungs-ID.
      *
-     * @param bookingId       Die ID der Buchung.
-     * @param updatedBooking  Das aktualisierte RessourceBooking-Objekt.
+     * @param bookingId      Die ID der Buchung.
+     * @param updatedBooking Das aktualisierte RessourceBooking-Objekt.
      * @return Das aktualisierte RessourceBooking.
-     * @throws ResourceNotFoundException     Wenn keine Buchung mit der angegebenen ID gefunden wurde.
+     * @throws ResourceNotFoundException      Wenn keine Buchung mit der angegebenen ID gefunden wurde.
      * @throws RessourceNotAvailableException Wenn die Ressource für den aktualisierten Buchungszeitraum nicht verfügbar ist.
      */
     public RessourceBooking updateBookingById(Long bookingId, RessourceBooking updatedBooking) throws ResourceNotFoundException, RessourceNotAvailableException {
@@ -161,7 +163,7 @@ public class RessourceBookingServiceImplementation implements RessourceBookingSe
         LocalDate date = booking.get().getDate();
         LocalTime start = booking.get().getStart();
         LocalTime endTime = booking.get().getEndTime();
-        if(isRessourceAvailable(ressource, date, start, endTime)) {
+        if (isRessourceAvailable(ressource, date, start, endTime)) {
             updatedBooking.setId(bookingId);
         }
         return this.ressourceBookingRepo.updateBooking(updatedBooking);
@@ -173,7 +175,7 @@ public class RessourceBookingServiceImplementation implements RessourceBookingSe
      * @param booking Das aktualisierte RessourceBooking-Objekt.
      * @return Das aktualisierte RessourceBooking.
      * @throws RessourceNotAvailableException Wenn die Ressource für den aktualisierten Buchungszeitraum nicht verfügbar ist.
-     * @throws ResourceNotFoundException     Wenn keine Buchung mit der angegebenen ID gefunden wurde.
+     * @throws ResourceNotFoundException      Wenn keine Buchung mit der angegebenen ID gefunden wurde.
      */
     @Override
     public RessourceBooking updateBooking(RessourceBooking booking) throws RessourceNotAvailableException, ResourceNotFoundException {
@@ -194,7 +196,7 @@ public class RessourceBookingServiceImplementation implements RessourceBookingSe
             existingBooking.setEndTime(booking.getEndTime());
             existingBooking.setCreatedOn(LocalDateTime.now());
             return this.ressourceBookingRepo.updateBooking(existingBooking);
-        }catch (DataAccessException e){
+        } catch (DataAccessException e) {
             throw new ResourceNotFoundException("Database access error occurred for id: " + booking.getId(), e);
         }
 
@@ -219,7 +221,7 @@ public class RessourceBookingServiceImplementation implements RessourceBookingSe
      *
      * @param bookingId Die ID der Buchung.
      * @throws ResourceDeletionFailureException Wenn das Löschen der Buchung fehlschlägt.
-     * @throws ResourceNotFoundException       Wenn keine Buchung mit der angegebenen ID gefunden wurde.
+     * @throws ResourceNotFoundException        Wenn keine Buchung mit der angegebenen ID gefunden wurde.
      */
     @Override
     public void deleteBookingById(Long bookingId) throws ResourceDeletionFailureException, ResourceNotFoundException {
@@ -233,9 +235,9 @@ public class RessourceBookingServiceImplementation implements RessourceBookingSe
     /**
      * Gibt eine Liste von verfügbaren Ressourcen für das angegebene Datum und die angegebene Buchungszeit zurück.
      *
-     * @param date     Das Datum.
-     * @param start    Die Startzeit der Buchung.
-     * @param endTime  Die Endzeit der Buchung.
+     * @param date    Das Datum.
+     * @param start   Die Startzeit der Buchung.
+     * @param endTime Die Endzeit der Buchung.
      * @return Eine Liste von verfügbaren Ressourcen für das angegebene Datum und die angegebene Buchungszeit.
      * @throws ExecutionException   Wenn ein Fehler bei der Ausführung auftritt.
      * @throws InterruptedException Wenn der Thread während des Wartens unterbrochen wird.
@@ -250,10 +252,10 @@ public class RessourceBookingServiceImplementation implements RessourceBookingSe
     /**
      * Überprüft, ob die angegebene Ressource für den angegebenen Zeitraum verfügbar ist.
      *
-     * @param ressource      Die Ressource.
-     * @param date           Das Datum.
-     * @param startDateTime  Die Startzeit des Zeitraums.
-     * @param endDateTime    Die Endzeit des Zeitraums.
+     * @param ressource     Die Ressource.
+     * @param date          Das Datum.
+     * @param startDateTime Die Startzeit des Zeitraums.
+     * @param endDateTime   Die Endzeit des Zeitraums.
      * @return True, wenn die Ressource verfügbar ist, andernfalls False.
      */
     @Override
@@ -267,7 +269,7 @@ public class RessourceBookingServiceImplementation implements RessourceBookingSe
      *
      * @param id Die ID der Buchung.
      * @throws ResourceDeletionFailureException Wenn das Löschen der Buchung fehlschlägt.
-     * @throws ResourceNotFoundException       Wenn keine Buchung mit der angegebenen ID gefunden wurde.
+     * @throws ResourceNotFoundException        Wenn keine Buchung mit der angegebenen ID gefunden wurde.
      */
     @Override
     public void deleteBooking(Long id) throws ResourceDeletionFailureException, ResourceNotFoundException {

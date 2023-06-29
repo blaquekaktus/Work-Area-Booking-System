@@ -33,27 +33,27 @@ public class TimeSlotRepo_JPAH2 implements TimeSlotRepo {
     }
 
     @Override
-    public Optional<TimeSlot> getTimeSlotByName(String name){
+    public Optional<TimeSlot> getTimeSlotByName(String name) {
         return this.timeSlotJPARepo.findByName(name);
     }
 
     @Override
-    public Optional<TimeSlot> getTimeSlotByStartTime(LocalTime startTime){
+    public Optional<TimeSlot> getTimeSlotByStartTime(LocalTime startTime) {
         return this.timeSlotJPARepo.findByStartTime(startTime);
     }
 
     @Override
-    public Optional<TimeSlot> getTimeSlotByEndTime(LocalTime endTime){
+    public Optional<TimeSlot> getTimeSlotByEndTime(LocalTime endTime) {
         return this.timeSlotJPARepo.findByEndTime(endTime);
     }
 
     @Override
-    public Optional<TimeSlot> updateTimeSlot(TimeSlot timeSlot){
+    public Optional<TimeSlot> updateTimeSlot(TimeSlot timeSlot) {
         return Optional.of(this.timeSlotJPARepo.saveAndFlush(timeSlot));
     }
 
     @Override
-    public void deleteTimeSlotById(Long id){
+    public void deleteTimeSlotById(Long id) {
         this.timeSlotJPARepo.deleteById(id);
     }
 

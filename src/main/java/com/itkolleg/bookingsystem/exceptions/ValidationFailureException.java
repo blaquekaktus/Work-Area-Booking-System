@@ -15,7 +15,7 @@ public class ValidationFailureException extends RuntimeException {
     /**
      * Constructs a new exception with the specified field name and error message.
      *
-     * @param field the name of the field that failed validation
+     * @param field        the name of the field that failed validation
      * @param errorMessage the detail error message
      */
     public ValidationFailureException(String field, String errorMessage) {
@@ -34,6 +34,7 @@ public class ValidationFailureException extends RuntimeException {
         this.field = message;
         this.errorMessage = message;
     }
+
     /**
      * Get the field name associated with this validation error.
      *

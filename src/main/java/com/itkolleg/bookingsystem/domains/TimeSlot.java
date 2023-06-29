@@ -56,8 +56,8 @@ public class TimeSlot {
      * Constructor to create a TimeSlot.
      *
      * @param startTime The start time of the slot.
-     * @param endTime The end time of the slot.
-     * @param name The name of the slot.
+     * @param endTime   The end time of the slot.
+     * @param name      The name of the slot.
      */
     public TimeSlot(LocalTime startTime, LocalTime endTime, String name) {
         this.startTime = startTime;

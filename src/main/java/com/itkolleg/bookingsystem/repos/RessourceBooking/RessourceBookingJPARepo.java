@@ -25,7 +25,7 @@ public interface RessourceBookingJPARepo extends JpaRepository<RessourceBooking,
 
     List<RessourceBooking> getBookingsByEmployeeId(Long employeeId);
 
-    List<RessourceBooking>getBookingsByRessourceAndDate(Ressource ressource, LocalDate date);
+    List<RessourceBooking> getBookingsByRessourceAndDate(Ressource ressource, LocalDate date);
 
     List<RessourceBooking> getBookingByRessourceAndEmployee(Ressource ressource, Employee employee);
 
@@ -35,7 +35,7 @@ public interface RessourceBookingJPARepo extends JpaRepository<RessourceBooking,
 
     List<RessourceBooking> getBookingsByDateAndStartBetween(LocalDate date, LocalTime start, LocalTime end);
 
-    List<RessourceBooking>getBookingsByRessourceAndDateAndStartBetween(Ressource ressource, LocalDate date, LocalTime start, LocalTime end);
+    List<RessourceBooking> getBookingsByRessourceAndDateAndStartBetween(Ressource ressource, LocalDate date, LocalTime start, LocalTime end);
 
     List<RessourceBooking> getBookingsByEmployeeIdAndDateAndRessourceId(Long employeeId, LocalDate date, Long ressourceId);
 

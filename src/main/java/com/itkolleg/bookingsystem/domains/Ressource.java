@@ -36,12 +36,13 @@ public class Ressource {
 
     /**
      * Konstruktor der Klasse Ressource. Er nimmt folgende Parameter entgegen:
-     * @param id vom Typ Long
+     *
+     * @param id            vom Typ Long
      * @param ressourcetype vom Typ Ressourcetype
-     * @param name vom Typ String
-     * @param description vom Typ String
-     * @param info vom Typ String
-     * @param serialnumber von Typ String
+     * @param name          vom Typ String
+     * @param description   vom Typ String
+     * @param info          vom Typ String
+     * @param serialnumber  von Typ String
      */
     public Ressource(Long id, Ressourcetype ressourcetype, String name, String description, String info, String serialnumber) {
         this.id = id;

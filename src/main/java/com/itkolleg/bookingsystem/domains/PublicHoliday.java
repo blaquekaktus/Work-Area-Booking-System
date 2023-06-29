@@ -51,13 +51,14 @@ public class PublicHoliday {
     /**
      * Default constructor.
      */
-    public PublicHoliday() {}
+    public PublicHoliday() {
+    }
 
     /**
      * Constructor that sets up the date, description, and booking allowance for the public holiday.
      *
-     * @param date The date of the public holiday.
-     * @param description The description of the public holiday.
+     * @param date             The date of the public holiday.
+     * @param description      The description of the public holiday.
      * @param isBookingAllowed Specifies whether booking is allowed on this public holiday or not.
      */
     public PublicHoliday(LocalDate date, String description, boolean isBookingAllowed) {

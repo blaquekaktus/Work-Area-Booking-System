@@ -1,7 +1,7 @@
 .room {
     display: grid;
-    grid-template-columns: repeat(2, 1fr);  /* Adjust the number as per your requirement */
-    gap: 20px;  /* Adjust the gap between the grid items as needed */
+    grid-template-columns: repeat(2, 1fr); /* Adjust the number as per your requirement */
+    gap: 20px; /* Adjust the gap between the grid items as needed */
 }
 
 .desk {

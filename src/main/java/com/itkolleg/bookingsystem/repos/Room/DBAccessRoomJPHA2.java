@@ -23,6 +23,7 @@ public class DBAccessRoomJPHA2 implements DBAccessRoom {
 
     /**
      * Konstruktor
+     *
      * @param roomJPARepo
      */
     public DBAccessRoomJPHA2(RoomJPARepo roomJPARepo, RoomBookingRepo roomBookingRepo) {
@@ -64,7 +65,7 @@ public class DBAccessRoomJPHA2 implements DBAccessRoom {
 
     @Override
     public Room updateRoom(Room room) throws RoomNotFoundException, ExecutionException, InterruptedException {
-       return this.roomJPARepo.save(room);
+        return this.roomJPARepo.save(room);
     }
 
 

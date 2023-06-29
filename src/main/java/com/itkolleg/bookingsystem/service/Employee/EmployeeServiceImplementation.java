@@ -17,7 +17,6 @@ import java.util.List;
 import java.util.concurrent.ExecutionException;
 
 
-
 @Service
 public class EmployeeServiceImplementation implements EmployeeService {
 
@@ -98,7 +97,7 @@ public class EmployeeServiceImplementation implements EmployeeService {
     @Override
     public Employee getEmployeeByNick(String nick) {
         Employee employeeDB = this.employeeDBAccess.getEmployeeByNick(nick);
-        if(employeeDB == null){
+        if (employeeDB == null) {
             // Benutzer nicht gefunden, Fehlerbehandlung durchführen
             throw new IllegalArgumentException("Benutzername nicht gefunden: " + nick);
         }

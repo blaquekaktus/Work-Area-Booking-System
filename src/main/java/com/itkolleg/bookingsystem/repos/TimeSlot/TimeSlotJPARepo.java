@@ -29,6 +29,7 @@ public interface TimeSlotJPARepo extends JpaRepository<TimeSlot, Long> {
      * @return An Optional containing the found TimeSlot, or empty if no TimeSlot was found with the given end time.
      */
     Optional<TimeSlot> findByEndTime(LocalTime endTime);
+
     /**
      * Retrieves a TimeSlot by its name
      * .

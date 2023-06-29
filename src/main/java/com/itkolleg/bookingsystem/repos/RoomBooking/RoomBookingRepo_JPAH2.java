@@ -111,7 +111,7 @@ public class RoomBookingRepo_JPAH2 implements RoomBookingRepo {
 
     @Override
     public List<RoomBooking> getBookingsByRoomAndDateAndBookingTimeBetween(Room room, LocalDate date, LocalTime start, LocalTime endTime) {
-        return this.roomBookingJPARepo.getBookingsByRoomAndDateAndStartBetween(room,date,start,endTime);
+        return this.roomBookingJPARepo.getBookingsByRoomAndDateAndStartBetween(room, date, start, endTime);
     }
 
     @Override

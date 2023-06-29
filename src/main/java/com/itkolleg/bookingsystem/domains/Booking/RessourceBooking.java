@@ -34,11 +34,12 @@ public class RessourceBooking extends Booking {
 
     /**
      * Konstruktor der Klasse Ressource Booking. Er nimmt folgende Parameter entgegen:
-     * @param employee vom Typ Employee
+     *
+     * @param employee  vom Typ Employee
      * @param ressource vom Typ Ressource
-     * @param date vom Typ LocalDate
+     * @param date      vom Typ LocalDate
      * @param startTime vom Typ LocalTime
-     * @param endTime vom Typ LocalTime
+     * @param endTime   vom Typ LocalTime
      */
     public RessourceBooking(Employee employee, Ressource ressource, LocalDate date, LocalTime startTime, LocalTime endTime) {
         super(employee, date, startTime, endTime);

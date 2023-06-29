@@ -17,8 +17,8 @@ public class DuplicateResourceException extends RuntimeException {
      * Constructs a new exception with the specified resource name, field name and field value.
      *
      * @param resourceName the name of the resource that duplicates an existing one
-     * @param fieldName the name of the field that caused the duplication
-     * @param fieldValue the value of the field that caused the duplication
+     * @param fieldName    the name of the field that caused the duplication
+     * @param fieldValue   the value of the field that caused the duplication
      */
     public DuplicateResourceException(String resourceName, String fieldName, Object fieldValue) {
         super(String.format("%s with %s : '%s' already exists", resourceName, fieldName, fieldValue));

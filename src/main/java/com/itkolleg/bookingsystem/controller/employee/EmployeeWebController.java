@@ -66,8 +66,7 @@ public class EmployeeWebController {
         try {
             this.employeeService.deleteEmployeeById(id);
             return "redirect:/web/admin/allemployees";
-        } catch (EmployeeDeletionNotPossibleException e)
-        {
+        } catch (EmployeeDeletionNotPossibleException e) {
             System.out.println(e.getMessage());
             model.addAttribute("errortitle", "Mitarbeiter-Löschen schlägt fehl!");
             model.addAttribute("errormessage", e.getMessage());
@@ -76,7 +75,7 @@ public class EmployeeWebController {
     }
 
     @GetMapping("/admin/insertemployeeform")
-    public ModelAndView insertemployeeform(){
+    public ModelAndView insertemployeeform() {
         return new ModelAndView("employee/insertemployeeform", "myemployee", new Employee());
     }
 

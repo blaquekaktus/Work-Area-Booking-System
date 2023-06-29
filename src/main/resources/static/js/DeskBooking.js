@@ -1,5 +1,5 @@
-document.querySelectorAll('.desk').forEach(function(desk) {
-    desk.addEventListener('click', function() {
+document.querySelectorAll('.desk').forEach(function (desk) {
+    desk.addEventListener('click', function () {
         var deskId = this.getAttribute('data-desk-id'); // Assuming each desk element has a data-desk-id attribute with the desk's id.
         bookDesk(deskId);
     });

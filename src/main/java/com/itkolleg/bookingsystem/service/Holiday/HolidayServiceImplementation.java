@@ -10,7 +10,7 @@ import java.util.List;
 
 @Service
 
-public class HolidayServiceImplementation implements HolidayService{
+public class HolidayServiceImplementation implements HolidayService {
 
     @Autowired
     private HolidayRepo holidayRepo;
@@ -21,14 +21,14 @@ public class HolidayServiceImplementation implements HolidayService{
 
     @Override
     public void addHoliday(PublicHoliday publicHoliday) {
-         this.holidayRepo.addHoliday(publicHoliday);
+        this.holidayRepo.addHoliday(publicHoliday);
     }
 
     public void deleteHoliday(Long id) {
         holidayRepo.deleteHoliday(id);
     }
 
-    public List<PublicHoliday> getAllHolidays(){
+    public List<PublicHoliday> getAllHolidays() {
         return this.holidayRepo.getAllHolidays();
     }
 

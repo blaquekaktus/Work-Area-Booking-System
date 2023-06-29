@@ -17,6 +17,7 @@ public interface RoomBookingRepo {
 
 
     List<Room> getAllRooms();
+
     List<RoomBooking> getAllBookings();
 
     Optional<RoomBooking> getBookingByBookingId(Long id);
@@ -34,6 +35,7 @@ public interface RoomBookingRepo {
     List<RoomBooking> getBookingsByRoomAndDate(Room room, LocalDate date);
 
     List<RoomBooking> getBookingsByRoomAndDateAndBookingTimeBetween(Room room, LocalDate date, LocalTime start, LocalTime endTime);
+
     RoomBooking updateBookingById(Long id, RoomBooking updatedBooking) throws RoomNotFoundException;
 
     RoomBooking updateBooking(RoomBooking updatedBooking) throws RoomNotFoundException;

@@ -12,7 +12,7 @@ import java.util.List;
 
 @Component
 @ComponentScan({"com.itkolleg.repos"})
-public class HolidayRepo_JPAH2 implements HolidayRepo{
+public class HolidayRepo_JPAH2 implements HolidayRepo {
     private static final Logger logger = LoggerFactory.getLogger(DeskBookingRepo_JPAH2.class);
     private final HolidayJPARepo holidayJPARepo;
 

@@ -50,6 +50,7 @@ public class DeskBooking extends Booking {
                 endTime);
         this.desk = desk;
     }
+
     public DeskBooking(Employee employee, Desk desk, LocalDate date, TimeSlot timeSlot) {
         super(employee,
                 date,

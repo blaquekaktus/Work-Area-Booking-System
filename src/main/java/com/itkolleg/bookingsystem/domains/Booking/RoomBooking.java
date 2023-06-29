@@ -1,4 +1,5 @@
 package com.itkolleg.bookingsystem.domains.Booking;
+
 import com.itkolleg.bookingsystem.domains.Employee;
 import com.itkolleg.bookingsystem.domains.Room;
 import com.itkolleg.bookingsystem.domains.TimeSlot;
@@ -22,9 +23,9 @@ public class RoomBooking extends Booking {
     @ManyToOne
     private Room room;
 
-    public RoomBooking(Employee employee, Room room, LocalDate date, LocalTime start, LocalTime endTime){
-        super(employee,date,start,endTime);
-        this.room=room;
+    public RoomBooking(Employee employee, Room room, LocalDate date, LocalTime start, LocalTime endTime) {
+        super(employee, date, start, endTime);
+        this.room = room;
     }
 
 }

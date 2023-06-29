@@ -31,12 +31,10 @@ public class Room {
     /*@OneToMany(mappedBy = "room")
     private List<Desk> desks;*/
 
-    public Room(Long id,String floor) {
-        this.id=id;
+    public Room(Long id, String floor) {
+        this.id = id;
         this.floor = floor;
     }
-
-
 
 
     @Override

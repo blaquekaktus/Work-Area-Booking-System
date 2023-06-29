@@ -1,44 +1,46 @@
 <!DOCTYPE html>
 <html lang="en" xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
-<div th:insert="headerEmployee :: headerEmployee" th:with="title='Arbeitsplatzbuchungen'">  </div>
+<div th:insert="headerEmployee :: headerEmployee" th:with="title='Arbeitsplatzbuchungen'"></div>
 <body>
 <!-- Top Bar -->
-<div th:insert="topbarEmployee :: topbarEmployee">  </div>
+<div th:insert="topbarEmployee :: topbarEmployee"></div>
 <!-- Side Navbar -->
-<div th:insert="navbarEmployee :: navbarEmployee">  </div>
+<div th:insert="navbarEmployee :: navbarEmployee"></div>
 <!-- Content -->
 <!-- Content -->
 <div class="content-container">
     <div class="addRessourceContainer">
         <h1>Arbeitsplatz-Buchung</h1><br><br>
         <div class="scroll-container">
-        <form method="get" th:action="@{/web/deskbookings/view/{id}}" th:object="${myDeskBooking}">
-            <div class="form-group">
-                <label for="employee">Mitarbeiter</label>
-                <input class="form-control" id="employee" name="employee" readonly
-                       th:value="${myDeskBooking.employee.fname} + ' '+ ${myDeskBooking.employee.lname}" type="text">
+            <form method="get" th:action="@{/web/deskbookings/view/{id}}" th:object="${myDeskBooking}">
+                <div class="form-group">
+                    <label for="employee">Mitarbeiter</label>
+                    <input class="form-control" id="employee" name="employee" readonly
+                           th:value="${myDeskBooking.employee.fname} + ' '+ ${myDeskBooking.employee.lname}"
+                           type="text">
 
-                <label for="deskNr">Arbeitsplatz Nummer</label>
-                <input class="form-control" id="deskNr" name="deskNr" readonly
-                       th:field="${myDeskBooking.desk.deskNr}" type="text">
+                    <label for="deskNr">Arbeitsplatz Nummer</label>
+                    <input class="form-control" id="deskNr" name="deskNr" readonly
+                           th:field="${myDeskBooking.desk.deskNr}" type="text">
 
-                <label for="date">Datum</label>
-                <input class="form-control" id="date" name="date" readonly th:value="${#temporals.format(myDeskBooking.date, 'dd-MM-YYYY')}" type="text">
+                    <label for="date">Datum</label>
+                    <input class="form-control" id="date" name="date" readonly
+                           th:value="${#temporals.format(myDeskBooking.date, 'dd-MM-YYYY')}" type="text">
 
-                <label for="start">Startzeit</label>
-                <!--          <--Use field value directly -->
-                <input class="form-control" id="start" name="start" readonly th:field="${myDeskBooking.start}"
-                       type="text">
+                    <label for="start">Startzeit</label>
+                    <!--          <--Use field value directly -->
+                    <input class="form-control" id="start" name="start" readonly th:field="${myDeskBooking.start}"
+                           type="text">
 
-                <label for="end">Endzeit</label>
-                <input class="form-control" id="end" name="end" readonly th:field="${myDeskBooking.endTime}"
-                       type="text">
-            </div>
-            <div class="button-row">
-            <button class="button" onclick="goBack()">Zurück zu meinen Buchungen</button>
-            </div>
-        </form>
-            </div>
+                    <label for="end">Endzeit</label>
+                    <input class="form-control" id="end" name="end" readonly th:field="${myDeskBooking.endTime}"
+                           type="text">
+                </div>
+                <div class="button-row">
+                    <button class="button" onclick="goBack()">Zurück zu meinen Buchungen</button>
+                </div>
+            </form>
+        </div>
     </div>
 </div>
 <div class="filler"></div>

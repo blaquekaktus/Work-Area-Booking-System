@@ -60,7 +60,7 @@ public class GlobalExceptionController {
     /**
      * Handles the DeskNotAvailableException and redirects to the error page.
      *
-     * @param e                 The DeskNotAvailableException instance.
+     * @param e                  The DeskNotAvailableException instance.
      * @param redirectAttributes The RedirectAttributes object to add flash attributes.
      * @return A string representing the redirect path to the error page.
      */
@@ -74,7 +74,7 @@ public class GlobalExceptionController {
     /**
      * Handles the EmptyResultDataAccessException and redirects to the error page.
      *
-     * @param e                 The EmptyResultDataAccessException instance.
+     * @param e                  The EmptyResultDataAccessException instance.
      * @param redirectAttributes The RedirectAttributes object to add flash attributes.
      * @return A string representing the redirect path to the error page.
      */
@@ -86,12 +86,12 @@ public class GlobalExceptionController {
     }
 
     /**
-    * Handles any general Exception and redirects to the error page.
-    *
-    * @param e                 The Exception instance.
-    * @param redirectAttributes The RedirectAttributes object to add flash attributes.
-    * @return A string representing the redirect path to the error page.
-    */
+     * Handles any general Exception and redirects to the error page.
+     *
+     * @param e                  The Exception instance.
+     * @param redirectAttributes The RedirectAttributes object to add flash attributes.
+     * @return A string representing the redirect path to the error page.
+     */
     @ExceptionHandler(Exception.class)
     public String handleGeneralException(Exception e, RedirectAttributes redirectAttributes) {
         logger.error("Exception: {}", e.getMessage(), e);

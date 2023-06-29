@@ -51,7 +51,7 @@ public class DeskBookingRepo_JPAH2 implements DeskBookingRepo {
 
     public DeskBooking addBooking(DeskBooking deskBooking) throws DeskNotAvailableException, ResourceNotFoundException {
         // Check for null values
-        if(deskBooking == null || deskBooking.getEmployee() == null || deskBooking.getDesk() == null) {
+        if (deskBooking == null || deskBooking.getEmployee() == null || deskBooking.getDesk() == null) {
             throw new IllegalArgumentException("The DeskBooking or Employee or Desk cannot be null.");
         }
 
@@ -177,7 +177,7 @@ public class DeskBookingRepo_JPAH2 implements DeskBookingRepo {
     @Override
     public DeskBooking updateBookingById(Long deskBookingId, DeskBooking updatedDeskBooking) throws ResourceNotFoundException {
         // Checking for mandatory fields on the updated booking
-        if(updatedDeskBooking.getDesk() == null || updatedDeskBooking.getEmployee() == null || updatedDeskBooking.getDate() == null
+        if (updatedDeskBooking.getDesk() == null || updatedDeskBooking.getEmployee() == null || updatedDeskBooking.getDate() == null
                 || updatedDeskBooking.getStart() == null || updatedDeskBooking.getEndTime() == null || updatedDeskBooking.getCreatedOn() == null) {
             throw new IllegalArgumentException("Updated Booking must have valid Desk, Employee, Date, StartTime, EndTime and Creation Date.");
         }
@@ -212,7 +212,7 @@ public class DeskBookingRepo_JPAH2 implements DeskBookingRepo {
 
     @Override
     public DeskBooking updateBooking(DeskBooking updatedBooking) throws ResourceNotFoundException {
-        if(updatedBooking.getId() == null) {
+        if (updatedBooking.getId() == null) {
             throw new IllegalArgumentException("Id cannot be null when updating");
         }
         return deskBookingJPARepo.saveAndFlush(updatedBooking);
