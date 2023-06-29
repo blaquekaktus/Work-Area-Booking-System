@@ -110,7 +110,7 @@ public class RoomWebController {
         if (bindingResult.hasErrors()) {
             return "/room/editRoom";
         } else {
-            this.roomService.updateRoomById(room);
+            this.roomService.updateRoom(room);
             return "redirect:/web/rooms/allRooms";
         }
     }

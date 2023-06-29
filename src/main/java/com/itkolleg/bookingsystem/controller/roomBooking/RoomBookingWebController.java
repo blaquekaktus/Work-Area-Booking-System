@@ -118,7 +118,7 @@ public class RoomBookingWebController {
             return "redirect:/web/roomBooking/createBookingEmployee/" + booking.getRoom().getId();
         } else {
             this.roomBookingService.addRoomBooking(booking);
-            return "redirect:/web/rooms/allRoomsEmployee";
+            return "redirect:/web/roomBooking/allBookingsEmployee";
         }
 
     }
@@ -151,7 +151,7 @@ public class RoomBookingWebController {
             return "redirect:/web/roomBooking/createBooking/" + booking.getRoom().getId();
         } else {
             this.roomBookingService.addRoomBooking(booking);
-            return "redirect:/web/rooms/allRooms";
+            return "redirect:/web/roomBooking/allBookings";
         }
 
     }

@@ -16,6 +16,7 @@
       <tr>
         <th>ID</th>
         <th>Stockwerk</th>
+        <th> Info </th>
       </tr>
       </thead>
       <tbody>
@@ -23,6 +24,7 @@
         <tr>
           <td th:text="${room.id}"></td>
           <td th:text="${room.floor}"></td>
+          <td th:text="${room.info}"></td>
           <td>
             <a th:href="@{'/web/roomBooking/createBooking/' + ${room.id}}" class="button" role="button">Buchen</a>
             <a th:href="@{'/web/rooms/updateRoom/' + ${room.id}}" class="button" role="button">Bearbeiten</a>
