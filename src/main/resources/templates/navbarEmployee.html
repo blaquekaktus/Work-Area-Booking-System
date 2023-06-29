@@ -14,8 +14,14 @@
                 <li><a th:href="@{/web/deskbookings/mydeskbookings}">Arbeitsplätze</a></li>
                 <li><a th:href="@{/web/ressourceBooking/allBookingsEmployee}">Ressourcen</a></li>
                 <li><a th:href="@{/web/roomBooking/allBookingsEmployee}">Räume</a></li>
-                <li><a href="@{/web/bookinghistory/{id}}">Vergangene Buchungen</a></li> <!-- Noch nicht funktionell -->
+
             </ul>
+        <li><a href="#">Vergangene Buchungen<i class="fa fa-chevron-down"></i></a>
+        <ul>
+            <li><a href="@{/web/deskbookings/deskbookinghistory}">Arbeitsplätze (W.I.P)</a></li>
+            <li><a href="@{/web/ressource/allRessourcesEmployee}">Ressourcen (W.I.P)</a></li>
+            <li><a href="@{/web/rooms/allRoomsEmployee}">Räume (W.I.P)</a></li>
+        </ul>
         </li>
     </ul>
 </div>
