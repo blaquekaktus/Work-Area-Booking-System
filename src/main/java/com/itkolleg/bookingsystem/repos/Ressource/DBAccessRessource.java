@@ -19,5 +19,5 @@ public interface DBAccessRessource {
 
     void deleteRessourceById(Long id) throws RessourceDeletionNotPossibleException;
 
-    Ressource getRessourceBySerialnumber(String serialnumber) throws RessourceNotFoundException, ExecutionException, InterruptedException;
+    Ressource getRessourceBySerialnumber(String serialnumber);
 }
