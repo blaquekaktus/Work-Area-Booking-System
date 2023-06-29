@@ -18,4 +18,6 @@ public interface DBAccessRessource {
     Ressource updateRessource(Ressource ressource) throws RessourceNotFoundException, ExecutionException, InterruptedException;
 
     void deleteRessourceById(Long id) throws RessourceDeletionNotPossibleException;
+
+    Ressource getRessourceBySerialnumber(String serialnumber);
 }

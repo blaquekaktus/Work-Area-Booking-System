@@ -9,12 +9,11 @@ import org.springframework.stereotype.Repository;
 import java.time.LocalDate;
 import java.time.LocalTime;
 import java.util.List;
-import java.util.Optional;
+
 
 @Repository
 public interface RessourceBookingJPARepo extends JpaRepository<RessourceBooking, Long> {
 
-    //Optional<RessourceBooking> getBookingByBookingId(Long id);
 
     List<RessourceBooking> getBookingsByRessource(Ressource ressource);
 

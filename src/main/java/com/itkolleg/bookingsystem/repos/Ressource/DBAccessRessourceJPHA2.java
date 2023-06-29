@@ -92,4 +92,9 @@ public class DBAccessRessourceJPHA2 implements DBAccessRessource {
         }
         this.ressourceJPARepo.deleteById(id);
     }
+
+    @Override
+    public Ressource getRessourceBySerialnumber(String serialnumber) {
+        return null;
+    }
 }
