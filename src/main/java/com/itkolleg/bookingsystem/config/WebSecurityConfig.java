@@ -73,17 +73,18 @@ public class WebSecurityConfig {
     @Bean
     SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         http
-                .headers()
+                /*.headers()
                 .contentTypeOptions()
                 .disable()
-                .and()
+                .and()*/
                 .authorizeHttpRequests(authConfig -> {
                     authConfig.requestMatchers(HttpMethod.GET, "/web/login", "/error", "/web/login-error", "/web/logout", "/static/**", "/templates/**").permitAll();
-                    authConfig.requestMatchers(HttpMethod.GET, "/web/employees/start", "/web/ressource/**", "/web/roomBooking/allBookings", "/web/ressourceBooking/**", "/web/room/**").hasAnyRole("N_EMPLOYEE", "P_EMPLOYEE");
-                    authConfig.requestMatchers(HttpMethod.GET, "/web/admin/**").hasAnyRole("ADMIN", "OPERATOR");
+                    authConfig.requestMatchers(HttpMethod.GET, "/web/user/start", "/web/ressourceBooking/allBookingsEmployee", "/web/ressourceBooking/createBookingEmployee/**", "/web/ressourceBooking/deleteBookingEmployee/**","/web/deskbookings/mydeskbookings","/web/ressource/allRessourcesEmployee", "/web/room/allroomsEmployee", "/web/roomBooking/allBookingsEmployee").hasAnyRole("N_EMPLOYEE", "P_EMPLOYEE");
+                    authConfig.requestMatchers(HttpMethod.GET, "/web/**").hasAnyRole("ADMIN", "OPERATOR");
                     authConfig.requestMatchers(HttpMethod.POST, "/web/login").permitAll();
-                    authConfig.requestMatchers(HttpMethod.POST, "/web/desks/**", "/web/ressource/**", "/web/roomBooking/**", "/web/ressourceBooking/**", "/web/room").hasAnyRole("OPERATOR", "N_EMPLOYEE", "P_EMPLOYEE");
-                    authConfig.requestMatchers(HttpMethod.POST, "/web/admin/**").hasAnyRole("ADMIN", "OPERATOR");
+                    authConfig.requestMatchers(HttpMethod.POST, "/web/desks/**", "/web/ressource/**", "/web/roomBooking/**", "/web/ressourceBooking/**", "/web/room/**").hasAnyRole( "N_EMPLOYEE", "P_EMPLOYEE");
+                    authConfig.requestMatchers(HttpMethod.POST, "/web/**").hasAnyRole("ADMIN", "OPERATOR");
+
                 })
                 .formLogin(login -> {
                     login.loginPage("/web/login")
