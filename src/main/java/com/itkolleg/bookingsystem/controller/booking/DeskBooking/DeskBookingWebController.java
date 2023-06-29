@@ -26,8 +26,6 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import java.time.format.DateTimeFormatter;
 import java.util.Date;
 import java.time.LocalDate;
-import java.time.LocalDateTime;
-import java.time.ZoneId;
 import java.util.List;
 import java.util.concurrent.ExecutionException;
 import java.util.stream.Collectors;
@@ -83,6 +81,13 @@ public class DeskBookingWebController {
         return "DeskBookings/Admin/allDeskBookings";
     }
 
+    @GetMapping("/admin/view/{id}")
+    public String viewDeskBooking(@PathVariable Long id, Model model) throws ResourceNotFoundException {
+        DeskBooking deskBooking = this.deskBookingService.getBookingById(id);
+        model.addAttribute("deskBooking", deskBooking);
+        return "DeskBookings/Admin/viewDeskBooking";
+    }
+
     @GetMapping("/admin/add")
     public String addDeskBookingForm(Model model) {
         model.addAttribute("deskBooking", new DeskBooking());
@@ -111,13 +116,6 @@ public class DeskBookingWebController {
             redirectAttributes.addFlashAttribute("errorMessage", e.getMessage());
             return "redirect:/web/deskbookings/admin/add";
         }
-    }
-
-    @GetMapping("/admin/view/{id}")
-    public String viewDeskBooking(@PathVariable Long id, Model model) throws ResourceNotFoundException {
-        DeskBooking deskBooking = this.deskBookingService.getBookingById(id);
-        model.addAttribute("deskBooking", deskBooking);
-        return "DeskBookings/Admin/viewDeskBooking";
     }
 
     @GetMapping("/admin/update/{id}")
@@ -223,18 +221,17 @@ public class DeskBookingWebController {
 
         // add the bookings to the model
         model.addAttribute("myDeskBookings", myBookings);
-
         return "DeskBookings/myDeskBookings";
     }
 
     @GetMapping("/view/{id}")
     public String viewEDeskBooking(@PathVariable Long id, Model model) throws ResourceNotFoundException {
         DeskBooking deskBooking = this.deskBookingService.getBookingById(id);
+        // log the deskBooking object
+        logger.info("DeskBooking: " + deskBooking);
         model.addAttribute("myDeskBooking", deskBooking);
         return "DeskBookings/viewDeskBooking";
     }
-
-
 
     @GetMapping("/add")
     public String addDeskBookingFormForEmployee(Model model) {
@@ -242,7 +239,31 @@ public class DeskBookingWebController {
         return "DeskBookings/addDeskBooking";
     }
 
-    @GetMapping("/bookinghistory/{id}")
+    @PostMapping("/add")
+    public String addEDeskBooking(@ModelAttribute("deskBooking") @Valid DeskBooking booking, BindingResult bindingResult, @RequestParam("employee.id") Long employeeId, @RequestParam("desk.id") Long deskId, RedirectAttributes redirectAttributes) {
+        try {
+            if (bindingResult.hasErrors()) {
+                logger.error("Validation errors: {}", bindingResult.getAllErrors());
+                redirectAttributes.addFlashAttribute("errorMessage", "Validation errors occurred.");
+                return "redirect:/web/deskbookings/add";
+            }
+
+            Desk desk = deskService.getDeskById(deskId);
+            Employee employee = employeeService.getEmployeeById(employeeId);
+            booking.setDesk(desk);
+            booking.setEmployee(employee);
+
+            this.deskBookingService.addDeskBooking(booking);
+            return "redirect:/web/deskbookings/mydeskbookings";
+
+        } catch (Exception e) {
+            logger.error("Error occurred while booking the desk: {}", e.getMessage(), e);
+            redirectAttributes.addFlashAttribute("errorMessage", e.getMessage());
+            return "redirect:/web/deskbookings/add";
+        }
+    }
+
+    @GetMapping("/deskbookinghistory/{id}")
     public String getMyDeskBookingHistory(Model model, @PathVariable Long id) {
         List<DeskBooking> myBookingHistory = this.deskBookingService.getMyBookingHistory(id);
         model.addAttribute("myBookingHistory", myBookingHistory);
@@ -250,7 +271,7 @@ public class DeskBookingWebController {
     }
 
     @GetMapping("/cancel/{id}")
-    public String cancelEDeskBookingForm(@PathVariable Long id, Model model) throws ResourceDeletionFailureException, ResourceNotFoundException {
+    public String cancelEDeskBookingForm(@PathVariable Long id, Model model) throws ResourceNotFoundException {
         DeskBooking booking = this.deskBookingService.getBookingById(id);
         model.addAttribute("booking", booking);
         return "DeskBookings/cancelDeskBooking";
@@ -265,10 +286,10 @@ public class DeskBookingWebController {
             return "redirect:/web/deskbookings/cancel/" + id;
         } catch (ResourceNotFoundException e) {
             redirectAttributes.addFlashAttribute("errorMessage", "Booking not found.");
-            return "redirect:/web/deskbookings/admin";
+            return "redirect:/web/deskbookings/mydeskbookings";
         }
 
-        return "redirect:/web/deskbookings/admin";
+        return "redirect:/web/deskbookings/mydeskbookings";
     }
 
     @GetMapping("/error")

@@ -1,67 +1,43 @@
 <!DOCTYPE html>
 <html lang="en" xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
-<head>
-    <title>Admin Dashboard</title>
-    <meta charset="UTF-8">
-    <link th:href="@{/webjars/bootstrap/4.0.0-2/css/bootstrap.min.css} " th:rel="stylesheet"/>
-    <link href="https://fonts.googleapis.com/css?family=Roboto+Condensed&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="/static/css/WABS.css">
-    <!-- jQuery -->
-    <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
-
-    <!-- Font Awesome 4-->
-    <link href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet">
-    <link rel="stylesheet" href="/static/css/sidebar-accordion.css">
-    <script src="/static/js/sidebar-accordion.js"></script>
-    <script src="/static/js/DropDown.js"></script>
-    <script th:src="@{/webjars/jquery/3.0.0/jquery.min.js}"></script>
-    <script th:src="@{/webjars/popper.js/1.12.9-1/umd/popper.min.js}"></script>
-    <script th:src="@{/webjars/bootstrap/4.0.0-2/js/bootstrap.min.js}"></script>
-    <style>
-        body {
-            background-image: url("/static/img/background.jpg");
-            background-size: cover;
-            background-repeat: no-repeat;
-        }
-    </style>
-</head>
+<div th:insert="headerEmployee :: headerEmployee" th:with="title='Meine Arbeitsplatzbuchungen'"></div>
 <body>
 <!-- Top Bar -->
-<div class="top-bar">
-    <img src="/static/img/LogoWhite.png" alt="Logo" class="logo">
-    <a th:href="@{/web/logout}" class="logout-link">Abmelden</a>
-    <div class="top-bar-header">
-        <h1>W.A.B.S.</h1>
-    </div>
-    <div class="top-bar-sub-header">
-        <h2>Working-Area Booking System</h2>
-    </div>
-</div>
+<div th:insert="topbarEmployee :: topbarEmployee">  </div>
 <!-- Side Navbar -->
-<div th:insert="navbarEmployee :: navbarEmployee"></div>
+<div th:insert="navbarEmployee :: navbarEmployee">  </div>
+<!-- Content -->
 <div class="content-container">
-    <div class="addRessourceContainer">
-        <h1>Admin Dashboard</h1><br><br>
-        <div class="scroll-container">
-            <div class="form-group">
-                <div class="form-group">
-                    <h2>Desks</h2><br>
-                    <a class="button" th:href="@{/web/v1/desks}">Manage Desks</a>
-                </div>
-                <div class="form-group">
-                    <h2>Bookings</h2><br>
-                    <a class="button" th:href="@{/web/v1/bookings}">Manage Bookings</a>
-                </div>
-                <div class="form-group">
-                    <h2>Employees</h2><br>
-                    <a class="button" th:href="@{/web/v1/employees}">Manage Employees</a>
-                </div>
-                <div class="form-group">
-                    <h2>Reports</h2><br>
-                    <a class="button" th:href="@{/web/v1/reports}">View Reports</a>
-                </div>
-            </div>
-        </div>
+    <div class="allRessourceContainer">
+        <h1>Meine Arbeitsplatz-Buchungen</h1><br>
+        <table>
+            <thead>
+            <tr>
+                <th>Buchungs-Id</th>
+                <th>Arbeitsplatznummer</th>
+                <th>Datum</th>
+                <th>Start</th>
+                <th>End</th>
+                <th>Erstellt Am</th>
+                <th>Zuletzt Bearbeitet Am</th>
+                <th>Aktion</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr th:each="booking: ${myBookingHistory}" th:id="'bookingRow-' + ${booking.id}">
+                <td th:text="${booking.id}"></td>
+                <td th:text="${booking.desk.deskNr}"></td>
+                <td th:text="${#temporals.format(booking.date, 'MMMM d, yyyy')}"></td>
+                <td th:text="${#temporals.format(booking.start, 'hh:mm a')}"></td>
+                <td th:text="${#temporals.format(booking.endTime, 'hh:mm a')}"></td>
+                <td th:text="${#temporals.format(booking.getCreatedOn, 'MMMM d, yyyy, hh:mm a')}"></td>
+                <td th:text="${#temporals.format(booking.getUpdatedOn, 'MMMM d, yyyy, hh:mm a')}"></td>
+                <td>
+                    <a class="button" role="button" th:href="@{/web/deskbookings/view/{id}(id=${booking.id})}">Anzeigen</a>
+                </td>
+            </tr>
+            </tbody>
+        </table>
     </div>
 </div>
 <div class="filler"></div>
