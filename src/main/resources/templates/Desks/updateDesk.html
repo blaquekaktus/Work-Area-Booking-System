@@ -9,6 +9,7 @@
 <!-- Content -->
 <div class="content-container">
     <div class="addRessourceContainer">
+        <h1>Arbeitsplatz bearbeiten</h1><br><br>
         <div class="form-group">
             <form method="post" th:action="@{/web/desks/update}" th:object="${updatedDesk}">
                 <div class="form-group">
@@ -40,7 +41,7 @@
                          th:if="${#fields.hasErrors('ports')}">
                     </div>
                 </div>
-                    <button class="button" type="submit">Update</button>
+                    <button class="button" type="submit">Bearbeiten</button>
                     <a class="delete-button" th:href="@{/web/desks}">Zurück</a>
             </form>
         </div>
