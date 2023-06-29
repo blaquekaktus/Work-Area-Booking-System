@@ -23,7 +23,11 @@ import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
+import java.time.format.DateTimeFormatter;
+import java.util.Date;
+import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.time.ZoneId;
 import java.util.List;
 import java.util.concurrent.ExecutionException;
 import java.util.stream.Collectors;
@@ -148,8 +152,15 @@ public class DeskBookingWebController {
                 .map(TimeSlot::getEndTimeAsString)
                 .distinct()
                 .collect(Collectors.toList());
-        //Add booking, employee, desks, unique booking start and end times to the model
+
+        // Convert the LocalDate to java.util.Date for the Thymeleaf template
+        Date bookingDate = java.sql.Date.valueOf(booking.getDate());
+        model.addAttribute("bookingDate", bookingDate);
+
+
+        //Add booking, bookingDate, employee, desks, unique booking start and end times to the model
         model.addAttribute("booking", booking);
+        model.addAttribute("bookingDate", bookingDate); // Add this line
         model.addAttribute("employees", employees);
         model.addAttribute("desks", desks);
         model.addAttribute("uniqueStartTimes", uniqueStartTimes);
@@ -157,8 +168,9 @@ public class DeskBookingWebController {
         return "DeskBookings/Admin/updateDeskBooking";
     }
 
+
     @PostMapping("/admin/update")
-    public String updateDeskBooking(@Valid DeskBooking booking, BindingResult bindingResult, @RequestParam("id") Long id, @RequestParam("desk.id") Long deskId, @RequestParam("employee.id") Long employeeId) throws ResourceNotFoundException, DeskNotAvailableException, ExecutionException, InterruptedException, EmployeeNotFoundException {
+    public String updateDeskBooking(@Valid DeskBooking booking, BindingResult bindingResult, @RequestParam("id") Long id, @RequestParam("desk.id") Long deskId, @RequestParam("employee.id") Long employeeId, @RequestParam("date") String date) throws ResourceNotFoundException, DeskNotAvailableException, ExecutionException, InterruptedException, EmployeeNotFoundException {
         if (bindingResult.hasErrors()) {
             System.out.println("Errors: " + bindingResult.getAllErrors());
             return "DeskBookings/Admin/updateDeskBooking";
@@ -171,15 +183,22 @@ public class DeskBookingWebController {
             if(employee == null) {
                 throw new EmployeeNotFoundException("Employee not found for id: " + employeeId);
             }
+
+            // Convert date String back to LocalDate
+            DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
+            LocalDate localDate = LocalDate.parse(date, formatter);
+            booking.setDate(localDate);
             booking.setDesk(desk);
             booking.setEmployee(employee);
             booking.setId(id);
-            booking.setCreatedOn(LocalDateTime.now());
+            //booking.setCreatedOn(LocalDateTime.now());
 
             this.deskBookingService.updateBookingById(booking.getId(), booking);
             return "redirect:/web/deskbookings/admin";
         }
     }
+
+
 
     @GetMapping("/admin/cancel/{id}")
     public String cancelDeskBookingForm(@PathVariable Long id, Model model) throws ResourceDeletionFailureException, ResourceNotFoundException {

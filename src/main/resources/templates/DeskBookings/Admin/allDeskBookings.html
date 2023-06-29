@@ -37,12 +37,12 @@
                 <td>
                     <a class="button" role="button" th:href="@{/web/deskbookings/admin/view/{id}(id=${booking.id})}">Anzeigen</a>
                     <a class="button" role="button" th:href="@{/web/deskbookings/admin/update/{id}(id=${booking.id})}">Bearbeiten</a>
-                    <a class="delete-button" role="button" th:href="@{/web/deskbookings/admin/cancel/{id}(id=${booking.id})}">Abbrechen</a>
+                    <a class="delete-button" role="button" th:href="@{/web/deskbookings/admin/cancel/{id}(id=${booking.id})}">Stornieren</a>
                 </td>
             </tr>
             </tbody>
         </table>
-        <a th:href="@{/web/deskbookings/admin/add}" class="add-button" role="button">Buchen</a>
+        <a th:href="@{/web/deskbookings/admin/add}" class="add-button" role="button">Neue Buchung</a>
     </div>
 </div>
 <div class="filler"></div>
