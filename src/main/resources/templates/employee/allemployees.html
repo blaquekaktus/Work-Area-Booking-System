@@ -29,16 +29,16 @@
                     <td th:text="${employee.nick}">...</td>
                     <td th:text="${#strings.substringAfter(employee.role, '_')}">...</td>
                     <td>
-                        <a th:href="@{/web/employees/editemployee/{id}(id=${employee.id})}" class="button"
+                        <a th:href="@{/web/admin/editemployee/{id}(id=${employee.id})}" class="button"
                            role="button">Bearbeiten</a>
-                        <a th:href="@{/web/employees/deleteemployee/{id}(id=${employee.id})}" class="delete-button"
+                        <a th:href="@{/web/admin/deleteemployee/{id}(id=${employee.id})}" class="delete-button"
                            role="button">Löschen</a>
                     </td>
                 </tr>
             </th:block>
         </table>
         <div>
-            <a class="add-button" href="/../web/employees/insertemployeeform">Mitarbeiter hinzufügen</a>
+            <a class="add-button" th:href="@{/web/admin/insertemployeeform}">Mitarbeiter hinzufügen</a>
         </div>
     </div>
 </div>
