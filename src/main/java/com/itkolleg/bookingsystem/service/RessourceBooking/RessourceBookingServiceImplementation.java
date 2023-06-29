@@ -1,52 +1,56 @@
 package com.itkolleg.bookingsystem.service.RessourceBooking;
 
-import com.itkolleg.bookingsystem.domains.Booking.DeskBooking;
+
 import com.itkolleg.bookingsystem.domains.Booking.RessourceBooking;
-import com.itkolleg.bookingsystem.domains.Desk;
 import com.itkolleg.bookingsystem.domains.Employee;
 import com.itkolleg.bookingsystem.domains.Ressource;
-import com.itkolleg.bookingsystem.exceptions.DeskNotAvailableException;
 import com.itkolleg.bookingsystem.exceptions.ResourceDeletionFailureException;
 import com.itkolleg.bookingsystem.exceptions.ResourceNotFoundException;
 import com.itkolleg.bookingsystem.exceptions.RessourceExceptions.RessourceNotAvailableException;
-import com.itkolleg.bookingsystem.repos.Desk.DeskRepo;
-import com.itkolleg.bookingsystem.repos.DeskBooking.DeskBookingRepo;
-import com.itkolleg.bookingsystem.repos.Employee.EmployeeDBAccess;
-import com.itkolleg.bookingsystem.repos.Holiday.HolidayRepo;
 import com.itkolleg.bookingsystem.repos.Ressource.DBAccessRessource;
-import com.itkolleg.bookingsystem.repos.Ressource.RessourceJPARepo;
 import com.itkolleg.bookingsystem.repos.RessourceBooking.RessourceBookingRepo;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.dao.DataAccessException;
 import org.springframework.stereotype.Service;
 
-import java.time.DayOfWeek;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 import java.util.concurrent.ExecutionException;
 import java.util.stream.Collectors;
 
+/**
+ * Die Klasse RessourceBookingServiceImplementation implementiert das RessourceBookingService-Interface und stellt somit die konkrete Implementierung der Service-Methoden für Ressource-Buchungen bereit.
+ * @author Manuel Payer
+ * @version 1.0
+ * @since 29.06.2023
+ */
 @Service
 public class RessourceBookingServiceImplementation implements RessourceBookingService {
 
-    Logger logger = LoggerFactory.getLogger(RessourceBookingServiceImplementation.class);
-
     private final RessourceBookingRepo ressourceBookingRepo;
     private final DBAccessRessource ressourceRepo;
-    private final EmployeeDBAccess employeeDBAccess;
 
-
-    public RessourceBookingServiceImplementation(RessourceBookingRepo ressourceBookingRepo, DBAccessRessource ressourceRepo, EmployeeDBAccess employeeDBAccess) {
+    /**
+     * Konstruktor der Klasse ReesourceBookingRepo. Benötigt foglende Parameter:
+     * @param ressourceBookingRepo vom Typ RessourceBookingRepo
+     * @param ressourceRepo vom Typ RessourceRepo
+     */
+    public RessourceBookingServiceImplementation(RessourceBookingRepo ressourceBookingRepo, DBAccessRessource ressourceRepo) {
         this.ressourceBookingRepo = ressourceBookingRepo;
         this.ressourceRepo = ressourceRepo;
-        this.employeeDBAccess = employeeDBAccess;
     }
 
+    /**
+     * Fügt eine Ressourcenbuchung hinzu.
+     *
+     * @param booking Das RessourceBooking-Objekt, das die zu erstellende Buchung repräsentiert.
+     * @return Das erstellte RessourceBooking-Objekt.
+     * @throws RessourceNotAvailableException Wird ausgelöst, wenn die Ressource für den Buchungszeitraum nicht verfügbar ist.
+     * @throws ResourceNotFoundException     Wird ausgelöst, wenn die Ressource nicht gefunden wurde.
+     * @throws IllegalArgumentException     Wird ausgelöst, wenn eine Buchung für ein vergangenes Datum erstellt werden soll.
+     */
     @Override
     public RessourceBooking addRessourceBooking(RessourceBooking booking) throws RessourceNotAvailableException, ResourceNotFoundException {
 
@@ -65,26 +69,55 @@ public class RessourceBookingServiceImplementation implements RessourceBookingSe
         return this.ressourceBookingRepo.addBooking(booking);
     }
 
+    /**
+     * Gibt eine Liste aller RessourceBookings zurück.
+     *
+     * @return Eine Liste aller RessourceBookings.
+     */
     @Override
     public List<RessourceBooking> getAllBookings() {
         return this.ressourceBookingRepo.getAllBookings();
     }
 
+    /**
+     * Gibt eine Liste von RessourceBookings zurück, die mit der angegebenen Mitarbeiter-ID verknüpft sind.
+     *
+     * @param employeeId Die ID des Mitarbeiters.
+     * @return Eine Liste von RessourceBookings, die mit dem angegebenen Mitarbeiter verknüpft sind.
+     */
     @Override
     public List<RessourceBooking> getBookingsByEmployeeId(Long employeeId) {
         return this.ressourceBookingRepo.getBookingsByEmployeeId(employeeId);
     }
 
+    /**
+     * Gibt eine Liste von RessourceBookings zurück, die mit dem angegebenen Mitarbeiter verknüpft sind.
+     *
+     * @param employee Der Mitarbeiter.
+     * @return Eine Liste von RessourceBookings, die mit dem angegebenen Mitarbeiter verknüpft sind.
+     */
     @Override
     public List<RessourceBooking> getBookingsByEmployee(Employee employee) {
         return this.ressourceBookingRepo.getBookingsByEmployee(employee);
     }
 
+    /**
+     * Gibt eine Liste von RessourceBookings zurück, die mit der angegebenen Ressource verknüpft sind.
+     *
+     * @param ressource Die Ressource.
+     * @return Eine Liste von RessourceBookings, die mit der angegebenen Ressource verknüpft sind.
+     */
     @Override
     public List<RessourceBooking> getBookingsByRessource(Ressource ressource) {
         return this.ressourceBookingRepo.getBookingsByRessource(ressource);
     }
 
+    /**
+     * Gibt eine Liste von RessourceBookings zurück, die mit dem angegebenen Datum verknüpft sind.
+     *
+     * @param date Das Datum.
+     * @return Eine Liste von RessourceBookings, die mit dem angegebenen Datum verknüpft sind.
+     */
     @Override
     public List<RessourceBooking> getBookingsByDate(LocalDate date) {
         LocalTime startOfDay = LocalTime.from(date.atStartOfDay());
@@ -92,6 +125,13 @@ public class RessourceBookingServiceImplementation implements RessourceBookingSe
         return this.ressourceBookingRepo.getBookingByDateAndByStartBetween(date, startOfDay, endOfDay);
     }
 
+    /**
+     * Ruft das RessourceBooking mit der angegebenen Buchungs-ID ab.
+     *
+     * @param bookingId Die ID der Buchung.
+     * @return Das RessourceBooking mit der angegebenen ID.
+     * @throws ResourceNotFoundException Wenn keine Buchung mit der angegebenen ID gefunden wurde.
+     */
     @Override
     public RessourceBooking getBookingById(Long bookingId) throws ResourceNotFoundException {
         Optional<RessourceBooking> optionalBooking = this.ressourceBookingRepo.getBookingByBookingId(bookingId);
@@ -102,6 +142,15 @@ public class RessourceBookingServiceImplementation implements RessourceBookingSe
         }
     }
 
+    /**
+     * Aktualisiert das RessourceBooking mit der angegebenen Buchungs-ID.
+     *
+     * @param bookingId       Die ID der Buchung.
+     * @param updatedBooking  Das aktualisierte RessourceBooking-Objekt.
+     * @return Das aktualisierte RessourceBooking.
+     * @throws ResourceNotFoundException     Wenn keine Buchung mit der angegebenen ID gefunden wurde.
+     * @throws RessourceNotAvailableException Wenn die Ressource für den aktualisierten Buchungszeitraum nicht verfügbar ist.
+     */
     public RessourceBooking updateBookingById(Long bookingId, RessourceBooking updatedBooking) throws ResourceNotFoundException, RessourceNotAvailableException {
         Optional<RessourceBooking> booking = this.ressourceBookingRepo.getBookingByBookingId(bookingId);
         if (booking.isEmpty()) {
@@ -118,8 +167,16 @@ public class RessourceBookingServiceImplementation implements RessourceBookingSe
         return this.ressourceBookingRepo.updateBooking(updatedBooking);
     }
 
+    /**
+     * Aktualisiert das RessourceBooking mit den neuen Informationen.
+     *
+     * @param booking Das aktualisierte RessourceBooking-Objekt.
+     * @return Das aktualisierte RessourceBooking.
+     * @throws RessourceNotAvailableException Wenn die Ressource für den aktualisierten Buchungszeitraum nicht verfügbar ist.
+     * @throws ResourceNotFoundException     Wenn keine Buchung mit der angegebenen ID gefunden wurde.
+     */
     @Override
-    public RessourceBooking updateBooking(RessourceBooking booking) throws ResourceNotFoundException, RessourceNotAvailableException, ResourceNotFoundException {
+    public RessourceBooking updateBooking(RessourceBooking booking) throws RessourceNotAvailableException, ResourceNotFoundException {
 
         try {
             RessourceBooking existingBooking = this.ressourceBookingRepo.getBookingByBookingId(booking.getId())
@@ -143,11 +200,27 @@ public class RessourceBookingServiceImplementation implements RessourceBookingSe
 
     }
 
+    /**
+     * Gibt eine Liste von RessourceBookings zurück, die mit der angegebenen Ressource, dem Datum und der Buchungszeit übereinstimmen.
+     *
+     * @param ressource Die Ressource.
+     * @param date      Das Datum.
+     * @param start     Die Startzeit der Buchung.
+     * @param endTime   Die Endzeit der Buchung.
+     * @return Eine Liste von RessourceBookings, die mit der angegebenen Ressource, dem Datum und der Buchungszeit übereinstimmen.
+     */
     @Override
     public List<RessourceBooking> findByRessourceAndBookingEndAfterAndBookingStartBefore(Ressource ressource, LocalDate date, LocalTime start, LocalTime endTime) {
         return ressourceBookingRepo.getBookingsByRessourceAndDateAndBookingTimeBetween(ressource, date, start, endTime);
     }
 
+    /**
+     * Löscht die Buchung mit der angegebenen Buchungs-ID.
+     *
+     * @param bookingId Die ID der Buchung.
+     * @throws ResourceDeletionFailureException Wenn das Löschen der Buchung fehlschlägt.
+     * @throws ResourceNotFoundException       Wenn keine Buchung mit der angegebenen ID gefunden wurde.
+     */
     @Override
     public void deleteBookingById(Long bookingId) throws ResourceDeletionFailureException, ResourceNotFoundException {
         Optional<RessourceBooking> booking = this.ressourceBookingRepo.getBookingByBookingId(bookingId);
@@ -157,6 +230,16 @@ public class RessourceBookingServiceImplementation implements RessourceBookingSe
         ressourceBookingRepo.deleteBookingById(bookingId);
     }
 
+    /**
+     * Gibt eine Liste von verfügbaren Ressourcen für das angegebene Datum und die angegebene Buchungszeit zurück.
+     *
+     * @param date     Das Datum.
+     * @param start    Die Startzeit der Buchung.
+     * @param endTime  Die Endzeit der Buchung.
+     * @return Eine Liste von verfügbaren Ressourcen für das angegebene Datum und die angegebene Buchungszeit.
+     * @throws ExecutionException   Wenn ein Fehler bei der Ausführung auftritt.
+     * @throws InterruptedException Wenn der Thread während des Wartens unterbrochen wird.
+     */
     @Override
     public List<Ressource> getAvailableRessources(LocalDate date, LocalTime start, LocalTime endTime) throws ExecutionException, InterruptedException {
         return this.ressourceRepo.getAllRessource().stream()
@@ -164,23 +247,50 @@ public class RessourceBookingServiceImplementation implements RessourceBookingSe
                 .collect(Collectors.toList());
     }
 
+    /**
+     * Überprüft, ob die angegebene Ressource für den angegebenen Zeitraum verfügbar ist.
+     *
+     * @param ressource      Die Ressource.
+     * @param date           Das Datum.
+     * @param startDateTime  Die Startzeit des Zeitraums.
+     * @param endDateTime    Die Endzeit des Zeitraums.
+     * @return True, wenn die Ressource verfügbar ist, andernfalls False.
+     */
     @Override
     public boolean isRessourceAvailable(Ressource ressource, LocalDate date, LocalTime startDateTime, LocalTime endDateTime) {
         List<RessourceBooking> bookings = this.ressourceBookingRepo.getBookingsByRessourceAndDateAndBookingTimeBetween(ressource, date, startDateTime, endDateTime);
         return bookings.isEmpty();
     }
 
+    /**
+     * Löscht die Buchung mit der angegebenen ID.
+     *
+     * @param id Die ID der Buchung.
+     * @throws ResourceDeletionFailureException Wenn das Löschen der Buchung fehlschlägt.
+     * @throws ResourceNotFoundException       Wenn keine Buchung mit der angegebenen ID gefunden wurde.
+     */
     @Override
     public void deleteBooking(Long id) throws ResourceDeletionFailureException, ResourceNotFoundException {
         this.ressourceBookingRepo.deleteBookingById(id);
     }
 
-
+    /**
+     * Gibt eine Liste von RessourceBookings zurück, die mit dem angegebenen Mitarbeiter verknüpft sind.
+     *
+     * @param employeeId Die ID des Mitarbeiters.
+     * @return Eine Liste von RessourceBookings, die mit dem angegebenen Mitarbeiter verknüpft sind.
+     */
     @Override
     public List<RessourceBooking> getMyBookingHistory(Long employeeId) {
         return this.ressourceBookingRepo.getBookingsByEmployeeId(employeeId);
     }
 
+    /**
+     * Speichert die angegebene RessourceBooking in der Datenbank.
+     *
+     * @param booking Das zu speichernde RessourceBooking-Objekt.
+     * @return Das gespeicherte RessourceBooking.
+     */
     @Override
     public RessourceBooking save(RessourceBooking booking) {
         return this.ressourceBookingRepo.save(booking);
