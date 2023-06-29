@@ -23,7 +23,7 @@ import java.util.concurrent.ExecutionException;
 
 /**
  * Diese Klasse repräsentiert einen WebController für das Modul RoomBooking. Der Controller ermöglicht die Interaktion mit Räumen über HTTP-Anfragen und -Antworten.
- * @author Patrick Bayr
+ * @author Manuel Payer
  * @version 1.0
  * @since 25.06.2023
  */
@@ -37,10 +37,9 @@ public class RoomBookingWebController {
 
     /**
      * Konstruktor der Klasse RoomBookingWebController. Der Konstruktor nimmt folgende Parameter entgegen:
-     *
      * @param roomBookingService vom Typ RoomBookingService
-     * @param roomService        vom Typ RoomService
-     * @param employeeService    vom Typ EmployeeService
+     * @param roomService vom Typ RoomService
+     * @param employeeService vom Typ EmployeeService
      */
     public RoomBookingWebController(RoomBookingService roomBookingService, RoomService roomService, EmployeeService employeeService) {
         this.roomBookingService = roomBookingService;
@@ -52,7 +51,7 @@ public class RoomBookingWebController {
      * Diese Methode gibt eine Liste aller Raum Buchungen für einen/eine angemeldeten/angemeldetet Mitarbeiter:inn aus.
      * Die Methode prüft, ob zur Laufzeit ein/eine angemeldeter/angemeldete Mitarbeiter:in existiert. Wenn nicht, wird eine EmployeeNotFoundException geworfen.
      * Scheitert die Prüfung nicht, wird eine Liste für den angemeldeten Employee geliefert. Die Identifizierung läuft über den einzigartigen NickName.
-     * <p>
+     *
      * Diese Methode ist mit @GetMapping annotiert, da sie eine HTTP-Anfrage verarbeiten und zurückliefern muss.
      *
      * @return ModelAndView
@@ -79,17 +78,16 @@ public class RoomBookingWebController {
     /**
      * Diese Methode liefert dem/der angemeldeten Admin eine Liste aller Buchungen zurück.
      * Diese Methode ist mit @GetMapping annotiert, da sie eine HTTP-Anfrage verarbeiten und zurückliefern muss.
-     *
      * @return ModelAndView
      */
     @GetMapping("/allBookings")
-    public ModelAndView allBookings() {
+    public ModelAndView allBookings(){
 
         List<RoomBooking> bookings = roomBookingService.getAllBookings();
         return new ModelAndView("roomBooking/viewRoomBookings", "bookings", bookings);
     }
 
-    @GetMapping("/createBookingEmployee/{id}")
+    @GetMapping("/createRoomBookingEmployee/{id}")
     public ModelAndView createBookingEmployee(@PathVariable Long id, Model model) throws RoomNotFoundException, ExecutionException, InterruptedException, EmployeeNotFoundException {
 
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
@@ -151,7 +149,7 @@ public class RoomBookingWebController {
             return "redirect:/web/roomBooking/createBooking/" + booking.getRoom().getId();
         } else {
             this.roomBookingService.addRoomBooking(booking);
-            return "redirect:/web/roomBooking/allBookings";
+            return "redirect:/web/rooms/allRooms";
         }
 
     }
@@ -165,7 +163,7 @@ public class RoomBookingWebController {
     }
 
     @PostMapping("/updateBooking")
-    public String updateBooking(@Valid RoomBooking booking, BindingResult bindingResult) throws ExecutionException, InterruptedException, RoomNotFoundException, RoomNotAvailableException, RoomNotFoundException, EmployeeNotFoundException {
+    public String updateBooking(@Valid RoomBooking booking, BindingResult bindingResult) throws  ExecutionException, InterruptedException, RoomNotFoundException, RoomNotAvailableException, RoomNotFoundException, EmployeeNotFoundException {
 
         if (bindingResult.hasErrors()) {
             return "/roomBooking/editRoomBooking";
@@ -178,11 +176,10 @@ public class RoomBookingWebController {
     /**
      * Diese Methode löscht eine Buchung für den/die angemeldeten/angemeldetet Benutzer:inn. Dabei ist zu beachten, nur durch das Löschen der Buchung das Room
      * wieder freigegeben wird. Erst dann kann man das Room selbst wieder löschen.
-     * <p>
-     * Es findet eine Prüfung statt, ob die Buchung getätigt werden kann. Die Methode fängt ResourceDeletionFailureException und ResourceNotFoundException ab.
-     * <p>
-     * Diese Methode ist mit @GetMapping annotiert, da sie eine HTTP-Anfrage verarbeiten und zurückliefern muss.
      *
+     * Es findet eine Prüfung statt, ob die Buchung getätigt werden kann. Die Methode fängt ResourceDeletionFailureException und ResourceNotFoundException ab.
+     *
+     * Diese Methode ist mit @GetMapping annotiert, da sie eine HTTP-Anfrage verarbeiten und zurückliefern muss.
      * @param id
      * @return Webseitenaufruf auf ViewBookingsEmployee
      */
@@ -200,20 +197,15 @@ public class RoomBookingWebController {
     /**
      * Diese Methode löscht eine Roombuchung für den/die angemeldeten/angemeldete Admin.
      * Es findet eine Prüfung statt, ob die Buchung getätigt werden kann. Die Methode fängt ResourceDeletionFailureException und ResourceNotFoundException ab.
-     * <p>
-     * Diese Methode ist mit @GetMapping annotiert, da sie eine HTTP-Anfrage verarbeiten und zurückliefern muss.
      *
+     * Diese Methode ist mit @GetMapping annotiert, da sie eine HTTP-Anfrage verarbeiten und zurückliefern muss.
      * @param id vom Typ Long
      * @return Webseitenaufruf auf ViewAllBookings
      */
     @GetMapping("/deleteBooking/{id}")
     public String deleteBookingAdmin(@PathVariable Long id) throws RoomNotFoundException, RoomDeletionNotPossibleException {
-        try {
-            this.roomBookingService.deleteBookingById(id);
-            return "redirect:/web/roomBooking/allBookings";
-        } catch (RoomDeletionNotPossibleException | RoomNotFoundException e) {
-            return "redirect:/web/roomBooking/allBookings";
-        }
-
+        this.roomBookingService.deleteBookingById(id);
+        return "redirect:/web/roomBooking/allBookings";
     }
+
 }
