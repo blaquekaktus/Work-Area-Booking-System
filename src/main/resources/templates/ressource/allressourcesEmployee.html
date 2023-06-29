@@ -32,7 +32,7 @@
                     <td th:text="${ressource.info}"></td>
                     <td th:text="${ressource.serialnumber}"></td>
                     <td>
-                        <a th:href="@{'/web/ressourceBooking/createBookingEmployee/' + ${ressource.id}}" class="button" role="button">Buchen</a>
+                        <a th:href="@{/web/ressourceBooking/createBookingEmployee/{id}(id=${ressource.id})}" class="button" role="button">Buchen</a>
                     </td>
                 </tr>
             </th:block>
