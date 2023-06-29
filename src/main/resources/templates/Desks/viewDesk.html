@@ -1,39 +1,36 @@
 <!DOCTYPE html>
 <html lang="en" xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
-<div th:insert="headerAdmin :: headerAdmin" th:with="title='Tisch Ansicht'"></div>
+<div th:insert="headerAdmin :: headerAdmin" th:with="title='Tisch Ansicht'">  </div>
 <body>
 <!-- Top Bar -->
-<div th:insert="topbarAdmin :: topbarAdmin"></div>
+<div th:insert="topbarAdmin :: topbarAdmin">  </div>
 <!-- Side Navbar -->
-<div th:insert="navbarAdmin :: navbarAdmin"></div>
+<div th:insert="navbarAdmin :: navbarAdmin">  </div>
 <!-- Content -->
 <div class="content-container">
     <div class="addRessourceContainer">
-        <h1>Arbeitsplatz</h1><br><br>
-        <div class="scroll-container">
-            <div class="form-group">
-                <form method="get" th:action="@{/web/desks/view/{id}}" th:object="${myDesk}">
-                    <div class="form-group">
-                        <label for="deskNr">Arbeitsplatz Nummer</label>
-                        <input class="form-control" id="deskNr" name="deskNr" readonly th:field="*{deskNr}" type="text">
+        <h1>Arbeitsplatz Details</h1><br><br>
+        <div class="form-group">
+            <form method="get" th:action="@{/web/desks/view/{id}}" th:object="${myDesk}">
+                <div class="form-group">
+                    <label for="deskNr">Arbeitsplatznummer</label>
+                    <input class="form-control" id="deskNr" name="deskNr" readonly th:field="*{deskNr}" type="text">
+                </div>
+                <div class="form-group">
+                    <label for="nrOfMonitors">Bildschirme</label>
+                    <input class="form-control" id="nrOfMonitors" name="nrOfMonitors" readonly
+                           th:field="*{nrOfMonitors}" type="text">
+                </div>
+                <div class="form-group">
+                    <label for="ports">Schnittstellen</label>
+                    <div th:each="port : ${myDesk.ports}" id="ports">
+                        <span th:text="${port}"></span>
+                        <br>
                     </div>
-                    <div class="form-group">
-                        <label for="nrOfMonitors">Monitore</label>
-                        <input class="form-control" id="nrOfMonitors" name="nrOfMonitors" readonly
-                               th:field="*{nrOfMonitors}" type="text">
-                    </div>
-                    <div class="form-group">
-                        <label for="ports">Ports</label>
-                        <div th:each="port : ${myDesk.ports}" id="ports">
-                            <span th:text="${port}"></span>
-                            <br>
-                        </div>
-                    </div>
-                    <div class="button-row">
-                        <a class="delete-button" role="button" th:href="@{/web/desks}">Zurück</a>
-                    </div>
-                </form>
-            </div>
+                </div>
+                    <a class="button" role="button" th:href="@{/web/desks/add}">Arbeitsplatz Erstellen</a>
+                    <a class="delete-button" role="button" th:href="@{/web/desks}">Zurück</a>
+            </form>
         </div>
     </div>
 </div>
