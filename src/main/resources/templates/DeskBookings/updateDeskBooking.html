@@ -36,7 +36,7 @@
                    th:field="${booking.date}" type="date">
             <div class="form-text" th:errors="*{date}"
                  th:if="${#fields.hasErrors('date')}"></div>
-            <label for="start">Startzeit</label>
+            <label for="start">Start</label>
             <select class="form-select" id="start" name="start" th:field="*{start}">
                 <option value="">--Startzeit auswählen--</option>
                 <option th:each="time : ${uniqueStartTimes}"
@@ -47,7 +47,7 @@
                  th:if="${#fields.hasErrors('start')}">
 
             </div>
-            <label for="endTime">Endzeit</label>
+            <label for="endTime">End</label>
             <select class="form-select" id="endTime" name="endTime" th:field="*{endTime}">
                 <option value="">--Endzeit auswählen--</option>
                 <option th:each="time : ${uniqueEndTimes}"

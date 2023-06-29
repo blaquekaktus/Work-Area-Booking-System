@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
+<div th:insert="headerAdmin :: headerAdmin" th:with="title='Arbeitsplatz-Buchung löschen'"></div>
+<body>
+<!-- Top Bar -->
+<div th:insert="topbarAdmin :: topbarAdmin"></div>
+<!-- Side Navbar -->
+<div th:insert="navbarAdmin :: navbarAdmin"></div>
+<div class="content-container">
+    <div class="addRessourceContainer">
+        <h1>Arbeitsplatz-Buchung löschen</h1><br><br>
+        <form method="post" th:action="@{/web/deskbookings/admin/cancel/{id}(id=${booking.id})}" th:object="${booking}">
+            <p>Sind Sie sicher, dass Sie die folgende Arbeitsplatz-Buchung löschen wollen:<br><br>
+                <strong th:text="${booking.desk.deskNr}"></strong> am <strong th:text="${booking.date}"></strong>
+            </p>
+            <br>
+            <div class="form-group">
+                <label for="employee">Mitarbeiter</label>
+                <input id="employee" name="employee" readonly
+                       th:value="${booking.employee.fname} + ' '+ ${booking.employee.lname}" type="text">
+            </div>
+            <div class="form-group">
+                <label for="deskNr">Arbeitsplatz</label>
+                <input id="deskNr" name="deskNr" readonly
+                       th:field="${booking.desk.deskNr}" type="text">
+            </div>
+            <div class="form-group">
+                <label for="date">Datum</label>
+                <input id="date" name="date" readonly
+                       th:value="${#temporals.format(booking.date, 'dd-MM-YYYY')}" type="text">
+            </div>
+            <div class="form-group">
+                <label for="start">Start</label>
+                <input id="start" name="start" readonly th:field="${booking.start}"
+                       type="text">
+            </div>
+            <div class="form-group">
+                <label for="end">Ende</label>
+                <input id="end" name="end" readonly th:field="${booking.endTime}"
+                       type="text">
+            </div>
+            <button class="button" type="submit">Bestätigen</button>
+            <button class="delete-button" th:href="@{/web/deskbookings/admin}">Zurück</button>
+        </form>
+    </div>
+</div>
+<div class="filler"></div>
+</body>
+</html>

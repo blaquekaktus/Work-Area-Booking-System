@@ -89,13 +89,7 @@ public class DeskBookingWebController {
         return "DeskBookings/Admin/addDeskBooking";
     }
 
-    @GetMapping("/add")
-    public String addDeskBookingFormForEmployee(Model model) {
-        model.addAttribute("deskBooking", new DeskBooking());
-        return "DeskBookings/addDeskBooking";
-    }
-
-    @PostMapping("/add")
+    @PostMapping("/admin/add")
     public String addDeskBooking(@ModelAttribute("deskBooking") @Valid DeskBooking booking, BindingResult bindingResult, @RequestParam("employee.id") Long employeeId, @RequestParam("desk.id") Long deskId, RedirectAttributes redirectAttributes) {
         try {
             if (bindingResult.hasErrors()) {
@@ -118,7 +112,6 @@ public class DeskBookingWebController {
             return "redirect:/web/deskbookings/admin/add";
         }
     }
-
 
     @GetMapping("/admin/view/{id}")
     public String viewDeskBooking(@PathVariable Long id, Model model) throws ResourceNotFoundException {
@@ -156,7 +149,6 @@ public class DeskBookingWebController {
         // Convert the LocalDate to java.util.Date for the Thymeleaf template
         Date bookingDate = java.sql.Date.valueOf(booking.getDate());
         model.addAttribute("bookingDate", bookingDate);
-
 
         //Add booking, bookingDate, employee, desks, unique booking start and end times to the model
         model.addAttribute("booking", booking);
@@ -198,8 +190,6 @@ public class DeskBookingWebController {
         }
     }
 
-
-
     @GetMapping("/admin/cancel/{id}")
     public String cancelDeskBookingForm(@PathVariable Long id, Model model) throws ResourceDeletionFailureException, ResourceNotFoundException {
         DeskBooking booking = this.deskBookingService.getBookingById(id);
@@ -214,6 +204,28 @@ public class DeskBookingWebController {
         } catch (ResourceDeletionFailureException e) {
             redirectAttributes.addFlashAttribute("errorMessage", "Failed to cancel the desk booking.");
             return "redirect:/web/deskbookings/admin/cancel/" + id;
+        } catch (ResourceNotFoundException e) {
+            redirectAttributes.addFlashAttribute("errorMessage", "Booking not found.");
+            return "redirect:/web/deskbookings/admin";
+        }
+
+        return "redirect:/web/deskbookings/admin";
+    }
+
+    @GetMapping("/cancel/{id}")
+    public String cancelEDeskBookingForm(@PathVariable Long id, Model model) throws ResourceDeletionFailureException, ResourceNotFoundException {
+        DeskBooking booking = this.deskBookingService.getBookingById(id);
+        model.addAttribute("booking", booking);
+        return "DeskBookings/cancelDeskBooking";
+    }
+
+    @PostMapping("/cancel/{id}")
+    public String cancelEDeskBooking(@PathVariable Long id, RedirectAttributes redirectAttributes) {
+        try {
+            this.deskBookingService.deleteBooking(id);
+        } catch (ResourceDeletionFailureException e) {
+            redirectAttributes.addFlashAttribute("errorMessage", "Failed to cancel the desk booking.");
+            return "redirect:/web/deskbookings/cancel/" + id;
         } catch (ResourceNotFoundException e) {
             redirectAttributes.addFlashAttribute("errorMessage", "Booking not found.");
             return "redirect:/web/deskbookings/admin";
@@ -237,6 +249,12 @@ public class DeskBookingWebController {
         return "DeskBookings/myDeskBookings";
     }
 
+
+    @GetMapping("/add")
+    public String addDeskBookingFormForEmployee(Model model) {
+        model.addAttribute("deskBooking", new DeskBooking());
+        return "DeskBookings/addDeskBooking";
+    }
 
     @GetMapping("/bookinghistory/{id}")
     public String getMyDeskBookingHistory(Model model, @PathVariable Long id) {

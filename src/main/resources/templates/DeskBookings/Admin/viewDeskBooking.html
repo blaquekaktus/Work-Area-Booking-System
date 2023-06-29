@@ -8,7 +8,7 @@
 <div th:insert="navbarAdmin :: navbarAdmin"></div>
 <div class="content-container">
     <div class="addRessourceContainer">
-        <h1>Buchungs-Details</h1><br><br>
+        <h1>Buchungsdetails</h1><br><br>
         <form class="form-group" method="get" th:action="@{/web/deskbookings/admin/view/{id}}" th:object="${deskBooking}">
             <div class="form-group">
                 <label for="employee">Mitarbeiter</label>
@@ -16,7 +16,7 @@
                        th:value="${deskBooking.employee.fname} + ' '+ ${deskBooking.employee.lname}" type="text">
             </div>
             <div class="form-group">
-                <label class="form-label" for="deskNr">Buchungsplatz-Nummer</label>
+                <label class="form-label" for="deskNr">Buchungsplatznummer</label>
                 <input class="form-control" id="deskNr" name="deskNr" readonly
                        th:field="${deskBooking.desk.deskNr}" type="text">
             </div>
@@ -26,13 +26,12 @@
                        th:value="${#temporals.format(deskBooking.date, 'dd-MM-YYYY')}" type="text">
             </div>
             <div class="form-group">
-                <label for="start">Startzeit</label>
-                <!--          <--Use field value directly -->
+                <label for="start">Start</label>
                 <input class="form-control" id="start" name="start" readonly th:field="${deskBooking.start}"
                        type="text">
             </div>
             <div class="form-group">
-                <label class="form-label" for="end">Endzeit</label>
+                <label class="form-label" for="end">End</label>
                 <input class="form-control" id="end" name="end" readonly th:field="${deskBooking.endTime}"
                        type="text">
             </div>
