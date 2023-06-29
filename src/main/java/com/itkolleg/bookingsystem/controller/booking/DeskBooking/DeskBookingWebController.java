@@ -53,17 +53,17 @@ public class DeskBookingWebController {
 
     @ModelAttribute("employees")
     public List<Employee> getEmployees() throws ExecutionException, InterruptedException {
-        return employeeService.getAllEmployees();
+        return this.employeeService.getAllEmployees();
     }
 
     @ModelAttribute("desks")
     public List<Desk> getDesks() throws ExecutionException, InterruptedException {
-        return deskService.getAllDesks();
+        return this.deskService.getAllDesks();
     }
 
     @ModelAttribute("startTimes")
     public List<String> getStartTimes() throws ExecutionException, InterruptedException {
-        return timeSlotService.getAllTimeSlots().stream()
+        return this.timeSlotService.getAllTimeSlots().stream()
                 .map(TimeSlot::getStartTimeAsString)
                 .distinct()
                 .collect(Collectors.toList());
@@ -71,7 +71,7 @@ public class DeskBookingWebController {
 
     @ModelAttribute("endTimes")
     public List<String> getEndTimes() throws ExecutionException, InterruptedException {
-        return timeSlotService.getAllTimeSlots().stream()
+        return this.timeSlotService.getAllTimeSlots().stream()
                 .map(TimeSlot::getEndTimeAsString)
                 .distinct()
                 .collect(Collectors.toList());
@@ -79,7 +79,7 @@ public class DeskBookingWebController {
 
     @GetMapping("/admin")
     public String getAllDeskBookings(Model model) {
-        model.addAttribute("viewAllDeskBookings", deskBookingService.getAllBookings());
+        model.addAttribute("viewAllDeskBookings", this.deskBookingService.getAllBookings());
         return "DeskBookings/Admin/allDeskBookings";
     }
 
