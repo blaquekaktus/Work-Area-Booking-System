@@ -9,25 +9,26 @@
 <!-- Content -->
 <div class="content-container">
     <div class="addRessourceContainer">
-        <h1>Tisch Ansicht</h1><br><br>
+        <h1>Arbeitsplatz Details</h1><br><br>
         <div class="form-group">
             <form method="get" th:action="@{/web/desks/view/{id}}" th:object="${myDesk}">
                 <div class="form-group">
-                    <label for="deskNr">Arbeitsplatz Nummer</label>
+                    <label for="deskNr">Arbeitsplatznummer</label>
                     <input class="form-control" id="deskNr" name="deskNr" readonly th:field="*{deskNr}" type="text">
                 </div>
                 <div class="form-group">
-                    <label for="nrOfMonitors">Monitore</label>
+                    <label for="nrOfMonitors">Bildschirme</label>
                     <input class="form-control" id="nrOfMonitors" name="nrOfMonitors" readonly
                            th:field="*{nrOfMonitors}" type="text">
                 </div>
                 <div class="form-group">
-                    <label for="ports">Ports</label>
+                    <label for="ports">Schnittstellen</label>
                     <div th:each="port : ${myDesk.ports}" id="ports">
                         <span th:text="${port}"></span>
                         <br>
                     </div>
                 </div>
+                    <a class="button" role="button" th:href="@{/web/desks/add}">Arbeitsplatz Erstellen</a>
                     <a class="delete-button" role="button" th:href="@{/web/desks}">Zurück</a>
             </form>
         </div>
