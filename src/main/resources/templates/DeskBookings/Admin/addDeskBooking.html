@@ -8,7 +8,7 @@
 <div th:insert="navbarAdmin :: navbarAdmin"></div>
 <div class="content-container">
     <div class="addRessourceContainer">
-        <h1>Arbeitsplatz buchen</h1><br><br>
+        <h1>Arbeitsplatz Buchen</h1><br><br>
         <form method="post" th:action="@{/web/deskbookings/add}" th:object="${deskBooking}">
             <div th:if="${errorMessage}" class="alert alert-danger error-message">
                 <p th:text="${errorMessage}"></p>
@@ -25,16 +25,12 @@
             </div>
 
             <div class="form-group">
-                <label class="form-label" for="deskNr">Arbeitsplatz</label>
-                <select class="form-control" id="deskNr" name="desk.id" th:field="*{desk.id}" onchange="updateDeskId()">
-                    <option th:each="desk : ${desks}"
-                            th:text="*{desk.deskNr}"
-                            th:value="*{desk.id}"
-                            th:data-deskNr="*{desk.deskNr}"></option>
+                <label for="deskId">Arbeitsplatz</label>
+                <select class="form-control" id="deskId" name="desk.id" th:field="*{desk.id}">
+                    <option selected="selected" value="">--Select--</option>
+                    <option th:each="desk : ${desks}" th:text="${desk.deskNr}" th:value="${desk.id}"></option>
                 </select>
-                <div class="form-text"
-                     th:errors="*{desk.deskNr}"
-                     th:if="${#fields.hasErrors('desk.deskNr')}"></div>
+                <div th:errors="*{desk.id}" th:if="${#fields.hasErrors('desk.id')}"></div>
             </div>
             <input type="hidden" id="desk.id" name="desk.id" th:field="*{desk.id}"/>
             <div class="form-group">
@@ -78,7 +74,5 @@
     </div>
 </div>
 <div class="filler"></div>
-
-
 </body>
 </html>
