@@ -10,7 +10,7 @@
 <div class="content-container">
     <div class="addRessourceContainer">
       <h1>Mitarbeiter bearbeiten</h1><br><br>
-      <form th:action="@{/web/employees/editemployee}" method="post" th:object="${employee}">
+      <form th:action="@{/web/admin/editemployee}" method="post" th:object="${employee}">
         <input type="hidden" th:field="*{id}"/>
         <div class="form-group">
           <label for="fname">Vorname</label>
@@ -48,7 +48,7 @@
         </div>
         <div>
           <button class="button" type="submit" name="action" value="save">Speichern</button>
-          <a class="delete-button" href="/../web/employees/allemployees">Zurück</a>
+          <a class="delete-button" th:href="@{/web/admin/allemployees}">Zurück</a>
         </div>
       </form>
     </div>

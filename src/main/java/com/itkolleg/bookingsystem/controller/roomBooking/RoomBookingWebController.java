@@ -87,7 +87,7 @@ public class RoomBookingWebController {
         return new ModelAndView("roomBooking/viewRoomBookings", "bookings", bookings);
     }
 
-    @GetMapping("/createRoomBookingEmployee/{id}")
+    @GetMapping("/createBookingEmployee/{id}")
     public ModelAndView createBookingEmployee(@PathVariable Long id, Model model) throws RoomNotFoundException, ExecutionException, InterruptedException, EmployeeNotFoundException {
 
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
@@ -116,7 +116,7 @@ public class RoomBookingWebController {
             return "redirect:/web/roomBooking/createBookingEmployee/" + booking.getRoom().getId();
         } else {
             this.roomBookingService.addRoomBooking(booking);
-            return "redirect:/web/floors";
+            return "redirect:/web/rooms/allRoomsEmployee";
         }
 
     }
@@ -149,7 +149,7 @@ public class RoomBookingWebController {
             return "redirect:/web/roomBooking/createBooking/" + booking.getRoom().getId();
         } else {
             this.roomBookingService.addRoomBooking(booking);
-            return "redirect:/web/room/allRooms";
+            return "redirect:/web/rooms/allRooms";
         }
 
     }

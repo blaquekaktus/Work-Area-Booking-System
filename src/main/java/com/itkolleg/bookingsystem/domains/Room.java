@@ -26,6 +26,7 @@ public class Room {
 
     private String floor;
 
+    private String info;
 
     /*@OneToMany(mappedBy = "room")
     private List<Desk> desks;*/
@@ -35,18 +36,8 @@ public class Room {
         this.floor = floor;
     }
 
-    /*
-        public void deserialize(Map<String, Object> data) {
-            floor = (String) data.get("floor");
-            info = (String) data.get("info");
-            ArrayList<Map<String, Long>> locations = (ArrayList<Map<String, Long>>) data.get("vertices");
-            vertices = new ArrayList<>();
-            for (Map<String, Long> location : locations) {
-                long x = location.get("x");
-                long y = location.get("y");
-                vertices.add(new Point((int) x, (int) y));
-            }
-        } */
+
+
 
     @Override
     public String toString() {

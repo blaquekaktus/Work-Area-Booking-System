@@ -1,5 +1,4 @@
 package com.itkolleg.bookingsystem.controller.ressource;
-import com.itkolleg.bookingsystem.exceptions.RessourceExceptions.RessourceAlreadyExistsException;
 import com.itkolleg.bookingsystem.domains.Ressource;
 import com.itkolleg.bookingsystem.exceptions.RessourceExceptions.RessourceDeletionNotPossibleException;
 import com.itkolleg.bookingsystem.exceptions.RessourceExceptions.RessourceNotFoundException;
@@ -29,7 +28,7 @@ public class RessourceWebController {
     /**
      * Konstruktor der Klsse RessourceWebController. Sie nimmt eine Variable (ressourceService) vom Typ RessourceService entgegen und weißt den Wert
      * dem globalen Datenfeld hinzu
-     * @param ressourceService
+     * @param ressourceService vom Typ RessourceService
      */
     public RessourceWebController(RessourceService ressourceService) {
         this.ressourceService = ressourceService;
@@ -39,8 +38,8 @@ public class RessourceWebController {
     /**
      * Dient dazu eine Übersicht aller Ressourcen für den/die Admin zu liefern.
      * @return modelAndView
-     * @throws ExecutionException
-     * @throws InterruptedException
+     * @throws ExecutionException Aufsührungsfehler
+     * @throws InterruptedException Unterbrechungsfehler
      */
     @GetMapping("/allRessources")
     public ModelAndView allressources() throws ExecutionException, InterruptedException {
@@ -51,8 +50,8 @@ public class RessourceWebController {
     /**
      * Dient dazu eine Übersicht aller Ressourcen für den/die Mitarbeiter:inn zu liefern.
      * @return modelAndView
-     * @throws ExecutionException
-     * @throws InterruptedException
+     * @throws ExecutionException Aufsührungsfehler
+     * @throws InterruptedException Unterbrechungsfehler
      */
     @GetMapping("/allRessourcesEmployee")
     public ModelAndView allRessourcesEmployee() throws ExecutionException, InterruptedException {
@@ -62,7 +61,7 @@ public class RessourceWebController {
 
     /**
      * Diese Methode ermöglicht dem/der Admin das hinzufügen einer Ressource in die Datenbank. Es ist mit @GetMapping annotiert, da es die HTTP-Anfrage verarbeiten und darstellen muss
-     * @param model
+     * @param model vom Typ Model
      * @return modelAndView
      */
     @GetMapping("/addRessource")
@@ -76,14 +75,15 @@ public class RessourceWebController {
      * Diese Methode ermöglicht dem/der Admin das hinzufügen einer Ressource in die Datenbank. Es ist mit @PostMapping annotiert, da es die HTTP-Anfrage übergeben muss.
      * Beim Durchführen wird der/die Benutzer:inn wieder an die HTML-Seite allRessources weitergeleitet.
      * Wird ein Fehler geworfen, dann bleibt der/die Benutzer:inn auf der selben Seite mit einer entsprechenden Fehlermeldung
-     * @param ressource
-     * @param bindingResult
-     * @return
-     * @throws ExecutionException
-     * @throws InterruptedException
+     * @param ressource vom Typ Ressource
+     * @param bindingResult vom Typ BindingResults
+     * @return Redirection
+     * @throws ExecutionException Aufsührungsfehler
+     * @throws InterruptedException Unterbrechungsfehler
      */
     @PostMapping("/addRessource")
-    public String addRessource(@Valid Ressource ressource, BindingResult bindingResult) throws ExecutionException, InterruptedException {
+    public String addRessource( @Valid @ModelAttribute("newRessource") Ressource ressource, BindingResult bindingResult, Model model) throws ExecutionException, InterruptedException {
+        System.out.println(".........!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!......................");
         if (bindingResult.hasErrors()) {
             return "/ressource/addRessource";
         } else {
@@ -95,12 +95,12 @@ public class RessourceWebController {
     /**
      * Diese Methode updated eine Ressource, welche aus seinem Listenelement (nicht in dieser Methode) mit der dazugehörigen id geholt wird.
      * Die Methode ist mit @GetMapping annotiert, da sie eine HTTP Anfrage verarbeiten und auf das entsprechende HTML Dokument verweisen muss.
-     * @param id
-     * @param model
+     * @param id vom Typ Long
+     * @param model vom Typ Model
      * @return ModelAndView
-     * @throws RessourceNotFoundException
-     * @throws ExecutionException
-     * @throws InterruptedException
+     * @throws RessourceNotFoundException Ressource nicht gefunden
+     * @throws ExecutionException Aufsührungsfehler
+     * @throws InterruptedException Unterbrechungsfehler
      */
     @GetMapping("/updateRessource/{id}")
     public ModelAndView updateRessource(@PathVariable Long id, Model model) throws RessourceNotFoundException, ExecutionException, InterruptedException {
@@ -113,12 +113,12 @@ public class RessourceWebController {
     /**
      * Diese Methode updated eine Ressource, welche aus seinem Listenelement (nicht in dieser Methode) mit der dazugehörigen id geholt wird.
      * Die Methode ist mit @PostMapping annotiert, da sie eine HTTP Anfrage verarbeiten und auf das entsprechende HTML Dokument verweisen muss.
-     * @param ressource
-     * @param bindingResult
-     * @return
-     * @throws ExecutionException
-     * @throws InterruptedException
-     * @throws RessourceNotFoundException
+     * @param ressource vom Typ Ressource
+     * @param bindingResult vom Typ BindingResult
+     * @return Redirection
+     * @throws ExecutionException Aufsührungsfehler
+     * @throws InterruptedException Unterbrechungsfehler
+     * @throws RessourceNotFoundException Resource nicht gefunden
      */
     @PostMapping("/updateRessource")
     public String updateRessource(@Valid Ressource ressource, BindingResult bindingResult) throws ExecutionException, InterruptedException, RessourceNotFoundException {
@@ -133,11 +133,10 @@ public class RessourceWebController {
     /**
      * Diese Methode löscht eine bestimmte Ressource aus einer Liste, und nimmt die ID der Ressource entgegen.
      * Die Methode ist NUR mit @GetMapping annotiert, da die Aktion auf der selben Seite durchgeführt werden soll.
-     *
      * Es ist anzumerken, dass eine Ressource nicht gelöscht werden kann, wenn sie von einer aktiven Buchung verwendet wird.
      *
      * @param id vom Typ Long
-     * @return
+     * @return Redirection
      */
     @GetMapping("/deleteRessource/{id}")
     public String deleteRessource(@PathVariable Long id) {

@@ -2,17 +2,17 @@
     <!-- <a href="" class="btnMenu">Menu <i class="fa fa-bars"></i></a> -->
 
     <ul class="menu">
-        <li><a href="@{/templates/Interface/templateAdmin">Home</a></li>
+        <li><a th:href="@{/web/admin/admin-start}">Home</a></li>
         <li><a href="#">Bookings <i class="fa fa-chevron-down"></i></a>
             <ul>
-                <li><a href="#">Work-Area</a></li>
+                <li><a th:href="@{/web/deskbookings/admin}">Work-Area</a></li>
                 <li><a th:href="@{/web/ressourceBooking/allBookings}">Ressourcen</a></li>
-                <li><a href="#">Räume</a></li>
+                <li><a th:href="@{/web/roomBooking/allBookings}">Räume</a></li>
             </ul>
         </li>
-        <li><a th:href="@{/web/employees/allemployees}">Mitarbeiter</a></li>
+        <li><a th:href="@{/web/admin/allemployees}">Mitarbeiter</a></li>
+        <li><a th:href="@{/web/desks}">Arbeitsplätze</a></li>
         <li><a th:href="@{/web/ressource/allRessources}">Ressourcen</a></li>
-        <li><a href="#">Räume</a></li>
-        <li><a href="#">Zurück</a></li>
+        <li><a th:href="@{/web/rooms/allRooms}">Räume</a></li>
     </ul>
 </div>

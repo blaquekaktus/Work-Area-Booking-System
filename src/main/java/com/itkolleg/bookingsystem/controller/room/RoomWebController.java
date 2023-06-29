@@ -1,6 +1,7 @@
 package com.itkolleg.bookingsystem.controller.room;
 
 import com.itkolleg.bookingsystem.exceptions.RoomExceptions.RoomNotFoundException;
+import com.itkolleg.bookingsystem.service.Employee.EmployeeService;
 import com.itkolleg.bookingsystem.service.Room.RoomService;
 import com.itkolleg.bookingsystem.domains.Room;
 import com.itkolleg.bookingsystem.exceptions.RoomExceptions.RoomDeletionNotPossibleException;
@@ -11,12 +12,14 @@ import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.ModelAndView;
 
 import java.util.List;
 import java.util.concurrent.ExecutionException;
 
 @Controller
+@RequestMapping("/web/rooms")
 public class RoomWebController {
 
     RoomService roomService;
@@ -31,12 +34,12 @@ public class RoomWebController {
     }
 
     /**
-     * Dient dazu eine Übersicht aller roomn für den/die Mitarbeiter:inn zu liefern.
+     * Dient dazu eine Übersicht aller Räume für den/die Mitarbeiter:in zu liefern.
      * @return modelAndView
      * @throws ExecutionException
      * @throws InterruptedException
      */
-    @GetMapping("/allroomsEmployee")
+    @GetMapping("/allRoomsEmployee")
     public ModelAndView allroomsEmployee() throws ExecutionException, InterruptedException {
         List<Room> allRooms = roomService.getAllRooms();
         return new ModelAndView("room/allRoomsEmployee", "roomsEmployee", allRooms);
@@ -70,7 +73,7 @@ public class RoomWebController {
             return "/room/addRoom";
         } else {
             this.roomService.addRoom(room);
-            return "redirect:/web/room/allRooms";
+            return "redirect:/web/rooms/allRooms";
         }
     }
 
@@ -84,12 +87,12 @@ public class RoomWebController {
      * @throws ExecutionException
      * @throws InterruptedException
      */
-    @GetMapping("/updateroom/{id}")
+    @GetMapping("/updateRoom/{id}")
     public ModelAndView updateRoom(@PathVariable Long id, Model model) throws RoomNotFoundException, ExecutionException, InterruptedException {
 
         Room room = this.roomService.getRoomById(id);
-        model.addAttribute("updateroom", room);
-        return new ModelAndView("room/editroom", "room", model);
+        model.addAttribute("updateRoom", room);
+        return new ModelAndView("room/editRoom", "room", model);
     }
 
     /**
@@ -107,8 +110,8 @@ public class RoomWebController {
         if (bindingResult.hasErrors()) {
             return "/room/editRoom";
         } else {
-            this.roomService.updateRoomById(room);
-            return "redirect:/web/room/allRooms";
+            this.roomService.updateRoom(room);
+            return "redirect:/web/rooms/allRooms";
         }
     }
 
@@ -125,19 +128,19 @@ public class RoomWebController {
     public String deleteroom(@PathVariable Long id) {
         try {
             this.roomService.deleteRoomById(id);
-            return "redirect:/web/room/allRooms";
+            return "redirect:/web/rooms/allRooms";
         } catch (RoomDeletionNotPossibleException e) {
-            return "redirect:/web/room/allRooms";
+            return "redirect:/web/rooms/allRooms";
         }
     }
 
-    @GetMapping("/web/floors")
+    @GetMapping("/floors")
     public ModelAndView allfloors() throws ExecutionException, InterruptedException {
         List<Room> allFloors = roomService.getAllRooms();
         return new ModelAndView("room/floors", "floors", allFloors);
     }
 
-    @GetMapping("/web/floorsEmployee")
+    @GetMapping("/floorsEmployee")
     public ModelAndView allfloorsemployee() throws ExecutionException, InterruptedException {
         List<Room> allFloors = roomService.getAllRooms();
         return new ModelAndView("room/floorsEmployee", "floors", allFloors);

@@ -10,7 +10,7 @@
 <div class="content-container">
     <div class="addRessourceContainer">
         <h1>Mitarbeiter eintragen</h1><br><br>
-            <form th:action="@{/web/employees/insertemployee}" method="post" th:object="${myemployee}">
+            <form th:action="@{/web/admin/insertemployee}" method="post" th:object="${myemployee}">
                 <div class="form-group">
                     <label for="fname">Vorname</label>
                     <input type="text" id="fname" th:field="*{fname}"/>
@@ -47,7 +47,7 @@
                 </div>
                 <div>
                     <button class="button" type="submit" name="action" value="save">Speichern</button>
-                    <a class="delete-button" href="/../web/employees/allemployees">Zurück</a>
+                    <a class="delete-button" th:href="@{/web/admin/allemployees}">Zurück</a>
                 </div>
             </form>
         </div>

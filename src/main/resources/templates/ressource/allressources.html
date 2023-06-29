@@ -34,13 +34,13 @@
                     <td>
                         <a th:href="@{'/web/ressourceBooking/createBooking/' + ${ressource.id}}" class="button" role="button">Buchen</a>
                         <a th:href="@{'/web/ressource/updateRessource/' + ${ressource.id}}" class="button" role="button">Bearbeiten</a>
-                        <a th:href="@{'/web/ressource/deleteRessource/' + ${ressource.id}}" class="delete-button" role="button">Löschen</a>
+                        <a th:href="@{/web/ressource/deleteRessource/{id}(id=${ressource.id})}" class="delete-button" role="button">Löschen</a>
                     </td>
                 </tr>
             </th:block>
             </tbody>
         </table>
-        <a th:href="@{addRessource}" class="add-button" role="button">Neue Ressource</a>
+        <a th:href="@{/web/ressource/addRessource}" class="add-button" role="button">Neue Ressource</a>
     </div>
 </div>
 <div class="filler"></div>

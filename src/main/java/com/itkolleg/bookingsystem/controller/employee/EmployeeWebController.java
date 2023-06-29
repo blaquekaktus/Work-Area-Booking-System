@@ -1,6 +1,5 @@
 package com.itkolleg.bookingsystem.controller.employee;
 
-//import com.itkolleg.bookingsystem.Service.Employee.EmployeeService;
 import com.itkolleg.bookingsystem.domains.Employee;
 import com.itkolleg.bookingsystem.exceptions.EmployeeExceptions.EmployeeAlreadyExistsException;
 import com.itkolleg.bookingsystem.exceptions.EmployeeExceptions.EmployeeDeletionNotPossibleException;
@@ -17,7 +16,7 @@ import java.util.List;
 import java.util.concurrent.ExecutionException;
 
 @Controller
-@RequestMapping("/web/employees")
+@RequestMapping("/web")
 public class EmployeeWebController {
 
     EmployeeService employeeService;
@@ -27,7 +26,7 @@ public class EmployeeWebController {
     }
 
 
-    @GetMapping("/allemployees")
+    @GetMapping("/admin/allemployees")
     public ModelAndView allemployees() throws ExecutionException, InterruptedException {
         List<Employee> allEmployees = employeeService.getAllEmployees();
         ModelAndView modelAndView = new ModelAndView();
@@ -36,37 +35,37 @@ public class EmployeeWebController {
         return modelAndView;
     }
 
-    @GetMapping("/admin-start")
+    @GetMapping("/admin/admin-start")
     public ModelAndView home() throws ExecutionException, InterruptedException {
         ModelAndView modelAndView = new ModelAndView();
         modelAndView.setViewName("employee/admin-start");
         return modelAndView;
     }
 
-    @GetMapping("/start")
+    @GetMapping("/user/start")
     public ModelAndView homeUser() throws ExecutionException, InterruptedException {
         ModelAndView modelAndView = new ModelAndView();
         modelAndView.setViewName("employee/start");
         return modelAndView;
     }
 
-    @GetMapping("/employeeswithnick")
+    @GetMapping("/admin/employeeswithnick")
     public String searchEmployees() throws ExecutionException, InterruptedException, EmployeeNotFoundException {
         return "employee/employeeswithnick";
     }
 
-    @PostMapping("/employeeswithnick")
+    @PostMapping("/admin/employeeswithnick")
     public String searchEmployeesByNickname(@RequestParam("nickname") String nickname, Model model) throws ExecutionException, InterruptedException, EmployeeNotFoundException {
         List<Employee> employees = employeeService.getEmployeesWithNickLikeIgnoreCase(nickname);
         model.addAttribute("employeesnick", employees);
         return "employee/employeeswithnick";
     }
 
-    @GetMapping("/deleteemployee/{id}")
+    @GetMapping("/admin/deleteemployee/{id}")
     public String deleteemployeewithid(@PathVariable Long id, Model model) {
         try {
             this.employeeService.deleteEmployeeById(id);
-            return "redirect:/web/employees/allemployees";
+            return "redirect:/web/admin/allemployees";
         } catch (EmployeeDeletionNotPossibleException e)
         {
             System.out.println(e.getMessage());
@@ -76,12 +75,12 @@ public class EmployeeWebController {
         }
     }
 
-    @GetMapping("/insertemployeeform")
+    @GetMapping("/admin/insertemployeeform")
     public ModelAndView insertemployeeform(){
         return new ModelAndView("employee/insertemployeeform", "myemployee", new Employee());
     }
 
-    @PostMapping("/insertemployee")
+    @PostMapping("/admin/insertemployee")
     public String insertEmployee(@Valid @ModelAttribute("myemployee") Employee employee, BindingResult bindingResult, Model model) throws ExecutionException, InterruptedException {
         if (bindingResult.hasErrors()) {
             model.addAttribute("bindingResult", bindingResult);
@@ -89,7 +88,7 @@ public class EmployeeWebController {
         } else {
             try {
                 this.employeeService.addEmployee(employee);
-                return "redirect:/web/employees/allemployees";
+                return "redirect:/web/admin/allemployees";
             } catch (EmployeeAlreadyExistsException e) {
                 System.out.println(e.getMessage());
                 model.addAttribute("errortitle", "Mitarbeiter kann nicht eingefügt werden!");
@@ -99,7 +98,7 @@ public class EmployeeWebController {
         }
     }
 
-    @GetMapping("/editemployee/{id}")
+    @GetMapping("/admin/editemployee/{id}")
     public String editEmployeeForm(@PathVariable Long id, Model model) throws EmployeeNotFoundException, ExecutionException, InterruptedException {
         Employee employee = employeeService.getEmployeeById(id);
         if (employee != null) {
@@ -110,7 +109,7 @@ public class EmployeeWebController {
         }
     }
 
-    @PostMapping("/editemployee")
+    @PostMapping("/admin/editemployee")
     public String editEmployee(@Valid @ModelAttribute("employee") Employee updatedEmployee, BindingResult bindingResult, Model model) throws EmployeeNotFoundException {
         System.out.println("Validierung fehlgeschlagen: " + bindingResult.getAllErrors());
         if (bindingResult.hasErrors()) {
@@ -119,7 +118,7 @@ public class EmployeeWebController {
         } else {
             try {
                 this.employeeService.updateEmployeeById(updatedEmployee);
-                return "redirect:/web/employees/allemployees";
+                return "redirect:/web/admin/allemployees";
             } catch (Exception e) {
                 System.out.println(e.getMessage());
                 model.addAttribute("errortitle", "Mitarbeiter bearbeiten fehlgeschlagen!");

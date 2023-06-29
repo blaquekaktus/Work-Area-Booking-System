@@ -33,8 +33,8 @@ public class RoomServiceImplementation implements RoomService {
     }
 
     @Override
-    public Room updateRoomById(Room room) throws RoomNotFoundException, ExecutionException, InterruptedException {
-        return this.dbAccessRoom.updateRoomById(room);
+    public Room updateRoom(Room room) throws RoomNotFoundException, ExecutionException, InterruptedException {
+        return this.dbAccessRoom.updateRoom(room);
     }
 
     @Override
