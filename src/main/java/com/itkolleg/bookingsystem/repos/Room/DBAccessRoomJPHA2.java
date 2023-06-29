@@ -58,7 +58,7 @@ public class DBAccessRoomJPHA2 implements DBAccessRoom {
         if (roomOptional.isPresent()) {
             return roomOptional.get();
         } else {
-            throw new RoomNotFoundException();
+            throw new RoomNotFoundException("Booking not found for id: " + id);
         }
     }
 

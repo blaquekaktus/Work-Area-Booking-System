@@ -115,35 +115,35 @@ public class RoomBookingRepo_JPAH2 implements RoomBookingRepo {
     }
 
     @Override
-    public RoomBooking updateBookingById(Long id, RoomBooking updatedBooking) throws RoomNotFoundException {
-        if (updatedBooking.getRoom() == null || updatedBooking.getStart() == null || updatedBooking.getEndTime() == null || updatedBooking.getCreatedOn() == null) {
+    public RoomBooking updateBookingById(Long roomBookingId, RoomBooking updatedRoomBooking) throws RoomNotFoundException {
+        if (updatedRoomBooking.getRoom() == null || updatedRoomBooking.getStart() == null || updatedRoomBooking.getEndTime() == null || updatedRoomBooking.getCreatedOn() == null) {
             throw new IllegalArgumentException("Updated Booking must have valid Room, Employee, Date, StartTime, EndTime and Creation Date.");
         }
-        return this.roomBookingJPARepo.findById(id).map(existingBooking -> {
+        return this.roomBookingJPARepo.findById(roomBookingId).map(existingBooking -> {
             Room fetchedRoom;
             try {
-                fetchedRoom = this.roomJPARepo.findById(updatedBooking.getRoom().getId())
-                        .orElseThrow(() -> new RoomNotFoundException());
+                fetchedRoom = this.roomJPARepo.findById(updatedRoomBooking.getRoom().getId())
+                        .orElseThrow(() -> new RoomNotFoundException("Booking not found for id: " + updatedRoomBooking.getRoom().getId()));
             } catch (RoomNotFoundException e) {
                 logger.error(e.getMessage());
                 throw new RuntimeException("Failed to update booking due to missing room. Original error: " + e.getMessage());
             }
             Employee fetchedEmployee;
             try {
-                fetchedEmployee = this.employeeJPARepo.findById(updatedBooking.getEmployee().getId())
-                        .orElseThrow(() -> new EmployeeNotFoundException("The Employee with the ID: " + updatedBooking.getEmployee().getId() + " was not found!"));
+                fetchedEmployee = this.employeeJPARepo.findById(updatedRoomBooking.getEmployee().getId())
+                        .orElseThrow(() -> new EmployeeNotFoundException("The Employee with the ID: " + updatedRoomBooking.getEmployee().getId() + " was not found!"));
             } catch (EmployeeNotFoundException e) {
                 logger.error(e.getMessage());
                 throw new RuntimeException("Failed to update booking due to missing employee. Original error: " + e.getMessage());
             }
             existingBooking.setRoom(fetchedRoom);
             existingBooking.setEmployee(fetchedEmployee);
-            existingBooking.setDate(updatedBooking.getDate());
-            existingBooking.setStart(updatedBooking.getStart());
-            existingBooking.setEndTime(updatedBooking.getEndTime());
+            existingBooking.setDate(updatedRoomBooking.getDate());
+            existingBooking.setStart(updatedRoomBooking.getStart());
+            existingBooking.setEndTime(updatedRoomBooking.getEndTime());
             existingBooking.setUpdatedOn(LocalDateTime.now());
             return existingBooking;
-        }).orElseThrow(() -> new RoomNotFoundException());
+        }).orElseThrow(() -> new RoomNotFoundException("Booking not found for id: " +roomBookingId));
     }
 
 

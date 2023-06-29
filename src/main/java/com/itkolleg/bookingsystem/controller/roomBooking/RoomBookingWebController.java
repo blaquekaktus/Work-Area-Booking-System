@@ -168,8 +168,9 @@ public class RoomBookingWebController {
         if (bindingResult.hasErrors()) {
             return "/roomBooking/editRoomBooking";
         } else {
+
             this.roomBookingService.updateBooking(booking);
-            return "redirect:/web/roomBooking/allBookings";
+            return "redirect:/web/rooms/allRooms";
         }
     }
 
