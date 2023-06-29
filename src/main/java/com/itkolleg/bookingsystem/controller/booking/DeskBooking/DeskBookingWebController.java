@@ -227,6 +227,14 @@ public class DeskBookingWebController {
         return "DeskBookings/myDeskBookings";
     }
 
+    @GetMapping("/view/{id}")
+    public String viewEDeskBooking(@PathVariable Long id, Model model) throws ResourceNotFoundException {
+        DeskBooking deskBooking = this.deskBookingService.getBookingById(id);
+        model.addAttribute("myDeskBooking", deskBooking);
+        return "DeskBookings/viewDeskBooking";
+    }
+
+
 
     @GetMapping("/add")
     public String addDeskBookingFormForEmployee(Model model) {
