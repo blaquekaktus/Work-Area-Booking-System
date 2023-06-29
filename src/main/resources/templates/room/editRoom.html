@@ -11,6 +11,7 @@
 <div class="content-container">
   <div class="addroomContainer">
     <h1>Raum bearbeiten</h1><br><br>
+    <div class="scroll-container">
     <form th:object="${updateroom}" th:action="@{/web/room/updateroom}" method="post"> <!--zuerst objekt holen, mapping wohin, übertragungsmethode-->
       <div class="form-group">
         <label for="id">ID:</label>
@@ -28,8 +29,11 @@
         <label for="info">Info:</label>
         <input type="text" class="form-control" id="info" name="info" th:field="*{info}">
       </div>
+      <div class="button-row">
       <button type="submit" class="button">Senden</button>
+      </div>
     </form>
+      </div>
   </div>
 </div>
 <div class="filler"></div>

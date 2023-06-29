@@ -10,6 +10,7 @@
 <div class="content-container">
   <div class="addroomContainer">
     <h1>Raum erstellen</h1><br><br>
+    <div class="scroll-container">
     <form th:object="${newroom}" th:action="@{/web/room/addroom}" method="post"><!--zuerst objekt holen, mapping wohin, übertragungsmethode-->
       <div class="form-group">
         <label for="name">Name:</label>
@@ -39,9 +40,12 @@
         <label for="serialnumber">Seriennummer:</label>
         <input type="text" class="form-control" id="serialnumber" name="serialnumber" th:field="*{serialnumber}" required>
       </div>
+      <div class="button-row">
       <button type="submit" class="button">Senden</button>
+      </div>
     </form>
   </div>
+    </div>
 </div>
 <div class="filler"></div>
 </body>

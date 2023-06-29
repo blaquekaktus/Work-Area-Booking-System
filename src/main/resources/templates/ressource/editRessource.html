@@ -10,6 +10,7 @@
 <div class="content-container">
     <div class="addRessourceContainer">
         <h1>Ressource bearbeiten</h1><br><br>
+        <div class="scroll-container">
         <form th:object="${updateRessource}" th:action="@{/web/ressource/updateRessource}" method="post"> <!--zuerst objekt holen, mapping wohin, übertragungsmethode-->
             <div class="form-group">
                 <label for="id">ID:</label>
@@ -40,8 +41,11 @@
                 <label for="serialnumber">Seriennummer:</label>
                 <input type="text" class="form-control" id="serialnumber" name="serialnumber" th:field="*{serialnumber}" required>
             </div>
+            <div class="button-row">
             <button type="submit" class="button">Senden</button>
+            </div>
         </form>
+            </div>
     </div>
 </div>
 <div class="filler"></div>

@@ -10,6 +10,7 @@
 <div class="content-container">
     <div class="addRessourceContainer">
     <h1>Arbeitsplatz-Buchung bearbeiten</h1><br><br>
+        <div class="scroll-container">
     <form method="post" th:action="@{/web/deskBookings/update}" th:object="${booking}">
        <!-- <form method="post" th:action="@{/web/deskBookings/update/{id}(id=${booking.id})}" th:object="${booking}">-->
         <div class="form-group">
@@ -57,9 +58,12 @@
             <div class="form-text" th:errors="*{endTime}"
                  th:if="${#fields.hasErrors('endTime')}"></div>
         </div>
+        <div class="button-row">
         <button class="button" type="submit">Speichern</button>
-        <a class="delete-button" th:href="@{/web/deskBookings}">Zurück</a>
+            <a class="delete-button" th:href="@{/web/deskBookings}">Zurück</a>
+        </div>
     </form>
+            </div>
 </div>
 </div>
 <div class="filler"></div>

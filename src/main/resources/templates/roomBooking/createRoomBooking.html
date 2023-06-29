@@ -11,6 +11,7 @@
 <div class="content-container">
     <div class="addRessourceContainer">
         <h1>Raum buchen</h1><br><br>
+        <div class="scroll-container">
         <form th:object="${newBooking}" th:action="@{/web/roomBooking/createBooking}" method="post">
             <table>
                 <thead>
@@ -93,10 +94,12 @@
                     <option value="00:00">00:00</option>
                 </select>
             </div>
-
+            <div class="button-row">
             <button type="submit" class="button">Senden</button>
+            </div>
         </form>
     </div>
+        </div>
 </div>
 <div class="filler"></div>
 </body>

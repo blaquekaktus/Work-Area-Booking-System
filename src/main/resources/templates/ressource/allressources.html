@@ -10,6 +10,7 @@
 <div class="content-container">
     <div class="allRessourceContainer">
         <h1>Ressourcenliste</h1><br><br>
+        <div class="scroll-container">
         <table>
             <thead>
             <tr>
@@ -40,9 +41,12 @@
             </th:block>
             </tbody>
         </table>
+            </div>
+        <div class="button-row">
         <a th:href="@{/web/ressource/addRessource}" class="add-button" role="button">Neue Ressource</a>
+            </div>
+            </div>
     </div>
-</div>
 <div class="filler"></div>
 </body>
 </html>

@@ -9,6 +9,7 @@
 <div class="content-container">
     <div class="addRessourceContainer">
         <h1>Arbeitsplatz buchen</h1><br><br>
+        <div class="scroll-container">
         <form method="post" th:action="@{/web/deskbookings/add}" th:object="${deskBooking}">
 
             <div th:if="${errorMessage}" class="alert alert-danger error-message">
@@ -85,9 +86,12 @@
                 <button type="submit" class="button">Book</button>
                 <a class="delete-button" th:href="@{/web/deskBookings}">Cancel</a>
             </div>
+            <div class="button-row">
+                <a class="button" role="button" style="margin-right: 50px" th:href="@{/web/desks}">View All Work-Areas</a>
+                <a class="button" role="button" style="margin-right: 50px" th:href="@{/web/deskBookings}">View All Work-Area Bookings</a>
+            </div>
         </form>
-        <a class="button" role="button" style="margin-right: 50px" th:href="@{/web/desks}">View All Work-Areas</a>
-        <a class="button" role="button" style="margin-right: 50px" th:href="@{/web/deskBookings}">View All Work-Area Bookings</a>
+            </div>
     </div>
 </div>
 <div class="filler"></div>
