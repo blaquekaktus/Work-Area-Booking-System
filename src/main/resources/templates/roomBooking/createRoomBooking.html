@@ -1,15 +1,15 @@
 <!DOCTYPE html>
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
-<div th:insert="headerAdmin :: headerAdmin" th:with="title='Ressource hinzufügen'">  </div>
+<div th:insert="headerAdmin :: headerAdmin" th:with="title='Raumbuchung hinzufügen'">  </div>
 <body>
 <!-- Top Bar -->
 <div th:insert="topbarAdmin :: topbarAdmin">  </div>
 <!-- Side Navbar -->
 <div th:insert="navbarAdmin :: navbarAdmin">  </div>
-<!-- Content -->
+
 <!-- Content -->
 <div class="content-container">
-    <div class="addroomContainer">
+    <div class="addRessourceContainer">
         <h1>Buchung für Raum:</h1><br><br>
         <form th:object="${newBooking}" th:action="@{/web/roomBooking/createBooking}" method="post">
             <table>

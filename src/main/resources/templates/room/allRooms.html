@@ -1,6 +1,6 @@
 <!DOCTYPE html>
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
-<div th:insert="headerAdmin :: headerAdmin" th:with="title='Ressource hinzufügen'">  </div>
+<div th:insert="headerAdmin :: headerAdmin" th:with="title='Liste aller Räume'">  </div>
 <body>
 <!-- Top Bar -->
 <div th:insert="topbarAdmin :: topbarAdmin">  </div>
@@ -16,6 +16,8 @@
       <tr>
         <th>ID</th>
         <th>Stockwerk</th>
+        <th> Info </th>
+        <th> Aktion </th>
       </tr>
       </thead>
       <tbody>
@@ -23,16 +25,17 @@
         <tr>
           <td th:text="${room.id}"></td>
           <td th:text="${room.floor}"></td>
+          <td th:text="${room.info}"></td>
           <td>
             <a th:href="@{'/web/roomBooking/createBooking/' + ${room.id}}" class="button" role="button">Buchen</a>
-            <a th:href="@{'/web/rooms/updaterooms/' + ${room.id}}" class="button" role="button">Bearbeiten</a>
-            <a th:href="@{'/web/rooms/deleterooms/' + ${room.id}}" class="delete-button" role="button">Löschen</a>
+            <a th:href="@{'/web/rooms/updateRoom/' + ${room.id}}" class="button" role="button">Bearbeiten</a>
+            <a th:href="@{'/web/rooms/deleteRoom/' + ${room.id}}" class="delete-button" role="button">Löschen</a>
           </td>
         </tr>
       </th:block>
       </tbody>
     </table>
-    <a th:href="@{addrooms}" class="add-button" role="button">Neuer Raum</a>
+    <a th:href="@{/web/rooms/addRoom}" class="add-button" role="button">Neuer Raum</a>
   </div>
 </div>
 <div class="filler"></div>

@@ -14,7 +14,7 @@ public interface DBAccessRoom {
 
     Room getRoomById(Long id) throws RoomNotFoundException, ExecutionException, InterruptedException;
 
-    Room updateRoomById(Room room) throws RoomNotFoundException, ExecutionException, InterruptedException;
+    Room updateRoom(Room room) throws RoomNotFoundException, ExecutionException, InterruptedException;
 
     void deleteRoomById(Long id) throws RoomDeletionNotPossibleException;
 }

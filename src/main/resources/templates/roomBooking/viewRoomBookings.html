@@ -1,6 +1,6 @@
 <!DOCTYPE html>
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
-<div th:insert="headerAdmin :: headerAdmin" th:with="title='Ressource hinzufügen'">  </div>
+<div th:insert="headerAdmin :: headerAdmin" th:with="title='Raumbuchungen'">  </div>
 <body>
 <!-- Top Bar -->
 <div th:insert="topbarAdmin :: topbarAdmin">  </div>
@@ -42,7 +42,7 @@
             </th:block>
             </tbody>
         </table>
-        <a th:href="@{'/web/room/allRooms'}" class="button" role="button">Buchen</a>
+        <a th:href="@{'/web/rooms/allRooms'}" class="button" role="button">Buchen</a>
     </div>
 </div>
 <div class="filler"></div>

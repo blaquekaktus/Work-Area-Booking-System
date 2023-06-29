@@ -1,6 +1,6 @@
 <!DOCTYPE html>
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
-<div th:insert="headerEmployee :: headerEmployee" th:with="title='Ressourcenliste'">  </div>
+<div th:insert="headerEmployee :: headerEmployee" th:with="title='Raumbuchungen'">  </div>
 <body>
 <!-- Top Bar -->
 <div th:insert="topbarEmployee :: topbarEmployee">  </div>
@@ -35,7 +35,7 @@
             </th:block>
             </tbody>
         </table>
-        <a th:href="@{'/web/room/allroomsEmployee'}" class="button" role="button">Buchen</a>
+        <a th:href="@{'/web/rooms/allRoomsEmployee'}" class="button" role="button">Buchen</a>
     </div>
 </div>
 <div class="filler"></div>

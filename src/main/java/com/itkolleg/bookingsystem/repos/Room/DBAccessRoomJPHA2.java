@@ -63,8 +63,8 @@ public class DBAccessRoomJPHA2 implements DBAccessRoom {
     }
 
     @Override
-    public Room updateRoomById(Room room) throws RoomNotFoundException, ExecutionException, InterruptedException {
-        return null;
+    public Room updateRoom(Room room) throws RoomNotFoundException, ExecutionException, InterruptedException {
+       return this.roomJPARepo.save(room);
     }
 
 

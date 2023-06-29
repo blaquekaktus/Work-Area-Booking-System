@@ -23,7 +23,7 @@ import java.util.concurrent.ExecutionException;
 
 /**
  * Diese Klasse repräsentiert einen WebController für das Modul RoomBooking. Der Controller ermöglicht die Interaktion mit Räumen über HTTP-Anfragen und -Antworten.
- * @author Patrick Bayr
+ * @author Manuel Payer
  * @version 1.0
  * @since 25.06.2023
  */
@@ -116,7 +116,7 @@ public class RoomBookingWebController {
             return "redirect:/web/roomBooking/createBookingEmployee/" + booking.getRoom().getId();
         } else {
             this.roomBookingService.addRoomBooking(booking);
-            return "redirect:/web/rooms/floorsEmployee";
+            return "redirect:/web/roomBooking/allBookingsEmployee";
         }
 
     }
