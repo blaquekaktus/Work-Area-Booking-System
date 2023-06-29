@@ -159,6 +159,7 @@ public class DeskBookingWebController {
 
     @PostMapping("/admin/update")
     public String updateDeskBooking(@Valid DeskBooking booking, BindingResult bindingResult, @RequestParam("id") Long id, @RequestParam("desk.id") Long deskId, @RequestParam("employee.id") Long employeeId) throws ResourceNotFoundException, DeskNotAvailableException, ExecutionException, InterruptedException, EmployeeNotFoundException {
+        System.out.println("..............................................................................");
         if (bindingResult.hasErrors()) {
             System.out.println("Errors: " + bindingResult.getAllErrors());
             return "DeskBookings/Admin/updateDeskBooking";
