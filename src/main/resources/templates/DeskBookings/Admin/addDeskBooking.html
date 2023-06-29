@@ -9,7 +9,7 @@
 <div class="content-container">
     <div class="addRessourceContainer">
         <h1>Arbeitsplatz Buchen</h1><br><br>
-        <form method="post" th:action="@{/web/deskbookings/add}" th:object="${deskBooking}">
+        <form method="post" th:action="@{/web/deskbookings/admin/add}" th:object="${deskBooking}">
             <div th:if="${errorMessage}" class="alert alert-danger error-message">
                 <p th:text="${errorMessage}"></p>
             </div>
@@ -68,7 +68,7 @@
                      th:if="${#fields.hasErrors('endTime')}"></div>
             </div>
             <button type="submit" class="button">Buchen</button>
-            <a class="button" role="button" th:href="@{/web/desks}">Alle Arbeitsplätze anzeigen</a>
+            <a class="button" role="button" th:href="@{/web/desks}">Alle Arbeitsplätze</a>
             <a class="delete-button" role="button" th:href="@{/web/deskbookings/admin}">Abbrechen</a>
         </form>
     </div>
