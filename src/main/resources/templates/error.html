@@ -2,25 +2,31 @@
 <html lang="en" xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
 <div th:insert="headerEmployee :: headerEmployee" th:with="title='Error'"></div>
 <body>
-<!-- Top Bar -->
-<div th:insert="topbarEmployee :: topbarEmployee"></div>
-<div class="content-container">
-    <table>
-        <thead>
-        <tr>
-            <th style="width:100%">Oops... Something went wrong!</th>
-        </tr>
-        </thead>
-        <tbody>
-        <tr th:if="${errortitle}" class="error-message">
-            <td style="width:100%" th:text="${errortitle}"></td>
-        </tr>
-        <tr th:if="${errormessage}" class="error-message">
-            <td style="width:100%" th:text="${errormessage}"></td>
-        </tr>
+<img class="logo" src="/../static/img/LogoWhite.png" alt="">
 
-        </tbody>
-    </table>
+<!-- Content -->
+<div class="content-container">
+    <div class="error-container">
+        <table>
+            <thead>
+            <tr>
+                <th style="width:100%">Oops... Something went wrong!</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr th:if="${errortitle}" class="error-message">
+                <td style="width:100%" th:text="${errortitle}"></td>
+            </tr>
+            <tr th:if="${errormessage}" class="error-message">
+                <td style="width:100%" th:text="${errormessage}"></td>
+            </tr>
+
+            </tbody>
+        </table>
+        <div class="button-row">
+            <button class="delete-button" onclick="goBack()">Zurück</button>
+        </div>
+    </div>
 </div>
 </body>
 </html>
