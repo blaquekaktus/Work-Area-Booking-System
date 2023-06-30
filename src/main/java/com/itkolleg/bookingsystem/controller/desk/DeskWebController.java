@@ -7,8 +7,6 @@ import com.itkolleg.bookingsystem.service.Desk.DeskService;
 import jakarta.validation.Valid;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -31,15 +29,6 @@ public class DeskWebController {
     public String getAllDesks(Model model) {
         model.addAttribute("viewAllDesks", this.deskService.getAllDesks());
         return "Desks/allDesks";
-    }
-
-    @GetMapping("/pages")
-    public String getAllDesks(Model model,
-                              @RequestParam(defaultValue = "0") int page,
-                              @RequestParam(defaultValue = "10") int size) {
-        Page<Desk> deskPage = this.deskService.getAllDesksByPage(PageRequest.of(page, size));
-        model.addAttribute("desks", deskPage);
-        return "Desks/allDesksPages";
     }
 
     @GetMapping("/add")
@@ -96,27 +85,24 @@ public class DeskWebController {
         }
     }
 
-    @GetMapping("/cancel/{id}")
-    public String deleteDeskForm(@PathVariable Long id, Model model) {
-        try {
-            Desk desk = this.deskService.getDeskById(id);
-            model.addAttribute("desk", desk);
-            return "Desks/deleteDesk";
-        } catch (ResourceNotFoundException e) {
-            return "redirect:/web/desks";
-        }
+    @GetMapping("/delete/{id}")
+    public String deleteDeskForm(@PathVariable Long id, Model model) throws ResourceNotFoundException {
+        Desk desk = this.deskService.getDeskById(id);
+        model.addAttribute("desk", desk);
+        return "Desks/deleteDesk";
     }
 
-    @PostMapping("/cancel/{id}")
+    @PostMapping("/delete/{id}")
     public String deleteDesk(@PathVariable Long id, RedirectAttributes redirectAttributes) {
         try {
             this.deskService.deleteDeskById(id);
-            redirectAttributes.addFlashAttribute("message", "Desk cancelled successfully!");
-            return "redirect:/web/desks";
         } catch (ResourceDeletionFailureException e) {
-            return "redirect:/web/desks";
+            redirectAttributes.addFlashAttribute("errorMessage", "Failed to delete the desk.");
+            return "redirect:/web/desks/delete/" + id;
         }
+        return "redirect:/web/desks";
     }
+
 
     /*@GetMapping("/delete/{id}")
     public String deleteDesk(@PathVariable Long id, RedirectAttributes redirectAttributes) {
