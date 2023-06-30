@@ -20,7 +20,7 @@
                 <div class="form-group">
                     <label for="ressourcetype">Kategorie:</label>
                     <select name="ressourcetype" id="ressourcetype" class="form-control">
-                        <option>---Bitte Auswählen---</option>
+                        <option disabled selected value>---Bitte Auswählen---</option> <!--disabled= nicht auswählbar, selected= standardmäßig ausgewählt, value= Leerer Wert-->
                         <!--<option th:each="ressource : ${newRessource.ressourcetype}"
                                 th:value="${ressource}" th:text="${ressource}">-->
                         <option th:each="type : ${T(com.itkolleg.bookingsystem.domains.Ressourcetype).values()}"
