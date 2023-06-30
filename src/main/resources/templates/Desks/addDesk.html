@@ -1,14 +1,16 @@
 <!DOCTYPE html>
 <html lang="en" xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
-<div th:insert="headerAdmin :: headerAdmin" th:with="title='Tisch erstellen'">  </div>
+<div th:insert="headerAdmin :: headerAdmin" th:with="title='Tisch erstellen'"></div>
 <body>
 <!-- Top Bar -->
-<div th:insert="topbarAdmin :: topbarAdmin">  </div>
+<div th:insert="topbarAdmin :: topbarAdmin"></div>
 <!-- Side Navbar -->
-<div th:insert="navbarAdmin :: navbarAdmin">  </div>
+<div th:insert="navbarAdmin :: navbarAdmin"></div>
 <!-- Content -->
 <div class="content-container">
     <div class="addRessourceContainer">
+        <h1>Arbeitsplatz erstellen</h1><br><br>
+        <div class="scroll-container">
             <form method="post" th:action="@{/web/desks/add}" th:object="${desk}">
                 <div class="form-group">
                     <label for="deskNr">Arbeitsplatznummer</label>
@@ -31,9 +33,13 @@
                 </div>
                 <button class="button" type="submit">Erstellen</button>
                 <a class="delete-button" role="button" th:href="@{/web/desks}">Zurück</a>
+                <div class="button-row">
+                    <button class="button" type="submit">Hinzufügen</button>
+                </div>
             </form>
         </div>
     </div>
+</div>
 <div class="filler"></div>
 </body>
 </html>

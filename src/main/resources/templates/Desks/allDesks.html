@@ -40,6 +40,43 @@
             </tbody>
         </table>
         <a class="button" role="button" th:href="@{/web/desks/add}">Arbeitsplatz Erstellen</a>
+        <h1>Tische</h1><br><br>
+        <div class="scroll-container">
+            <div class="room">
+                <!-- The desks will be added here by JavaScript -->
+            </div>
+            <!--<div th:each="desk: ${viewAllDesks}" class="desk-data" th:id="${'desk' + desk.id}" th:data-status="${desk.bookingStatus}" style="display: none;"></div>-->
+            <div class="alert alert-danger" role="alert" th:if="${errorMessage}" th:text="${errorMessage}"></div>
+            <table>
+                <thead>
+                <tr>
+                    <th>Arbeitsplatz ID</th>
+                    <th>Arbeitsplatz Nummer</th>
+                    <th>Monitore</th>
+                    <th>Ports</th>
+                    <th>Aktion</th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr th:each="desk: ${viewAllDesks}">
+                    <td th:text="${desk.id}"></td>
+                    <td th:text="${desk.deskNr}"></td>
+                    <td th:text="${desk.nrOfMonitors}"></td>
+                    <td><p th:each="port : ${desk.ports}" th:text="${port.name}"></p></td>
+                    <td>
+                        <a class="button" role="button" th:href="@{/web/desks/view/{id}(id=${desk.id})}">Ansicht</a>
+                        <a class="button" role="button"
+                           th:href="@{/web/desks/update/{id}(id=${desk.id})}">Bearbeiten</a>
+                        <a class="delete-button" role="button" th:href="@{/web/desks/delete/{id}(id=${desk.id})}">Löschen</a>
+                    </td>
+                </tr>
+                </tbody>
+            </table>
+        </div>
+        <div class="button-row">
+            <a class="button" role="button" th:href="@{/web/desks/add}">neuer Arbeitsplatz</a>
+            <button class="delete-button" onclick="goBack()">Zurück</button>
+        </div>
     </div>
 </div>
 <div class="filler"></div>

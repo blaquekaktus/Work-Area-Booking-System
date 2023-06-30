@@ -224,6 +224,7 @@ public class RoomBookingWebController {
     public String deleteBookingEmployee(@PathVariable Long id) {
         try {
             this.roomBookingService.deleteBookingById(id);
+            System.out.println("BUSENBUSENBUSENBUSEN");
             return "redirect:/web/roomBooking/allBookingsEmployee";
         } catch (RoomNotFoundException | RoomDeletionNotPossibleException e) {
             return "redirect:/web/roomBooking/allBookingsEmployee";
