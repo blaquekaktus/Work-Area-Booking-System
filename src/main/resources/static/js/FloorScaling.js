@@ -22,27 +22,6 @@ function scaleImageMap() {
 
         areas[i].setAttribute('coords', scaledCoords.join(','));
     }
-}
 
 
-function displayPopup() {
-    var tooltip = document.createElement('div');
-    tooltip.innerText = 'Klick mich zum Buchen';
-    tooltip.classList.add('tooltip');
-
-    document.body.appendChild(tooltip);
-
-    document.addEventListener('mousemove', moveTooltip);
-
-    function moveTooltip(event) {
-        tooltip.style.left = event.clientX + 'px';
-        tooltip.style.top = event.clientY + 'px';
-    }
-
-    function removeTooltip() {
-        document.removeEventListener('mousemove', moveTooltip);
-        document.body.removeChild(tooltip);
-    }
-
-    document.addEventListener('mouseout', removeTooltip);
 }
