@@ -1,6 +1,6 @@
 <!DOCTYPE html>
 <html lang="en" xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
-<div th:insert="headerAdmin :: headerAdmin" th:with="title='Arbeitsplatz-Buchung löschen'"></div>
+<div th:insert="headerAdmin :: headerAdmin" th:with="title='Arbeitsplatzbuchung Löschen'"></div>
 <body>
 <!-- Top Bar -->
 <div th:insert="topbarAdmin :: topbarAdmin"></div>
@@ -8,7 +8,7 @@
 <div th:insert="navbarAdmin :: navbarAdmin"></div>
 <div class="content-container">
     <div class="addRessourceContainer">
-        <h1>Arbeitsplatz-Buchung löschen</h1><br><br>
+        <h1>Arbeitsplatzbuchung Löschen</h1><br><br>
         <form method="post" th:action="@{/web/deskbookings/admin/cancel/{id}(id=${booking.id})}" th:object="${booking}">
             <p>Sind Sie sicher, dass Sie die folgende Arbeitsplatz-Buchung löschen wollen: </p>
             <br>

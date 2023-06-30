@@ -1,6 +1,6 @@
 <!DOCTYPE html>
 <html lang="en" xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
-<div th:insert="headerEmployee :: headerEmployee" th:with="title='Buchung bearbeiten'">  </div>
+<div th:insert="headerEmployee :: headerEmployee" th:with="title='Arbeitsplatzbuchung bearbeiten'">  </div>
 <body>
 <!-- Top Bar -->
 <div th:insert="topbarEmployee :: topbarEmployee">  </div>
@@ -9,8 +9,8 @@
 <!-- Content -->
 <div class="content-container">
     <div class="addRessourceContainer">
-    <h1>Arbeitsplatz-Buchung bearbeiten</h1><br><br>
-    <form method="post" th:action="@{/web/deskBookings/update}" th:object="${booking}">
+    <h1>Arbeitsplatzbuchung bearbeiten</h1><br><br>
+    <form method="post" th:action="@{/web/deskbookings/update}" th:object="${booking}">
        <!-- <form method="post" th:action="@{/web/deskBookings/update/{id}(id=${booking.id})}" th:object="${booking}">-->
         <div class="form-group">
             <label for="id" hidden="hidden"></label>
@@ -22,11 +22,11 @@
         <div class="form-group">
             <label for="employee.name">Mitarbeiter</label>
             <input class="form-control" id="employee.name" name="employee.name"
-                   th:value="${employee.fname} + ' ' + ${employee.lname}" readonly>
-            <input type="hidden" id="employee.id" name="employee.id" th:value="${employee.id}">
+                   th:value="${booking.employee.fname} + ' ' + ${booking.employee.lname}" readonly>
+            <input type="hidden" id="employee.id" name="employee.id" th:value="${booking.employee.id}">
             <label for="deskId">Tisch</label>
             <select class="form-control" id="deskId" name="desk.id" th:field="*{desk.id}">
-                <option selected="selected" value="">--Select Work-Area--</option>
+                <option selected="selected" value="">--Arbeitsplatz--</option>
                 <option th:each="desk : ${desks}" th:text="${desk.deskNr}" th:value="${desk.id}"></option>
             </select>
             <div class="form-text"  th:errors="*{desk.id}"
@@ -38,7 +38,7 @@
                  th:if="${#fields.hasErrors('date')}"></div>
             <label for="start">Start</label>
             <select class="form-select" id="start" name="start" th:field="*{start}">
-                <option value="">--Startzeit auswählen--</option>
+                <option value="">--Start--</option>
                 <option th:each="time : ${uniqueStartTimes}"
                         th:text="${time}"
                         th:value="${time}"></option>
@@ -49,7 +49,7 @@
             </div>
             <label for="endTime">End</label>
             <select class="form-select" id="endTime" name="endTime" th:field="*{endTime}">
-                <option value="">--Endzeit auswählen--</option>
+                <option value="">--Ende--</option>
                 <option th:each="time : ${uniqueEndTimes}"
                         th:text="${time}"
                         th:value="${time}"></option>

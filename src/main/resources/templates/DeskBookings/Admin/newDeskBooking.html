@@ -1,6 +1,6 @@
 <!DOCTYPE html>
 <html lang="en" xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
-<div th:insert="headerAdmin :: headerAdmin" th:with="title='Arbeitsplatz buchen'"></div>
+<div th:insert="headerAdmin :: headerAdmin" th:with="title='Arbeitsplatz Buchen'"></div>
 <body>
 <!-- Top Bar -->
 <div th:insert="topbarAdmin :: topbarAdmin"></div>
@@ -26,9 +26,16 @@
 
             <div class="form-group">
                 <label class="form-label" for="deskNr">Arbeitsplatz</label>
-                <input class="form-control" id="deskNr" name="deskNr" readonly
-                       th:field="${deskBooking.desk.deskNr}" type="text">
-                <div th:errors="*{desk.id}" th:if="${#fields.hasErrors('desk.id')}"></div>
+                <select class="form-control" id="deskNr" name="desk.id" th:field="*{desk.id}" onchange="updateDeskId()">
+                    <option th:each="desk : ${desks}"
+                            th:text="${desk.deskNr}"
+                            th:selected="${desk.id.equals(defaultDeskId) ? 'selected' : ''}"
+                            th:value="${desk.id}"
+                            th:data-deskNr="${desk.deskNr}"></option>
+                </select>
+                <div class="form-text"
+                     th:errors="*{desk.deskNr}"
+                     th:if="${#fields.hasErrors('desk.deskNr')}"></div>
             </div>
 
             <input type="hidden" id="desk.id" name="desk.id" th:field="*{desk.id}"/>

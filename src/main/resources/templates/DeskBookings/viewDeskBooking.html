@@ -1,6 +1,6 @@
 <!DOCTYPE html>
 <html lang="en" xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
-<div th:insert="headerEmployee :: headerEmployee" th:with="title='Arbeitsplatzbuchungen'"></div>
+<div th:insert="headerEmployee :: headerEmployee" th:with="title='Arbeitsplatzbuchung Details'"></div>
 <body>
 <!-- Top Bar -->
 <div th:insert="topbarEmployee :: topbarEmployee"></div>
@@ -10,7 +10,7 @@
 <!-- Content -->
 <div class="content-container">
     <div class="addRessourceContainer">
-        <h1>Arbeitsplatz-Buchung</h1><br><br>
+        <h1>Arbeitsplatzbuchung Details</h1><br><br>
         <div class="scroll-container">
             <form method="get" th:action="@{/web/deskbookings/view/{id}}" th:object="${myDeskBooking}">
                 <div class="form-group">

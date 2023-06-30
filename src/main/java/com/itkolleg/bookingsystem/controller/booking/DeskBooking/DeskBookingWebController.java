@@ -120,9 +120,10 @@ public class DeskBookingWebController {
         }
     }
 
-    @GetMapping("/admin/new")
-    public String newDeskBookingForm(Model model, RedirectAttributes redirectAttributes) {
+    @GetMapping("/admin/new/{deskId}")
+    public String newDeskBookingForm(@PathVariable("deskId") Long deskId, Model model, RedirectAttributes redirectAttributes) {
         model.addAttribute("deskBooking", new DeskBooking());
+        model.addAttribute("defaultDeskId", deskId);
         model.addAttribute("errorMessage", redirectAttributes.getFlashAttributes().get("errorMessage"));
         return "DeskBookings/Admin/newDeskBooking";
     }
@@ -292,6 +293,74 @@ public class DeskBookingWebController {
             logger.error("Error occurred while booking the desk: {}", e.getMessage(), e);
             redirectAttributes.addFlashAttribute("errorMessage", e.getMessage());
             return "redirect:/web/deskbookings/add";
+        }
+    }
+
+    @GetMapping("/update/{id}")
+    public String updateEDeskBookingForm(@PathVariable Long id, Model model) throws ResourceNotFoundException, ExecutionException, InterruptedException, EmployeeNotFoundException {
+        DeskBooking booking = this.deskBookingService.getBookingById(id);
+
+        if (booking == null) {
+            // Log an error message indicating that the booking was not found
+            logger.error("Booking with ID {} not found.", id);
+            return "redirect:/error";
+        }
+
+        // Get the eDesks and TimesSlots after checking that the booking is not null
+        List<Desk> desks = this.deskService.getAllDesks();
+        List<TimeSlot> times = timeSlotService.getAllTimeSlots();
+
+        // Creating list of unique start times
+        List<String> uniqueStartTimes = times.stream()
+                .map(TimeSlot::getStartTimeAsString)
+                .distinct()
+                .collect(Collectors.toList());
+        // Creating list of unique end times
+        List<String> uniqueEndTimes = times.stream()
+                .map(TimeSlot::getEndTimeAsString)
+                .distinct()
+                .collect(Collectors.toList());
+
+        // Convert the LocalDate to java.util.Date for the Thymeleaf template
+        Date bookingDate = java.sql.Date.valueOf(booking.getDate());
+        model.addAttribute("bookingDate", bookingDate);
+
+        //Add booking, bookingDate, employee, desks, unique booking start and end times to the model
+        model.addAttribute("booking", booking);
+        model.addAttribute("bookingDate", bookingDate); // Add this line
+        model.addAttribute("desks", desks);
+        model.addAttribute("uniqueStartTimes", uniqueStartTimes);
+        model.addAttribute("uniqueEndTimes", uniqueEndTimes);
+        return "DeskBookings/updateDeskBooking";
+    }
+
+
+    @PostMapping("/update")
+    public String updateEDeskBooking(@Valid DeskBooking booking, BindingResult bindingResult, @RequestParam("id") Long id, @RequestParam("desk.id") Long deskId, @RequestParam("employee.id") Long employeeId, @RequestParam("date") String date) throws ResourceNotFoundException, DeskNotAvailableException, ExecutionException, InterruptedException, EmployeeNotFoundException {
+        if (bindingResult.hasErrors()) {
+            System.out.println("Errors: " + bindingResult.getAllErrors());
+            return "DeskBookings/Admin/updateDeskBooking";
+        } else {
+            Desk desk = deskService.getDeskById(deskId);
+            if(desk == null) {
+                throw new ResourceNotFoundException("Desk not found for id: " + deskId);
+            }
+            Employee employee = employeeService.getEmployeeById(employeeId);
+            if(employee == null) {
+                throw new EmployeeNotFoundException("Employee not found for id: " + employeeId);
+            }
+
+            // Convert date String back to LocalDate
+            DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
+            LocalDate localDate = LocalDate.parse(date, formatter);
+            booking.setDate(localDate);
+            booking.setDesk(desk);
+            booking.setEmployee(employee);
+            booking.setId(id);
+            //booking.setCreatedOn(LocalDateTime.now());
+
+            this.deskBookingService.updateBookingById(booking.getId(), booking);
+            return "redirect:/web/deskbookings/admin";
         }
     }
 

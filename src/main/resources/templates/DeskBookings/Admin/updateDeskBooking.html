@@ -1,6 +1,6 @@
 <!DOCTYPE html>
 <html lang="en" xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
-<div th:insert="headerAdmin :: headerAdmin" th:with="title='Buchung aktualisieren'"></div>
+<div th:insert="headerAdmin :: headerAdmin" th:with="title='Buchung Aktualisieren'"></div>
 <body>
 <!-- Top Bar -->
 <div th:insert="topbarAdmin :: topbarAdmin"></div>
@@ -9,7 +9,7 @@
 <!-- Content -->
 <div class="content-container">
     <div class="addRessourceContainer">
-        <h1>Arbeitsplatz-Buchung bearbeiten</h1><br><br>
+        <h1>Arbeitsplatzbuchung Bearbeiten</h1><br><br>
         <form method="post" th:action="@{/web/deskbookings/admin/update}" th:object="${booking}">
             <!-- <form method="post" th:action="@{/web/deskBookings/update/{id}(id=${booking.id})}" th:object="${booking}">-->
             <div class="form-group">
