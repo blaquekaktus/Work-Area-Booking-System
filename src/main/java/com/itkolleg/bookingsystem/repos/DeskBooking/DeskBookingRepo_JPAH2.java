@@ -37,18 +37,6 @@ public class DeskBookingRepo_JPAH2 implements DeskBookingRepo {
         this.employeeJPARepo = employeeJPARepo;
     }
 
-    /*@Override
-    public DeskBooking addBooking(DeskBooking booking) throws DeskNotAvailableException {
-        // Check if the desk is available for the booking period
-        List<DeskBooking> bookings = deskBookingJPARepo.getBookingsByDeskAndDate(Optional.ofNullable(booking.getDesk()), booking.getDate());
-        if (!bookings.isEmpty()) {
-            throw new DeskNotAvailableException("Desk not available for booking period");
-        }
-        return this.deskBookingJPARepo.save(booking);
-    }*/
-    /*@Query("SELECT b FROM DeskBooking b WHERE b.desk.id = :deskId")
-     DeskBooking getBookingByDeskId(@Param("deskId") Long deskId);*/
-
     public DeskBooking addBooking(DeskBooking deskBooking) throws DeskNotAvailableException, ResourceNotFoundException {
         // Check for null values
         if (deskBooking == null || deskBooking.getEmployee() == null || deskBooking.getDesk() == null) {
@@ -75,11 +63,7 @@ public class DeskBookingRepo_JPAH2 implements DeskBookingRepo {
         booking.setStart(deskBooking.getStart());
         booking.setEndTime(deskBooking.getEndTime());
 
-        // Set created and updated timestamps
-        /*booking.setCreatedOn(LocalDateTime.now());
-        booking.setUpdatedOn(LocalDateTime.now());*/
-
-        // Save the booking
+        //Save the boking
         try {
             return this.deskBookingJPARepo.save(booking);
         } catch (Exception e) {

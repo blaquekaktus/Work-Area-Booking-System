@@ -89,8 +89,9 @@ public class DeskBookingWebController {
     }
 
     @GetMapping("/admin/add")
-    public String addDeskBookingForm(Model model) {
+    public String addDeskBookingForm(Model model, RedirectAttributes redirectAttributes) {
         model.addAttribute("deskBooking", new DeskBooking());
+        model.addAttribute("errorMessage", redirectAttributes.getFlashAttributes().get("errorMessage"));
         return "DeskBookings/Admin/addDeskBooking";
     }
 
@@ -105,7 +106,6 @@ public class DeskBookingWebController {
 
             Desk desk = deskService.getDeskById(deskId);
             Employee employee = employeeService.getEmployeeById(employeeId);
-
             booking.setDesk(desk);
             booking.setEmployee(employee);
 

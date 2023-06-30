@@ -3,6 +3,7 @@ package com.itkolleg.bookingsystem.service.DeskBooking;
 import com.itkolleg.bookingsystem.domains.Booking.DeskBooking;
 import com.itkolleg.bookingsystem.domains.Desk;
 import com.itkolleg.bookingsystem.domains.Employee;
+import com.itkolleg.bookingsystem.domains.Role;
 import com.itkolleg.bookingsystem.exceptions.DeskNotAvailableException;
 import com.itkolleg.bookingsystem.exceptions.ResourceDeletionFailureException;
 import com.itkolleg.bookingsystem.exceptions.ResourceNotFoundException;
@@ -45,12 +46,12 @@ public class DeskBookingServiceImplementation implements DeskBookingService {
     public DeskBooking addDeskBooking(DeskBooking booking) throws DeskNotAvailableException, ResourceNotFoundException {
         List<DeskBooking> bookings = deskBookingRepo.getBookingsByDeskAndDateAndBookingTimeBetween(booking.getDesk(), booking.getDate(), booking.getStart(), booking.getEndTime());
         LocalDate currentDate = LocalDate.now();
-        System.out.println("Booking date: " + booking.getDate());
-        System.out.println("Current date: " + LocalDate.now());
+
         //Check if desk is available for the date and time chosen
         if (!bookings.isEmpty()) {
             throw new DeskNotAvailableException("Desk not available for booking period");
         }
+
         // Check if booking is for a past date
         if (booking.getDate().isBefore(currentDate)) {
             throw new IllegalArgumentException("Cannot create booking for a past date");
@@ -65,6 +66,21 @@ public class DeskBookingServiceImplementation implements DeskBookingService {
         // Check if booking is allowed on this day
         if (!holidayRepo.isBookingAllowedOnHoliday(booking.getDate())) {
             throw new IllegalArgumentException("Cannot create booking on this day");
+        }
+
+        // Determine maximum advance booking date based on user role
+        Role role = booking.getEmployee().getRole();
+        LocalDate maxAdvanceBookingDate;
+        if (role.equals(Role.ROLE_N_EMPLOYEE)) {
+            maxAdvanceBookingDate = currentDate.plusWeeks(1);
+        } else {
+            maxAdvanceBookingDate = currentDate.plusWeeks(12);
+        }
+
+        // Check if booking is too far in advance
+        if (booking.getDate().isAfter(maxAdvanceBookingDate)) {
+            throw new IllegalArgumentException("Cannot book more than " +
+                    (role.equals(Role.ROLE_N_EMPLOYEE) ? "1 week" : "12 weeks") + " in advance");
         }
 
         return this.deskBookingRepo.addBooking(booking);
