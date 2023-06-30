@@ -1,11 +1,7 @@
 package com.itkolleg.bookingsystem.config;
 
-import com.itkolleg.bookingsystem.service.Desk.DeskService;
-import com.itkolleg.bookingsystem.service.DeskBooking.DeskBookingService;
 import com.itkolleg.bookingsystem.service.Employee.EmployeeService;
 import com.itkolleg.bookingsystem.domains.Employee;
-import com.itkolleg.bookingsystem.service.Holiday.HolidayService;
-import com.itkolleg.bookingsystem.service.TimeSlot.TimeSlotService;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.http.HttpMethod;
@@ -31,26 +27,14 @@ import java.util.Set;
 public class WebSecurityConfig {
 
     private final EmployeeService employeeService;
-    private final DeskService deskService;
-    private final DeskBookingService deskBookingService;
-    private final HolidayService holidayService;
-    private final TimeSlotService timeSlotService;
 
     /**
      * Konstruktor der WebSecurityConfig-Klasse.
      *
      * @param employeeService     Der EmployeeService.
-     * @param deskService         Der DeskService.
-     * @param deskBookingService  Der DeskBookingService.
-     * @param timeSlotService     Der TimeSlotService.
-     * @param holidayService      Der HolidayService.
      */
-    public WebSecurityConfig(EmployeeService employeeService, DeskService deskService, DeskBookingService deskBookingService, TimeSlotService timeSlotService, HolidayService holidayService) {
+    public WebSecurityConfig(EmployeeService employeeService) {
         this.employeeService = employeeService;
-        this.deskService = deskService;
-        this.deskBookingService = deskBookingService;
-        this.holidayService = holidayService;
-        this.timeSlotService = timeSlotService;
     }
 
     /**
