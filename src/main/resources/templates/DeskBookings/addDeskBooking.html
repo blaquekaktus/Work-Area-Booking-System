@@ -26,7 +26,7 @@
                          th:if="${#fields.hasErrors('employee.id')}"></div>
                 </div>-->
                 <div class="form-group">
-                    <label class="form-label" for="employee">Employee</label>
+                    <label class="form-label" for="employee">Mitarbeiter</label>
                     <input class="form-control" id="employee" name="employee" readonly
                            th:value="${deskBooking.employee.fname} + ' '+ ${deskBooking.employee.lname}" type="text">
                     <div class="form-text"
@@ -34,7 +34,7 @@
                          th:if="${#fields.hasErrors('employee')}"></div>
                 </div>
                 <div class="form-group">
-                    <label class="form-label" for="deskNr">Work-Area</label>
+                    <label class="form-label" for="deskNr">Arbeitsplatz</label>
                     <select class="form-control" id="deskNr" name="desk.id" th:field="*{desk.id}"
                             onchange="updateDeskId()">
                         <option th:each="desk : ${desks}"
@@ -48,7 +48,7 @@
                 </div>
                 <input type="hidden" id="desk.id" name="desk.id" th:field="*{desk.id}"/>
                 <div class="mb-3 form-group">
-                    <label class="form-label" for="date">Date</label>
+                    <label class="form-label" for="date">Datum</label>
                     <input class="form-control" id="date" name="bookingStart"
                            th:field="*{date}"
                            th:value="${#dates.format(#dates.createNow(), 'yyyy-MM-dd')}" type="date"/>
@@ -57,9 +57,9 @@
                          th:if="${#fields.hasErrors('date')}"></div>
                 </div>
                 <div class="mb-3">
-                    <label class="form-label" for="start">Start Time</label>
+                    <label class="form-label" for="start">Startzeit</label>
                     <select class="form-select" id="start" name="start" th:field="*{start}">
-                        <option value="">--Select Start Time--</option>
+                        <option value="">---Bitte Auswählen---</option>
                         <option th:each="time : ${startTimes}"
                                 th:text="${time}"
                                 th:value="${time}"></option>
@@ -70,9 +70,9 @@
                 </div>
 
                 <div class="mb-3">
-                    <label class="form-label" for="end">End Time</label>
+                    <label class="form-label" for="end">Endzeit</label>
                     <select class="form-select" id="end" name="end" th:field="*{endTime}">
-                        <option value="">--Select End Time--</option>
+                        <option value="">---Bitte Auswählen---</option>
                         <option th:each="time : ${endTimes}"
                                 th:text="${time}"
                                 th:value="${time}"></option>
@@ -83,15 +83,10 @@
                 </div>
                 <br>
                 <br>
-                <div class="d-flex justify-content-center">
-                    <button type="submit" class="button">Book</button>
-                    <a class="delete-button" th:href="@{/web/deskBookings}">Cancel</a>
-                </div>
                 <div class="button-row">
-                    <a class="button" role="button" style="margin-right: 50px" th:href="@{/web/desks}">View All
-                        Work-Areas</a>
-                    <a class="button" role="button" style="margin-right: 50px" th:href="@{/web/deskBookings}">View All
-                        Work-Area Bookings</a>
+                    <button type="submit" class="button">Senden</button>
+                    <a class="button" role="button" style="margin-right: 50px" th:href="@{/web/desks}">Alle Arbeitsplätze anzeigen</a>
+                    <a class="button" role="button" style="margin-right: 50px" th:href="@{/web/deskBookings}">Alle Arbeitsplatz-Buchungen anzeigen</a>
                 </div>
             </form>
         </div>

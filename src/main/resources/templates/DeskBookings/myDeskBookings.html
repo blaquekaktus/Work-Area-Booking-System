@@ -39,12 +39,13 @@
                     <td>
                         <a class="button" role="button" th:href="@{/web/deskBookings/view/{id}(id=${booking.id})}">Anzeigen</a>
                         <a class="button" role="button" th:href="@{/web/deskBookings/update/{id}(id=${booking.id})}">Bearbeiten</a>
-                        <a class="delete-button" role="button"
-                           th:href="@{/web/deskBookings/cancel/{id}(id=${booking.id})}">Abbrechen</a>
                     </td>
                 </tr>
                 </tbody>
             </table>
+        </div>
+        <div class="button-row">
+            <button class="delete-button" onclick="goBack()">Zurück</button>
         </div>
     </div>
 </div>
