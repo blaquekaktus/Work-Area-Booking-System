@@ -357,10 +357,9 @@ public class DeskBookingWebController {
             booking.setDesk(desk);
             booking.setEmployee(employee);
             booking.setId(id);
-            //booking.setCreatedOn(LocalDateTime.now());
 
             this.deskBookingService.updateBookingById(booking.getId(), booking);
-            return "redirect:/web/deskbookings/admin";
+            return "redirect:/web/deskbookings/mydeskbookings";
         }
     }
 

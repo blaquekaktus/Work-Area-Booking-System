@@ -1,5 +1,6 @@
 package com.itkolleg.bookingsystem.controller;
 
+import com.itkolleg.bookingsystem.domains.ErrorCode;
 import com.itkolleg.bookingsystem.exceptions.ResourceNotFoundException;
 import com.itkolleg.bookingsystem.exceptions.DeskNotAvailableException;
 import com.itkolleg.bookingsystem.exceptions.EmployeeExceptions.EmployeeAlreadyExistsException;
@@ -13,9 +14,12 @@ import org.slf4j.LoggerFactory;
 import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
+
+import java.util.stream.Collectors;
 
 
 @ControllerAdvice
@@ -46,14 +50,15 @@ public class GlobalExceptionController {
     /**
      * Handles the ResourceNotFoundException and redirects to the error page.
      *
-     * @param ex                 The ResourceNotFoundException instance.
+     * @param e                 The ResourceNotFoundException instance.
      * @param redirectAttributes The RedirectAttributes object to add flash attributes.
      * @return A string representing the redirect path to the error page.
      */
     @ExceptionHandler(ResourceNotFoundException.class)
-    public String handleResourceNotFound(ResourceNotFoundException ex, RedirectAttributes redirectAttributes) {
-        logger.error("ResourceNotFoundException: {}", ex.getMessage(), ex);
-        redirectAttributes.addFlashAttribute("errorMessage", ex.getMessage());
+    public String handleResourceNotFound(ResourceNotFoundException e, RedirectAttributes redirectAttributes) {
+        logger.error("ResourceNotFoundException: {}", e.getMessage(), e);
+        redirectAttributes.addFlashAttribute("errorCode", ErrorCode.RESOURCE_NOT_FOUND.getCode());
+        redirectAttributes.addFlashAttribute("errorMessage", e.getMessage());
         return "redirect:/error";
     }
 
@@ -67,6 +72,7 @@ public class GlobalExceptionController {
     @ExceptionHandler(DeskNotAvailableException.class)
     public String handleDeskNotAvailable(DeskNotAvailableException e, RedirectAttributes redirectAttributes) {
         logger.error("DeskNotAvailableException: {}", e.getMessage(), e);
+        redirectAttributes.addFlashAttribute("errorCode", ErrorCode.DESK_NOT_AVAILABLE.getCode());
         redirectAttributes.addFlashAttribute("errorMessage", e.getMessage());
         return "redirect:/error";
     }
@@ -81,7 +87,26 @@ public class GlobalExceptionController {
     @ExceptionHandler(EmptyResultDataAccessException.class)
     public String handleEmptyResultDataAccess(EmptyResultDataAccessException e, RedirectAttributes redirectAttributes) {
         logger.error("EmptyResultDataAccessException: {}", e.getMessage(), e);
+        redirectAttributes.addFlashAttribute("errorCode", ErrorCode.DATA_ACCESS_ERROR.getCode());
         redirectAttributes.addFlashAttribute("errorMessage", e.getMessage());
+        return "redirect:/error";
+    }
+
+    /**
+     * Handles the MethodArgumentNotValidException and redirects to the error page.
+     *
+     * @param ex                 The MethodArgumentNotValidException instance.
+     * @param redirectAttributes The RedirectAttributes object to add flash attributes.
+     * @return A string representing the redirect path to the error page.
+     */
+    @ExceptionHandler(MethodArgumentNotValidException.class)
+    public String handleMethodArgumentNotValid(MethodArgumentNotValidException ex, RedirectAttributes redirectAttributes) {
+        logger.error("MethodArgumentNotValidException: {}", ex.getMessage(), ex);
+        String errorMessage = ex.getBindingResult().getFieldErrors().stream()
+                .map(fieldError -> fieldError.getField() + " " + fieldError.getDefaultMessage())
+                .collect(Collectors.joining(", "));
+        redirectAttributes.addFlashAttribute("errorCode", ErrorCode.METHOD_ARGUMENT_NOT_VALID.getCode());
+        redirectAttributes.addFlashAttribute("errorMessage", errorMessage);
         return "redirect:/error";
     }
 
@@ -95,6 +120,7 @@ public class GlobalExceptionController {
     @ExceptionHandler(Exception.class)
     public String handleGeneralException(Exception e, RedirectAttributes redirectAttributes) {
         logger.error("Exception: {}", e.getMessage(), e);
+        redirectAttributes.addFlashAttribute("errorCode", ErrorCode.GENERAL_ERROR.getCode());
         redirectAttributes.addFlashAttribute("errorMessage", "An unexpected error occurred.");
         return "redirect:/error";
     }
