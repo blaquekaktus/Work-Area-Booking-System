@@ -8,7 +8,7 @@
 <div th:insert="navbarAdmin :: navbarAdmin"></div>
 <div class="content-container">
     <div class="addRessourceContainer">
-        <h1>Arbeitsplatz-Buchung</h1><br><br>
+        <h1>Arbeitsplatzbuchung</h1><br><br>
         <div class="scroll-container">
             <form class="form-group" method="get" th:action="@{/web/deskbookings/admin/view/{id}}"
                   th:object="${deskBooking}">
@@ -38,7 +38,7 @@
                            type="text">
                 </div>
                 <div class="button-row">
-                    <a class="delete-button" th:href="@{/web/deskbookings/admin}">Zurück zu meinen Buchungen</a>
+                    <a class="delete-button" th:href="@{/web/deskbookings/admin}">Zurück zu den Buchungen</a>
                 </div>
             </form>
         </div>
