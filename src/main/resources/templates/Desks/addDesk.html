@@ -9,11 +9,11 @@
 <!-- Content -->
 <div class="content-container">
     <div class="addRessourceContainer">
-        <h1>Arbeitsplatz erstellen</h1><br><br>
+        <h1>Arbeitsplatz Erstellen</h1><br><br>
         <div class="scroll-container">
             <form method="post" th:action="@{/web/desks/add}" th:object="${desk}">
                 <div class="form-group">
-                    <label for="deskNr">Arbeitsplatznummer</label>
+                    <label for="deskNr">Arbeitsplatz</label>
                     <input class="form-control" id="deskNr" name="deskNr" th:field="*{deskNr}" type="text">
                     <div class="form-text" th:errorclass="errors" th:errors="*{deskNr}"
                          th:if="${#fields.hasErrors('deskNr')}"></div>
@@ -34,7 +34,7 @@
                 <button class="button" type="submit">Erstellen</button>
                 <a class="delete-button" role="button" th:href="@{/web/desks}">Zurück</a>
                 <div class="button-row">
-                    <button class="button" type="submit">Hinzufügen</button>
+                    <button class="button" type="submit">Erstellen</button>
                 </div>
             </form>
         </div>

@@ -14,16 +14,16 @@
             <div class="form-group">
                 <form method="get" th:action="@{/web/desks/view/{id}}" th:object="${myDesk}">
                     <div class="form-group">
-                        <label for="deskNr">Arbeitsplatz Nummer</label>
+                        <label for="deskNr">Arbeitsplatz</label>
                         <input class="form-control" id="deskNr" name="deskNr" readonly th:field="*{deskNr}" type="text">
                     </div>
                     <div class="form-group">
-                        <label for="nrOfMonitors">Monitore</label>
+                        <label for="nrOfMonitors">Bildschirme</label>
                         <input class="form-control" id="nrOfMonitors" name="nrOfMonitors" readonly
                                th:field="*{nrOfMonitors}" type="text">
                     </div>
                     <div class="form-group">
-                        <label for="ports">Ports</label>
+                        <label for="ports">Schnittstellen</label>
                         <div th:each="port : ${myDesk.ports}" id="ports">
                             <span th:text="${port}"></span>
                             <br>

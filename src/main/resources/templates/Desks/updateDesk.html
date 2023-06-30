@@ -7,7 +7,7 @@
 <!-- Side Navbar -->
 <div th:insert="navbarAdmin :: navbarAdmin"></div>
 <!-- Content -->
-<h1>Arbeitsplatz bearbeiten</h1><br><br>
+<h1>Arbeitsplatz Bearbeiten</h1><br><br>
         <div class="scroll-container">
             <div class="form-group">
                 <form method="post" th:action="@{/web/desks/update}" th:object="${updatedDesk}">
@@ -19,14 +19,14 @@
                         </div>
                     </div>
                     <div class="form-group">
-                        <label for="deskNr">Arbeitsplatz Nummer</label>
+                        <label for="deskNr">Arbeitsplatz</label>
                         <input class="form-control" id="deskNr" name="deskNr" th:field="*{deskNr}" type="text">
                         <div class="form-text" th:errorclass="errors" th:errors="*{deskNr}"
                              th:if="${#fields.hasErrors('deskNr')}">
                         </div>
                     </div>
                     <div class="form-group">
-                        <label for="nrOfMonitors">Monitore</label>
+                        <label for="nrOfMonitors">Bildschirme</label>
                         <input class="form-control" id="nrOfMonitors" name="nrOfMonitors" th:field="*{nrOfMonitors}"
                                type="text">
                         <div class="form-text" th:errorclass="errors" th:errors="*{nrOfMonitors}"
@@ -34,7 +34,7 @@
                         </div>
                     </div>
                     <div class="form-group">
-                        <label for="ports">Ports</label>
+                        <label for="ports">Schnittstellen</label>
                         <input class="form-control" id="ports" name="ports" th:field="*{ports}" type="text">
                         <div class="form-text" th:errorclass="errors" th:errors="*{ports}"
                              th:if="${#fields.hasErrors('ports')}">
