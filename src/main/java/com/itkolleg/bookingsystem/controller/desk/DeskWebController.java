@@ -168,7 +168,7 @@ public class DeskWebController {
     /**
      * Displays the error page.
      *
-     * @return the view name for the error page
+     * @return the view for the error page
      */
     @GetMapping("/error")
     public String getError() {
