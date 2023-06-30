@@ -11,7 +11,7 @@
         <h1>Arbeitsplatz buchen</h1><br><br>
         <form method="post" th:action="@{/web/deskbookings/add}" th:object="${deskBooking}">
 
-            <div th:if="${errorMessage}" class="alert alert-danger error-message">
+            <div th:if="${errorMessage != null}" class="alert alert-danger error-message">
                 <p th:text="${errorMessage}"></p>
             </div>
 

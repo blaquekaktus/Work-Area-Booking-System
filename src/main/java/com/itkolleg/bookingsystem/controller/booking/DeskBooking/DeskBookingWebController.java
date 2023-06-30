@@ -89,9 +89,11 @@ public class DeskBookingWebController {
     }
 
     @GetMapping("/admin/add")
-    public String addDeskBookingForm(Model model, RedirectAttributes redirectAttributes) {
+    public String addDeskBookingForm(Model model) {
         model.addAttribute("deskBooking", new DeskBooking());
-        model.addAttribute("errorMessage", redirectAttributes.getFlashAttributes().get("errorMessage"));
+        if (!model.containsAttribute("errorMessage")) {
+            model.addAttribute("errorMessage", null);
+        }
         return "DeskBookings/Admin/addDeskBooking";
     }
 
@@ -115,6 +117,36 @@ public class DeskBookingWebController {
             logger.error("Error occurred while booking the desk: {}", e.getMessage(), e);
             redirectAttributes.addFlashAttribute("errorMessage", e.getMessage());
             return "redirect:/web/deskbookings/admin/add";
+        }
+    }
+
+    @GetMapping("/admin/new")
+    public String newDeskBookingForm(Model model, RedirectAttributes redirectAttributes) {
+        model.addAttribute("deskBooking", new DeskBooking());
+        model.addAttribute("errorMessage", redirectAttributes.getFlashAttributes().get("errorMessage"));
+        return "DeskBookings/Admin/newDeskBooking";
+    }
+
+    @PostMapping("/admin/new")
+    public String newDeskBooking(@ModelAttribute("deskBooking") @Valid DeskBooking booking, BindingResult bindingResult, @RequestParam("employee.id") Long employeeId, @RequestParam("desk.id") Long deskId, RedirectAttributes redirectAttributes) {
+        try {
+            if (bindingResult.hasErrors()) {
+                logger.error("Validation errors: {}", bindingResult.getAllErrors());
+                redirectAttributes.addFlashAttribute("errorMessage", "Validation errors occurred.");
+                return "redirect:/web/deskbookings/admin/new";
+            }
+
+            Desk desk = deskService.getDeskById(deskId);
+            Employee employee = employeeService.getEmployeeById(employeeId);
+            booking.setDesk(desk);
+            booking.setEmployee(employee);
+
+            this.deskBookingService.addDeskBooking(booking);
+            return "redirect:/web/deskbookings/admin";
+        } catch (Exception e) {
+            logger.error("Error occurred while booking the desk: {}", e.getMessage(), e);
+            redirectAttributes.addFlashAttribute("errorMessage", e.getMessage());
+            return "redirect:/web/deskbookings/admin/new";
         }
     }
 

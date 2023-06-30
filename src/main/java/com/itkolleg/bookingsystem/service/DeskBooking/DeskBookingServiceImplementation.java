@@ -7,9 +7,7 @@ import com.itkolleg.bookingsystem.domains.Role;
 import com.itkolleg.bookingsystem.exceptions.DeskNotAvailableException;
 import com.itkolleg.bookingsystem.exceptions.ResourceDeletionFailureException;
 import com.itkolleg.bookingsystem.exceptions.ResourceNotFoundException;
-import com.itkolleg.bookingsystem.repos.Desk.DeskRepo;
 import com.itkolleg.bookingsystem.repos.DeskBooking.DeskBookingRepo;
-import com.itkolleg.bookingsystem.repos.Employee.EmployeeDBAccess;
 import com.itkolleg.bookingsystem.repos.Holiday.HolidayRepo;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -23,22 +21,16 @@ import java.time.LocalTime;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
-import java.util.stream.Collectors;
-
 @Service
 public class DeskBookingServiceImplementation implements DeskBookingService {
 
     static final Logger logger = LoggerFactory.getLogger(DeskBookingServiceImplementation.class);
 
     private final DeskBookingRepo deskBookingRepo;
-    private final DeskRepo deskRepo;
-    private final EmployeeDBAccess employeeDBAccess;
     private final HolidayRepo holidayRepo;
 
-    public DeskBookingServiceImplementation(DeskBookingRepo deskBookingRepo, DeskRepo deskRepo, EmployeeDBAccess employeeDBAccess, HolidayRepo holidayRepo) {
+    public DeskBookingServiceImplementation(DeskBookingRepo deskBookingRepo, HolidayRepo holidayRepo) {
         this.deskBookingRepo = deskBookingRepo;
-        this.deskRepo = deskRepo;
-        this.employeeDBAccess = employeeDBAccess;
         this.holidayRepo = holidayRepo;
     }
 
@@ -46,6 +38,10 @@ public class DeskBookingServiceImplementation implements DeskBookingService {
     public DeskBooking addDeskBooking(DeskBooking booking) throws DeskNotAvailableException, ResourceNotFoundException {
         List<DeskBooking> bookings = deskBookingRepo.getBookingsByDeskAndDateAndBookingTimeBetween(booking.getDesk(), booking.getDate(), booking.getStart(), booking.getEndTime());
         LocalDate currentDate = LocalDate.now();
+
+        // Logging dates
+        logger.info("Booking Date: " + booking.getDate());
+        logger.info("Current Date: " + currentDate);
 
         //Check if desk is available for the date and time chosen
         if (!bookings.isEmpty()) {
@@ -70,17 +66,25 @@ public class DeskBookingServiceImplementation implements DeskBookingService {
 
         // Determine maximum advance booking date based on user role
         Role role = booking.getEmployee().getRole();
+
+        // Log the role
+        logger.info("Employee Role: " + role);
+
         LocalDate maxAdvanceBookingDate;
-        if (role.equals(Role.ROLE_N_EMPLOYEE)) {
+        if (role.name().equals(Role.ROLE_N_EMPLOYEE.name())) {
             maxAdvanceBookingDate = currentDate.plusWeeks(1);
         } else {
             maxAdvanceBookingDate = currentDate.plusWeeks(12);
         }
 
+        // Log the max advance booking date
+        logger.info("Max Advance Booking Date: " + maxAdvanceBookingDate);
+
         // Check if booking is too far in advance
         if (booking.getDate().isAfter(maxAdvanceBookingDate)) {
+            logger.info("Is booking date after max advance booking date? " + booking.getDate().isAfter(maxAdvanceBookingDate));
             throw new IllegalArgumentException("Cannot book more than " +
-                    (role.equals(Role.ROLE_N_EMPLOYEE) ? "1 week" : "12 weeks") + " in advance");
+                    (role.name().equals(Role.ROLE_N_EMPLOYEE.name()) ? "1 week" : "12 weeks") + " in advance");
         }
 
         return this.deskBookingRepo.addBooking(booking);
@@ -183,41 +187,12 @@ public class DeskBookingServiceImplementation implements DeskBookingService {
     }
 
     @Override
-    public List<DeskBooking> findByDeskAndBookingEndAfterAndBookingStartBefore(Desk desk, LocalDate date, LocalTime start, LocalTime endTime) {
-        return deskBookingRepo.getBookingsByDeskAndDateAndBookingTimeBetween(desk, date, start, endTime);
-    }
-
-    @Override
     public void deleteBookingById(Long bookingId) throws ResourceDeletionFailureException, ResourceNotFoundException {
         Optional<DeskBooking> booking = deskBookingRepo.getBookingByBookingId(bookingId);
-        if (!booking.isPresent()) {
+        if (booking.isEmpty()) {
             throw new ResourceDeletionFailureException("Booking not Found!");
         }
         deskBookingRepo.deleteBookingById(bookingId);
-    }
-
-    @Override
-    public boolean isDeskAvailable(Desk desk, LocalDateTime startDateTime, LocalDateTime endDateTime) {
-        return false;
-    }
-
-    /*@Override
-    public List<Desk> getAvailableDesks(LocalDate date, LocalTime start, LocalTime endTime) {
-        List<Desk> allDesks = deskRepo.getAllDesks();
-        List<Desk> availableDesks = new ArrayList<>();
-        for (Desk desk : allDesks) {
-            List<DeskBooking> bookings = deskBookingRepo.getBookingsByDeskAndDateAndBookingTimeBetween(desk, date, start, endTime);
-            if (bookings != null && bookings.isEmpty()) {
-                availableDesks.add(desk);
-            }
-        }
-        return availableDesks;
-    }*/
-    @Override
-    public List<Desk> getAvailableDesks(LocalDate date, LocalTime start, LocalTime endTime) {
-        return deskRepo.getAllDesks().stream()
-                .filter(desk -> deskBookingRepo.getBookingsByDeskAndDateAndBookingTimeBetween(desk, date, start, endTime).isEmpty())
-                .collect(Collectors.toList());
     }
 
 

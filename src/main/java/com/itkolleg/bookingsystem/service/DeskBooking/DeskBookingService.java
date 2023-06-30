@@ -38,13 +38,7 @@ public interface DeskBookingService {
 
     DeskBooking updateBooking(DeskBooking booking) throws ResourceNotFoundException, DeskNotAvailableException;
 
-    List<DeskBooking> findByDeskAndBookingEndAfterAndBookingStartBefore(Desk desk, LocalDate date, LocalTime start, LocalTime endTime);
-
     void deleteBookingById(Long bookingID) throws ResourceNotFoundException, ResourceDeletionFailureException;
-
-    List<Desk> getAvailableDesks(LocalDate date, LocalTime start, LocalTime endTime);
-
-    boolean isDeskAvailable(Desk desk, LocalDateTime startDateTime, LocalDateTime endDateTime);
 
     boolean isDeskAvailable(Desk desk, LocalDate date, LocalTime startDateTime, LocalTime endDateTime);
 
