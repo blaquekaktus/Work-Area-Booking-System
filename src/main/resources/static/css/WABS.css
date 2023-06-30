@@ -20,6 +20,14 @@ body {
     text-align: center;
 }
 
+/*
+.imgmapContainer {
+    padding: 20px;
+    max-width: 80%;
+    max-heigth: 60vh;
+    margin-top: 100px;
+}
+*/
 .form-group {
     margin-bottom: 20px;
 }
