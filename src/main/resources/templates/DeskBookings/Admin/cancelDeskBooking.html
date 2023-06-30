@@ -9,7 +9,6 @@
 <div class="content-container">
     <div class="addRessourceContainer">
         <h1>Arbeitsplatzbuchung Löschen</h1><br><br>
-        <div class="scroll-container">
             <form method="post" th:action="@{/web/deskbookings/admin/cancel/{id}(id=${booking.id})}"
                   th:object="${booking}">
                 <p>Sind Sie sicher, dass Sie die folgende Arbeitsplatz-Buchung löschen wollen:</p>
@@ -46,7 +45,6 @@
             </form>
         </div>
     </div>
-</div>
 <div class="filler"></div>
 </body>
 </html>
