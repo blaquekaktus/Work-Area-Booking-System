@@ -21,6 +21,14 @@ import java.time.LocalTime;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
+
+/**
+ * Service implementation for handling desk booking operations.
+ *
+ * @author Sonja Lechner
+ * @version 1.0
+ * @since 2023-05-26
+ */
 @Service
 public class DeskBookingServiceImplementation implements DeskBookingService {
 
@@ -34,8 +42,18 @@ public class DeskBookingServiceImplementation implements DeskBookingService {
         this.holidayRepo = holidayRepo;
     }
 
+    /**
+     * Adds a new desk booking.
+     *
+     * @param booking The desk booking to add.
+     * @return The added desk booking.
+     * @throws DeskNotAvailableException    If the desk is not available for the booking period.
+     * @throws ResourceNotFoundException   If a required resource is not found.
+     * @throws IllegalArgumentException    If the booking date is in the past, on a weekend, or on a non-booking allowed day.
+     */
     @Override
     public DeskBooking addDeskBooking(DeskBooking booking) throws DeskNotAvailableException, ResourceNotFoundException {
+        // Check if desk is available for the date and time chosen
         List<DeskBooking> bookings = deskBookingRepo.getBookingsByDeskAndDateAndBookingTimeBetween(booking.getDesk(), booking.getDate(), booking.getStart(), booking.getEndTime());
         LocalDate currentDate = LocalDate.now();
 
@@ -43,7 +61,6 @@ public class DeskBookingServiceImplementation implements DeskBookingService {
         logger.info("Booking Date: " + booking.getDate());
         logger.info("Current Date: " + currentDate);
 
-        //Check if desk is available for the date and time chosen
         if (!bookings.isEmpty()) {
             throw new DeskNotAvailableException("Desk not available for booking period");
         }
@@ -90,12 +107,23 @@ public class DeskBookingServiceImplementation implements DeskBookingService {
         return this.deskBookingRepo.addBooking(booking);
     }
 
+    /**
+     * Retrieves all desk bookings.
+     *
+     * @return The list of all desk bookings.
+     */
     @Override
     public List<DeskBooking> getAllBookings() {
         return deskBookingRepo.getAllBookings();
     }
 
-
+    /**
+     * Searches for desk bookings based on employee and date criteria.
+     *
+     * @param employee The employee to search for (can be null).
+     * @param date     The date to search for (can be null).
+     * @return The list of desk bookings matching the search criteria.
+     */
     @Override
     public List<DeskBooking> searchBookings(Employee employee, LocalDate date) {
         List<DeskBooking> bookings = new ArrayList<>();
@@ -112,21 +140,45 @@ public class DeskBookingServiceImplementation implements DeskBookingService {
         return bookings;
     }
 
+    /**
+     * Retrieves desk bookings for a specific employee.
+     *
+     * @param employeeId The ID of the employee.
+     * @return The list of desk bookings for the employee.
+     */
     @Override
     public List<DeskBooking> getBookingsByEmployeeId(Long employeeId) {
         return deskBookingRepo.getBookingsByEmployeeId(employeeId);
     }
 
+    /**
+     * Retrieves desk bookings for a specific employee.
+     *
+     * @param employee The employee object.
+     * @return The list of desk bookings for the employee.
+     */
     @Override
     public List<DeskBooking> getBookingsByEmployee(Employee employee) {
         return deskBookingRepo.getBookingsByEmployee(employee);
     }
 
+    /**
+     * Retrieves desk bookings for a specific desk.
+     *
+     * @param desk The desk object.
+     * @return The list of desk bookings for the desk.
+     */
     @Override
     public List<DeskBooking> getBookingByDesk(Desk desk) {
         return deskBookingRepo.getBookingByDesk(desk);
     }
 
+    /**
+     * Retrieves desk bookings for a specific date.
+     *
+     * @param date The date to search for bookings.
+     * @return The list of desk bookings for the date.
+     */
     @Override
     public List<DeskBooking> getBookingsByDate(LocalDate date) {
         LocalTime startOfDay = LocalTime.from(date.atStartOfDay());
@@ -134,6 +186,13 @@ public class DeskBookingServiceImplementation implements DeskBookingService {
         return deskBookingRepo.getBookingByDateAndByStartBetween(date, startOfDay, endOfDay);
     }
 
+    /**
+     * Retrieves a desk booking by its ID.
+     *
+     * @param bookingId The ID of the desk booking.
+     * @return The desk booking with the specified ID.
+     * @throws ResourceNotFoundException If the booking with the specified ID is not found.
+     */
     @Override
     public DeskBooking getBookingById(Long bookingId) throws ResourceNotFoundException {
         Optional<DeskBooking> optionalBooking = deskBookingRepo.getBookingByBookingId(bookingId);
@@ -144,6 +203,15 @@ public class DeskBookingServiceImplementation implements DeskBookingService {
         }
     }
 
+    /**
+     * Updates a desk booking by its ID.
+     *
+     * @param bookingId      The ID of the desk booking to update.
+     * @param updatedBooking The updated desk booking object.
+     * @return The updated desk booking.
+     * @throws ResourceNotFoundException   If the booking with the specified ID is not found.
+     * @throws DeskNotAvailableException    If the desk is not available for the updated booking period.
+     */
     public DeskBooking updateBookingById(Long bookingId, DeskBooking updatedBooking) throws ResourceNotFoundException, DeskNotAvailableException {
         Optional<DeskBooking> booking = deskBookingRepo.getBookingByBookingId(bookingId);
         if (booking.isEmpty()) {
@@ -160,6 +228,14 @@ public class DeskBookingServiceImplementation implements DeskBookingService {
         return deskBookingRepo.updateBooking(updatedBooking);
     }
 
+    /**
+     * Updates a desk booking.
+     *
+     * @param booking The updated desk booking.
+     * @return The updated desk booking.
+     * @throws DeskNotAvailableException    If the desk is not available for the updated booking period.
+     * @throws ResourceNotFoundException   If the booking with the specified ID is not found.
+     */
     @Override
     public DeskBooking updateBooking(DeskBooking booking) throws DeskNotAvailableException, ResourceNotFoundException {
         DeskBooking result;
@@ -186,6 +262,13 @@ public class DeskBookingServiceImplementation implements DeskBookingService {
         return result;
     }
 
+    /**
+     * Deletes a desk booking by its ID.
+     *
+     * @param bookingId The ID of the desk booking to delete.
+     * @throws ResourceDeletionFailureException If the deletion of the booking fails.
+     * @throws ResourceNotFoundException       If the booking with the specified ID is not found.
+     */
     @Override
     public void deleteBookingById(Long bookingId) throws ResourceDeletionFailureException, ResourceNotFoundException {
         Optional<DeskBooking> booking = deskBookingRepo.getBookingByBookingId(bookingId);
@@ -195,24 +278,49 @@ public class DeskBookingServiceImplementation implements DeskBookingService {
         deskBookingRepo.deleteBookingById(bookingId);
     }
 
-
+    /**
+     * Checks if a desk is available for a specified date and time range.
+     *
+     * @param desk         The desk to check availability for.
+     * @param date         The date to check availability for.
+     * @param startDateTime The start time of the booking.
+     * @param endDateTime   The end time of the booking.
+     * @return True if the desk is available, false otherwise.
+     */
     @Override
     public boolean isDeskAvailable(Desk desk, LocalDate date, LocalTime startDateTime, LocalTime endDateTime) {
         List<DeskBooking> bookings = deskBookingRepo.getBookingsByDeskAndDateAndBookingTimeBetween(desk, date, startDateTime, endDateTime);
         return bookings.isEmpty();
     }
 
+    /**
+     * Deletes a desk booking by its ID.
+     *
+     * @param id The ID of the desk booking to delete.
+     * @throws ResourceDeletionFailureException If the deletion of the booking fails.
+     */
     @Override
     public void deleteBooking(Long id) throws ResourceDeletionFailureException {
         deskBookingRepo.deleteBookingById(id);
     }
 
-
+    /**
+     * Retrieves the booking history for a specific employee.
+     *
+     * @param employeeId The ID of the employee.
+     * @return The list of desk bookings for the employee.
+     */
     @Override
     public List<DeskBooking> getMyBookingHistory(Long employeeId) {
         return deskBookingRepo.getBookingsByEmployeeId(employeeId);
     }
 
+    /**
+     * Saves a desk booking.
+     *
+     * @param booking The desk booking to save.
+     * @return The saved desk booking.
+     */
     @Override
     public DeskBooking save(DeskBooking booking) {
         return this.deskBookingRepo.save(booking);
