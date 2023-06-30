@@ -460,13 +460,31 @@ public class DeskBookingWebController {
      @return The view for adding a desk booking.
      */
     @GetMapping("/add")
-    public String addDeskBookingFormForEmployee(Model model) {
-        model.addAttribute("deskBooking", new DeskBooking());
+    public String addDeskBookingFormForEmployee(Model model, @RequestParam(value = "deskId", required = false) Long deskId) {
+        DeskBooking deskBooking = new DeskBooking();
+
+        if (deskId != null) {
+            try {
+                Desk desk = deskService.getDeskById(deskId);
+                if (desk != null) {
+                    deskBooking.setDesk(desk);
+                } else {
+                    logger.error("No desk found with id: {}", deskId);
+                }
+            } catch (Exception e) {
+                logger.error("Error occurred while getting desk with id: {}", deskId, e);
+            }
+        }
+
+        model.addAttribute("deskBooking", deskBooking);
+
         if (!model.containsAttribute("errorMessage")) {
             model.addAttribute("errorMessage", null);
         }
-        return "DeskBookings/addDeskBooking";
+
+        return "DeskBookings/Admin/addDeskBooking";
     }
+
 
     /**
      Adds a new desk booking.
@@ -483,7 +501,7 @@ public class DeskBookingWebController {
             if (bindingResult.hasErrors()) {
                 logger.error("Validation errors: {}", bindingResult.getAllErrors());
                 redirectAttributes.addFlashAttribute("errorMessage", "Validation errors occurred.");
-                return "redirect:/web/deskbookings/add";
+                return "redirect:/web/deskbookings/admin/add";
             }
 
             Desk desk = deskService.getDeskById(deskId);
@@ -497,7 +515,7 @@ public class DeskBookingWebController {
         } catch (Exception e) {
             logger.error("Error occurred while booking the desk: {}", e.getMessage(), e);
             redirectAttributes.addFlashAttribute("errorMessage", e.getMessage());
-            return "redirect:/web/deskbookings/add";
+            return "redirect:/web/deskbookings/admin/add";
         }
     }
 
