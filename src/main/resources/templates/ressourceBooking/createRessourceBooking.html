@@ -10,8 +10,14 @@
 <div class="content-container">
     <div class="addRessourceContainer">
         <h1>Ressource buchen</h1><br><br>
+
+        <div th:if="${errorMessage}" class="alert alert-danger error-message">
+            <p th:text="${errorMessage}"></p>
+        </div>
+
         <div class="scroll-container">
             <form th:object="${newBooking}" th:action="@{/web/ressourceBooking/createBooking}" method="post">
+
                 <table>
                     <thead>
                     <tr>

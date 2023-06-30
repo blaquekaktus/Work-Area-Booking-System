@@ -7,6 +7,7 @@
 * Navigation Bar als separates Include, damit das nur an einer Steller geändert werden muss (separat für Mitarbeiter und
   Admin)
 * Datumsanzeigen durchgängig auf Format dd.mm.yyyy
+* Javascript Validierungsprüfungen einbauen
 
 Modul Ressource-Buchung:<br>
 

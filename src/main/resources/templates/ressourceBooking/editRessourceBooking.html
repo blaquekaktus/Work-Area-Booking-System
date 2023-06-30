@@ -10,6 +10,11 @@
 <div class="content-container">
     <div class="addRessourceContainer">
         <h1>Ressourcen-Buchung bearbeiten</h1><br><br>
+
+        <div th:if="${errorMessage}" class="alert alert-danger error-message">
+            <p th:text="${errorMessage}"></p>
+        </div>
+
         <div class="scroll-container">
             <form th:object="${updateBooking}" th:action="@{/web/ressourceBooking/updateBooking}" method="post">
                 <table>
