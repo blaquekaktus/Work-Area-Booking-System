@@ -24,11 +24,58 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import java.time.format.DateTimeFormatter;
+import java.util.Collections;
 import java.util.Date;
 import java.time.LocalDate;
 import java.util.List;
 import java.util.concurrent.ExecutionException;
 import java.util.stream.Collectors;
+
+/**
+ * This class represents a controller for managing desk bookings within the booking system.
+ * It handles operations such as retrieving desk bookings, adding desk bookings, updating desk bookings,
+ * and canceling desk bookings.
+ *
+ * <p>It interacts with the {@link DeskBookingService}, {@link DeskService}, {@link EmployeeService},
+ * and {@link TimeSlotService} to perform the necessary operations.
+ *
+ * <p>The controller is responsible for handling HTTP requests related to desk bookings.
+ *
+ * <p>Note: This controller is designed to work with the Web interface of the booking system.
+ *
+ * <p>The endpoints provided by this controller are:
+ * <ul>
+ *   <li>/web/deskbookings/admin - Retrieves all desk bookings (accessible to admins and operators)</li>
+ *   <li>/web/deskbookings/admin/view/{id} - Retrieves the details of a specific desk booking (accessible to admins and operators)</li>
+ *   <li>/web/deskbookings/admin/add - Displays the form for adding a desk booking (accessible to admins and operators)</li>
+ *   <li>/web/deskbookings/admin/add - Adds a new desk booking based on the submitted form data (accessible to admins and operators)</li>
+ *   <li>/web/deskbookings/admin/new/{deskId} - Displays the form for adding a new desk booking for a specific desk (accessible to admins and operators)</li>
+ *   <li>/web/deskbookings/admin/new - Adds a new desk booking based on the submitted form data (accessible to admins and operators)</li>
+ *   <li>/web/deskbookings/admin/update/{id} - Displays the form for updating a specific desk booking (accessible to admins and operators)</li>
+ *   <li>/web/deskbookings/admin/update - Updates a specific desk booking based on the submitted form data (accessible to admins and operators)</li>
+ *   <li>/web/deskbookings/admin/cancel/{id} - Displays the form for canceling a specific desk booking ((accessible to admins and operators)</li>
+ *   <li>/web/deskbookings/admin/cancel/{id} - Cancels a specific desk booking (accessible to admins and operators)</li>
+ *   <li>/web/deskbookings/mydeskbookings - Retrieves the desk bookings for the currently logged-in employee</li>
+ *   <li>/web/deskbookings/view/{id} - Retrieves the details of a specific desk booking for the currently logged-in employee</li>
+ *   <li>/web/deskbookings/add - Displays the form for adding a desk booking for the currently logged-in employee</li>
+ *   <li>/web/deskbookings/add - Adds a new desk booking based on the submitted form data for the currently logged-in employee</li>
+ *   <li>/web/deskbookings/update/{id} - Displays the form for updating a specific desk booking for the currently logged-in employee</li>
+ *   <li>/web/deskbookings/update - Updates a specific desk booking based on the submitted form data for the currently logged-in employee</li>
+ *   <li>/web/deskbookings/deskbookinghistory/{id} - Retrieves the desk booking history for a specific employee</li>
+ *   <li>/web/deskbookings/cancel/{id} - Displays the form for cancelling a specific desk booking for the currently logged-in employee</li>
+ *   <li>/web/deskbookings/cancel/{id} - Cancels a specific desk booking for the currently logged-in employee</li>
+ *   <li>/web/deskbookings/error - Displays the error page</li>
+ * </ul>
+ *
+ * <p>It also includes various model attribute methods to provide data for the views, such as the list of employees,
+ * desks, start times, and end times.
+ *
+ * <p>Note: This controller assumes the use of Spring Framework for building web applications.
+ *
+ * @author Sonja Lechner
+ * @version 1.0
+ * @since 2023-05-24
+ */
 
 @Controller
 @RequestMapping("/web/deskbookings")
@@ -41,7 +88,14 @@ public class DeskBookingWebController {
     private final TimeSlotService timeSlotService;
     private static final Logger logger = LoggerFactory.getLogger(DeskBookingWebController.class);
 
-
+    /**
+     * Constructs a new DeskBookingWebController with the specified services.
+     *
+     * @param deskBookingService the DeskBookingService to be used
+     * @param deskService the DeskService to be used
+     * @param employeeService the EmployeeService to be used
+     * @param timeSlotService the TimeSlotService to be used
+     */
     public DeskBookingWebController(DeskBookingService deskBookingService, DeskService deskService, EmployeeService employeeService, TimeSlotService timeSlotService) {
         this.deskBookingService = deskBookingService;
         this.deskService = deskService;
@@ -55,8 +109,13 @@ public class DeskBookingWebController {
     }
 
     @ModelAttribute("desks")
-    public List<Desk> getDesks() throws ExecutionException, InterruptedException {
-        return this.deskService.getAllDesks();
+    public List<Desk> getDesks() {
+        try {
+            return this.deskService.getAllDesks();
+        } catch (Exception e) {
+            logger.error("Error occurred while getting all desks: {}", e.getMessage(), e);
+            return Collections.emptyList(); // Return an empty list as a default value
+        }
     }
 
     @ModelAttribute("startTimes")
