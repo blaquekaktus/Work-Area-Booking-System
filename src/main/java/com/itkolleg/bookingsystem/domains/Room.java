@@ -1,17 +1,17 @@
 package com.itkolleg.bookingsystem.domains;
 
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import java.util.ArrayList;
-import java.util.List;
 
+/**
 
+ Represents a room in the booking system.
+ */
 @Entity
 @NoArgsConstructor
 @Getter
@@ -28,24 +28,26 @@ public class Room {
 
     private String info;
 
-    /*@OneToMany(mappedBy = "room")
-    private List<Desk> desks;*/
+    /**
 
-    public Room(Long id,String floor) {
-        this.id=id;
+     Constructs a Room object with the specified ID and floor.
+     @param id The ID of the room.
+     @param floor The floor of the room.
+     */
+    public Room(Long id, String floor) {
+        this.id = id;
         this.floor = floor;
     }
+    /**
 
-
-
-
+     Returns a string representation of the Room object.
+     @return A string representation of the Room object.
+     */
     @Override
     public String toString() {
         return getClass().getSimpleName() + "(" +
                 "roomId = " + id + ", " +
-
-                "floor = " + floor + ", ";
+                "floor = " + floor + ", " +
+                "info = " + info + ")";
     }
-
-
 }

@@ -22,6 +22,10 @@ import java.util.Optional;
 import java.util.concurrent.ExecutionException;
 import java.util.stream.Collectors;
 
+/**
+ * The RoomBookingServiceImplementation class is responsible for implementing the RoomBookingService interface
+ * and providing the functionality to manage room bookings.
+ */
 @Service
 public class RoomBookingServiceImplementation implements RoomBookingService {
     Logger logger = LoggerFactory.getLogger(RoomBookingServiceImplementation.class);
@@ -30,12 +34,28 @@ public class RoomBookingServiceImplementation implements RoomBookingService {
     private final DBAccessRoom dbAccessRoom;
     private final EmployeeDBAccess employeeDBAccess;
 
+
+    /**
+     * Constructs a RoomBookingServiceImplementation with the specified dependencies.
+     *
+     * @param roomBookingRepo   the repository for room bookings
+     * @param dbAccessRoom      the database access for rooms
+     * @param employeeDBAccess  the database access for employees
+     */
     public RoomBookingServiceImplementation(RoomBookingRepo roomBookingRepo, DBAccessRoom dbAccessRoom, EmployeeDBAccess employeeDBAccess) {
         this.roomBookingRepo = roomBookingRepo;
         this.dbAccessRoom = dbAccessRoom;
         this.employeeDBAccess = employeeDBAccess;
     }
 
+    /**
+     * Adds a new room booking.
+     *
+     * @param roomBooking the room booking to add
+     * @return the added room booking
+     * @throws RoomNotAvailableException if the room is not available for the booking period
+     * @throws RoomNotFoundException    if the room is not found
+     */
     @Override
     public RoomBooking addRoomBooking(RoomBooking roomBooking) throws RoomNotAvailableException, RoomNotFoundException {
         List<RoomBooking> bookings = this.roomBookingRepo.getBookingsByRoomAndDateAndBookingTimeBetween(roomBooking.getRoom(), roomBooking.getDate(), roomBooking.getStart(), roomBooking.getEndTime());
@@ -52,27 +72,54 @@ public class RoomBookingServiceImplementation implements RoomBookingService {
         }
         return this.roomBookingRepo.addBooking(roomBooking);
     }
-
+    /**
+     * Retrieves all room bookings.
+     *
+     * @return a list of all room bookings
+     */
     @Override
     public List<RoomBooking> getAllBookings() {
         return this.roomBookingRepo.getAllBookings();
     }
-
+    /**
+     * Retrieves room bookings by employee ID.
+     *
+     * @param employeeId the employee ID
+     * @return a list of room bookings by the employee
+     */
     @Override
     public List<RoomBooking> getBookingsByEmployeeId(Long employeeId) {
         return this.roomBookingRepo.getBookingsByEmployeeId(employeeId);
     }
 
+    /**
+     * Retrieves room bookings by employee.
+     *
+     * @param employee the employee
+     * @return a list of room bookings by the employee
+     */
     @Override
     public List<RoomBooking> getBookingsByEmployee(Employee employee) {
         return this.roomBookingRepo.getBookingsByEmployee(employee);
     }
 
+    /**
+     * Retrieves room bookings by room.
+     *
+     * @param room the room
+     * @return a list of room bookings for the room
+     */
     @Override
     public List<RoomBooking> getBookingsByRoom(Room room) {
         return this.roomBookingRepo.getBookingsByRoom(room);
     }
 
+    /**
+     * Retrieves room bookings by date.
+     *
+     * @param localDate the date
+     * @return a list of room bookings for the date
+     */
     @Override
     public List<RoomBooking> getBookingsByDate(LocalDate localDate) {
         LocalTime startOfDay = LocalTime.from(localDate.atStartOfDay());
@@ -80,6 +127,13 @@ public class RoomBookingServiceImplementation implements RoomBookingService {
         return this.roomBookingRepo.getBookingsByDateAndByStartBetween(localDate, startOfDay, endOfDay);
     }
 
+    /**
+     * Retrieves a room booking by ID.
+     *
+     * @param bookingId the booking ID
+     * @return the room booking with the specified ID
+     * @throws RoomNotFoundException if the room booking is not found
+     */
     @Override
     public RoomBooking getBookingById(Long bookingId) throws RoomNotFoundException {
         Optional<RoomBooking> bookingOptional = this.roomBookingRepo.getBookingByBookingId(bookingId);
@@ -91,6 +145,15 @@ public class RoomBookingServiceImplementation implements RoomBookingService {
         }
     }
 
+    /**
+     * Updates a room booking by ID.
+     *
+     * @param bookingId      the booking ID
+     * @param updatedBooking the updated room booking
+     * @return the updated room booking
+     * @throws RoomNotFoundException       if the room booking is not found
+     * @throws RoomNotAvailableException   if the room is not available for the booking period
+     */
     @Override
     public RoomBooking updateBookingById(Long bookingId, RoomBooking updatedBooking) throws RoomNotFoundException, RoomNotAvailableException {
         Optional<RoomBooking> booking = this.roomBookingRepo.getBookingByBookingId(bookingId);
@@ -110,6 +173,14 @@ public class RoomBookingServiceImplementation implements RoomBookingService {
 
     }
 
+    /**
+     * Updates a room booking.
+     *
+     * @param booking the updated room booking
+     * @return the updated room booking
+     * @throws RoomNotFoundException       if the room booking is not found
+     * @throws RoomNotAvailableException   if the room is not available for the booking period
+     */
     @Override
     public RoomBooking updateBooking(RoomBooking booking) throws RoomNotFoundException, RoomNotAvailableException {
         try {
@@ -133,11 +204,25 @@ public class RoomBookingServiceImplementation implements RoomBookingService {
         }
     }
 
-
+    /**
+     * Finds room bookings by room, date, start time, and end time.
+     *
+     * @param room     the room
+     * @param date     the date
+     * @param start    the start time
+     * @param endTime  the end time
+     * @return a list of room bookings that match the criteria
+     */
     public List<RoomBooking> findByRoomAndBookingEndAfterAndBookingStartBefore(Room room, LocalDate date, LocalTime start, LocalTime endTime) {
         return this.roomBookingRepo.getBookingsByRoomAndDateAndBookingTimeBetween(room, date, start, endTime);
     }
-
+    /**
+     * Deletes a room booking by ID.
+     *
+     * @param BookingId the booking ID
+     * @throws RoomNotFoundException            if the room booking is not found
+     * @throws RoomDeletionNotPossibleException if the room deletion is not possible
+     */
     @Override
     public void deleteBookingById(Long BookingId) throws RoomNotFoundException, RoomDeletionNotPossibleException {
         Optional<RoomBooking> booking = this.roomBookingRepo.getBookingByBookingId(BookingId);
@@ -147,18 +232,42 @@ public class RoomBookingServiceImplementation implements RoomBookingService {
         roomBookingRepo.deleteBookingById(BookingId);
     }
 
+    /**
+     * Retrieves the available rooms for a specific date and time range.
+     *
+     * @param date     the date
+     * @param start    the start time
+     * @param endTime  the end time
+     * @return a list of available rooms
+     * @throws ExecutionException    if an error occurs during execution
+     * @throws InterruptedException if the execution is interrupted
+     */
     @Override
     public List<Room> getAvailableRooms(LocalDate date, LocalTime start, LocalTime endTime) throws ExecutionException, InterruptedException {
         return this.dbAccessRoom.getAllRooms().stream()
                 .filter(room -> roomBookingRepo.getBookingsByRoomAndDateAndBookingTimeBetween(room, date, start, endTime).isEmpty()).collect(Collectors.toList());
     }
-
+    /**
+     * Checks if a room is available for booking at a specific date and time range.
+     *
+     * @param room          the room
+     * @param date          the date
+     * @param startDateTime the start time
+     * @param endtime       the end time
+     * @return true if the room is available, false otherwise
+     */
     @Override
     public boolean isRoomAvailable(Room room, LocalDate date, LocalTime startDateTime, LocalTime endtime) {
         List<RoomBooking> bookings = this.roomBookingRepo.getBookingsByRoomAndDateAndBookingTimeBetween(room, date, startDateTime, endtime);
         return bookings.isEmpty();
     }
 
+    /**
+     * Deletes a room booking.
+     *
+     * @param id of the room booking to delete
+     * @throws RoomNotFoundException if the room booking is not found
+     */
     @Override
     public void deleteBooking(Long id) throws RoomNotFoundException, RoomDeletionNotPossibleException {
         this.roomBookingRepo.deleteBookingById(id);
