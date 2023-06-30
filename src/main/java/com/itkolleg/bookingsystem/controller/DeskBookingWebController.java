@@ -407,6 +407,7 @@ public class DeskBookingWebController {
     public String cancelDeskBooking(@PathVariable Long id, RedirectAttributes redirectAttributes) {
         try {
             this.deskBookingService.deleteBooking(id);
+            return "redirect:/web/deskbookings/admin";
         } catch (ResourceDeletionFailureException e) {
             redirectAttributes.addFlashAttribute("errorMessage", "Failed to cancel the desk booking.");
             return "redirect:/web/deskbookings/admin/cancel/" + id;
@@ -414,12 +415,10 @@ public class DeskBookingWebController {
             redirectAttributes.addFlashAttribute("errorMessage", "Booking not found.");
             return "redirect:/web/deskbookings/admin";
         }
-
-        return "redirect:/web/deskbookings/admin";
     }
 
-    /**
 
+    /**
      Retrieves the desk bookings for the currently logged-in employee.
      @param model The model object for rendering the view.
      @param authentication The authentication object for accessing the authenticated user details.
@@ -440,7 +439,6 @@ public class DeskBookingWebController {
     }
 
     /**
-
      Displays the details of a desk booking.
      @param id The ID of the booking.
      @param model The model object for rendering the view.

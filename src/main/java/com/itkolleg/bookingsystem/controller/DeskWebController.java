@@ -160,7 +160,7 @@ public class DeskWebController {
             this.deskService.deleteDeskById(id);
         } catch (ResourceDeletionFailureException e) {
             redirectAttributes.addFlashAttribute("errorMessage", "Failed to delete the desk.");
-            return "redirect:/web/desks/delete/" + id;
+            return "redirect:/web/desks";
         }
         return "redirect:/web/desks";
     }
