@@ -1,4 +1,4 @@
-package com.itkolleg.bookingsystem.controller.booking.DeskBooking;
+package com.itkolleg.bookingsystem.controller;
 
 import com.itkolleg.bookingsystem.exceptions.ResourceDeletionFailureException;
 import com.itkolleg.bookingsystem.exceptions.ResourceNotFoundException;

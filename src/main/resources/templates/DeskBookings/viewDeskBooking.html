@@ -11,7 +11,6 @@
 <div class="content-container">
     <div class="addRessourceContainer">
         <h1>Arbeitsplatzbuchung Details</h1><br><br>
-        <div class="scroll-container">
             <form method="get" th:action="@{/web/deskbookings/view/{id}}" th:object="${myDeskBooking}">
                 <div class="form-group">
                     <label for="employee">Mitarbeiter</label>
@@ -28,7 +27,6 @@
                            th:value="${#temporals.format(myDeskBooking.date, 'dd-MM-YYYY')}" type="text">
 
                     <label for="start">Startzeit</label>
-                    <!--          <--Use field value directly -->
                     <input class="form-control" id="start" name="start" readonly th:field="${myDeskBooking.start}"
                            type="text">
 
@@ -42,7 +40,6 @@
             </form>
         </div>
     </div>
-</div>
 <div class="filler"></div>
 </body>
 </html>

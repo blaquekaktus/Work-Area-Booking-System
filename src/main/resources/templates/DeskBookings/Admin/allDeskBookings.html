@@ -10,6 +10,7 @@
 <div class="content-container">
     <div class="subcontainer">
         <h1>Arbeitsplatz Buchungen</h1><br><br>
+        <div class="scroll-container">
         <table>
             <thead>
             <tr>
@@ -19,8 +20,8 @@
                 <th>Datum</th>
                 <th>Start</th>
                 <th>Ende</th>
-                <th>Angelegt am</th>
-                <th>Bearbeitet am</th>
+                <th>Angelegt Am</th>
+                <th>Zuletzt Bearbeitet Am</th>
                 <th>Aktion</th>
             </tr>
             </thead>
@@ -42,48 +43,6 @@
             </tr>
             </tbody>
         </table>
-        <a th:href="@{/web/deskbookings/admin/add}" class="add-button" role="button">Neue Buchung</a>
-<!--<span>
-<a class="add-button" role="button" th:href="@{/web/desks}">Alle Arbeitsplätze</a>
-</span>-->
-        <h1>Arbeitsplatz-Buchungen</h1><br><br>
-        <div class="scroll-container">
-            <table>
-                <thead>
-                <tr>
-                    <th>ID</th>
-                    <th>Mitarbeiter</th>
-                    <th>Arbeitsplatz</th>
-                    <th>Datum</th>
-                    <th>Start</th>
-                    <th>Ende</th>
-                    <th>Angelegt am</th>
-                    <th>Bearbeitet am</th>
-                    <th>Aktion</th>
-                </tr>
-                </thead>
-                <tbody>
-                <tr th:each="booking: ${viewAllDeskBookings}" th:id="'bookingRow-' + ${booking.id}">
-                    <td th:text="${booking.id}"></td>
-                    <td th:text="${booking.employee.fname } + ' ' + ${booking.employee.lname}"></td>
-                    <td th:text="${booking.desk.deskNr}"></td>
-                    <td th:text="${#temporals.format(booking.date, 'MMMM d, yyyy')}"></td>
-                    <td th:text="${#temporals.format(booking.start, 'hh:mm a')}"></td>
-                    <td th:text="${#temporals.format(booking.endTime, 'hh:mm a')}"></td>
-                    <td th:text="${#temporals.format(booking.getCreatedOn, 'MMMM d, yyyy, hh:mm a')}"></td>
-                    <td th:text="${#temporals.format(booking.getUpdatedOn, 'MMMM d, yyyy, hh:mm a')}"></td>
-                    <td>
-                        <a class="button" role="button"
-                           th:href="@{/web/deskbookings/admin/view/{id}(id=${booking.id})}">Anzeigen</a>
-                        <a class="button" role="button"
-                           th:href="@{/web/deskbookings/admin/update/{id}(id=${booking.id})}">Bearbeiten</a>
-                        <a class="delete-button" role="button"
-                           th:href="@{/web/deskbookings/admin/cancel/{id}(id=${booking.id})}">Löschen</a>
-                    </td>
-                </tr>
-                </tbody>
-            </table>
-        </div>
         <div class="button-row">
             <a th:href="@{/web/deskbookings/admin/add}" class="add-button" role="button">Buchen</a>
             <a th:href="@{/web/desks}" class="button" role="button">Alle Arbeitsplätze</a>
@@ -92,5 +51,6 @@
     </div>
 </div>
 <div class="filler"></div>
+</div>
 </body>
 </html>
