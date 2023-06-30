@@ -12,9 +12,7 @@
         <div class="scroll-container">
             <form method="post" th:action="@{/web/deskbookings/admin/cancel/{id}(id=${booking.id})}"
                   th:object="${booking}">
-                <p>Sind Sie sicher, dass Sie die folgende Arbeitsplatz-Buchung löschen wollen:<br><br>
-                    <strong th:text="${booking.desk.deskNr}"></strong> am <strong th:text="${booking.date}"></strong>
-                </p>
+                <p>Sind Sie sicher, dass Sie die folgende Arbeitsplatz-Buchung löschen wollen:</p>
                 <br>
                 <div class="form-group">
                     <label for="employee">Mitarbeiter</label>
@@ -43,6 +41,7 @@
                 </div>
                 <div class="button-row">
                     <button class="button" type="submit">Bestätigen</button>
+                    <button class="delete-button" onclick="goBack()">Zurück</button>
                 </div>
             </form>
         </div>

@@ -9,7 +9,7 @@
 <!-- Content -->
 <div class="content-container">
     <div class="subcontainer">
-        <h1>Arbeitsplatz Buchungen</h1><br><br>
+        <h1>Alle Arbeitsplatzbuchungen</h1><br><br>
         <div class="scroll-container">
         <table>
             <thead>
@@ -43,12 +43,13 @@
             </tr>
             </tbody>
         </table>
+
+    </div>
         <div class="button-row">
-            <a th:href="@{/web/deskbookings/admin/add}" class="add-button" role="button">Buchen</a>
+            <a th:href="@{/web/deskbookings/admin/add}" class="add-button" role="button">Neue Buchung Erstellen</a>
             <a th:href="@{/web/desks}" class="button" role="button">Alle Arbeitsplätze</a>
             <button class="delete-button" onclick="goBack()">Zurück</button>
         </div>
-    </div>
 </div>
 <div class="filler"></div>
 </div>
