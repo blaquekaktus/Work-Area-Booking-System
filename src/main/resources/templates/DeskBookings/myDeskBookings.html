@@ -9,46 +9,46 @@
 <!-- Content -->
 <div class="content-container">
     <div class="allRessourceContainer">
-        <h1>Meine Arbeitsplatz-Buchungen</h1><br><br>
+        <h1>Meine Arbeitsplatzbuchungen</h1><br>
         <div class="scroll-container">
-            <table>
-                <thead>
-                <tr>
-                    <th>Buchungs-ID</th>
-                    <th>Arbeitsplatz</th>
-                    <th>Datum</th>
-                    <th>Startzeit</th>
-                    <th>Endzeit</th>
-                    <th>Erstellt am</th>
-                    <th>Zuletzt bearbeitet</th>
-                    <th>Aktion</th>
-                </tr>
-                </thead>
-                <tbody>
-                <tr th:each="booking: ${myDeskBookings}" th:id="'bookingRow-' + ${booking.id}">
-                    <td th:text="${booking.id}"></td>
-                    <!--
-                                    <td th:text="${booking.employee.fname } + ' ' + ${booking.employee.lname}"></td>
-                    -->
-                    <td th:text="${booking.desk.deskNr}"></td>
-                    <td th:text="${#temporals.format(booking.date, 'MMMM d, yyyy')}"></td>
-                    <td th:text="${#temporals.format(booking.start, 'hh:mm a')}"></td>
-                    <td th:text="${#temporals.format(booking.endTime, 'hh:mm a')}"></td>
-                    <td th:text="${#temporals.format(booking.getCreatedOn, 'MMMM d, yyyy, hh:mm a')}"></td>
-                    <td th:text="${#temporals.format(booking.getUpdatedOn, 'MMMM d, yyyy, hh:mm a')}"></td>
-                    <td>
-                        <a class="button" role="button" th:href="@{/web/deskBookings/view/{id}(id=${booking.id})}">Anzeigen</a>
-                        <a class="button" role="button" th:href="@{/web/deskBookings/update/{id}(id=${booking.id})}">Bearbeiten</a>
-                    </td>
-                </tr>
-                </tbody>
-            </table>
-        </div>
-        <div class="button-row">
-            <button class="delete-button" onclick="goBack()">Zurück</button>
+        <table>
+            <thead>
+            <tr>
+                <th>Buchung-Id</th>
+                <th>Arbeitsplatz</th>
+                <th>Datum</th>
+                <th>Start</th>
+                <th>End</th>
+                <th>Erstellt Am</th>
+                <th>Zuletzt Bearbeitet Am</th>
+                <th>Aktion</th>
+            </tr>
+            </thead>
+            <tbody>
+           <tr th:each="booking: ${myDeskBookings}" th:id="'bookingRow-' + ${booking.id}">
+               <td th:text="${booking.id}"></td>
+               <td th:text="${booking.desk.deskNr}"></td>
+               <td th:text="${#temporals.format(booking.date, 'MMMM d, yyyy')}"></td>
+               <td th:text="${#temporals.format(booking.start, 'hh:mm a')}"></td>
+               <td th:text="${#temporals.format(booking.endTime, 'hh:mm a')}"></td>
+               <td th:text="${#temporals.format(booking.getCreatedOn, 'MMMM d, yyyy, hh:mm a')}"></td>
+               <td th:text="${#temporals.format(booking.getUpdatedOn, 'MMMM d, yyyy, hh:mm a')}"></td>
+                <td>
+                    <a class="button" role="button" th:href="@{/web/deskbookings/view/{id}(id=${booking.id})}">Anzeigen</a>
+                    <a class="button" role="button" th:href="@{/web/deskbookings/update/{id}(id=${booking.id})}">Bearbeiten</a>
+                    <a class="delete-button" role="button" th:href="@{/web/deskbookings/cancel/{id}(id=${booking.id})}">Stornieren</a>
+                </td>
+            </tr>
+            </tbody>
+        </table>
+            <div class="button-row">
+                <a class="button" role="button" th:href="@{/web/deskbookings/add}">Neue Buchung</a>
+                <button class="delete-button" onclick="goBack()">Zurück</button>
+            </div>
+
+<div class="filler"></div>
         </div>
     </div>
 </div>
-<div class="filler"></div>
 </body>
 </html>

@@ -35,4 +35,5 @@ public interface EmployeeService extends UserDetailsService {
     //String getPasswordForEmployee(String username);
 
     UserDetails loadEmployeeByUsername(String username);
+
 }

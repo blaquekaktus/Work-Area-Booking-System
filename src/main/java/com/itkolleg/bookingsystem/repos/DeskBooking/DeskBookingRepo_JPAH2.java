@@ -20,7 +20,13 @@ import java.time.LocalTime;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
-
+/**
+ * The JPA implementation of the DeskBookingRepo interface.
+ *
+ * @author Sonja Lechner
+ * @version 1.0
+ * @since 2023-05-26
+ */
 @Component
 @ComponentScan({"com.itkolleg.repos"})
 public class DeskBookingRepo_JPAH2 implements DeskBookingRepo {
@@ -30,25 +36,20 @@ public class DeskBookingRepo_JPAH2 implements DeskBookingRepo {
     private final DeskJPARepo deskJPARepo;
     private final EmployeeJPARepo employeeJPARepo;
 
-
     public DeskBookingRepo_JPAH2(DeskBookingJPARepo deskBookingJPARepo, DeskJPARepo deskJPARepo, EmployeeJPARepo employeeJPARepo) {
         this.deskBookingJPARepo = deskBookingJPARepo;
         this.deskJPARepo = deskJPARepo;
         this.employeeJPARepo = employeeJPARepo;
     }
 
-    /*@Override
-    public DeskBooking addBooking(DeskBooking booking) throws DeskNotAvailableException {
-        // Check if the desk is available for the booking period
-        List<DeskBooking> bookings = deskBookingJPARepo.getBookingsByDeskAndDate(Optional.ofNullable(booking.getDesk()), booking.getDate());
-        if (!bookings.isEmpty()) {
-            throw new DeskNotAvailableException("Desk not available for booking period");
-        }
-        return this.deskBookingJPARepo.save(booking);
-    }*/
-    /*@Query("SELECT b FROM DeskBooking b WHERE b.desk.id = :deskId")
-     DeskBooking getBookingByDeskId(@Param("deskId") Long deskId);*/
-
+    /**
+     * Adds a desk booking to the repository.
+     *
+     * @param deskBooking The desk booking to add.
+     * @return The added desk booking.
+     * @throws DeskNotAvailableException   If the desk is not available for the booking period.
+     * @throws ResourceNotFoundException  If the desk or employee is not found.
+     */
     public DeskBooking addBooking(DeskBooking deskBooking) throws DeskNotAvailableException, ResourceNotFoundException {
         // Check for null values
         if (deskBooking == null || deskBooking.getEmployee() == null || deskBooking.getDesk() == null) {
@@ -75,10 +76,6 @@ public class DeskBookingRepo_JPAH2 implements DeskBookingRepo {
         booking.setStart(deskBooking.getStart());
         booking.setEndTime(deskBooking.getEndTime());
 
-        // Set created and updated timestamps
-        /*booking.setCreatedOn(LocalDateTime.now());
-        booking.setUpdatedOn(LocalDateTime.now());*/
-
         // Save the booking
         try {
             return this.deskBookingJPARepo.save(booking);
@@ -87,13 +84,22 @@ public class DeskBookingRepo_JPAH2 implements DeskBookingRepo {
         }
     }
 
-
-    @Override
+    /**
+     * Retrieves all desk bookings from the repository.
+     *
+     * @return The list of all desk bookings.
+     */
     public List<DeskBooking> getAllBookings() {
         return this.deskBookingJPARepo.findAll();
     }
 
-    @Override
+    /**
+     * Retrieves a desk booking by its booking ID.
+     *
+     * @param bookingId The ID of the desk booking.
+     * @return The desk booking with the specified ID.
+     * @throws ResourceNotFoundException If the booking is not found.
+     */
     public Optional<DeskBooking> getBookingByBookingId(Long bookingId) throws ResourceNotFoundException {
         Optional<DeskBooking> bookingOptional = deskBookingJPARepo.findById(bookingId);
         if (bookingOptional.isEmpty()) {
@@ -104,22 +110,45 @@ public class DeskBookingRepo_JPAH2 implements DeskBookingRepo {
         return bookingOptional;
     }
 
-    @Override
+    /**
+     * Retrieves all desk bookings for a specific desk.
+     *
+     * @param desk The desk to retrieve bookings for.
+     * @return The list of desk bookings for the specified desk.
+     */
     public List<DeskBooking> getBookingByDesk(Desk desk) {
         return this.deskBookingJPARepo.getBookingByDesk(Optional.ofNullable(desk));
     }
 
-    @Override
+    /**
+     * Retrieves all desk bookings for a specific employee.
+     *
+     * @param employee The employee to retrieve bookings for.
+     * @return The list of desk bookings for the specified employee.
+     */
     public List<DeskBooking> getBookingsByEmployee(Employee employee) {
         return this.deskBookingJPARepo.getBookingsByEmployee(employee);
     }
 
-    @Override
+    /**
+     * Retrieves all desk bookings for a specific employee and date.
+     *
+     * @param employee The employee to retrieve bookings for.
+     * @param date     The date to retrieve bookings for.
+     * @return The list of desk bookings for the specified employee and date.
+     */
     public List<DeskBooking> getBookingsByEmployeeAndDate(Employee employee, LocalDate date) {
         return this.deskBookingJPARepo.getBookingsByEmployeeAndDate(Optional.ofNullable(employee), date);
     }
 
-    @Override
+    /**
+     * Searches for desk bookings based on the given parameters.
+     *
+     * @param employeeId The ID of the employee.
+     * @param deskId     The ID of the desk.
+     * @param date       The date.
+     * @return The list of desk bookings that match the search criteria.
+     */
     public List<DeskBooking> searchBookings(Long employeeId, Long deskId, LocalDate date) {
         List<DeskBooking> bookings = new ArrayList<>();
         if (employeeId == null && deskId == null && date == null) {
@@ -154,27 +183,57 @@ public class DeskBookingRepo_JPAH2 implements DeskBookingRepo {
         return bookings;
     }
 
-
-    @Override
+    /**
+     * Retrieves desk bookings for a specific desk and date.
+     *
+     * @param desk The desk to retrieve bookings for.
+     * @param date The date to retrieve bookings for.
+     * @return The list of desk bookings for the specified desk and date.
+     */
     public List<DeskBooking> getByDeskAndDate(Desk desk, LocalDate date) {
         return this.deskBookingJPARepo.getBookingsByDeskAndDate(Optional.ofNullable(desk), date);
     }
 
-    @Override
+    /**
+     * Retrieves desk bookings for a specific date.
+     *
+     * @param date The date to retrieve bookings for.
+     * @return The list of desk bookings for the specified date.
+     */
     public List<DeskBooking> getBookingByDate(LocalDate date) {
         return this.deskBookingJPARepo.getBookingsByDate(date);
     }
 
-    @Override
+    /**
+     * Retrieves desk bookings for a specific employee ID.
+     *
+     * @param employeeId The ID of the employee.
+     * @return The list of desk bookings for the specified employee ID.
+     */
     public List<DeskBooking> getBookingsByEmployeeId(Long employeeId) {
         return this.deskBookingJPARepo.getBookingsByEmployeeId(employeeId);
     }
 
+    /**
+     * Retrieves desk bookings for a specific date and booking time range.
+     *
+     * @param date        The date to retrieve bookings for.
+     * @param bookingStart The start time of the booking time range.
+     * @param bookingEnd   The end time of the booking time range.
+     * @return The list of desk bookings for the specified date and booking time range.
+     */
     public List<DeskBooking> getBookingsByDateAndBookingStartBetween(LocalDate date, LocalTime bookingStart, LocalTime bookingEnd) {
         return this.deskBookingJPARepo.getBookingsByDateAndStartBetween(date, bookingStart, bookingEnd);
     }
 
-    @Override
+    /**
+     * Updates a desk booking by its ID.
+     *
+     * @param deskBookingId   The ID of the desk booking.
+     * @param updatedDeskBooking The updated desk booking.
+     * @return The updated desk booking.
+     * @throws ResourceNotFoundException If the booking or associated entities are not found.
+     */
     public DeskBooking updateBookingById(Long deskBookingId, DeskBooking updatedDeskBooking) throws ResourceNotFoundException {
         // Checking for mandatory fields on the updated booking
         if (updatedDeskBooking.getDesk() == null || updatedDeskBooking.getEmployee() == null || updatedDeskBooking.getDate() == null
@@ -210,7 +269,13 @@ public class DeskBookingRepo_JPAH2 implements DeskBookingRepo {
         }).orElseThrow(() -> new ResourceNotFoundException("The Desk Booking with the ID: " + deskBookingId + " was not found!"));
     }
 
-    @Override
+    /**
+     * Updates a desk booking.
+     *
+     * @param updatedBooking The updated desk booking.
+     * @return The updated desk booking.
+     * @throws ResourceNotFoundException If the booking is not found.
+     */
     public DeskBooking updateBooking(DeskBooking updatedBooking) throws ResourceNotFoundException {
         if (updatedBooking.getId() == null) {
             throw new IllegalArgumentException("Id cannot be null when updating");
@@ -218,8 +283,12 @@ public class DeskBookingRepo_JPAH2 implements DeskBookingRepo {
         return deskBookingJPARepo.saveAndFlush(updatedBooking);
     }
 
-
-    @Override
+    /**
+     * Deletes a desk booking by its ID.
+     *
+     * @param bookingId The ID of the desk booking.
+     * @throws ResourceDeletionFailureException If the booking is not found.
+     */
     public void deleteBookingById(Long bookingId) throws ResourceDeletionFailureException {
         Optional<DeskBooking> bookingOptional = this.deskBookingJPARepo.findById(bookingId);
         if (bookingOptional.isPresent()) {
@@ -229,8 +298,14 @@ public class DeskBookingRepo_JPAH2 implements DeskBookingRepo {
         }
     }
 
-
-    @Override
+    /**
+     * Retrieves available desks for a specific date and time range.
+     *
+     * @param date The date to check for availability.
+     * @param start The start time of the time range.
+     * @param end The end time of the time range.
+     * @return The list of available desks.
+     */
     public List<Desk> getAvailableDesks(LocalDate date, LocalTime start, LocalTime end) {
         List<Desk> allDesks = deskJPARepo.findAll();
         List<Desk> availableDesks = new ArrayList<>();
@@ -243,26 +318,52 @@ public class DeskBookingRepo_JPAH2 implements DeskBookingRepo {
         return availableDesks;
     }
 
-    @Override
+    /**
+     * Checks if a desk is available for a specific date and time range.
+     *
+     * @param desk The desk to check availability for.
+     * @param date The date to check for availability.
+     * @param start The start time of the time range.
+     * @param end The end time of the time range.
+     * @return True if the desk is available, false otherwise.
+     */
     public boolean isDeskAvailable(Desk desk, LocalDate date, LocalTime start, LocalTime end) {
         List<DeskBooking> overlappingBookings = deskBookingJPARepo.getBookingsByDeskAndDateAndStartBetween(desk, date, start, end);
         return overlappingBookings.isEmpty();
     }
 
-    @Override
+    /**
+     * Retrieves desk bookings for a specific date and booking time range.
+     *
+     * @param date The date to retrieve bookings for.
+     * @param startOfDay The start time of the booking time range.
+     * @param endOfDay The end time of the booking time range.
+     * @return The list of desk bookings for the specified date and booking time range.
+     */
     public List<DeskBooking> getBookingByDateAndByStartBetween(LocalDate date, LocalTime startOfDay, LocalTime endOfDay) {
         return deskBookingJPARepo.getBookingsByDateAndStartBetween(date, startOfDay, endOfDay);
     }
 
-    @Override
+    /**
+     * Saves a desk booking to the repository.
+     *
+     * @param booking The desk booking to save.
+     * @return The saved desk booking.
+     */
     public DeskBooking save(DeskBooking booking) {
         return this.deskBookingJPARepo.save(booking);
     }
 
-    @Override
+    /**
+     * Retrieves desk bookings for a specific desk, date, and booking time range.
+     *
+     * @param desk The desk to retrieve bookings for.
+     * @param date The date to retrieve bookings for.
+     * @param start The start time of the booking time range.
+     * @param endTime The end time of the booking time range.
+     * @return The list of desk bookings for the specified desk, date, and booking time range.
+     */
     public List<DeskBooking> getBookingsByDeskAndDateAndBookingTimeBetween(Desk desk, LocalDate date, LocalTime start, LocalTime endTime) {
         return deskBookingJPARepo.getBookingsByDeskAndDateAndStartBetween(desk, date, start, endTime);
     }
-
-
 }

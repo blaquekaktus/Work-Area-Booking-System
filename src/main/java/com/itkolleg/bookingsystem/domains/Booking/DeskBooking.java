@@ -42,6 +42,11 @@ public class DeskBooking extends Booking {
 
     /**
      * Constructor for creating a desk booking with specific employee, desk, date, start and end times, and timestamp.
+     * @param employee The employee associated with the booking.
+     * @param desk The desk associated with the booking.
+     * @param date The date for the booking.
+     * @param start The start time for the booking.
+     * @param endTime The end time for the booking.
      */
     public DeskBooking(Employee employee, Desk desk, LocalDate date, LocalTime start, LocalTime endTime) {
         super(employee,
@@ -51,6 +56,13 @@ public class DeskBooking extends Booking {
         this.desk = desk;
     }
 
+    /**
+     * Constructor for creating a desk booking with a specific employee, desk, date, and time slot.
+     * @param employee The employee associated with the booking.
+     * @param desk The desk associated with the booking.
+     * @param date The date for the booking.
+     * @param timeSlot The time slot for the booking.
+     */
     public DeskBooking(Employee employee, Desk desk, LocalDate date, TimeSlot timeSlot) {
         super(employee,
                 date,

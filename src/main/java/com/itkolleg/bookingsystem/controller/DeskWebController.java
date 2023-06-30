@@ -1,4 +1,4 @@
-package com.itkolleg.bookingsystem.controller.desk;
+package com.itkolleg.bookingsystem.controller;
 
 import com.itkolleg.bookingsystem.domains.Desk;
 import com.itkolleg.bookingsystem.exceptions.ResourceDeletionFailureException;
@@ -7,8 +7,6 @@ import com.itkolleg.bookingsystem.service.Desk.DeskService;
 import jakarta.validation.Valid;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -23,31 +21,47 @@ public class DeskWebController {
 
     private final DeskService deskService;
 
+    /**
+     * Constructs a new DeskWebController with the specified DeskService.
+     *
+     * @param deskService the DeskService to be used
+     */
     public DeskWebController(DeskService deskService) {
         this.deskService = deskService;
     }
 
+    /**
+     * Retrieves all desks and adds them to the model.
+     *
+     * @param model the model to be used
+     * @return the view name for displaying all desks
+     */
     @GetMapping
     public String getAllDesks(Model model) {
         model.addAttribute("viewAllDesks", this.deskService.getAllDesks());
         return "Desks/allDesks";
     }
 
-    @GetMapping("/pages")
-    public String getAllDesks(Model model,
-                              @RequestParam(defaultValue = "0") int page,
-                              @RequestParam(defaultValue = "10") int size) {
-        Page<Desk> deskPage = this.deskService.getAllDesksByPage(PageRequest.of(page, size));
-        model.addAttribute("desks", deskPage);
-        return "Desks/allDesksPages";
-    }
-
+    /**
+     * Displays the form for adding a new desk.
+     *
+     * @param model the model to be used
+     * @return the view name for adding a desk
+     */
     @GetMapping("/add")
     public String addDeskForm(Model model) {
         model.addAttribute("desk", new Desk());
         return "Desks/addDesk";
     }
 
+    /**
+     * Adds a new desk based on the submitted form data.
+     *
+     * @param desk                the desk to be added
+     * @param bindingResult       the binding result for validation
+     * @param redirectAttributes  the redirect attributes for flash messages
+     * @return the redirect URL after adding the desk
+     */
     @PostMapping("/add")
     public String addDesk(@Valid Desk desk, BindingResult bindingResult, RedirectAttributes redirectAttributes) {
         if (bindingResult.hasErrors()) {
@@ -59,6 +73,13 @@ public class DeskWebController {
         }
     }
 
+    /**
+     * Displays the details of a specific desk.
+     *
+     * @param id     the ID of the desk to be viewed
+     * @param model  the model to be used
+     * @return the view name for viewing a desk
+     */
     @GetMapping("/view/{id}")
     public String viewDesk(@PathVariable Long id, Model model) {
         try {
@@ -70,6 +91,13 @@ public class DeskWebController {
         }
     }
 
+    /**
+     * Displays the form for updating a specific desk.
+     *
+     * @param id     the ID of the desk to be updated
+     * @param model  the model to be used
+     * @return the view name for updating a desk
+     */
     @GetMapping("/update/{id}")
     public String updateDeskForm(@PathVariable Long id, Model model) {
         try {
@@ -81,6 +109,14 @@ public class DeskWebController {
         }
     }
 
+    /**
+     * Updates a specific desk based on the submitted form data.
+     *
+     * @param desk                the updated desk
+     * @param bindingResult       the binding result for validation
+     * @param redirectAttributes  the redirect attributes for flash messages
+     * @return the redirect URL after updating the desk
+     */
     @PostMapping("/update")
     public String updateDesk(@Valid Desk desk, BindingResult bindingResult, RedirectAttributes redirectAttributes) {
         if (bindingResult.hasErrors()) {
@@ -96,39 +132,44 @@ public class DeskWebController {
         }
     }
 
-    @GetMapping("/cancel/{id}")
-    public String deleteDeskForm(@PathVariable Long id, Model model) {
-        try {
-            Desk desk = this.deskService.getDeskById(id);
-            model.addAttribute("desk", desk);
-            return "Desks/deleteDesk";
-        } catch (ResourceNotFoundException e) {
-            return "redirect:/web/desks";
-        }
+    /**
+     * Displays the form for deleting a specific desk.
+     *
+     * @param id     the ID of the desk to be deleted
+     * @param model  the model to be used
+     * @return the view name for deleting a desk
+     * @throws ResourceNotFoundException if the desk with the given ID is not found
+     */
+    @GetMapping("/delete/{id}")
+    public String deleteDeskForm(@PathVariable Long id, Model model) throws ResourceNotFoundException {
+        Desk desk = this.deskService.getDeskById(id);
+        model.addAttribute("desk", desk);
+        return "Desks/deleteDesk";
     }
 
-    @PostMapping("/cancel/{id}")
+    /**
+     * Deletes a specific desk.
+     *
+     * @param id                   the ID of the desk to be deleted
+     * @param redirectAttributes  the redirect attributes for flash messages
+     * @return the redirect URL after deleting the desk
+     */
+    @PostMapping("/delete/{id}")
     public String deleteDesk(@PathVariable Long id, RedirectAttributes redirectAttributes) {
         try {
             this.deskService.deleteDeskById(id);
-            redirectAttributes.addFlashAttribute("message", "Desk cancelled successfully!");
-            return "redirect:/web/desks";
         } catch (ResourceDeletionFailureException e) {
+            redirectAttributes.addFlashAttribute("errorMessage", "Failed to delete the desk.");
             return "redirect:/web/desks";
         }
+        return "redirect:/web/desks";
     }
 
-    /*@GetMapping("/delete/{id}")
-    public String deleteDesk(@PathVariable Long id, RedirectAttributes redirectAttributes) {
-        try {
-            this.deskService.deleteDeskById(id);
-            redirectAttributes.addFlashAttribute("message", "Desk deleted successfully!");
-            return "redirect:/web/desks";
-        } catch (ResourceDeletionFailureException e) {
-            return "redirect:/web/desks";
-        }
-    }*/
-
+    /**
+     * Displays the error page.
+     *
+     * @return the view for the error page
+     */
     @GetMapping("/error")
     public String getError() {
         return "error";

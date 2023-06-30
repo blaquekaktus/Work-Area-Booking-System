@@ -15,36 +15,92 @@ import org.springframework.stereotype.Component;
 import java.util.List;
 import java.util.Optional;
 
+/**
+ * This class implements the DeskRepo interface using JPA and H2 database.
+ * It provides methods for CRUD operations and other desk-related operations.
+ * It also handles exceptions related to desk operations.
+ * @author Sonja Lechner
+ * @version 1.0
+ * @since 2023-05-24
+ */
+
 @Component
 public class DeskRepo_JPAH2 implements DeskRepo {
+    /**
+     * The logger instance for logging purposes.
+     */
     private static final Logger logger = LoggerFactory.getLogger(DeskRepo_JPAH2.class);
 
+    /**
+     * The DeskJPARepo instance used for desk operations.
+     */
     DeskJPARepo deskJPARepo;
+
+    /**
+     * The DeskBookingJPARepo instance used for desk booking operations.
+     */
     DeskBookingJPARepo deskBookingJPARepo;
 
+    /**
+     *Constructs a new instance of DeskRepo_JPAH2 with the specified DeskJPARepo and DeskBookingJPARepo.
+     *
+     * @param deskJPARepo The DeskJPARepo to be used for desk operations.
+     * @param deskBookingJPARepo The DeskBookingJPARepo to be used for desk booking operations.
+     */
     public DeskRepo_JPAH2(DeskJPARepo deskJPARepo, DeskBookingJPARepo deskBookingJPARepo) {
         this.deskJPARepo = deskJPARepo;
         this.deskBookingJPARepo = deskBookingJPARepo;
     }
 
+
+    /**
+     * Adds a desk to the repository.
+     *
+     * @param desk The desk to add.
+     * @return the added desk
+     */
     @Override
     public Desk addDesk(Desk desk) {
         return this.deskJPARepo.save(desk);
     }
 
+    /**
+     * Retrieves all desks from the repository.
+     *
+     * @return A list of all desks.
+     */
     @Override
     public List<Desk> getAllDesks() {
         return this.deskJPARepo.findAll();
     }
 
+
+    /**
+     * Retrieves the total number of desks in the repository.
+     *
+     * @return The total number of desks.
+     */
     public int getTotalDesks() {
         return this.getAllDesks().size();
     }
 
+    /**
+     * Retrieves a page of desks from the repository.
+     *
+     * @param pageable The pageable object.
+     * @return A page of desks.
+     */
     public Page<Desk> getAllDesksByPage(Pageable pageable) {
         return this.deskJPARepo.findAllDesksByPage(pageable);
     }
 
+    /**
+     * If the desk is not found.
+     *
+     * @param id The ID of the desk.
+     * @return The desk with the specified ID.
+     * @throws ResourceNotFoundException  If the desk is not found.
+     */
     @Override
     public Desk getDeskById(Long id) throws ResourceNotFoundException {
         Optional<Desk> deskOptional = this.deskJPARepo.findById(id);
@@ -54,6 +110,15 @@ public class DeskRepo_JPAH2 implements DeskRepo {
             throw new ResourceNotFoundException("The Desk with the ID: " + id + " was not found!");
         }
     }
+
+    /**
+     * Updates a desk by its ID.
+     *
+     * @param id The ID of the desk.
+     * @param updatedDesk The updated desk.
+     * @return The updated desk.
+     * @throws ResourceNotFoundException If the desk is not found.
+     */
 
     @Override
     public Desk updateDeskById(Long id, Desk updatedDesk) throws ResourceNotFoundException {
@@ -69,6 +134,13 @@ public class DeskRepo_JPAH2 implements DeskRepo {
         }
     }
 
+    /**
+     * Updates a desk.
+     *
+     * @param updatedDesk The updated desk.
+     * @return The updated desk.
+     * @throws ResourceNotFoundException if the desk is not found.
+     */
     public Desk updateDesk(Desk updatedDesk) throws ResourceNotFoundException {
         try {
             Optional<Desk> desk = this.deskJPARepo.findById(updatedDesk.getId());
@@ -90,6 +162,13 @@ public class DeskRepo_JPAH2 implements DeskRepo {
         }
     }
 
+    /**
+     * Deletes a desk by its ID.
+     *
+     * @param id The ID of the desk.
+     * @return A list of remaining desks.
+     * @throws ResourceDeletionFailureException  If the desk deletion fails.
+     */
     @Override
     public List<Desk> deleteDeskById(Long id) throws ResourceDeletionFailureException {
         List<DeskBooking> bookings = this.deskBookingJPARepo.getBookingByDesk(Optional.of(deskJPARepo.getById(id)));
@@ -106,6 +185,13 @@ public class DeskRepo_JPAH2 implements DeskRepo {
         }
     }
 
+    /**
+     * Creates a port for a desk.
+     *
+     * @param deskId The ID of the desk.
+     * @param newPort The new port to create.
+     * @return The updated desk with the new port.
+     */
     @Override
     public Desk createPort(Long deskId, Port newPort) {
         Desk desk = deskJPARepo.findById(deskId).orElse(null);
@@ -119,6 +205,14 @@ public class DeskRepo_JPAH2 implements DeskRepo {
 
     }
 
+    /**
+     * Updates a port for a desk.
+     *
+     * @param deskId The ID of the desk.
+     * @param portName The name of the port to update.
+     * @param updatedPort The updated port.
+     * @return The updated desk with the updated port.
+     */
     @Override
     public Desk updatePort(Long deskId, String portName, Port updatedPort) {
         Desk desk = deskJPARepo.findById(deskId).orElse(null);
@@ -136,6 +230,13 @@ public class DeskRepo_JPAH2 implements DeskRepo {
         return null;
     }
 
+    /**
+     * Deletes a port from a desk.
+     *
+     * @param deskId The ID of the desk.
+     * @param portName The name of the port to delete.
+     * @return The updated desk without the deleted port.
+     */
     @Override
     public Desk deletePort(Long deskId, String portName) {
         Desk desk = deskJPARepo.findById(deskId).orElse(null);
@@ -148,6 +249,12 @@ public class DeskRepo_JPAH2 implements DeskRepo {
         return null;
     }
 
+    /**
+     * Retrieves the ports of a desk.
+     *
+     * @param deskId The ID of the desk.
+     * @return A list of ports of the desk.
+     */
     @Override
     public List<Port> getPorts(Long deskId) {
         Desk desk = deskJPARepo.findById(deskId).orElse(null);

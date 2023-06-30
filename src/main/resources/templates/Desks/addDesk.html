@@ -9,30 +9,31 @@
 <!-- Content -->
 <div class="content-container">
     <div class="addRessourceContainer">
-        <h1>Arbeitsplatz erstellen</h1><br><br>
+        <h1>Arbeitsplatz Erstellen</h1><br><br>
         <div class="scroll-container">
             <form method="post" th:action="@{/web/desks/add}" th:object="${desk}">
                 <div class="form-group">
-                    <label for="deskNr">Arbeitsplatz Nummer</label>
+                    <label for="deskNr">Arbeitsplatz</label>
                     <input class="form-control" id="deskNr" name="deskNr" th:field="*{deskNr}" type="text">
                     <div class="form-text" th:errorclass="errors" th:errors="*{deskNr}"
                          th:if="${#fields.hasErrors('deskNr')}"></div>
                 </div>
                 <div class="form-group">
-                    <label for="nrOfMonitors">Monitore</label>
+                    <label for="nrOfMonitors">Bildschirme</label>
                     <input class="form-control" id="nrOfMonitors" name="nrOfMonitors" th:field="*{nrOfMonitors}"
                            type="text">
                     <div class="form-text" th:errorclass="errors" th:errors="*{nrOfMonitors}"
                          th:if="${#fields.hasErrors('nrOfMonitors')}"></div>
                 </div>
                 <div class="form-group">
-                    <label for="ports">Ports</label>
+                    <label for="ports">Schnittstellen</label>
                     <input class="form-control" id="ports" name="ports" th:field="*{ports}" type="text">
                     <div class="form-text" th:errorclass="errors" th:errors="*{ports}"
                          th:if="${#fields.hasErrors('ports')}"></div>
                 </div>
                 <div class="button-row">
-                    <button class="button" type="submit">Hinzufügen</button>
+                    <button class="button" type="submit">Erstellen</button>
+                    <a class="delete-button" role="button" th:href="@{/web/desks}">Zurück</a>
                 </div>
             </form>
         </div>

@@ -95,7 +95,7 @@ public abstract class Booking {
 
 
     /**
-     * Constructor for creating a booking with specific employee, date, start and end times, and timestamp.
+     * Constructor for creating a booking with a specific employee, date, start and end times, and timestamp.
      */
     public Booking(@NotNull Employee employee, @NotNull LocalDate date, LocalTime startTime, LocalTime endTime) {
         this.employee = employee;
@@ -105,7 +105,7 @@ public abstract class Booking {
     }
 
     /**
-     * Constructor for creating a booking with specific employee, date, time slot, and timestamp.
+     * Constructor for creating a booking with a specific employee, date, time slot, and timestamp.
      * The start and end times are determined by the time slot.
      */
     public Booking(@NotNull Employee employee, @NotNull LocalDate date, TimeSlot timeSlot) {
@@ -143,18 +143,34 @@ public abstract class Booking {
         updatedOn = LocalDateTime.now();
     }
 
+    /**
+     * Returns the timestamp of when the booking was created.
+     * @return The timestamp of when the booking was created.
+     */
     public LocalDateTime getCreatedOn() {
         return this.createdOn;
     }
 
+    /**
+     * Sets the timestamp of when the booking was created.
+     * @param createdOn The timestamp of when the booking was created.
+     */
     public void setCreatedOn(LocalDateTime createdOn) {
         this.createdOn = createdOn;
     }
 
+    /**
+     * Returns the timestamp of when the booking was last updated.
+     * @return The timestamp of when the booking was last updated.
+     */
     public LocalDateTime getUpdatedOn() {
         return this.updatedOn;
     }
 
+    /**
+     * Sets the timestamp of when the booking was last updated.
+     * @param updatedOn The timestamp of when the booking was last updated.
+     */
     public void setUpdatedOn(LocalDateTime updatedOn) {
         this.updatedOn = updatedOn;
     }

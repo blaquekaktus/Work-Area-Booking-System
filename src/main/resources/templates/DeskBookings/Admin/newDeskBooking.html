@@ -9,7 +9,7 @@
 <div class="content-container">
     <div class="addRessourceContainer">
         <h1>Arbeitsplatz Buchen</h1><br><br>
-        <form method="post" th:action="@{/web/deskbookings/admin/add}" th:object="${deskBooking}">
+        <form method="post" th:action="@{/web/deskbookings/admin/new}" th:object="${deskBooking}">
             <div th:if="${errorMessage}" class="alert alert-danger error-message">
                 <p th:text="${errorMessage}"></p>
             </div>
@@ -25,13 +25,19 @@
             </div>
 
             <div class="form-group">
-                <label for="deskId">Arbeitsplatz</label>
-                <select class="form-control" id="deskId" name="desk.id" th:field="*{desk.id}">
-                    <option selected="selected" value="">--Select--</option>
-                    <option th:each="desk : ${desks}" th:text="${desk.deskNr}" th:value="${desk.id}"></option>
+                <label class="form-label" for="deskNr">Arbeitsplatz</label>
+                <select class="form-control" id="deskNr" name="desk.id" th:field="*{desk.id}">
+                    <option th:each="desk : ${desks}"
+                            th:text="${desk.deskNr}"
+                            th:selected="${desk.id.equals(defaultDeskId) ? 'selected' : ''}"
+                            th:value="${desk.id}"
+                            th:data-deskNr="${desk.deskNr}"></option>
                 </select>
-                <div th:errors="*{desk.id}" th:if="${#fields.hasErrors('desk.id')}"></div>
+                <div class="form-text"
+                     th:errors="*{desk.deskNr}"
+                     th:if="${#fields.hasErrors('desk.deskNr')}"></div>
             </div>
+
             <input type="hidden" id="desk.id" name="desk.id" th:field="*{desk.id}"/>
             <div class="form-group">
                 <label class="form-label" for="date">Datum</label>
@@ -69,12 +75,10 @@
             </div>
             <button type="submit" class="button">Buchen</button>
             <a class="button" role="button" th:href="@{/web/desks}">Alle Arbeitsplätze</a>
-            <a class="delete-button" role="button" th:href="@{/web/deskbookings/admin}">Abbrechen</a>
+            <a class="delete-button" role="button" th:href="@{/web/desks/view/{id}}">Abbrechen</a>
         </form>
     </div>
 </div>
 <div class="filler"></div>
-
-
 </body>
 </html>
