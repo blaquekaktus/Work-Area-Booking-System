@@ -27,6 +27,9 @@ public class PublicHoliday {
 
     private static final Logger logger = LoggerFactory.getLogger(PublicHoliday.class);
 
+    /**
+     * The unique identifier of the public holiday.
+     */
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;

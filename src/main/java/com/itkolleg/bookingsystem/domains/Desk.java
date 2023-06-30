@@ -44,14 +44,6 @@ public class Desk {
     private Long id;
 
     /**
-     * The room the desk is in.
-     */
-        /*
-    @ManyToOne
-    @JoinColumn(name = "roomId")
-    private Room room;*/
-
-    /**
      * The desk number.
      */
     @NotEmpty(message = "Desk number must not be empty")

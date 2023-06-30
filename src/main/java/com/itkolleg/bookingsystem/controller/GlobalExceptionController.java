@@ -21,6 +21,13 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import java.util.stream.Collectors;
 
+/**
+ *
+ * This class handles global exceptions for the booking system.
+ * @author Sonja Lechner, Marcel Schranz
+ * @version 1.0
+ * @since 2023-05-24
+ */
 
 @ControllerAdvice
 public class GlobalExceptionController {
