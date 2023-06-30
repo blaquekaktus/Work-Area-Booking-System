@@ -37,7 +37,7 @@
                          th:if="${#fields.hasErrors('desk.deskNr')}"></div>
                 </div>
                 <input type="hidden" id="desk.id" name="desk.id" th:field="*{desk.id}"/>
-                <div class="mb-3 form-group">
+                <div class="form-group">
                     <label class="form-label" for="date">Datum</label>
                     <input class="form-control" id="date" name="bookingStart"
                            th:field="*{date}"
@@ -46,7 +46,7 @@
                          th:errors="*{date}"
                          th:if="${#fields.hasErrors('date')}"></div>
                 </div>
-                <div class="mb-3">
+                <div class="form-group">
                     <label class="form-label" for="start">Startzeit</label>
                     <select class="form-select" id="start" name="start" th:field="*{start}">
                         <option value="">---Bitte Auswählen---</option>
@@ -59,7 +59,7 @@
                          th:if="${#fields.hasErrors('start')}"></div>
                 </div>
 
-                <div class="mb-3">
+                <div class="form-group">
                     <label class="form-label" for="end">Endzeit</label>
                     <select class="form-select" id="end" name="end" th:field="*{endTime}">
                         <option value="">---Bitte Auswählen---</option>

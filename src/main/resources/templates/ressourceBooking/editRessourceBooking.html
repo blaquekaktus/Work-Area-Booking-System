@@ -10,6 +10,11 @@
 <div class="content-container">
     <div class="addRessourceContainer">
         <h1>Ressourcen-Buchung bearbeiten</h1><br><br>
+
+        <div th:if="${errorMessage}" class="alert alert-danger error-message">
+            <p th:text="${errorMessage}"></p>
+        </div>
+
         <div class="scroll-container">
             <form th:object="${updateBooking}" th:action="@{/web/ressourceBooking/updateBooking}" method="post">
                 <table>
@@ -37,11 +42,11 @@
                     <label for="date">Datum:</label>
                     <input class="form-control" id="date" name="date"
                            th:field="*{date}"
-                           th:value="${#dates.format(#dates.createNow(), 'dd.MM.yyyy')}" type="date"/>
+                           th:value="*{#dates.format(#dates.createNow(), 'dd.MM.yyyy')}" type="date" required/>
 
                     <label for="start">Startzeit:</label>
-                    <select id="start" name="start" class="form-control">
-                        <option>---Bitte Auswählen---</option>
+                    <select id="start" name="start" class="form-control" required>
+                        <option disabled selected value>---Bitte Auswählen---</option> <!--disabled= nicht auswählbar, selected= standardmäßig ausgewählt, value= Leerer Wert-->
                         <option value="00:00">00:00</option>
                         <option value="01:00">01:00</option>
                         <option value="02:00">02:00</option>
@@ -69,8 +74,8 @@
                     </select>
 
                     <label for="endTime">Endzeit:</label>
-                    <select id="endTime" name="endTime" class="form-control">
-                        <option>---Bitte Auswählen---</option>
+                    <select id="endTime" name="endTime" class="form-control" required>
+                        <option disabled selected value>---Bitte Auswählen---</option> <!--disabled= nicht auswählbar, selected= standardmäßig ausgewählt, value= Leerer Wert-->
                         <option value="01:00">01:00</option>
                         <option value="02:00">02:00</option>
                         <option value="03:00">03:00</option>

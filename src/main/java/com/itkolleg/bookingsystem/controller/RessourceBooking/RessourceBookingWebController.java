@@ -20,6 +20,7 @@ import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import java.util.List;
 import java.util.concurrent.ExecutionException;
@@ -132,17 +133,20 @@ public class RessourceBookingWebController {
      * @param booking       vom typ RessourceBooking
      * @param bindingResult vom Typ BindingResults
      * @return redirection
-     * @throws RessourceNotAvailableException Ressource ist nicht verfügbar
-     * @throws ResourceNotFoundException      Ressource nicht gefunden
      */
     @PostMapping("/createBookingEmployee")
-    public String createBookingEmployee(@Valid RessourceBooking booking, BindingResult bindingResult) throws RessourceNotAvailableException, ResourceNotFoundException {
+    public String createBookingEmployee(@Valid RessourceBooking booking, BindingResult bindingResult, RedirectAttributes redirectAttributes) {
 
+        try {
         if (bindingResult.hasErrors()) {
             return "redirect:/web/ressourceBooking/createBookingEmployee/" + booking.getRessource().getId();
         } else {
             this.ressourceBookingService.addRessourceBooking(booking);
             return "redirect:/web/ressource/allRessourcesEmployee";
+        }
+        } catch (Exception e) {
+            redirectAttributes.addFlashAttribute("errorMessage", "Ressource in diesem Zeitraum nicht verfübar");
+            return "redirect:/web/ressourceBooking/createBookingEmployee/" + booking.getRessource().getId();
         }
 
     }
@@ -187,17 +191,20 @@ public class RessourceBookingWebController {
      * @param booking       vom typ RessourceBooking
      * @param bindingResult vom Typ BindingResults
      * @return redirection
-     * @throws RessourceNotAvailableException Ressource nicht verfügbar
-     * @throws ResourceNotFoundException      Ressource nicht gefunden
      */
     @PostMapping("/createBooking")
-    public String createBookingAdmin(@Valid RessourceBooking booking, BindingResult bindingResult) throws RessourceNotAvailableException, ResourceNotFoundException {
+    public String createBookingAdmin(@Valid RessourceBooking booking, BindingResult bindingResult, RedirectAttributes redirectAttributes) {
 
-        if (bindingResult.hasErrors()) {
+        try {
+            if (bindingResult.hasErrors()) {
+                return "redirect:/web/ressourceBooking/createBooking/" + booking.getRessource().getId();
+            } else {
+                this.ressourceBookingService.addRessourceBooking(booking);
+                return "redirect:/web/ressource/allRessources";
+            }
+        } catch (Exception e) {
+            redirectAttributes.addFlashAttribute("errorMessage", "Ressource in diesem Zeitraum nicht verfübar");
             return "redirect:/web/ressourceBooking/createBooking/" + booking.getRessource().getId();
-        } else {
-            this.ressourceBookingService.addRessourceBooking(booking);
-            return "redirect:/web/ressource/allRessources";
         }
 
     }
@@ -235,13 +242,21 @@ public class RessourceBookingWebController {
      * @throws EmployeeNotFoundException       Employee nicht gefunden
      */
     @PostMapping("/updateBooking")
-    public String updateBooking(@Valid RessourceBooking booking, BindingResult bindingResult) throws RessourceAlreadyExistsException, ExecutionException, InterruptedException, RessourceNotAvailableException, EmployeeNotFoundException, ResourceNotFoundException {
+    public String updateBooking(@Valid RessourceBooking booking, BindingResult bindingResult, RedirectAttributes redirectAttributes) throws RessourceAlreadyExistsException, ExecutionException, InterruptedException, RessourceNotAvailableException, EmployeeNotFoundException{
 
+        try {
         if (bindingResult.hasErrors()) {
-            return "/ressourceBooking/editRessourceBooking";
+            return "redirect:/web/ressourceBooking/updateBooking/" + booking.getId();
         } else {
             this.ressourceBookingService.updateBooking(booking);
             return "redirect:/web/ressourceBooking/allBookings";
+        }
+        } catch (RessourceNotAvailableException e) {
+            redirectAttributes.addFlashAttribute("errorMessage", "Ressource in diesem Zeitraum nicht verfübar");
+            return "redirect:/web/ressourceBooking/updateBooking/" + booking.getId();
+        } catch (Exception e) {
+            redirectAttributes.addFlashAttribute("errorMessage", "Ressource konnte nicht gebucht werden");
+            return "redirect:/web/ressourceBooking/updateBooking/" + booking.getId();
         }
     }
 
