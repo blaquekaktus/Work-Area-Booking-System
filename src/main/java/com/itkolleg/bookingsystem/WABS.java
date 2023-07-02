@@ -24,7 +24,6 @@ import org.springframework.data.jpa.repository.config.EnableJpaAuditing;
 import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
 
 import java.time.LocalDate;
-import java.time.LocalDateTime;
 import java.time.LocalTime;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -35,7 +34,7 @@ import java.util.List;
 @EnableJpaRepositories(basePackages = "com.itkolleg.bookingsystem.*")
 //@ComponentScan("com.itkolleg.bookingsystem")//to scan repository files
 @EntityScan("com.itkolleg.bookingsystem.*")
-public class WABSRunner implements ApplicationRunner {
+public class WABS implements ApplicationRunner {
 
     //
 
@@ -49,7 +48,7 @@ public class WABSRunner implements ApplicationRunner {
     DBAccessRoom dbAccessRoom;
     RoomBookingRepo roombookingRepo;
 
-    public WABSRunner(EmployeeDBAccess employeeDBAccess, DeskRepo deskRepo, DeskBookingRepo deskBookingRepo, TimeSlotRepo timeSlotRepo, HolidayRepo holidayRepo, DBAccessRessource dbAccessRessource, RessourceBookingRepo ressourceBookingRepo, DBAccessRoom dbAccessRoom, RoomBookingRepo roombookingRepo) {
+    public WABS(EmployeeDBAccess employeeDBAccess, DeskRepo deskRepo, DeskBookingRepo deskBookingRepo, TimeSlotRepo timeSlotRepo, HolidayRepo holidayRepo, DBAccessRessource dbAccessRessource, RessourceBookingRepo ressourceBookingRepo, DBAccessRoom dbAccessRoom, RoomBookingRepo roombookingRepo) {
         this.employeeDBAccess = employeeDBAccess;
         this.deskRepo = deskRepo;
         this.deskBookingRepo = deskBookingRepo;
@@ -62,7 +61,7 @@ public class WABSRunner implements ApplicationRunner {
     }
 
     public static void main(String[] args) {
-        SpringApplication.run(WABSRunner.class, args);
+        SpringApplication.run(WABS.class, args);
     }
 
     @Override
