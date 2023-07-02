@@ -18,7 +18,7 @@
                            th:value="${deskBooking.employee.fname} + ' '+ ${deskBooking.employee.lname}" type="text">
                 </div>
                 <div class="form-group">
-                    <label class="form-label" for="deskNr">Buchungsplatz-Nummer</label>
+                    <label class="form-label" for="deskNr">Arbeitsplatz-Nummer</label>
                     <input class="form-control" id="deskNr" name="deskNr" readonly
                            th:field="${deskBooking.desk.deskNr}" type="text">
                 </div>
@@ -39,7 +39,6 @@
                 </div>
                 <div class="button-row">
                     <a class="delete-button" th:href="@{/web/deskbookings/admin}">Zurück zu den Buchungen</a>
-
                 </div>
             </form>
         </div>

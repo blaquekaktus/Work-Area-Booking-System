@@ -1,6 +1,6 @@
 <!DOCTYPE html>
 <html lang="en" xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
-<div th:insert="headerAdmin :: headerAdmin" th:with="title='Tisch Ansicht'"></div>
+<div th:insert="headerAdmin :: headerAdmin" th:with="title='Arbeitsplatz Details'"></div>
 <body>
 <!-- Top Bar -->
 <div th:insert="topbarAdmin :: topbarAdmin"></div>
@@ -31,7 +31,8 @@
                     </div>
                     <div class="button-row">
                         <a class="delete-button" th:href="@{/web/deskbookings/admin/add}">Arbeitsplatz Buchen</a>
-                        <a class="delete-button" th:href="@{/web/desks}">Zurück zu den Arbeitsplätze</a>
+                      <!--  <a class="delete-button" th:href="@{/web/deskbookings/admin/new/{deskId}(deskId=${myDesk.getId()})}">!Arbeitsplatz Buchen</a>
+        -->                <a class="delete-button" th:href="@{/web/desks}">Zurück zu den Arbeitsplätze</a>
                     </div>
                 </form>
             </div>

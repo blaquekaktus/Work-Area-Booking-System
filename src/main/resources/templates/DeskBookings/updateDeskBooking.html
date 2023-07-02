@@ -18,7 +18,9 @@
                    type="hidden">
         </div>
        <!-- <input type="hidden" id="deskId" name="deskId" th:value="${booking.desk.id}">-->
-
+        <div th:if="${errorMessage}" class="alert alert-danger error-message">
+            <p th:text="${errorMessage}"></p>
+        </div>
         <div class="form-group">
             <label for="employee.name">Mitarbeiter</label>
             <input class="form-control" id="employee.name" name="employee.name"
@@ -32,7 +34,7 @@
             <div class="form-text"  th:errors="*{desk.id}"
                  th:if="${#fields.hasErrors('desk.id')}"></div>
             <label for="date">Datum</label>
-            <input class="form-control" id="date" name="date" required th:default="${booking.getDate()}"
+            <input class="form-control" id="date" name="date" required th:value="${booking.getDate()}"
                    th:field="${booking.date}" type="date">
             <div class="form-text" th:errors="*{date}"
                  th:if="${#fields.hasErrors('date')}"></div>
@@ -58,8 +60,8 @@
                  th:if="${#fields.hasErrors('endTime')}"></div>
         </div>
         <button class="button" type="submit">Speichern</button>
-        <a class="delete-button" th:href="@{/web/deskbookings/mydeskbookings}">Zurück</a>
     </form>
+        <a class="delete-button" th:href="@{/web/deskbookings/mydeskbookings}">Zurück</a>
 </div>
 </div>
 <div class="filler"></div>

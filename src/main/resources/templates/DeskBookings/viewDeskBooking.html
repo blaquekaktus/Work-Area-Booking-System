@@ -12,6 +12,9 @@
     <div class="addRessourceContainer">
         <h1>Arbeitsplatzbuchung Details</h1><br><br>
             <form method="get" th:action="@{/web/deskbookings/view/{id}}" th:object="${myDeskBooking}">
+                <div th:if="${errorMessage}" class="alert alert-danger error-message">
+                    <p th:text="${errorMessage}"></p>
+                </div>
                 <div class="form-group">
                     <label for="employee">Mitarbeiter</label>
                     <input class="form-control" id="employee" name="employee" readonly
@@ -36,7 +39,7 @@
                 </div>
                 <div class="button-row">
                     <a class="delete-button" th:href="@{/web/deskbookings/mydeskbookings}">Zurück zu meinen Buchungen</a>
-                    <a class="delete-button" th:href="@{/web/deskbookings/add(deskId=${myDesk.id})}">Arbeitsplatz Buchen</a>
+                    <a class="delete-button" th:href="@{/web/deskbookings/add}">Arbeitsplatz buchen</a>
                 </div>
             </form>
         </div>
