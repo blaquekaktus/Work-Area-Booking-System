@@ -9,7 +9,7 @@
 <div class="content-container">
     <div class="addRessourceContainer">
         <h1>Arbeitsplatz Buchen</h1><br><br>
-        <form method="post" th:action="@{/web/deskbookings/new}" th:object="${deskBooking}">
+        <form method="post" th:action="@{/web/deskbookings/admin/new}" th:object="${deskBooking}">
             <div th:if="${errorMessage}" class="alert alert-danger error-message">
                 <p th:text="${errorMessage}"></p>
             </div>
@@ -29,7 +29,7 @@
                 <select class="form-control" id="deskNr" name="desk.id" th:field="*{desk.id}">
                     <option th:each="desk : ${desks}"
                             th:text="${desk.deskNr}"
-                            th:selected="${desk.id.equals(defaultDeskId) ? 'selected' : ''}"
+                            th:selected="${desk.id.equals(deskId) ? 'selected' : ''}"
                             th:value="${desk.id}"
                             th:data-deskNr="${desk.deskNr}"></option>
                 </select>
@@ -74,8 +74,8 @@
                      th:if="${#fields.hasErrors('endTime')}"></div>
             </div>
             <button type="submit" class="button">Buchen</button>
-            <a class="delete-button" role="button" th:href="@{/web/desks/view/{id}}">Abbrechen</a>
         </form>
+        <a class="delete-button" role="button" th:href="@{/web/desks/view/{id}}">Abbrechen</a>
     </div>
 </div>
 <div class="filler"></div>

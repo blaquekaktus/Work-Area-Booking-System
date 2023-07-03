@@ -24,7 +24,6 @@ import org.springframework.data.jpa.repository.config.EnableJpaAuditing;
 import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
 
 import java.time.LocalDate;
-import java.time.LocalDateTime;
 import java.time.LocalTime;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -33,9 +32,9 @@ import java.util.List;
 @EnableJpaAuditing
 @SpringBootApplication
 @EnableJpaRepositories(basePackages = "com.itkolleg.bookingsystem.*")
-//@ComponentScan("com.itkolleg.bookingsystem")//to scan repository files
+//@ComponentScan("com.itkolleg.Bookingsystem")//to scan repository files
 @EntityScan("com.itkolleg.bookingsystem.*")
-public class WABSRunner implements ApplicationRunner {
+public class WABS implements ApplicationRunner {
 
     //
 
@@ -49,7 +48,7 @@ public class WABSRunner implements ApplicationRunner {
     DBAccessRoom dbAccessRoom;
     RoomBookingRepo roombookingRepo;
 
-    public WABSRunner(EmployeeDBAccess employeeDBAccess, DeskRepo deskRepo, DeskBookingRepo deskBookingRepo, TimeSlotRepo timeSlotRepo, HolidayRepo holidayRepo, DBAccessRessource dbAccessRessource, RessourceBookingRepo ressourceBookingRepo, DBAccessRoom dbAccessRoom, RoomBookingRepo roombookingRepo) {
+    public WABS(EmployeeDBAccess employeeDBAccess, DeskRepo deskRepo, DeskBookingRepo deskBookingRepo, TimeSlotRepo timeSlotRepo, HolidayRepo holidayRepo, DBAccessRessource dbAccessRessource, RessourceBookingRepo ressourceBookingRepo, DBAccessRoom dbAccessRoom, RoomBookingRepo roombookingRepo) {
         this.employeeDBAccess = employeeDBAccess;
         this.deskRepo = deskRepo;
         this.deskBookingRepo = deskBookingRepo;
@@ -62,7 +61,7 @@ public class WABSRunner implements ApplicationRunner {
     }
 
     public static void main(String[] args) {
-        SpringApplication.run(WABSRunner.class, args);
+        SpringApplication.run(WABS.class, args);
     }
 
     @Override
@@ -323,7 +322,7 @@ public class WABSRunner implements ApplicationRunner {
         //Creat Holidays
         //PublicHoliday whitMonday = new PublicHoliday(LocalDate.of(2023, 5, 29), "Whit Monday", false);
         //PublicHoliday corpusChristie = new PublicHoliday(LocalDate.of(2023, 6, 8),"Corpus Christie", false);
-        //PublicHoliday assumptionOfMary = new PublicHoliday(LocalDate.of(2023,6,15)," Assumption of Mary",false);
+        PublicHoliday assumptionOfMary = new PublicHoliday(LocalDate.of(2023,8,15)," Assumption of Mary",false);
         PublicHoliday nationalDay = new PublicHoliday(LocalDate.of(2023, 10, 26), "National Day", true);
         PublicHoliday immaculateConception = new PublicHoliday(LocalDate.of(2023, 12, 8), "Immaculate Conception", true);
         PublicHoliday christmasDay = new PublicHoliday(LocalDate.of(2023, 12, 25), "Christmas Day", false);
@@ -333,7 +332,7 @@ public class WABSRunner implements ApplicationRunner {
         try {
             //this.holidayRepo.addHoliday(whitMonday);
             //this.holidayRepo.addHoliday(corpusChristie);
-            //this.holidayRepo.addHoliday(assumptionOfMary);
+            this.holidayRepo.addHoliday(assumptionOfMary);
             this.holidayRepo.addHoliday(nationalDay);
             this.holidayRepo.addHoliday(immaculateConception);
             this.holidayRepo.addHoliday(christmasDay);

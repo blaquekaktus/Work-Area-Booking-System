@@ -23,6 +23,7 @@ import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
+import java.security.Principal;
 import java.time.format.DateTimeFormatter;
 import java.util.Collections;
 import java.util.Date;
@@ -241,16 +242,17 @@ public class DeskBookingWebController {
      * Displays the form for creating a new desk booking with a specific desk ID in the admin view.
      *
      * @param deskId              The ID of the desk for which to create the desk booking.
-     * @param model               The model to add the form, default desk ID, and error message (if any) to.
+     * @param model               The model to add the form, selected desk ID, and error message (if any) to.
      * @param redirectAttributes  The redirect attributes to retrieve the flash attributes, such as error messages.
      * @return The view name for the new desk booking form in the admin view.
      */
     @GetMapping("/admin/new/{deskId}")
     public String newDeskBookingForm(@PathVariable("deskId") Long deskId, Model model, RedirectAttributes redirectAttributes) {
         model.addAttribute("deskBooking", new DeskBooking());
-        model.addAttribute("defaultDeskId", deskId);
-        model.addAttribute("errorMessage", redirectAttributes.getFlashAttributes().get("errorMessage"));
-        return "DeskBookings/Admin/newDeskBooking";
+        model.addAttribute("selectedDeskId", deskId);
+        if (!model.containsAttribute("errorMessage")) {
+            model.addAttribute("errorMessage", null);
+        }        return "DeskBookings/Admin/newDeskBooking";
     }
 
     /**
@@ -328,11 +330,14 @@ public class DeskBookingWebController {
 
         //Add booking, bookingDate, employee, desks, unique booking start and end times to the model
         model.addAttribute("booking", booking);
-        model.addAttribute("bookingDate", bookingDate); // Add this line
+        model.addAttribute("bookingDate", bookingDate);
         model.addAttribute("employees", employees);
         model.addAttribute("desks", desks);
         model.addAttribute("uniqueStartTimes", uniqueStartTimes);
         model.addAttribute("uniqueEndTimes", uniqueEndTimes);
+        if (!model.containsAttribute("errorMessage")) {
+            model.addAttribute("errorMessage", null);
+        }
         return "DeskBookings/Admin/updateDeskBooking";
     }
 
@@ -393,6 +398,9 @@ public class DeskBookingWebController {
     public String cancelDeskBookingForm(@PathVariable Long id, Model model) throws ResourceDeletionFailureException, ResourceNotFoundException {
         DeskBooking booking = this.deskBookingService.getBookingById(id);
         model.addAttribute("booking", booking);
+        if (!model.containsAttribute("errorMessage")) {
+            model.addAttribute("errorMessage", null);
+        }
         return "DeskBookings/Admin/cancelDeskBooking";
     }
 
@@ -435,6 +443,9 @@ public class DeskBookingWebController {
 
         // add the bookings to the model
         model.addAttribute("myDeskBookings", myBookings);
+        if (!model.containsAttribute("errorMessage")) {
+            model.addAttribute("errorMessage", null);
+        }
         return "DeskBookings/myDeskBookings";
     }
 
@@ -455,21 +466,31 @@ public class DeskBookingWebController {
     }
 
     /**
-     Displays the add desk booking form for an employee.
-     @param model The model object for rendering the view.
-     @return The view for adding a desk booking.
+     * Displays the form for adding a new desk booking in the employee view.
+     *
+     * @param model The model to add the form and error message (if any) to.
+     * @return The view name for the add desk booking form in the admin view.
      */
     @GetMapping("/add")
-    public String addDeskBookingFormForEmployee(Model model) {
-        model.addAttribute("deskBooking", new DeskBooking());
+    public String addEDeskBookingForm(Model model, Principal principal) {
+        DeskBooking deskBooking = new DeskBooking();
+        // Get the currently logged-in user's username
+        String username = principal.getName();
+        // Fetch the employee details using the nick(name)
+        Employee employee = employeeService.getEmployeeByNick(username);
+        // Set the employee for the booking
+        deskBooking.setEmployee(employee);
+        model.addAttribute("deskBooking", deskBooking);  // Use deskBooking instead of new DeskBooking()
+        model.addAttribute("employee", employee);
         if (!model.containsAttribute("errorMessage")) {
             model.addAttribute("errorMessage", null);
         }
         return "DeskBookings/addDeskBooking";
     }
 
+
     /**
-     Adds a new desk booking.
+     Creates a new desk booking for an employee.
      @param booking The desk booking object.
      @param bindingResult The binding result object for validation.
      @param employeeId The ID of the employee.
@@ -485,21 +506,19 @@ public class DeskBookingWebController {
                 redirectAttributes.addFlashAttribute("errorMessage", "Validation errors occurred.");
                 return "redirect:/web/deskbookings/add";
             }
-
             Desk desk = deskService.getDeskById(deskId);
             Employee employee = employeeService.getEmployeeById(employeeId);
             booking.setDesk(desk);
             booking.setEmployee(employee);
-
             this.deskBookingService.addDeskBooking(booking);
             return "redirect:/web/deskbookings/mydeskbookings";
-
         } catch (Exception e) {
             logger.error("Error occurred while booking the desk: {}", e.getMessage(), e);
             redirectAttributes.addFlashAttribute("errorMessage", e.getMessage());
             return "redirect:/web/deskbookings/add";
         }
     }
+
 
     /**
      Displays the new desk booking form for a specific desk.
@@ -511,9 +530,10 @@ public class DeskBookingWebController {
     @GetMapping("/new/{deskId}")
     public String newEDeskBookingForm(@PathVariable("deskId") Long deskId, Model model, RedirectAttributes redirectAttributes) {
         model.addAttribute("deskBooking", new DeskBooking());
-        model.addAttribute("defaultDeskId", deskId);
-        model.addAttribute("errorMessage", redirectAttributes.getFlashAttributes().get("errorMessage"));
-        return "DeskBookings/newDeskBooking";
+        model.addAttribute("deskId", deskId);
+        if (!model.containsAttribute("errorMessage")) {
+            model.addAttribute("errorMessage", null);
+        }        return "DeskBookings/newDeskBooking";
     }
 
     /**
@@ -589,10 +609,13 @@ public class DeskBookingWebController {
 
         //Add booking, bookingDate, employee, desks, unique booking start and end times to the model
         model.addAttribute("booking", booking);
-        model.addAttribute("bookingDate", bookingDate); // Add this line
+        model.addAttribute("bookingDate", bookingDate);
         model.addAttribute("desks", desks);
         model.addAttribute("uniqueStartTimes", uniqueStartTimes);
         model.addAttribute("uniqueEndTimes", uniqueEndTimes);
+        if (!model.containsAttribute("errorMessage")) {
+            model.addAttribute("errorMessage", null);
+        }
         return "DeskBookings/updateDeskBooking";
     }
 
@@ -615,7 +638,7 @@ public class DeskBookingWebController {
     public String updateEDeskBooking(@Valid DeskBooking booking, BindingResult bindingResult, @RequestParam("id") Long id, @RequestParam("desk.id") Long deskId, @RequestParam("employee.id") Long employeeId, @RequestParam("date") String date) throws ResourceNotFoundException, DeskNotAvailableException, ExecutionException, InterruptedException, EmployeeNotFoundException {
         if (bindingResult.hasErrors()) {
             System.out.println("Errors: " + bindingResult.getAllErrors());
-            return "DeskBookings/Admin/updateDeskBooking";
+            return "DeskBookings/updateDeskBooking";
         } else {
             Desk desk = deskService.getDeskById(deskId);
             if(desk == null) {
@@ -639,6 +662,8 @@ public class DeskBookingWebController {
         }
     }
 
+
+
     /**
      Retrieves the desk booking history for a specific employee.
      @param model The model object for rendering the view.
@@ -649,6 +674,9 @@ public class DeskBookingWebController {
     public String getMyDeskBookingHistory(Model model, @PathVariable Long id) {
         List<DeskBooking> myBookingHistory = this.deskBookingService.getMyBookingHistory(id);
         model.addAttribute("myBookingHistory", myBookingHistory);
+        if (!model.containsAttribute("errorMessage")) {
+            model.addAttribute("errorMessage", null);
+        }
         return "DeskBookings/myDeskBookingsHistory";
     }
 
@@ -663,6 +691,9 @@ public class DeskBookingWebController {
     public String cancelEDeskBookingForm(@PathVariable Long id, Model model) throws ResourceNotFoundException {
         DeskBooking booking = this.deskBookingService.getBookingById(id);
         model.addAttribute("booking", booking);
+        if (!model.containsAttribute("errorMessage")) {
+            model.addAttribute("errorMessage", null);
+        }
         return "DeskBookings/cancelDeskBooking";
     }
 
