@@ -43,7 +43,7 @@
                      th:if="${#fields.hasErrors('date')}"></div>
             </div>
             <div class="form-group">
-                <label class="form-label" for="start">Start</label>
+                <label class="form-label" for="start">Begin</label>
                 <select class="form-select" id="start" name="start" th:field="*{start}">
                     <option value="">--Select Start Time--</option>
                     <option th:each="time : ${startTimes}"

@@ -11,6 +11,9 @@
     <div class="subcontainer">
         <h1>Alle Arbeitsplatzbuchungen</h1><br><br>
         <div class="scroll-container">
+            <div th:if="${errorMessage}" class="alert alert-danger error-message">
+                <p th:text="${errorMessage}"></p>
+            </div>
         <table>
             <thead>
             <tr>
