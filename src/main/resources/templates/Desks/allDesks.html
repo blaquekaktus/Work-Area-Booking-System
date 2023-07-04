@@ -33,6 +33,7 @@
                     <td th:text="${desk.nrOfMonitors}"></td>
                     <td><p th:each="port : ${desk.ports}" th:text="${port.name}"></p></td>
                     <td>
+                        <a class="button" role="button" th:href="@{/web/deskbookings/new/{id}(id=${desk.id})}">Buchen</a>
                         <a class="button" role="button" th:href="@{/web/desks/view/{id}(id=${desk.id})}">Details</a>
                         <a class="button" role="button"
                            th:href="@{/web/desks/update/{id}(id=${desk.id})}">Bearbeiten</a>
@@ -43,7 +44,7 @@
             </table>
         </div>
         <div class="button-row">
-            <a class="button" role="button" th:href="@{/web/desks/add}">Arbeitsplatz Erstellen</a>
+            <!--<a class="button" role="button" th:href="@{/web/desks/add}">Arbeitsplatz Erstellen</a>-->
             <button class="delete-button" onclick="goBack()">Zurück</button>
         </div>
     </div>

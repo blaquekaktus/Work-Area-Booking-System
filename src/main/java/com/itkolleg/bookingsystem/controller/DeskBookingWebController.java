@@ -529,6 +529,7 @@ public class DeskBookingWebController {
      */
     @GetMapping("/new/{deskId}")
     public String newEDeskBookingForm(@PathVariable("deskId") Long deskId, Model model, RedirectAttributes redirectAttributes) {
+
         model.addAttribute("deskBooking", new DeskBooking());
         model.addAttribute("deskId", deskId);
         if (!model.containsAttribute("errorMessage")) {
@@ -671,7 +672,8 @@ public class DeskBookingWebController {
      @return The view for displaying the desk booking history.
      */
     @GetMapping("/deskbookinghistory/{id}")
-    public String getMyDeskBookingHistory(Model model, @PathVariable Long id) {
+    public String getMyDeskBookingHistory(Model model, @PathVariable Long id, Principal principal) {
+        Employee employee = this.employeeService.getEmployeeByNick(principal.getName());
         List<DeskBooking> myBookingHistory = this.deskBookingService.getMyBookingHistory(id);
         model.addAttribute("myBookingHistory", myBookingHistory);
         if (!model.containsAttribute("errorMessage")) {
